@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Boring Bets matchup deep dive">
+  <title>Matchup Deep Dive | Boring Bets</title>
+
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="game-page">
+
+  <header class="site-header">
+    <a class="brand" href="index.html">BORING BETS</a>
+
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="todays-card.html">Today’s Card</a>
+      <a href="index.html#results">Results</a>
+      <a href="index.html#articles">Articles</a>
+      <a href="index.html#tools">Tools</a>
+    </nav>
+  </header>
+
+  <main class="game-main">
+
+    <a class="back-link" href="todays-card.html">
+      ← Back to Today’s Card
+    </a>
+
+    <div id="gameStatus" class="card-message">
+      Loading matchup…
+    </div>
+
+    <article id="gameDetails" hidden>
+
+      <section class="game-matchup">
+        <div class="game-team">
+          <img id="gameAwayLogo" alt="">
+          <span id="gameAwayTeam"></span>
+        </div>
+
+        <div class="game-versus">@</div>
+
+        <div class="game-team">
+          <img id="gameHomeLogo" alt="">
+          <span id="gameHomeTeam"></span>
+        </div>
+      </section>
+
+      <section class="game-heading">
+        <p class="kicker">MATCHUP DEEP DIVE</p>
+        <h1 id="gameTitle"></h1>
+        <p id="gameDate" class="game-date"></p>
+      </section>
+
+      <section class="intelligence-grid">
+
+        <div class="intelligence-card">
+          <p class="kicker">STARTING PITCHERS</p>
+          <p>Pitcher data coming next.</p>
+        </div>
+
+        <div class="intelligence-card">
+          <p class="kicker">BULLPENS</p>
+          <p>Bullpen workload and availability coming next.</p>
+        </div>
+
+        <div class="intelligence-card">
+          <p class="kicker">WEATHER</p>
+          <p>Temperature, wind and humidity coming next.</p>
+        </div>
+
+        <div class="intelligence-card">
+          <p class="kicker">MARKET</p>
+          <p>Opening line and movement coming next.</p>
+        </div>
+
+      </section>
+
+      <section class="game-plays-section">
+        <p class="kicker">BORING BETS PLAYS</p>
+        <div id="relatedPlays"></div>
+      </section>
+
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <strong>Boring Bets</strong>
+    <span>Data over hype.</span>
+  </footer>
+
+  <script src="game.js"></script>
+</body>
+</html>
