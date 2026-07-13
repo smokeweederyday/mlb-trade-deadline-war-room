@@ -1,0 +1,22 @@
+[
+  {
+    "player": "Tarik Skubal",
+    "team": "DET",
+    "role": "SP",
+    "status": "Potentially available",
+    "confidence": "High",
+    "context": "Multiple contenders are monitoring Detroit's direction.",
+    "betting_relevance": "Monitor start scratches, F5 prices and Detroit bullpen workload.",
+    "source": "https://www.mlb.com/news/mlb-rumors-trades-and-signings"
+  },
+  {
+    "player": "Sandy Alcantara",
+    "team": "MIA",
+    "role": "SP",
+    "status": "Expected to stay",
+    "confidence": "Medium",
+    "context": "Current reporting indicates Miami prefers to retain him.",
+    "betting_relevance": "Do not price a departure without stronger reporting.",
+    "source": "https://www.mlb.com/news/mlb-trade-rumors-and-2026-trade-deadline-news-july-10"
+  }
+]

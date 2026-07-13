@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "updated_at": "2026-07-13T03:00:00Z",
+    "deadline": "2026-08-03T18:00:00-04:00"
+  },
+  "teams": [
+    {
+      "team": "LAD",
+      "division": "NL West",
+      "w": 61,
+      "l": 36,
+      "wcgb": 0,
+      "run_diff": 149,
+      "tier": "Aggressive Buyer",
+      "need": "Rotation",
+      "betting_note": "Watch F3/F5 after starter additions"
+    },
+    {
+      "team": "MIL",
+      "division": "NL Central",
+      "w": 59,
+      "l": 37,
+      "wcgb": 0,
+      "run_diff": 126,
+      "tier": "Aggressive Buyer",
+      "need": "High-leverage bullpen",
+      "betting_note": "Late-inning unders improve with relief help"
+    },
+    {
+      "team": "TB",
+      "division": "AL East",
+      "w": 56,
+      "l": 38,
+      "wcgb": 0,
+      "run_diff": 32,
+      "tier": "Aggressive Buyer",
+      "need": "Another bat",
+      "betting_note": "Lineup slot matters before repricing team totals"
+    },
+    {
+      "team": "DET",
+      "division": "AL Central",
+      "w": 44,
+      "l": 52,
+      "wcgb": 3.5,
+      "run_diff": 24,
+      "tier": "Bubble",
+      "need": "Right-handed bat / deadline direction",
+      "betting_note": "Skubal rumors create scratch and F5 volatility"
+    },
+    {
+      "team": "NYM",
+      "division": "NL East",
+      "w": 40,
+      "l": 57,
+      "wcgb": 12,
+      "run_diff": -65,
+      "tier": "Seller",
+      "need": "Controllable starting pitching",
+      "betting_note": "Monitor veteran absences and bullpen selloff"
+    },
+    {
+      "team": "COL",
+      "division": "NL West",
+      "w": 39,
+      "l": 59,
+      "wcgb": 13.5,
+      "run_diff": -89,
+      "tier": "Rebuilder",
+      "need": "Roster space and prospects",
+      "betting_note": "Downgrade depth after veteran trades"
+    }
+  ],
+  "trades": [
+    {
+      "date": "2026-07-11",
+      "from": "CWS",
+      "to": "PIT",
+      "players": "Brandon Eisert; Jacob Gonzalez",
+      "return": "Jaden Woods; future considerations",
+      "betting_impact": "Low immediate impact; monitor bullpen assignments.",
+      "source": "https://www.mlb.com/transactions"
+    }
+  ],
+  "rumors": [
+    {
+      "player": "Tarik Skubal",
+      "team": "DET",
+      "role": "SP",
+      "status": "Potentially available",
+      "confidence": "High",
+      "context": "Multiple contenders are monitoring Detroit's direction.",
+      "betting_relevance": "Monitor start scratches, F5 prices and Detroit bullpen workload.",
+      "source": "https://www.mlb.com/news/mlb-rumors-trades-and-signings"
+    },
+    {
+      "player": "Sandy Alcantara",
+      "team": "MIA",
+      "role": "SP",
+      "status": "Expected to stay",
+      "confidence": "Medium",
+      "context": "Current reporting indicates Miami prefers to retain him.",
+      "betting_relevance": "Do not price a departure without stronger reporting.",
+      "source": "https://www.mlb.com/news/mlb-trade-rumors-and-2026-trade-deadline-news-july-10"
+    }
+  ],
+  "impact": [
+    {
+      "event": "Starting pitcher traded or scratched",
+      "markets": "F3/F5 side and total",
+      "impact": "High",
+      "checklist": "Confirm replacement starter, pitch count, travel and bullpen length.",
+      "rule": "A replacement starter can move a fair F5 total by 0.5\u20131 run."
+    },
+    {
+      "event": "Closer traded",
+      "markets": "Full-game total, opponent TT, live over",
+      "impact": "High",
+      "checklist": "Rebuild the leverage hierarchy before betting.",
+      "rule": "Do not assume the old setup man inherits identical effectiveness."
+    },
+    {
+      "event": "Impact bat acquired",
+      "markets": "Team total and hitter props",
+      "impact": "Medium",
+      "checklist": "Wait for activation date and lineup slot.",
+      "rule": "The headline may move prices before the player enters the lineup."
+    },
+    {
+      "event": "Seller rests veterans",
+      "markets": "Side, team total and props",
+      "impact": "High",
+      "checklist": "Use the official lineup rather than clubhouse narratives.",
+      "rule": "Late lineup changes often leave stale prices for several minutes."
+    }
+  ]
+}
