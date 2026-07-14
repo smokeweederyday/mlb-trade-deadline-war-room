@@ -72,10 +72,31 @@ async function loadCard() {
       selectedDate
     );
 
-    renderSummary(
-      games,
-      plays
-    );
+    function renderSummary(
+  games,
+  plays
+) {
+  setText(
+    "totalGames",
+    games.length
+  );
+
+  setText(
+    "totalPlays",
+    plays.length
+  );
+
+  setText(
+    "totalUnits",
+    plays
+      .reduce(
+        (sum, play) =>
+          sum + Number(play.units || 0),
+        0
+      )
+      .toFixed(2)
+  );
+}
 
     renderSlate(
       games,

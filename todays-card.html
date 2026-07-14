@@ -2,32 +2,111 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Today’s Boring Bets card with odds, units, and full analysis.">
-  <title>Today’s Card | Boring Bets</title>
-  <link rel="stylesheet" href="assets/css/variables.css">
-  <link rel="stylesheet" href="styles.css">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <meta
+    name="description"
+    content="Boring Bets MLB Game Center with every matchup, published plays, probable pitchers, and research links."
+  >
+
+  <title>MLB Game Center | Boring Bets</title>
+
+  <link
+    rel="stylesheet"
+    href="assets/css/variables.css"
+  >
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
 </head>
+
 <body class="card-page">
   <header class="site-header">
-    <a class="brand" href="index.html"><span class="brand-mark">BB</span>BORING BETS</a>
-    <nav class="main-nav" aria-label="Primary navigation">
-      <a href="index.html">Home</a><a href="todays-card.html" aria-current="page">Today’s Card</a><a href="index.html#results">Results</a><a href="index.html#articles">Analysis</a><a href="trade-deadline.html">Tools</a><a href="index.html#discord">Discord</a>
+    <a class="brand" href="index.html">
+      <span class="brand-mark">BB</span>
+      BORING BETS
+    </a>
+
+    <nav
+      class="main-nav"
+      aria-label="Primary navigation"
+    >
+      <a href="index.html">Home</a>
+
+      <a
+        href="todays-card.html"
+        aria-current="page"
+      >
+        MLB Game Center
+      </a>
+
+      <a href="index.html#results">Results</a>
+      <a href="index.html#articles">Analysis</a>
+      <a href="trade-deadline.html">Tools</a>
+      <a href="index.html#discord">Discord</a>
     </nav>
   </header>
+
   <main class="card-main">
     <section class="card-hero">
-      <div><p class="eyebrow">DAILY PLAYS // ALL MARKETS</p><h1>Today’s Card</h1></div>
-      <div class="card-meta"><span id="cardDate">Loading date…</span><span id="cardUpdated">Loading update time…</span></div>
+      <div>
+        <p class="eyebrow">
+          FULL MLB SLATE // DATA + PLAYS
+        </p>
+
+        <h1>MLB Game Center</h1>
+      </div>
+
+      <div class="card-meta">
+        <span id="cardDate">
+          Loading date…
+        </span>
+
+        <span id="cardUpdated">
+          Loading update time…
+        </span>
+      </div>
     </section>
+
     <section class="card-summary">
-      <div><span>Total Plays</span><strong id="totalPlays">—</strong></div>
-      <div><span>Total Units</span><strong id="totalUnits">—</strong></div>
-      <div><span>Sports</span><strong id="totalSports">—</strong></div>
+      <div>
+        <span>Games</span>
+        <strong id="totalGames">—</strong>
+      </div>
+
+      <div>
+        <span>Official Plays</span>
+        <strong id="totalPlays">—</strong>
+      </div>
+
+      <div>
+        <span>Total Units</span>
+        <strong id="totalUnits">—</strong>
+      </div>
     </section>
-    <section><div id="cardStatus" class="card-message">Loading today’s card…</div><div id="playsContainer"></div></section>
+
+    <section class="game-center-slate">
+      <div
+        id="cardStatus"
+        class="card-message"
+      >
+        Loading MLB Game Center…
+      </div>
+
+      <div id="playsContainer"></div>
+    </section>
   </main>
-  <footer class="site-footer"><strong>BORING BETS</strong><span>Data over hype. • Prices can move.</span></footer>
+
+  <footer class="site-footer">
+    <strong>BORING BETS</strong>
+    <span>
+      Data over hype. • Prices can move.
+    </span>
+  </footer>
+
   <script src="todays-card.js"></script>
 </body>
 </html>
