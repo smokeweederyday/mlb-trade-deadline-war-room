@@ -56,35 +56,93 @@
         <p id="gameDate" class="game-date"></p>
       </section>
 
-      <section class="intelligence-grid">
+      <section class="game-controls-panel">
+  <div class="control-group">
+    <span class="control-label">TIMEFRAME</span>
 
-        <div class="intelligence-card">
-          <p class="kicker">STARTING PITCHERS</p>
-          <p>Pitcher data coming next.</p>
-        </div>
+    <div class="segmented-control">
+      <button type="button" data-timeframe="last_7">
+        7 Days
+      </button>
 
-        <div class="intelligence-card">
-          <p class="kicker">BULLPENS</p>
-          <p>Bullpen workload and availability coming next.</p>
-        </div>
+      <button type="button" data-timeframe="last_30">
+        30 Days
+      </button>
 
-        <div class="intelligence-card">
-          <p class="kicker">WEATHER</p>
-          <p>Temperature, wind and humidity coming next.</p>
-        </div>
+      <button type="button" data-timeframe="season">
+        Season
+      </button>
+    </div>
+  </div>
 
-        <div class="intelligence-card">
-          <p class="kicker">MARKET</p>
-          <p>Opening line and movement coming next.</p>
-        </div>
+  <div class="control-group">
+    <span class="control-label">LOCATION</span>
 
-      </section>
+    <div class="segmented-control">
+      <button type="button" data-location="all">
+        All
+      </button>
 
-      <section class="game-plays-section">
-        <p class="kicker">BORING BETS PLAYS</p>
-        <div id="relatedPlays"></div>
-      </section>
+      <button type="button" data-location="home">
+        Home
+      </button>
 
+      <button type="button" data-location="away">
+        Away
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="game-section">
+  <div class="game-section-heading">
+    <div>
+      <p class="kicker">STARTING PITCHING</p>
+      <h2>Pitcher Comparison</h2>
+    </div>
+
+    <p>
+      Select a timeframe and location split.
+    </p>
+  </div>
+
+  <div class="pitcher-comparison-grid">
+    <article
+      id="awayPitcherCard"
+      class="pitcher-comparison-card"
+    ></article>
+
+    <article
+      id="homePitcherCard"
+      class="pitcher-comparison-card"
+    ></article>
+  </div>
+</section>
+<section class="intelligence-grid">
+  <a class="intelligence-card" href="#">
+    <p class="kicker">OFFENSE</p>
+    <h3>Projected Lineups</h3>
+    <p>Offensive tables are the next engine component.</p>
+  </a>
+
+  <a class="intelligence-card" href="#">
+    <p class="kicker">BULLPENS</p>
+    <h3>Availability and Workload</h3>
+    <p>Bullpen data will open into a dedicated view.</p>
+  </a>
+
+  <a class="intelligence-card" href="#">
+    <p class="kicker">WEATHER</p>
+    <h3>Park Conditions</h3>
+    <p>Hourly weather and park impact will appear here.</p>
+  </a>
+
+  <a class="intelligence-card" href="#">
+    <p class="kicker">MARKET</p>
+    <h3>Line Movement</h3>
+    <p>Opening lines, current prices, and movement.</p>
+  </a>
+</section>
     </article>
 
   </main>

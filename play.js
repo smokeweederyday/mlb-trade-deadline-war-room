@@ -81,9 +81,17 @@ async function loadPlay() {
       document.getElementById("deepDiveLink");
 
     if (deepDiveLink) {
-      deepDiveLink.href =
-        `game.html?play=${encodeURIComponent(play.id)}`;
-    }
+  const gameId =
+    play.game_id ||
+    [
+      play.date,
+      String(play.away_team || "").toLowerCase(),
+      String(play.home_team || "").toLowerCase()
+    ].join("-");
+
+  deepDiveLink.href =
+    `game.html?id=${encodeURIComponent(gameId)}`;
+}
 
     status.remove();
     details.hidden = false;

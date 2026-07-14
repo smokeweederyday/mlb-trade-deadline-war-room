@@ -1,0 +1,233 @@
+{
+  "games": [
+    {
+      "id": "2026-07-08-tor-sf",
+      "date": "2026-07-08",
+      "sport": "MLB",
+
+      "away_team": {
+        "abbr": "TOR",
+        "name": "Toronto Blue Jays",
+        "team_id": 141
+      },
+
+      "home_team": {
+        "abbr": "SFG",
+        "name": "San Francisco Giants",
+        "team_id": 137
+      },
+
+      "lineup_status": "projected",
+      "last_updated": "2026-07-08T12:00:00-04:00",
+
+      "pitchers": {
+        "away": {
+          "name": "Dylan Cease",
+          "age": 30,
+          "throws": "R",
+          "era": 2.79,
+
+          "last_30_days": {
+            "era": null,
+            "whip": null,
+            "fip": null,
+            "xfip": null,
+            "avg_against": null
+          },
+
+          "season": {
+            "era": 2.79,
+            "whip": null,
+            "fip": null,
+            "xfip": null,
+            "avg_against": null
+          },
+
+          "away_split": {
+            "era": null,
+            "whip": null,
+            "fip": null,
+            "xfip": null,
+            "avg_against": null
+          },
+
+          "vs_lhh": {
+            "pa": null,
+            "k_pct": null,
+            "bb_pct": null,
+            "avg_against": null,
+            "ops_against": null
+          },
+
+          "vs_rhh": {
+            "pa": null,
+            "k_pct": null,
+            "bb_pct": null,
+            "avg_against": null,
+            "ops_against": null
+          }
+        },
+
+        "home": {
+          "name": "Logan Webb",
+          "age": 29,
+          "throws": "R",
+          "era": 3.66,
+
+          "last_30_days": {
+            "era": null,
+            "whip": null,
+            "fip": null,
+            "xfip": null,
+            "avg_against": null
+          },
+
+          "season": {
+            "era": 3.66,
+            "whip": null,
+            "fip": null,
+            "xfip": null,
+            "avg_against": null
+          },
+
+          "home_split": {
+            "era": null,
+            "whip": null,
+            "fip": null,
+            "xfip": null,
+            "avg_against": null
+          },
+
+          "vs_lhh": {
+            "pa": null,
+            "k_pct": null,
+            "bb_pct": null,
+            "avg_against": null,
+            "ops_against": null
+          },
+
+          "vs_rhh": {
+            "pa": null,
+            "k_pct": null,
+            "bb_pct": null,
+            "avg_against": null,
+            "ops_against": null
+          }
+        }
+      },
+
+      "offense": {
+        "away": {
+          "team": "TOR",
+          "metrics": {
+            "AVG": {
+              "overall": 0.273,
+              "overall_rank": 1,
+              "vs_rhp": 0.270,
+              "vs_rhp_rank": 5,
+              "vs_lhp": 0.277,
+              "vs_lhp_rank": 5
+            },
+
+            "wRC+": {
+              "overall": 124,
+              "overall_rank": 4,
+              "vs_rhp": 128,
+              "vs_rhp_rank": 4,
+              "vs_lhp": 124,
+              "vs_lhp_rank": 7
+            },
+
+            "K%": {
+              "overall": 21.6,
+              "overall_rank": 10,
+              "vs_rhp": 21.9,
+              "vs_rhp_rank": 12,
+              "vs_lhp": 24.3,
+              "vs_lhp_rank": 19
+            },
+
+            "BB%": {
+              "overall": 10.3,
+              "overall_rank": 4,
+              "vs_rhp": 10.2,
+              "vs_rhp_rank": 3,
+              "vs_lhp": 9.9,
+              "vs_lhp_rank": 9
+            },
+
+            "OBP": {
+              "overall": 0.350,
+              "overall_rank": 2,
+              "vs_rhp": 0.350,
+              "vs_rhp_rank": 4,
+              "vs_lhp": 0.350,
+              "vs_lhp_rank": 5
+            },
+
+            "OPS": {
+              "overall": 0.812,
+              "overall_rank": 3,
+              "vs_rhp": 0.824,
+              "vs_rhp_rank": 6,
+              "vs_lhp": 0.819,
+              "vs_lhp_rank": 7
+            }
+          }
+        },
+
+        "home": {
+          "team": "SFG",
+          "metrics": {}
+        }
+      },
+
+      "pitcher_vs_lineup": {
+        "away_pitcher": {
+          "pitcher": "Dylan Cease",
+          "opponent": "SFG",
+          "lineup_type": "projected",
+          "pa": null,
+          "k": null,
+          "bb": null,
+          "ops": null
+        },
+
+        "home_pitcher": {
+          "pitcher": "Logan Webb",
+          "opponent": "TOR",
+          "lineup_type": "projected",
+          "pa": null,
+          "k": null,
+          "bb": null,
+          "ops": null
+        }
+      },
+
+      "bullpens": {
+        "away": {},
+        "home": {}
+      },
+
+      "weather": {
+        "temperature": null,
+        "humidity": null,
+        "wind_speed": null,
+        "wind_direction": null,
+        "roof": null,
+        "rain_probability": null
+      },
+
+      "market": {
+        "moneyline_open": {},
+        "moneyline_current": {},
+        "total_open": null,
+        "total_current": null
+      },
+
+      "injuries": [],
+
+      "notes": ""
+    }
+  ]
+}
