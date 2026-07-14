@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.2",
+  "schema_version": "3.0",
   "default_controls": {
     "timeframe": "last_30",
     "location": "all"
@@ -94,7 +94,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.169904+00:00"
+      "last_updated": "2026-07-14T18:12:20.630860+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-kc-stl",
@@ -185,7 +196,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.169953+00:00"
+      "last_updated": "2026-07-14T18:12:20.630901+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-ari-col",
@@ -276,7 +298,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.169973+00:00"
+      "last_updated": "2026-07-14T18:12:20.630914+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-bal-wsh",
@@ -367,7 +400,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.169986+00:00"
+      "last_updated": "2026-07-14T18:12:20.630928+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-phi-pit",
@@ -458,7 +502,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.170004+00:00"
+      "last_updated": "2026-07-14T18:12:20.630940+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-mia-tb",
@@ -549,7 +604,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.170018+00:00"
+      "last_updated": "2026-07-14T18:12:20.630952+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-cin-cle",
@@ -640,7 +706,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.170030+00:00"
+      "last_updated": "2026-07-14T18:12:20.630963+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-tex-hou",
@@ -731,7 +808,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.170043+00:00"
+      "last_updated": "2026-07-14T18:12:20.630973+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-chc-cws",
@@ -822,7 +910,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.170060+00:00"
+      "last_updated": "2026-07-14T18:12:20.630984+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-mil-min",
@@ -913,7 +1012,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.170074+00:00"
+      "last_updated": "2026-07-14T18:12:20.630995+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-sd-sea",
@@ -1004,7 +1114,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.170090+00:00"
+      "last_updated": "2026-07-14T18:12:20.631006+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-bos-atl",
@@ -1095,7 +1216,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.170106+00:00"
+      "last_updated": "2026-07-14T18:12:20.631017+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-nyy-nym",
@@ -1186,7 +1318,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.170118+00:00"
+      "last_updated": "2026-07-14T18:12:20.631027+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-lad-laa",
@@ -1277,7 +1420,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.170131+00:00"
+      "last_updated": "2026-07-14T18:12:20.631041+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-05-16-sfg-ath",
@@ -1368,7 +1522,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:36.170146+00:00"
+      "last_updated": "2026-07-14T18:12:20.631052+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-07-08-tor-sf",
@@ -1809,7 +1974,18 @@
         "total_current": null
       },
       "injuries": [],
-      "notes": ""
+      "notes": "",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     },
     {
       "id": "2026-07-14-away-home",
@@ -1900,7 +2076,18 @@
       "market": {},
       "injuries": [],
       "notes": "",
-      "last_updated": "2026-07-14T14:41:19.795007+00:00"
+      "last_updated": "2026-07-14T14:41:19.795007+00:00",
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      }
     }
   ]
 }

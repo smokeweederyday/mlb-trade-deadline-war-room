@@ -21,7 +21,7 @@ GAMES_FILE = ROOT / "data/games.json"
 def load_games_file() -> dict[str, Any]:
     if not GAMES_FILE.exists():
         return {
-            "schema_version": "2.2",
+            "schema_version": "3.0",
             "default_controls": {
                 "timeframe": "last_30",
                 "location": "all",
@@ -30,8 +30,51 @@ def load_games_file() -> dict[str, Any]:
         }
 
     return json.loads(
-        GAMES_FILE.read_text(encoding="utf-8")
+        GAMES_FILE.read_text(
+            encoding="utf-8"
+        )
     )
+
+
+def create_default_workflow() -> dict[str, Any]:
+    """
+    Stable lifecycle states for one game.
+
+    Detailed data remains inside pitchers, lineups,
+    weather, market and other game modules.
+    """
+
+    return {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": None,
+        "published_at": None,
+        "graded_at": None,
+        "archived_at": None,
+    }
+
+
+def normalize_workflow(
+    workflow: dict[str, Any] | None,
+) -> dict[str, Any]:
+    """
+    Fill missing workflow fields without overwriting
+    existing lifecycle data.
+    """
+
+    normalized = create_default_workflow()
+    normalized.update(workflow or {})
+
+    if not isinstance(
+        normalized.get("official_play_ids"),
+        list,
+    ):
+        normalized["official_play_ids"] = []
+
+    return normalized
 
 
 def merge_schedule_game(
@@ -46,14 +89,32 @@ def merge_schedule_game(
     game = dict(existing or {})
 
     game["id"] = schedule_game["id"]
-    game["mlb_game_pk"] = schedule_game.get("mlb_game_pk")
-    game["date"] = schedule_game.get("date")
-    game["game_time"] = schedule_game.get("game_time")
+    game["mlb_game_pk"] = schedule_game.get(
+        "mlb_game_pk"
+    )
+    game["date"] = schedule_game.get(
+        "date"
+    )
+    game["game_time"] = schedule_game.get(
+        "game_time"
+    )
     game["sport"] = "MLB"
-    game["status"] = schedule_game.get("status", "scheduled")
-    game["venue"] = schedule_game.get("venue", {})
-    game["away_team"] = schedule_game.get("away_team", {})
-    game["home_team"] = schedule_game.get("home_team", {})
+    game["status"] = schedule_game.get(
+        "status",
+        "scheduled",
+    )
+    game["venue"] = schedule_game.get(
+        "venue",
+        {},
+    )
+    game["away_team"] = schedule_game.get(
+        "away_team",
+        {},
+    )
+    game["home_team"] = schedule_game.get(
+        "home_team",
+        {},
+    )
 
     game.setdefault(
         "controls",
@@ -63,7 +124,10 @@ def merge_schedule_game(
         },
     )
 
-    existing_pitchers = game.get("pitchers", {})
+    existing_pitchers = game.get(
+        "pitchers",
+        {},
+    )
 
     game["pitchers"] = {
         "away": merge_pitcher(
@@ -80,9 +144,19 @@ def merge_schedule_game(
         ),
     }
 
+    game["workflow"] = normalize_workflow(
+        game.get("workflow")
+    )
+
     game.setdefault("offense", {})
     game.setdefault("lineups", {})
-    game.setdefault("pitcher_vs_lineup", {})
+    game.setdefault(
+        "pitcher_vs_lineup",
+        game.get(
+            "pitcher_vs_projected_lineup",
+            {},
+        ),
+    )
     game.setdefault("bullpens", {})
     game.setdefault("weather", {})
     game.setdefault("market", {})
@@ -105,8 +179,6 @@ def merge_pitcher(
     incoming_id = incoming.get("id")
     existing_id = pitcher.get("id")
 
-    # If MLB names a different starter, preserve the old
-    # record only when the incoming pitcher is still TBD.
     if incoming_id and incoming_id != existing_id:
         pitcher = {}
 
@@ -149,6 +221,43 @@ def merge_pitcher(
     return pitcher
 
 
+def migrate_existing_games(
+    games: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """
+    Add current schema defaults to every stored game
+    while preserving all existing research data.
+    """
+
+    migrated = []
+
+    for stored_game in games:
+        game = dict(stored_game)
+
+        game["workflow"] = normalize_workflow(
+            game.get("workflow")
+        )
+
+        game.setdefault("offense", {})
+        game.setdefault("lineups", {})
+        game.setdefault(
+            "pitcher_vs_lineup",
+            game.get(
+                "pitcher_vs_projected_lineup",
+                {},
+            ),
+        )
+        game.setdefault("bullpens", {})
+        game.setdefault("weather", {})
+        game.setdefault("market", {})
+        game.setdefault("injuries", [])
+        game.setdefault("notes", "")
+
+        migrated.append(game)
+
+    return migrated
+
+
 def main() -> None:
     target_date = (
         sys.argv[1]
@@ -157,14 +266,27 @@ def main() -> None:
     )
 
     current = load_games_file()
+
+    current["games"] = migrate_existing_games(
+        current.get("games", [])
+    )
+
     existing_games = {
         game["id"]: game
-        for game in current.get("games", [])
+        for game in current.get(
+            "games",
+            [],
+        )
         if game.get("id")
     }
 
-    raw_schedule = fetch_schedule(target_date)
-    schedule_games = parse_schedule(raw_schedule)
+    raw_schedule = fetch_schedule(
+        target_date
+    )
+
+    schedule_games = parse_schedule(
+        raw_schedule
+    )
 
     merged_games = []
 
@@ -180,10 +302,12 @@ def main() -> None:
             )
         )
 
-    # Preserve games from other dates.
     other_dates = [
         game
-        for game in current.get("games", [])
+        for game in current.get(
+            "games",
+            [],
+        )
         if game.get("date") != target_date
     ]
 
@@ -197,6 +321,8 @@ def main() -> None:
             game.get("game_time", ""),
         )
     )
+
+    current["schema_version"] = "3.0"
 
     GAMES_FILE.write_text(
         json.dumps(
