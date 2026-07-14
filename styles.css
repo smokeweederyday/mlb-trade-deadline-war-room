@@ -462,3 +462,100 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
   }
 }
 
+/* =========================
+   REFINED LOGO MOTION
+   ========================= */
+
+.card-page .away-logo,
+.card-page .home-logo,
+.play-page .play-team,
+.game-page .game-team {
+  animation: none !important;
+}
+
+.card-page .team-logo img,
+.play-page .play-team img,
+.game-page .game-team img {
+  transform: none;
+  transition:
+    transform 140ms ease,
+    filter 140ms ease,
+    opacity 140ms ease;
+}
+
+.card-page .team-logo:hover img,
+.play-page .play-team:hover img,
+.game-page .game-team:hover img {
+  transform: scale(1.035);
+  filter:
+    drop-shadow(0 8px 14px rgba(0, 0, 0, 0.42))
+    drop-shadow(0 0 8px rgba(57, 255, 136, 0.14));
+}
+
+
+/* ==========================================
+   MATCHUP CONSOLE
+========================================== */
+
+.matchup-console{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin:24px 0;
+}
+
+.matchup-column{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.offense-comparison-card,
+.lineup-matchup-card,
+.bullpen-card{
+
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:18px;
+
+}
+
+.placeholder-copy{
+
+    color:var(--muted);
+    margin-top:10px;
+    line-height:1.6;
+
+}
+
+.bullpen-console{
+
+    margin-top:24px;
+
+}
+
+.bullpen-comparison-grid{
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+
+}
+
+@media(max-width:950px){
+
+.matchup-console{
+
+grid-template-columns:1fr;
+
+}
+
+.bullpen-comparison-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+

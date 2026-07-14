@@ -29,16 +29,23 @@ async function loadGame() {
     const gamesData = await gamesResponse.json();
     const games = gamesData.games || [];
 
+    let cardData = {
+      plays: []
+    };
+
+    if (cardResponse.ok) {
+      cardData = await cardResponse.json();
+    }
+
     let gameId = requestedGameId;
+    let selectedPlay = null;
 
-    if (!gameId && requestedPlayId && cardResponse.ok) {
-      const cardData = await cardResponse.json();
-
-      const selectedPlay = (cardData.plays || []).find(
+    if (requestedPlayId) {
+      selectedPlay = (cardData.plays || []).find(
         play => play.id === requestedPlayId
       );
 
-      if (selectedPlay) {
+      if (selectedPlay && !gameId) {
         gameId =
           selectedPlay.game_id ||
           createGameId(selectedPlay);
@@ -49,27 +56,22 @@ async function loadGame() {
       gameId = games[0]?.id;
     }
 
-let game = games.find(item => item.id === gameId);
+    let game = games.find(
+      item => item.id === gameId
+    );
 
-if (!game && requestedPlayId && cardResponse.ok) {
-  const cardData = await cardResponse.json();
+    if (!game && selectedPlay) {
+      game = createFallbackGame(selectedPlay);
+    }
 
-  const selectedPlay = (cardData.plays || []).find(
-    play => play.id === requestedPlayId
-  );
-
-  if (selectedPlay) {
-    game = createFallbackGame(selectedPlay);
-  }
-}
-
-if (!game) {
-  throw new Error(
-    "Matchup data has not been added yet."
-  );
-}
+    if (!game) {
+      throw new Error(
+        "Matchup data has not been added yet."
+      );
+    }
 
     state.game = game;
+
     state.timeframe =
       game.controls?.default_timeframe ||
       gamesData.default_controls?.timeframe ||
@@ -81,6 +83,7 @@ if (!game) {
       "all";
 
     renderGameHeader();
+    renderStatusStrip();
     renderControls();
     renderPitchers();
 
@@ -102,25 +105,67 @@ function renderGameHeader() {
 
   setLogo(
     "gameAwayLogo",
-    game.away_team.team_id,
-    game.away_team.abbr
+    game.away_team?.team_id,
+    game.away_team?.abbr
   );
 
   setLogo(
     "gameHomeLogo",
-    game.home_team.team_id,
-    game.home_team.abbr
+    game.home_team?.team_id,
+    game.home_team?.abbr
   );
 
-  setText("gameAwayTeam", game.away_team.abbr);
-  setText("gameHomeTeam", game.home_team.abbr);
+  setText(
+    "gameAwayTeam",
+    game.away_team?.abbr
+  );
+
+  setText(
+    "gameHomeTeam",
+    game.home_team?.abbr
+  );
 
   setText(
     "gameTitle",
-    `${game.away_team.name} at ${game.home_team.name}`
+    `${game.away_team?.name || game.away_team?.abbr} at ${
+      game.home_team?.name || game.home_team?.abbr
+    }`
   );
 
-  setText("gameDate", formatDate(game.date));
+  setText(
+    "gameDate",
+    formatDate(game.date)
+  );
+}
+
+function renderStatusStrip() {
+  const game = state.game;
+
+  const confirmedStarters = [
+    game.pitchers?.away?.status,
+    game.pitchers?.home?.status
+  ].filter(status => status === "confirmed").length;
+
+  setText(
+    "gameUpdatedStatus",
+    `UPDATED ${formatUpdatedTime(game.last_updated)}`
+  );
+
+  setText(
+    "lineupStatus",
+    String(
+      game.lineup_label ||
+      game.lineup_status ||
+      "Projected Lineup"
+    ).toUpperCase()
+  );
+
+  setText(
+    "starterStatus",
+    `${confirmedStarters} STARTER${
+      confirmedStarters === 1 ? "" : "S"
+    } CONFIRMED`
+  );
 }
 
 function renderControls() {
@@ -140,6 +185,7 @@ function renderControls() {
 
     button.onclick = () => {
       state.timeframe = value;
+
       renderControls();
       renderPitchers();
     };
@@ -155,6 +201,7 @@ function renderControls() {
 
     button.onclick = () => {
       state.location = value;
+
       renderControls();
       renderPitchers();
     };
@@ -166,12 +213,12 @@ function renderPitchers() {
 
   renderPitcherCard(
     "awayPitcherCard",
-    game.pitchers.away
+    game.pitchers?.away
   );
 
   renderPitcherCard(
     "homePitcherCard",
-    game.pitchers.home
+    game.pitchers?.home
   );
 }
 
@@ -181,16 +228,50 @@ function renderPitcherCard(containerId, pitcher) {
 
   if (!container) return;
 
-  const selectedStats =
-    pitcher.stats?.[state.timeframe]?.[state.location] || {};
+  if (!pitcher) {
+    container.innerHTML = `
+      <div class="pitcher-card-link">
+        <div class="pitcher-card-heading">
+          <div>
+            <span class="data-label">
+              STARTER TBD
+            </span>
 
-  const vsLeft = pitcher.stats?.vs_lhh || {};
-  const vsRight = pitcher.stats?.vs_rhh || {};
+            <h2>Starter TBD</h2>
+
+            <p>
+              Pitcher information is not available.
+            </p>
+          </div>
+        </div>
+      </div>
+    `;
+
+    return;
+  }
+
+  const timeframeStats =
+    pitcher.stats?.[state.timeframe] || {};
+
+  const allStats =
+    timeframeStats.all || {};
+
+  const locationStats =
+    timeframeStats[state.location] || allStats;
+
+  const vsLeft =
+    pitcher.stats?.vs_lhh || {};
+
+  const vsRight =
+    pitcher.stats?.vs_rhh || {};
+
+  const profileUrl =
+    pitcher.profile_url || "#";
 
   container.innerHTML = `
     <a
       class="pitcher-card-link"
-      href="${pitcher.profile_url || "#"}"
+      href="${profileUrl}"
     >
       <div class="pitcher-card-heading">
         <div>
@@ -198,7 +279,7 @@ function renderPitcherCard(containerId, pitcher) {
             ${formatPitcherStatus(pitcher.status)}
           </span>
 
-          <h2>${pitcher.name || "TBD"}</h2>
+          <h2>${pitcher.name || "Starter TBD"}</h2>
 
           <p>
             Age ${pitcher.age ?? "—"} ·
@@ -216,8 +297,15 @@ function renderPitcherCard(containerId, pitcher) {
           <thead>
             <tr>
               <th>Metric</th>
-              <th>${formatTimeframe(state.timeframe)}</th>
-              <th>${formatLocation(state.location)}</th>
+
+              <th>
+                ${formatTimeframe(state.timeframe)}
+              </th>
+
+              <th>
+                ${formatLocation(state.location)}
+              </th>
+
               <th>vs LHH</th>
               <th>vs RHH</th>
             </tr>
@@ -226,44 +314,44 @@ function renderPitcherCard(containerId, pitcher) {
           <tbody>
             ${pitcherMetricRow(
               "ERA",
-              selectedStats.era,
-              selectedStats.era,
-              null,
-              null,
-              "era"
+              allStats.era,
+              locationStats.era,
+              vsLeft.era,
+              vsRight.era,
+              "number"
             )}
 
             ${pitcherMetricRow(
               "WHIP",
-              selectedStats.whip,
-              selectedStats.whip,
+              allStats.whip,
+              locationStats.whip,
               vsLeft.whip,
               vsRight.whip,
-              "whip"
+              "number"
             )}
 
             ${pitcherMetricRow(
               "FIP",
-              selectedStats.fip,
-              selectedStats.fip,
+              allStats.fip,
+              locationStats.fip,
               vsLeft.fip,
               vsRight.fip,
-              "fip"
+              "number"
             )}
 
             ${pitcherMetricRow(
               "xFIP",
-              selectedStats.xfip,
-              selectedStats.xfip,
+              allStats.xfip,
+              locationStats.xfip,
               vsLeft.xfip,
               vsRight.xfip,
-              "xfip"
+              "number"
             )}
 
             ${pitcherMetricRow(
               "AVG Against",
-              selectedStats.avg_against,
-              selectedStats.avg_against,
+              allStats.avg_against,
+              locationStats.avg_against,
               vsLeft.avg_against,
               vsRight.avg_against,
               "average"
@@ -277,7 +365,7 @@ function renderPitcherCard(containerId, pitcher) {
 
 function pitcherMetricRow(
   label,
-  selectedValue,
+  timeframeValue,
   locationValue,
   leftValue,
   rightValue,
@@ -286,10 +374,22 @@ function pitcherMetricRow(
   return `
     <tr>
       <th>${label}</th>
-      <td>${formatMetric(selectedValue, type)}</td>
-      <td>${formatMetric(locationValue, type)}</td>
-      <td>${formatMetric(leftValue, type)}</td>
-      <td>${formatMetric(rightValue, type)}</td>
+
+      <td>
+        ${formatMetric(timeframeValue, type)}
+      </td>
+
+      <td>
+        ${formatMetric(locationValue, type)}
+      </td>
+
+      <td>
+        ${formatMetric(leftValue, type)}
+      </td>
+
+      <td>
+        ${formatMetric(rightValue, type)}
+      </td>
     </tr>
   `;
 }
@@ -297,73 +397,13 @@ function pitcherMetricRow(
 function createGameId(play) {
   return [
     play.date,
-    String(play.away_team || "").toLowerCase(),
-    String(play.home_team || "").toLowerCase()
+    String(
+      play.away_team || ""
+    ).toLowerCase(),
+    String(
+      play.home_team || ""
+    ).toLowerCase()
   ].join("-");
-}
-
-function formatPitcherStatus(status) {
-  if (status === "confirmed") return "CONFIRMED STARTER";
-  if (status === "probable") return "PROBABLE STARTER";
-  if (status === "bullpen") return "BULLPEN GAME";
-  return "STARTER TBD";
-}
-
-function formatTimeframe(value) {
-  if (value === "last_7") return "Last 7 Days";
-  if (value === "last_30") return "Last 30 Days";
-  return "Season";
-}
-
-function formatLocation(value) {
-  if (value === "home") return "Home";
-  if (value === "away") return "Away";
-  return "All";
-}
-
-function formatMetric(value, type) {
-  if (value === null || value === undefined) {
-    return "—";
-  }
-
-  if (type === "average") {
-    return Number(value).toFixed(3).replace(/^0/, "");
-  }
-
-  return Number(value).toFixed(2);
-}
-
-function formatDate(value) {
-  if (!value) return "—";
-
-  return new Date(
-    `${value}T12:00:00`
-  ).toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric"
-  });
-}
-
-function setText(id, value) {
-  const element = document.getElementById(id);
-
-  if (element) {
-    element.textContent = value ?? "—";
-  }
-}
-
-function setLogo(id, teamId, team) {
-  const img = document.getElementById(id);
-
-  if (!img) return;
-
-  img.src =
-    `${GAME_LOGO_BASE}/${Number(teamId)}.svg`;
-
-  img.alt =
-    `${team || "Team"} logo`;
 }
 
 function createFallbackGame(play) {
@@ -371,6 +411,8 @@ function createFallbackGame(play) {
     id: createGameId(play),
     date: play.date,
     sport: play.sport || "MLB",
+    last_updated: null,
+    lineup_label: "Projected Lineup",
 
     away_team: {
       abbr: play.away_team,
@@ -390,21 +432,8 @@ function createFallbackGame(play) {
     },
 
     pitchers: {
-      away: {
-        name: "Starter TBD",
-        age: null,
-        throws: null,
-        status: "unknown",
-        stats: {}
-      },
-
-      home: {
-        name: "Starter TBD",
-        age: null,
-        throws: null,
-        status: "unknown",
-        stats: {}
-      }
+      away: createUnknownPitcher(),
+      home: createUnknownPitcher()
     },
 
     offense: {},
@@ -414,6 +443,181 @@ function createFallbackGame(play) {
   };
 }
 
+function createUnknownPitcher() {
+  return {
+    name: "Starter TBD",
+    age: null,
+    throws: null,
+    status: "unknown",
+    stats: {
+      last_7: {
+        all: {},
+        home: {},
+        away: {}
+      },
+
+      last_30: {
+        all: {},
+        home: {},
+        away: {}
+      },
+
+      season: {
+        all: {},
+        home: {},
+        away: {}
+      },
+
+      vs_lhh: {},
+      vs_rhh: {}
+    }
+  };
+}
+
+function formatPitcherStatus(status) {
+  if (status === "confirmed") {
+    return "CONFIRMED STARTER";
+  }
+
+  if (status === "probable") {
+    return "PROBABLE STARTER";
+  }
+
+  if (status === "bullpen") {
+    return "BULLPEN GAME";
+  }
+
+  return "STARTER TBD";
+}
+
+function formatTimeframe(value) {
+  if (value === "last_7") {
+    return "Last 7 Days";
+  }
+
+  if (value === "last_30") {
+    return "Last 30 Days";
+  }
+
+  return "Season";
+}
+
+function formatLocation(value) {
+  if (value === "home") {
+    return "Home";
+  }
+
+  if (value === "away") {
+    return "Away";
+  }
+
+  return "All";
+}
+
+function formatMetric(value, type) {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return "—";
+  }
+
+  const number = Number(value);
+
+  if (!Number.isFinite(number)) {
+    return "—";
+  }
+
+  if (type === "average") {
+    return number
+      .toFixed(3)
+      .replace(/^0/, "");
+  }
+
+  return number.toFixed(2);
+}
+
+function formatDate(value) {
+  if (!value) return "—";
+
+  return new Date(
+    `${value}T12:00:00`
+  ).toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  });
+}
+
+function formatUpdatedTime(value) {
+  if (!value) return "—";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "—";
+  }
+
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short"
+  });
+}
+
+function setText(id, value) {
+  const element =
+    document.getElementById(id);
+
+  if (element) {
+    element.textContent =
+      value ?? "—";
+  }
+}
+
+function setLogo(id, teamId, team) {
+  const img =
+    document.getElementById(id);
+
+  if (!img) return;
+
+  if (!teamId) {
+    img.removeAttribute("src");
+    img.alt =
+      `${team || "Team"} logo unavailable`;
+
+    return;
+  }
+
+  img.src =
+    `${GAME_LOGO_BASE}/${Number(teamId)}.svg`;
+
+  img.alt =
+    `${team || "Team"} logo`;
+}
+
+document.addEventListener(
+  "click",
+  event => {
+    const button =
+      event.target.closest("[data-jump]");
+
+    if (!button) return;
+
+    const section =
+      document.getElementById(
+        button.dataset.jump
+      );
+
+    if (!section) return;
+
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+);
+
 loadGame();
-
-
