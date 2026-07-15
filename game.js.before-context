@@ -23,10 +23,6 @@ import {
 } from "./assets/js/widgets/marketWidget.js";
 
 import {
-  renderContextWidget
-} from "./assets/js/widgets/contextWidget.js";
-
-import {
   buildMlbOffenseModule,
   buildMlbPitcherModule,
   buildMlbBullpenModule,
@@ -249,7 +245,6 @@ function renderAll() {
   renderLineupMatchups();
   renderBullpens();
   renderContextCards();
-  renderGameContext();
   renderGameLifecycle();
 }
 
@@ -764,18 +759,6 @@ function renderContextCards() {
 
     module:
       marketModule
-  });
-}
-
-function renderGameContext() {
-  renderContextWidget({
-    container:
-      document.getElementById(
-        "gameContext"
-      ),
-
-    context:
-      state.game?.context || null
   });
 }
 
@@ -1420,14 +1403,6 @@ function createFallbackGame(play) {
     bullpens: {},
     weather: {},
     market: {},
-    context: {
-      score: null,
-      label: "PENDING",
-      alerts: [],
-      positives: [],
-      information: [],
-      sources: {}
-    },
     injuries: [],
     notes: ""
   };

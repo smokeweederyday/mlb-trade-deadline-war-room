@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-15T03:28:09.439299+00:00",
+  "updated_at": "2026-07-15T04:57:30.617914+00:00",
   "days": [
     {
       "id": "2026-05-16-mlb",
@@ -89,7 +89,7 @@
       "id": "2026-07-14-mlb",
       "date": "2026-07-14",
       "sport": "MLB",
-      "state": "today",
+      "state": "past",
       "previous_day": "2026-07-13",
       "next_day": "2026-07-15",
       "game_ids": [
@@ -105,6 +105,68 @@
       },
       "summary": {
         "games": 1,
+        "official_plays": 0,
+        "research_ready": 0
+      }
+    },
+    {
+      "id": "2026-07-16-mlb",
+      "date": "2026-07-16",
+      "sport": "MLB",
+      "state": "future",
+      "previous_day": "2026-07-15",
+      "next_day": "2026-07-17",
+      "game_ids": [
+        "2026-07-16-nym-phi"
+      ],
+      "official_play_ids": [],
+      "workflow": {
+        "research_complete": false,
+        "plays_published": false,
+        "results_complete": false,
+        "evaluations_complete": false,
+        "archived": false
+      },
+      "summary": {
+        "games": 1,
+        "official_plays": 0,
+        "research_ready": 0
+      }
+    },
+    {
+      "id": "2026-07-18-mlb",
+      "date": "2026-07-18",
+      "sport": "MLB",
+      "state": "future",
+      "previous_day": "2026-07-17",
+      "next_day": "2026-07-19",
+      "game_ids": [
+        "2026-07-18-min-chc",
+        "2026-07-18-cws-tor",
+        "2026-07-18-cin-col",
+        "2026-07-18-nym-phi",
+        "2026-07-18-bal-hou",
+        "2026-07-18-mia-mil",
+        "2026-07-18-pit-cle",
+        "2026-07-18-sd-kc",
+        "2026-07-18-stl-ari",
+        "2026-07-18-tb-bos",
+        "2026-07-18-tex-atl",
+        "2026-07-18-lad-nyy",
+        "2026-07-18-sfg-sea",
+        "2026-07-18-wsh-ath",
+        "2026-07-18-det-laa"
+      ],
+      "official_play_ids": [],
+      "workflow": {
+        "research_complete": false,
+        "plays_published": false,
+        "results_complete": false,
+        "evaluations_complete": false,
+        "archived": false
+      },
+      "summary": {
+        "games": 15,
         "official_plays": 0,
         "research_ready": 0
       }

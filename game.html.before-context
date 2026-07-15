@@ -331,30 +331,6 @@
       </section>
 
       <section
-        id="context"
-        class="game-context-panel"
-        aria-labelledby="contextHeading"
-      >
-        <div class="context-section-heading">
-          <div>
-            <p class="kicker">GAME INTELLIGENCE</p>
-            <h2 id="contextHeading">Context</h2>
-          </div>
-
-          <p>
-            Lineups, starters, bullpen usage,
-            weather, and market conditions.
-          </p>
-        </div>
-
-        <div id="gameContext">
-          <div class="context-empty">
-            Context is loading…
-          </div>
-        </div>
-      </section>
-
-      <section
         class="game-sequence-navigation
                game-sequence-navigation-bottom"
         aria-label="Continue through MLB games"

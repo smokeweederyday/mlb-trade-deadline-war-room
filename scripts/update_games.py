@@ -33,6 +33,14 @@ from mlb.weather import (
     build_weather_snapshot,
 )
 
+from mlb.market import (
+    build_market_snapshot,
+)
+
+from mlb.context import (
+    build_context_snapshot,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -852,6 +860,287 @@ def enrich_weather(
 
     return enriched_games
 
+
+def normalize_team_abbr(
+    value: Any,
+) -> str:
+    aliases = {
+        "KCR": "KC",
+        "WSN": "WSH",
+        "OAK": "ATH",
+        "SF": "SFG",
+        "SDP": "SD",
+        "TBR": "TB",
+    }
+
+    cleaned = str(
+        value or ""
+    ).strip().upper()
+
+    return aliases.get(
+        cleaned,
+        cleaned,
+    )
+
+
+def build_market_event_index(
+    market_snapshot: dict[str, Any],
+) -> dict[
+    tuple[str, str],
+    list[dict[str, Any]],
+]:
+    index: dict[
+        tuple[str, str],
+        list[dict[str, Any]],
+    ] = {}
+
+    events = market_snapshot.get(
+        "events",
+        [],
+    )
+
+    if not isinstance(
+        events,
+        list,
+    ):
+        return index
+
+    for event in events:
+        away = normalize_team_abbr(
+            event
+            .get("away_team", {})
+            .get("abbr")
+        )
+
+        home = normalize_team_abbr(
+            event
+            .get("home_team", {})
+            .get("abbr")
+        )
+
+        if not away or not home:
+            continue
+
+        index.setdefault(
+            (away, home),
+            [],
+        ).append(event)
+
+    return index
+
+
+def choose_market_event(
+    candidates: list[dict[str, Any]],
+    game_time: str | None,
+) -> dict[str, Any] | None:
+    if not candidates:
+        return None
+
+    if not game_time:
+        return candidates[0]
+
+    try:
+        target = datetime.fromisoformat(
+            str(game_time).replace(
+                "Z",
+                "+00:00",
+            )
+        )
+    except (
+        TypeError,
+        ValueError,
+    ):
+        return candidates[0]
+
+    def event_distance(
+        event: dict[str, Any],
+    ) -> float:
+        try:
+            commence = datetime.fromisoformat(
+                str(
+                    event.get(
+                        "commence_time"
+                    )
+                ).replace(
+                    "Z",
+                    "+00:00",
+                )
+            )
+
+            return abs(
+                (
+                    commence - target
+                ).total_seconds()
+            )
+        except (
+            TypeError,
+            ValueError,
+        ):
+            return float("inf")
+
+    return min(
+        candidates,
+        key=event_distance,
+    )
+
+
+def enrich_markets(
+    games: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """
+    Attach live sportsbook prices to matching MLB games.
+
+    The Odds API is requested once per updater run. Games are
+    matched by away/home abbreviations and then by the closest
+    scheduled start time. Existing market data is preserved when
+    no current event is available.
+    """
+
+    try:
+        print(
+            "Fetching MLB market odds..."
+        )
+
+        snapshot = build_market_snapshot()
+    except Exception as error:
+        print(
+            "Market refresh skipped; existing data preserved: "
+            f"{error}"
+        )
+
+        return games
+
+    event_index = build_market_event_index(
+        snapshot
+    )
+
+    updated_games = []
+
+    for stored_game in games:
+        game = dict(stored_game)
+
+        away = normalize_team_abbr(
+            game
+            .get("away_team", {})
+            .get("abbr")
+        )
+
+        home = normalize_team_abbr(
+            game
+            .get("home_team", {})
+            .get("abbr")
+        )
+
+        candidates = event_index.get(
+            (away, home),
+            [],
+        )
+
+        event = choose_market_event(
+            candidates,
+            game.get("game_time"),
+        )
+
+        if not event:
+            updated_games.append(
+                game
+            )
+            continue
+
+        existing_market = dict(
+            game.get("market", {})
+        )
+
+        merged_market = dict(
+            existing_market
+        )
+
+        merged_market.update(
+            event
+        )
+
+        merged_market["source"] = (
+            "The Odds API"
+        )
+
+        merged_market["snapshot_updated_at"] = (
+            snapshot.get("updated_at")
+        )
+
+        merged_market["quota"] = (
+            snapshot.get("quota", {})
+        )
+
+        game["market"] = (
+            merged_market
+        )
+
+        updated_games.append(
+            game
+        )
+
+    return updated_games
+
+
+def enrich_context(
+    games: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """
+    Build Context V1 after all underlying game modules refresh.
+
+    Context uses the latest lineup, starter, bullpen, weather,
+    and market data already attached to each game. One bad game
+    cannot stop the rest of the slate.
+    """
+
+    enriched_games = []
+
+    for stored_game in games:
+        game = dict(stored_game)
+
+        try:
+            print(
+                "Building context: "
+                f"{game.get('id', 'unknown-game')}"
+            )
+
+            context = build_context_snapshot(
+                game
+            )
+        except Exception as error:
+            print(
+                "Context refresh retained prior data "
+                f"for {game.get('id', 'unknown-game')}: "
+                f"{error}"
+            )
+
+            enriched_games.append(
+                game
+            )
+            continue
+
+        existing_context = dict(
+            game.get("context", {})
+        )
+
+        merged_context = dict(
+            existing_context
+        )
+
+        merged_context.update(
+            context
+        )
+
+        game["context"] = (
+            merged_context
+        )
+
+        enriched_games.append(
+            game
+        )
+
+    return enriched_games
+
 def migrate_existing_games(
     games: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
@@ -1651,6 +1940,14 @@ def main() -> None:
         merged_games,
     )
 
+    merged_games = enrich_markets(
+        merged_games,
+    )
+
+    merged_games = enrich_context(
+        merged_games,
+    )
+
     other_dates = [
         game
         for game in current.get(
@@ -1704,7 +2001,7 @@ def main() -> None:
         all_plays,
     )
 
-    current["schema_version"] = "3.6"
+    current["schema_version"] = "3.8"
 
     GAMES_FILE.write_text(
         json.dumps(
