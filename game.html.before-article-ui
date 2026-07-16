@@ -138,24 +138,6 @@
         </div>
       </section>
 
-      <section
-        class="game-articles-panel"
-        aria-labelledby="gameArticlesHeading"
-      >
-        <div class="game-articles-heading">
-          <div>
-            <p class="kicker">GAME WRITE-UP</p>
-            <h2 id="gameArticlesHeading">Articles</h2>
-          </div>
-        </div>
-
-        <div id="gameArticles">
-          <p class="module-note">
-            No article published for this game.
-          </p>
-        </div>
-      </section>
-
       <section class="game-lifecycle-panel" aria-labelledby="gameLifecycleHeading">
         <div class="game-lifecycle-heading">
           <div>

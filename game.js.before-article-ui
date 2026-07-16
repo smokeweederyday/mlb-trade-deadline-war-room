@@ -45,7 +45,6 @@ const state = {
   plays: [],
   results: [],
   evaluations: [],
-  articles: [],
   timeframe: "last_30",
   location: "all"
 };
@@ -75,8 +74,7 @@ async function loadGame() {
       cardResponse,
       playsResponse,
       resultsResponse,
-      evaluationsResponse,
-      articlesResponse
+      evaluationsResponse
     ] = await Promise.all([
       fetch(
         `data/games.json?v=${Date.now()}`
@@ -95,9 +93,6 @@ async function loadGame() {
       ),
       fetch(
         `data/evaluations.json?v=${Date.now()}`
-      ),
-      fetch(
-        `data/articles.json?v=${Date.now()}`
       )
     ]);
 
@@ -129,11 +124,6 @@ async function loadGame() {
       evaluationsResponse.ok
         ? await evaluationsResponse.json()
         : { evaluations: [] };
-
-    const articlesData =
-      articlesResponse.ok
-        ? await articlesResponse.json()
-        : { articles: [] };
 
     const games =
       Array.isArray(gamesData.games)
@@ -216,13 +206,6 @@ async function loadGame() {
         ? evaluationsData.evaluations
         : [];
 
-    state.articles =
-      Array.isArray(
-        articlesData.articles
-      )
-        ? articlesData.articles
-        : [];
-
     state.timeframe =
       game.controls?.default_timeframe ||
       gamesData.default_controls?.timeframe ||
@@ -267,7 +250,6 @@ function renderAll() {
   renderBullpens();
   renderContextCards();
   renderGameContext();
-  renderGameArticles();
   renderGameLifecycle();
 }
 
@@ -794,53 +776,6 @@ function renderGameContext() {
 
     context:
       state.game?.context || null
-  });
-}
-
-
-function renderGameArticles() {
-  const container = document.getElementById("gameArticles");
-  if (!container) return;
-
-  const articles = state.articles.filter(
-    article =>
-      article.game_id === state.game?.id &&
-      article.status !== "draft"
-  );
-
-  if (!articles.length) {
-    container.innerHTML = `<p class="module-note">No article published for this game.</p>`;
-    return;
-  }
-
-  container.innerHTML = articles.map(article => `
-    <article class="game-article">
-      <div class="game-article-meta">
-        <span>${escapeHtml(article.author || "Boring Bets")}</span>
-        <span>${escapeHtml(formatArticleTime(article.updated_at || article.published_at))}</span>
-      </div>
-      <h3>${escapeHtml(article.title || "Game Analysis")}</h3>
-      ${article.summary ? `<p class="game-article-summary">${escapeHtml(article.summary)}</p>` : ""}
-      <div class="game-article-body">${formatArticleBody(article.body || "")}</div>
-    </article>
-  `).join("");
-}
-
-function formatArticleBody(value) {
-  return escapeHtml(value)
-    .split(/\n\s*\n/)
-    .map(paragraph => `<p>${paragraph.replaceAll("\n", "<br>")}</p>`)
-    .join("");
-}
-
-function formatArticleTime(value) {
-  if (!value) return "Published";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "Published";
-  return date.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    timeZoneName: "short"
   });
 }
 

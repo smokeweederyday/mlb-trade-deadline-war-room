@@ -1,0 +1,23 @@
+{
+  "play": {
+    "id": "2026-07-16-nym-phi-example",
+    "game_id": "2026-07-16-nym-phi",
+    "date": "2026-07-16",
+    "sport": "MLB",
+    "game": "New York Mets at Philadelphia Phillies",
+    "away_team": "NYM",
+    "away_team_id": 121,
+    "home_team": "PHI",
+    "home_team_id": 143,
+    "play": "REPLACE WITH YOUR PLAY",
+    "odds": "-110",
+    "units": 1.0,
+    "rating": 3,
+    "handicapper": "Mark",
+    "is_best_bet": false,
+    "tags": [
+      "MLB"
+    ],
+    "analysis": "PASTE YOUR FULL WRITE-UP HERE."
+  }
+}

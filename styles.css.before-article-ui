@@ -1808,11 +1808,3 @@ a.lifecycle-item:hover {
   }
 }
 
-/* BORING BETS ARTICLE UI */
-.game-articles-panel{margin-top:14px;padding:18px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-md)}
-.game-articles-heading{margin-bottom:12px}.game-articles-heading h2{margin:0;font-size:clamp(1.35rem,3vw,2rem)}
-#gameArticles{display:grid;gap:12px}.game-article{padding:16px;background:var(--bg-soft);border:1px solid var(--border);border-radius:var(--radius-sm)}
-.game-article-meta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-family:var(--font-data);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase}
-.game-article h3{margin:10px 0;color:var(--white);font-size:clamp(1.05rem,2.5vw,1.45rem)}
-.game-article-summary{color:var(--teal-soft);font-weight:700}.game-article-body{color:var(--text);line-height:1.75}.game-article-body p{margin:0 0 1.15em}.game-article-body p:last-child{margin-bottom:0}
-
