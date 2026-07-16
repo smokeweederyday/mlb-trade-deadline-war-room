@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026-07-15T04:14:19.968379+00:00",
+    "updated_at": "2026-07-15T23:38:12.180562+00:00",
     "deadline": "2026-08-03T18:00:00-04:00"
   },
   "teams": [
@@ -359,6 +359,15 @@
       "from": "See description",
       "to": "See description",
       "players": "Detroit Tigers traded OF Jahmai Jones to Boston Red Sox for Player To Be Named Later.",
+      "return": "See official source",
+      "betting_impact": "Editorial review required.",
+      "source": "https://www.mlb.com/transactions"
+    },
+    {
+      "date": "2026-07-15",
+      "from": "See description",
+      "to": "See description",
+      "players": "Houston Astros traded RHP Lance McCullers Jr.",
       "return": "See official source",
       "betting_impact": "Editorial review required.",
       "source": "https://www.mlb.com/transactions"
