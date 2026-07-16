@@ -5,3 +5,8 @@ __pycache__/
 .DS_Store
 .vscode/
 .env
+# Locally generated MLB data and caches
+data/cache/
+data/*progress*.json
+__pycache__/
+*.pyc

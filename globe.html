@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Boring Bets live MLB globe — games, stadiums, time zones, weather, and travel context.">
+  <title>MLB Globe | Boring Bets</title>
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="globe.css">
+</head>
+<body class="globe-page">
+  <header class="site-header">
+    <a class="brand" href="index.html">BORING BETS</a>
+    <nav class="main-nav" aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="todays-card.html">Today’s Card</a>
+      <a href="globe.html" aria-current="page">Globe</a>
+      <a href="trade-deadline.html">Trade Deadline</a>
+    </nav>
+  </header>
+
+  <main class="globe-shell">
+    <section class="globe-toolbar" aria-label="Globe controls">
+      <div>
+        <p class="eyebrow">LIVE GEOGRAPHY LAYER</p>
+        <h1>MLB Globe</h1>
+        <p class="globe-intro">Games exist at a venue, in local time, under local conditions.</p>
+      </div>
+      <div class="globe-control-cluster">
+        <label>
+          <span>Date</span>
+          <input id="globeDate" type="date">
+        </label>
+        <button id="globeToday" type="button">Today</button>
+        <button id="globeReset" type="button">Reset view</button>
+      </div>
+    </section>
+
+    <section class="globe-layout">
+      <div class="globe-stage-card">
+        <canvas id="globeCanvas" aria-label="Interactive MLB stadium globe"></canvas>
+        <div class="globe-overlay-label globe-overlay-left">
+          <strong id="globeDateLabel">—</strong>
+          <span id="globeGameCount">0 games</span>
+        </div>
+        <div class="globe-overlay-label globe-overlay-right">
+          <span>Drag to rotate</span>
+          <span>Scroll to zoom</span>
+        </div>
+        <div id="globeTooltip" class="globe-tooltip" hidden></div>
+      </div>
+
+      <aside class="globe-sidebar">
+        <div id="venuePanel" class="globe-panel globe-panel-featured">
+          <p class="kicker">SELECT A STADIUM</p>
+          <h2>Venue intelligence</h2>
+          <p>Click a city marker to inspect local time, games, weather readiness, orientation, and future travel context.</p>
+        </div>
+
+        <div class="globe-panel">
+          <div class="globe-panel-heading">
+            <div>
+              <p class="kicker">SCHEDULE</p>
+              <h2>Games on the globe</h2>
+            </div>
+          </div>
+          <div id="globeGames" class="globe-game-list"></div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script type="module" src="globe.js"></script>
+</body>
+</html>

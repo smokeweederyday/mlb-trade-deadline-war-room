@@ -183,6 +183,9 @@ def normalize_pitching_stat(
         "earned_runs": to_int(
             stat.get("earnedRuns")
         ),
+        "split_ops": to_float(stat.get("ops")),
+        "split_obp": to_float(stat.get("obp")),
+        "split_slg": to_float(stat.get("slg")),
     }
 
 
@@ -259,6 +262,15 @@ def build_pitcher_snapshot(
                 end_date=end_date.isoformat() if end_date else None,
                 sit_code=rhh_codes,
             )
+            for split_key, split_label in (("vs_lhh", "vs LHH"), ("vs_rhh", "vs RHH")):
+                split_block = block.get(split_key) or {}
+                split_block["era"] = None
+                split_block["era_unavailable_reason"] = (
+                    "MLB does not provide earned runs by batter handedness; "
+                    "true split ERA cannot be calculated."
+                )
+                split_block["split_label"] = split_label
+                block[split_key] = split_block
             stats_root[timeframe][location] = block
 
     return {

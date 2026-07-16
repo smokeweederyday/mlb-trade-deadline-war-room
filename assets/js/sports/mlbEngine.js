@@ -1,6 +1,6 @@
 import { getRankHeatClass } from "../engine/colorEngine.js";
 
-const MLB_OFFENSE_METRICS = ["AVG", "OBP", "SLG", "OPS", "wRC+", "BB%", "K%"];
+const MLB_OFFENSE_METRICS = ["AVG", "wRC+", "K%", "BB%", "OBP", "OPS"];
 
 const MLB_PITCHER_METRICS = [
   { key: "era", label: "ERA", type: "number" },
@@ -197,15 +197,25 @@ function summarizeLineupHandedness(lineup, pitcherThrows) {
 }
 
 function normalizeRankedPitcherValue(block, key, type, contextLabel = "") {
-  const value = normalizePitcherValue(block?.[key], type);
-  const rank = block?.ranks?.[key] ?? null;
-  const poolSize = block?.rank_pool_size?.[key] ?? null;
+  const rawValue = block?.[key];
+  const value = normalizePitcherValue(rawValue, type);
+  const hasValue = rawValue !== null && rawValue !== undefined && rawValue !== "";
+  const rank = hasValue ? (block?.ranks?.[key] ?? null) : null;
+  const poolSize = hasValue ? (block?.rank_pool_size?.[key] ?? null) : null;
+  const unavailableReason = key === "era"
+    ? block?.era_unavailable_reason || ""
+    : "";
   return {
     ...value,
     rank,
     poolSize,
-    contextLabel,
-    heatClass: getRankHeatClass(rank, poolSize || 30)
+    contextLabel: unavailableReason
+      ? `${contextLabel} · ${unavailableReason}`
+      : contextLabel,
+    // Missing values must never inherit stale red/green rank metadata.
+    heatClass: hasValue
+      ? getRankHeatClass(rank, poolSize || 30)
+      : "metric-missing"
   };
 }
 
@@ -426,7 +436,7 @@ export function buildMlbLineupModule({ game, side }) {
 }
 
 export function getMlbOffenseMetricType(metric) {
-  if (["AVG", "OBP", "SLG", "OPS"].includes(metric)) return "average";
+  if (["AVG", "OBP", "OPS"].includes(metric)) return "average";
   if (["K%", "BB%"].includes(metric)) return "percent";
   return "integer";
 }

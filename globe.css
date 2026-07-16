@@ -1,0 +1,36 @@
+.globe-page { min-height: 100vh; background: radial-gradient(circle at 50% 30%, #0c241c 0%, #050a0b 46%, #020405 100%); }
+.globe-shell { width: min(1500px, calc(100% - 32px)); margin: 0 auto; padding: 34px 0 64px; }
+.globe-toolbar { display:flex; justify-content:space-between; gap:24px; align-items:flex-end; margin-bottom:20px; }
+.globe-toolbar h1 { margin:.2rem 0; font-size:clamp(2rem,5vw,4.8rem); line-height:.9; }
+.globe-intro { margin:0; color:var(--muted); max-width:46rem; }
+.globe-control-cluster { display:flex; align-items:flex-end; flex-wrap:wrap; gap:10px; }
+.globe-control-cluster label { display:grid; gap:5px; color:var(--muted); font-size:.72rem; font-weight:900; text-transform:uppercase; letter-spacing:.08em; }
+.globe-control-cluster input,.globe-control-cluster button { border:1px solid var(--border); border-radius:9px; background:#07110e; color:var(--white); padding:10px 12px; font:inherit; }
+.globe-control-cluster button { cursor:pointer; font-weight:800; }
+.globe-control-cluster button:hover { border-color:var(--green); color:var(--green); }
+.globe-layout { display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,390px); gap:18px; align-items:start; }
+.globe-stage-card { position:sticky; top:18px; min-height:680px; border:1px solid rgba(73,255,151,.18); border-radius:20px; background:linear-gradient(180deg,rgba(7,18,15,.94),rgba(1,5,5,.98)); overflow:hidden; box-shadow:0 28px 90px rgba(0,0,0,.42); }
+#globeCanvas { display:block; width:100%; height:680px; cursor:grab; touch-action:none; }
+#globeCanvas:active { cursor:grabbing; }
+.globe-overlay-label { position:absolute; top:16px; display:grid; gap:2px; padding:8px 11px; border:1px solid rgba(255,255,255,.09); border-radius:9px; background:rgba(0,0,0,.38); backdrop-filter:blur(10px); font-size:.72rem; color:var(--muted); pointer-events:none; }
+.globe-overlay-label strong { color:var(--white); font-size:.86rem; }
+.globe-overlay-left { left:16px; }.globe-overlay-right { right:16px; text-align:right; }
+.globe-tooltip { position:absolute; z-index:5; max-width:240px; pointer-events:none; padding:9px 11px; border:1px solid rgba(73,255,151,.35); border-radius:9px; background:rgba(2,9,7,.96); color:var(--white); box-shadow:0 14px 40px rgba(0,0,0,.5); font-size:.76rem; }
+.globe-tooltip strong,.globe-tooltip span { display:block; }.globe-tooltip span { color:var(--muted); margin-top:2px; }
+.globe-sidebar { display:grid; gap:18px; }
+.globe-panel { border:1px solid rgba(73,255,151,.14); border-radius:16px; background:rgba(5,13,11,.92); padding:18px; }
+.globe-panel h2 { margin:.2rem 0 .7rem; }.globe-panel p { color:var(--muted); }
+.globe-panel-featured { min-height:240px; }
+.venue-heading { display:flex; justify-content:space-between; gap:14px; align-items:flex-start; }
+.venue-clock { color:var(--green); font-size:1.05rem; font-weight:900; white-space:nowrap; }
+.venue-meta-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:14px 0; }
+.venue-meta { padding:9px; border-radius:9px; background:rgba(255,255,255,.035); }
+.venue-meta span { display:block; color:var(--muted); font-size:.65rem; text-transform:uppercase; letter-spacing:.08em; }.venue-meta strong { display:block; margin-top:3px; font-size:.85rem; }
+.venue-weather-placeholder { margin-top:12px; padding:12px; border:1px dashed rgba(73,255,151,.25); border-radius:10px; color:var(--muted); font-size:.8rem; }
+.globe-game-list { display:grid; gap:9px; max-height:590px; overflow:auto; padding-right:3px; }
+.globe-game-card { display:grid; grid-template-columns:1fr auto; gap:8px; align-items:center; width:100%; border:1px solid rgba(255,255,255,.075); border-radius:10px; background:rgba(255,255,255,.025); color:var(--white); padding:10px; text-align:left; cursor:pointer; }
+.globe-game-card:hover,.globe-game-card.is-active { border-color:rgba(73,255,151,.5); background:rgba(73,255,151,.07); }
+.globe-game-card strong,.globe-game-card span { display:block; }.globe-game-card span { color:var(--muted); font-size:.72rem; margin-top:3px; }.globe-game-card time { color:var(--green); font-weight:900; font-size:.78rem; white-space:nowrap; }
+.globe-empty { color:var(--muted); padding:18px 4px; }
+@media(max-width:980px){.globe-layout{grid-template-columns:1fr}.globe-stage-card{position:relative;top:auto}.globe-sidebar{grid-template-columns:1fr 1fr}.globe-game-list{max-height:420px}}
+@media(max-width:700px){.globe-shell{width:min(100% - 18px,1500px);padding-top:20px}.globe-toolbar{align-items:flex-start;flex-direction:column}.globe-control-cluster{width:100%}.globe-control-cluster label{flex:1}.globe-control-cluster input{width:100%}.globe-stage-card{min-height:520px}.globe-sidebar{grid-template-columns:1fr}#globeCanvas{height:520px}.globe-overlay-right{display:none}}

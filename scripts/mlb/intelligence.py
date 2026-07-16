@@ -79,6 +79,11 @@ def enrich_pitcher_fip(game: dict[str, Any]) -> None:
                 if isinstance(stats, dict):
                     add_fip(stats)
                     add_xfip(stats)
+                    for split in ("vs_lhh", "vs_rhh"):
+                        split_stats = stats.get(split, {})
+                        if isinstance(split_stats, dict):
+                            add_fip(split_stats)
+                            add_xfip(split_stats)
         for split in ("vs_lhh", "vs_rhh"):
             stats = stats_root.get(split, {})
             if isinstance(stats, dict):
