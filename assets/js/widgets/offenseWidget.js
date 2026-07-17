@@ -155,8 +155,10 @@ function renderValueCell(
   rank,
   type
 ) {
+  const hasValue = value !== null && value !== undefined && value !== "";
+  const heatClass = hasValue ? getRankHeatClass(rank, 30) : "metric-missing";
   return `
-    <td class="${getRankHeatClass(rank)}">
+    <td class="${heatClass}">
       ${escapeHtml(
         formatMetricValue(value, type)
       )}
@@ -173,8 +175,12 @@ function renderRankCell(rank) {
       ? `${numericRank}`
       : "—";
 
+  const heatClass = Number.isFinite(numericRank)
+    ? getRankHeatClass(numericRank, 30)
+    : "metric-missing";
+
   return `
-    <td class="rank-cell ${getRankHeatClass(rank)}">
+    <td class="rank-cell ${heatClass}">
       ${displayRank}
     </td>
   `;

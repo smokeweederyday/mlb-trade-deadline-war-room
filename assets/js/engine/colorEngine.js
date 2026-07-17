@@ -6,16 +6,19 @@
  */
 export function getRankHeatClass(rank, leagueSize = 30) {
   const numericRank = Number(rank);
+  const numericLeagueSize = Number(leagueSize);
 
   if (
     !Number.isFinite(numericRank) ||
+    !Number.isFinite(numericLeagueSize) ||
     numericRank < 1 ||
-    numericRank > leagueSize
+    numericLeagueSize < 1 ||
+    numericRank > numericLeagueSize
   ) {
     return "metric-missing";
   }
 
-  const percentile = numericRank / leagueSize;
+  const percentile = numericRank / numericLeagueSize;
 
   if (percentile <= 0.20) {
     return "metric-elite";

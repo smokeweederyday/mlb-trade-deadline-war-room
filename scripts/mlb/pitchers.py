@@ -8,6 +8,11 @@ import os
 import sys
 import urllib.parse
 import urllib.request
+import csv
+import gzip
+import io
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 MLB_API_BASE = "https://statsapi.mlb.com/api/v1"
@@ -354,6 +359,222 @@ if __name__ == "__main__":
     main()
 
 
+
+# ---------------------------------------------------------------------------
+# Date-bounded pitcher handedness/location splits from Baseball Savant
+# ---------------------------------------------------------------------------
+
+STATCAST_CSV_URL = "https://baseballsavant.mlb.com/statcast_search/csv"
+STATCAST_TERMINAL_EVENTS = {
+    "single", "double", "triple", "home_run", "field_out", "force_out",
+    "grounded_into_double_play", "field_error", "fielders_choice",
+    "fielders_choice_out", "double_play", "triple_play", "strikeout",
+    "strikeout_double_play", "walk", "intent_walk", "hit_by_pitch",
+    "sac_fly", "sac_bunt", "catcher_interf",
+}
+STATCAST_HITS = {"single", "double", "triple", "home_run"}
+STATCAST_OUTS = {
+    "field_out": 1, "force_out": 1, "fielders_choice_out": 1,
+    "strikeout": 1, "sac_fly": 1, "sac_bunt": 1,
+    "grounded_into_double_play": 2, "double_play": 2,
+    "strikeout_double_play": 2, "triple_play": 3,
+}
+
+
+def _pitcher_statcast_cache_dir() -> Path:
+    root = Path(__file__).resolve().parents[2]
+    cache_dir = root / "data" / "cache" / "statcast-pitcher-splits"
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    return cache_dir
+
+
+def _pitcher_statcast_day_path(day_text: str) -> Path:
+    return _pitcher_statcast_cache_dir() / f"{day_text}.json.gz"
+
+
+def _pitcher_statcast_url(day_text: str) -> str:
+    params = {
+        "all": "true", "type": "details", "player_type": "pitcher",
+        "game_date_gt": day_text, "game_date_lt": day_text,
+        "hfGT": "R|PO|S|", "group_by": "name", "sort_col": "pitches",
+        "sort_order": "desc", "min_pitches": "0", "min_results": "0",
+    }
+    return f"{STATCAST_CSV_URL}?{urllib.parse.urlencode(params)}"
+
+
+def _read_pitcher_statcast_cache(cache_path: Path) -> list[dict[str, Any]] | None:
+    if not cache_path.exists():
+        return None
+    try:
+        with gzip.open(cache_path, "rt", encoding="utf-8") as handle:
+            cached = json.load(handle)
+        return cached if isinstance(cached, list) else None
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def fetch_pitcher_statcast_terminal_pas(day_text: str) -> list[dict[str, Any]]:
+    cache_path = _pitcher_statcast_day_path(day_text)
+    force = os.getenv("BORING_BETS_REBUILD_STATCAST_PITCHERS") == "1"
+    cached = _read_pitcher_statcast_cache(cache_path)
+    if cached is not None and not force:
+        return cached
+
+    request = urllib.request.Request(
+        _pitcher_statcast_url(day_text),
+        headers={
+            "User-Agent": "Mozilla/5.0 BoringBets/1.0",
+            "Accept": "text/csv,*/*",
+            "Referer": "https://baseballsavant.mlb.com/statcast_search",
+        },
+    )
+
+    attempts = max(1, int(os.getenv("BORING_BETS_STATCAST_RETRIES", "4")))
+    last_error: Exception | None = None
+    text: str | None = None
+    for attempt in range(1, attempts + 1):
+        try:
+            with urllib.request.urlopen(request, timeout=90) as response:
+                text = response.read().decode("utf-8-sig", errors="replace")
+            break
+        except Exception as error:
+            last_error = error
+            if attempt < attempts:
+                delay = min(2 ** (attempt - 1), 8)
+                print(
+                    f"Statcast pitcher retry {attempt}/{attempts} for "
+                    f"{day_text} after {error}; sleeping {delay}s..."
+                )
+                time.sleep(delay)
+
+    if text is None:
+        # A forced rebuild should prefer fresh data, but one transient Savant
+        # outage must not throw away a previously valid cached date.
+        if cached is not None:
+            print(
+                f"Statcast pitcher warning for {day_text}: {last_error}. "
+                "Using existing cached day."
+            )
+            return cached
+        print(
+            f"Statcast pitcher warning for {day_text}: {last_error}. "
+            "Skipping this date; affected split samples remain incomplete."
+        )
+        return []
+
+    rows: list[dict[str, Any]] = []
+    for row in csv.DictReader(io.StringIO(text)):
+        event = str(row.get("events") or "").strip()
+        if event not in STATCAST_TERMINAL_EVENTS:
+            continue
+        try:
+            pitcher_id = int(row.get("pitcher") or 0)
+        except (TypeError, ValueError):
+            continue
+        batter_side = str(row.get("stand") or "").strip().upper()
+        if pitcher_id <= 0 or batter_side not in {"L", "R"}:
+            continue
+        topbot = str(row.get("inning_topbot") or "").strip().lower()
+        pitcher_location = "home" if topbot.startswith("top") else "away"
+        rows.append({
+            "date": day_text,
+            "pitcher_id": pitcher_id,
+            "location": pitcher_location,
+            "batter_side": batter_side,
+            "event": event,
+            "bb_type": str(row.get("bb_type") or "").strip().lower(),
+        })
+
+    with gzip.open(cache_path, "wt", encoding="utf-8") as handle:
+        json.dump(rows, handle, separators=(",", ":"))
+    return rows
+
+def fetch_pitcher_statcast_range(start: date, end: date) -> list[dict[str, Any]]:
+    if end < start:
+        return []
+    days=[]; cursor=start
+    while cursor <= end:
+        days.append(cursor.isoformat()); cursor += timedelta(days=1)
+    workers=max(1,min(int(os.getenv("BORING_BETS_STATCAST_WORKERS","4")),6))
+    collected=[]
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures={executor.submit(fetch_pitcher_statcast_terminal_pas,day):day for day in days}
+        for future in as_completed(futures):
+            day=futures[future]
+            try:
+                collected.extend(future.result())
+            except Exception as error:
+                # Day-level fetches already retry and degrade to cached/empty.
+                # This guard prevents an unexpected parser error from killing
+                # the entire season range.
+                print(f"Statcast pitcher warning for {day}: {error}; skipping date.")
+    return collected
+
+
+def aggregate_pitcher_statcast_splits(
+    rows: list[dict[str, Any]], location: str, batter_side: str
+) -> list[dict[str, Any]]:
+    totals: dict[int, dict[str, float]] = {}
+    for row in rows:
+        if location != "all" and row.get("location") != location:
+            continue
+        if row.get("batter_side") != batter_side:
+            continue
+        pid=int(row["pitcher_id"])
+        t=totals.setdefault(pid,{"pa":0,"ab":0,"hits":0,"bb":0,"hbp":0,"hr":0,"so":0,"outs":0,"fb":0})
+        event=row.get("event")
+        t["pa"] += 1
+        if event not in {"walk","intent_walk","hit_by_pitch","sac_fly","sac_bunt","catcher_interf"}:
+            t["ab"] += 1
+        if event in STATCAST_HITS: t["hits"] += 1
+        if event in {"walk","intent_walk"}: t["bb"] += 1
+        if event == "hit_by_pitch": t["hbp"] += 1
+        if event == "home_run": t["hr"] += 1
+        if event in {"strikeout","strikeout_double_play"}: t["so"] += 1
+        t["outs"] += STATCAST_OUTS.get(event,0)
+        if row.get("bb_type") == "fly_ball": t["fb"] += 1
+
+    result=[]
+    for pid,t in totals.items():
+        outs=int(t["outs"])
+        if outs <= 0: continue
+        ip=outs/3.0
+        avg=t["hits"]/t["ab"] if t["ab"] else None
+        whip=(t["hits"]+t["bb"])/ip if ip else None
+        fip=((13*t["hr"])+(3*(t["bb"]+t["hbp"]))-(2*t["so"]))/ip + 3.1
+        expected_hr=t["fb"]*0.105
+        xfip=((13*expected_hr)+(3*(t["bb"]+t["hbp"]))-(2*t["so"]))/ip + 3.1
+        stat={
+            "era": None, "whip": round(whip,2), "fip": round(fip,2),
+            "xfip": round(xfip,2), "avg_against": round(avg,3) if avg is not None else None,
+            "innings_pitched": f"{outs//3}.{outs%3}", "strikeouts": int(t["so"]),
+            "walks": int(t["bb"]), "home_runs": int(t["hr"]), "hits": int(t["hits"]),
+            "earned_runs": None, "fip_source": "statcast_terminal_pa",
+            "xfip_source": "statcast_terminal_pa_league_hr_fb",
+            "era_unavailable_reason": "MLB does not provide earned runs by batter handedness.",
+        }
+        result.append({"pitcher_id":pid,"name":None,"stats":stat})
+    return result
+
+
+def build_pitcher_statcast_split_rows(target_date: str) -> dict[tuple[str,str,str], list[dict[str,Any]]]:
+    target=datetime.strptime(target_date,"%Y-%m-%d").date()
+    cutoff=target-timedelta(days=1)
+    season_start=date(target.year,3,1)
+    season_rows=fetch_pitcher_statcast_range(season_start,cutoff)
+    windows={
+        "last_7": target-timedelta(days=7),
+        "last_30": target-timedelta(days=30),
+        "season": season_start,
+    }
+    output={}
+    for timeframe,start in windows.items():
+        rows=[row for row in season_rows if start.isoformat() <= row.get("date","") <= cutoff.isoformat()]
+        for location in ("all","home","away"):
+            output[(timeframe,location,"vs_lhh")]=aggregate_pitcher_statcast_splits(rows,location,"L")
+            output[(timeframe,location,"vs_rhh")]=aggregate_pitcher_statcast_splits(rows,location,"R")
+    return output
+
 # ---------------------------------------------------------------------------
 # League-wide pitcher intelligence matrix
 # ---------------------------------------------------------------------------
@@ -407,17 +628,29 @@ def _global_pitcher_stats(target_date: str, timeframe: str, location: str, batte
     return rows
 
 
-def _competition_ranks(rows: list[dict[str, Any]], metric: str) -> dict[int,int]:
-    valid=[]
+def _competition_ranks(rows: list[dict[str, Any]], metric: str) -> dict[int, int]:
+    """Rank unique pitchers only.
+
+    MLB's league stats endpoint can return multiple rows for one pitcher
+    (most commonly multiple team/season split rows). Ranking the raw rows made
+    ranks exceed the unique-pitcher pool size. Keep one normalized value per
+    pitcher before sorting so every rank is valid within its pool.
+    """
+    by_pitcher: dict[int, float] = {}
     for row in rows:
-        value=row.get("stats",{}).get(metric)
-        if isinstance(value,(int,float)):
-            valid.append((row["pitcher_id"],float(value)))
-    valid.sort(key=lambda item:item[1])
-    result={}; prior=None; prior_rank=0
-    for idx,(pid,value) in enumerate(valid,1):
-        rank=prior_rank if prior==value else idx
-        result[pid]=rank; prior=value; prior_rank=rank
+        value = row.get("stats", {}).get(metric)
+        if isinstance(value, (int, float)):
+            by_pitcher[int(row["pitcher_id"])] = float(value)
+
+    valid = sorted(by_pitcher.items(), key=lambda item: item[1])
+    result: dict[int, int] = {}
+    prior_value = None
+    prior_rank = 0
+    for index, (pitcher_id, value) in enumerate(valid, start=1):
+        rank = prior_rank if prior_value == value else index
+        result[pitcher_id] = rank
+        prior_value = value
+        prior_rank = rank
     return result
 
 
@@ -430,6 +663,8 @@ def build_league_pitcher_cache(target_date: str) -> dict[str, Any]:
         try: return json.loads(cache_file.read_text())
         except Exception: pass
     matrix={"date":target_date,"filters":{}}
+    print("Building date-bounded pitcher LHH/RHH location splits from Statcast...")
+    statcast_split_rows = build_pitcher_statcast_split_rows(target_date)
     total=27; count=0
     for timeframe in ("last_7","last_30","season"):
         matrix["filters"].setdefault(timeframe,{})
@@ -437,24 +672,45 @@ def build_league_pitcher_cache(target_date: str) -> dict[str, Any]:
             matrix["filters"][timeframe].setdefault(location,{})
             for split_key,batter_side in (("all",None),("vs_lhh","lhh"),("vs_rhh","rhh")):
                 count+=1; print(f"Pitcher rank pool {count}/{total}: {timeframe}/{location}/{split_key}")
-                rows=_global_pitcher_stats(target_date,timeframe,location,batter_side)
+                if split_key == "all":
+                    rows=_global_pitcher_stats(target_date,timeframe,location,batter_side)
+                else:
+                    rows=statcast_split_rows.get((timeframe,location,split_key), [])
                 min_outs=MIN_OUTS_BY_TIMEFRAME[timeframe]
-                qualified=[]
+                qualified_by_pitcher: dict[int, dict[str, Any]] = {}
                 for row in rows:
-                    stats=row["stats"]
+                    stats = row["stats"]
                     from mlb.intelligence import add_fip, add_xfip, innings_to_outs
-                    add_fip(stats); add_xfip(stats)
-                    outs=innings_to_outs(stats.get("innings_pitched")) or 0
+                    add_fip(stats)
+                    add_xfip(stats)
+                    outs = innings_to_outs(stats.get("innings_pitched")) or 0
                     if outs >= min_outs:
-                        qualified.append(row)
-                ranks={m:_competition_ranks(qualified,m) for m in PITCHER_RANK_METRICS}
-                payload={}
+                        qualified_by_pitcher[int(row["pitcher_id"])] = row
+
+                qualified = list(qualified_by_pitcher.values())
+                ranks = {m: _competition_ranks(qualified, m) for m in PITCHER_RANK_METRICS}
+                payload = {}
                 for row in qualified:
-                    pid=str(row["pitcher_id"]); stats=row["stats"]
-                    stats["ranks"]={m:ranks[m].get(row["pitcher_id"]) for m in PITCHER_RANK_METRICS}
-                    stats["rank_pool_size"]={m:len(ranks[m]) for m in PITCHER_RANK_METRICS}
-                    payload[pid]=stats
-                matrix["filters"][timeframe][location][split_key]={"pitchers":payload,"qualified_count":len(qualified)}
+                    pitcher_id = int(row["pitcher_id"])
+                    pid = str(pitcher_id)
+                    stats = row["stats"]
+                    stats["ranks"] = {
+                        m: ranks[m].get(pitcher_id) for m in PITCHER_RANK_METRICS
+                    }
+                    stats["rank_pool_size"] = {
+                        m: len(ranks[m]) for m in PITCHER_RANK_METRICS
+                    }
+                    # MLB does not provide earned runs in vl/vr statSplits, so
+                    # handedness ERA is unknowable and must never carry a rank.
+                    if split_key in ("vs_lhh", "vs_rhh"):
+                        stats["era"] = None
+                        stats.setdefault("ranks", {})["era"] = None
+                        stats.setdefault("rank_pool_size", {})["era"] = 0
+                    payload[pid] = stats
+                matrix["filters"][timeframe][location][split_key] = {
+                    "pitchers": payload,
+                    "qualified_count": len(qualified),
+                }
     cache_file.write_text(json.dumps(matrix,indent=2))
     return matrix
 

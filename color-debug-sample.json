@@ -1,0 +1,3743 @@
+{
+  "games": [
+    {
+      "id": "2026-07-16-nym-phi",
+      "mlb_game_pk": 823440,
+      "date": "2026-07-16",
+      "game_time": "2026-07-16T22:10:00Z",
+      "sport": "MLB",
+      "status": "live",
+      "venue": {
+        "id": 2681,
+        "name": "Citizens Bank Park"
+      },
+      "away_team": {
+        "abbr": "NYM",
+        "name": "New York Mets",
+        "team_id": 121
+      },
+      "home_team": {
+        "abbr": "PHI",
+        "name": "Philadelphia Phillies",
+        "team_id": 143
+      },
+      "controls": {
+        "default_timeframe": "last_30",
+        "default_location": "all"
+      },
+      "pitchers": {
+        "away": {
+          "id": 681035,
+          "name": "Christian Scott",
+          "status": "probable",
+          "age": 27,
+          "throws": "R",
+          "profile_url": "pitcher.html?id=681035",
+          "stats": {
+            "last_7": {
+              "all": {
+                "era": 0.0,
+                "whip": 0.0,
+                "fip": 1.1,
+                "xfip": 2.46,
+                "avg_against": 0.0,
+                "innings_pitched": "2.0",
+                "games": 1,
+                "games_started": 1,
+                "strikeouts": 2,
+                "walks": 0,
+                "home_runs": 0,
+                "air_outs": 2,
+                "hits": 0,
+                "earned_runs": 0,
+                "split_ops": 0.0,
+                "split_obp": 0.0,
+                "split_slg": 0.0,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.13,
+                  "fip": 4.03,
+                  "xfip": 3.22,
+                  "avg_against": 0.206,
+                  "innings_pitched": "35.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 42,
+                  "walks": 13,
+                  "home_runs": 6,
+                  "air_outs": 36,
+                  "hits": 27,
+                  "earned_runs": null,
+                  "split_ops": 0.66,
+                  "split_obp": 0.278,
+                  "split_slg": 0.382,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 189,
+                    "fip": 336,
+                    "xfip": 155,
+                    "avg_against": 204
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 691,
+                    "fip": 691,
+                    "xfip": 679,
+                    "avg_against": 691
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.64,
+                  "fip": 3.43,
+                  "xfip": 4.36,
+                  "avg_against": 0.239,
+                  "innings_pitched": "18.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 23,
+                  "walks": 13,
+                  "home_runs": 1,
+                  "air_outs": 22,
+                  "hits": 17,
+                  "earned_runs": null,
+                  "split_ops": 0.731,
+                  "split_obp": 0.393,
+                  "split_slg": 0.338,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 528,
+                    "fip": 282,
+                    "xfip": 460,
+                    "avg_against": 341
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 703,
+                    "fip": 703,
+                    "xfip": 689,
+                    "avg_against": 703
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105
+              },
+              "home": {
+                "era": 3.6,
+                "whip": 1.52,
+                "fip": 4.26,
+                "xfip": 3.65,
+                "avg_against": 0.258,
+                "innings_pitched": "25.0",
+                "games": 6,
+                "games_started": 6,
+                "strikeouts": 31,
+                "walks": 13,
+                "home_runs": 4,
+                "air_outs": 27,
+                "hits": 25,
+                "earned_runs": 10,
+                "split_ops": 0.79,
+                "split_obp": 0.357,
+                "split_slg": 0.433,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.13,
+                  "fip": 4.03,
+                  "xfip": 3.22,
+                  "avg_against": 0.206,
+                  "innings_pitched": "35.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 42,
+                  "walks": 13,
+                  "home_runs": 6,
+                  "air_outs": 36,
+                  "hits": 27,
+                  "earned_runs": null,
+                  "split_ops": 0.66,
+                  "split_obp": 0.278,
+                  "split_slg": 0.382,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 299,
+                    "whip": 907,
+                    "fip": 785,
+                    "xfip": 533,
+                    "avg_against": 821
+                  },
+                  "rank_pool_size": {
+                    "era": 690,
+                    "whip": 714,
+                    "fip": 714,
+                    "xfip": 709,
+                    "avg_against": 714
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.64,
+                  "fip": 3.43,
+                  "xfip": 4.36,
+                  "avg_against": 0.239,
+                  "innings_pitched": "18.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 23,
+                  "walks": 13,
+                  "home_runs": 1,
+                  "air_outs": 22,
+                  "hits": 17,
+                  "earned_runs": null,
+                  "split_ops": 0.731,
+                  "split_obp": 0.393,
+                  "split_slg": 0.338,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 299,
+                    "whip": 1038,
+                    "fip": 818,
+                    "xfip": 913,
+                    "avg_against": 848
+                  },
+                  "rank_pool_size": {
+                    "era": 690,
+                    "whip": 723,
+                    "fip": 723,
+                    "xfip": 716,
+                    "avg_against": 723
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 299,
+                  "whip": 474,
+                  "fip": 410,
+                  "xfip": 285,
+                  "avg_against": 414
+                },
+                "rank_pool_size": {
+                  "era": 690,
+                  "whip": 690,
+                  "fip": 690,
+                  "xfip": 682,
+                  "avg_against": 690
+                }
+              },
+              "away": {
+                "era": 2.79,
+                "whip": 1.1,
+                "fip": 3.44,
+                "xfip": 3.56,
+                "avg_against": 0.181,
+                "innings_pitched": "29.0",
+                "games": 6,
+                "games_started": 6,
+                "strikeouts": 34,
+                "walks": 13,
+                "home_runs": 3,
+                "air_outs": 31,
+                "hits": 19,
+                "earned_runs": 9,
+                "split_ops": 0.594,
+                "split_obp": 0.289,
+                "split_slg": 0.305,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.13,
+                  "fip": 4.03,
+                  "xfip": 3.22,
+                  "avg_against": 0.206,
+                  "innings_pitched": "35.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 42,
+                  "walks": 13,
+                  "home_runs": 6,
+                  "air_outs": 36,
+                  "hits": 27,
+                  "earned_runs": null,
+                  "split_ops": 0.66,
+                  "split_obp": 0.278,
+                  "split_slg": 0.382,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 168,
+                    "whip": 379,
+                    "fip": 625,
+                    "xfip": 439,
+                    "avg_against": 392
+                  },
+                  "rank_pool_size": {
+                    "era": 674,
+                    "whip": 717,
+                    "fip": 717,
+                    "xfip": 707,
+                    "avg_against": 717
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.64,
+                  "fip": 3.43,
+                  "xfip": 4.36,
+                  "avg_against": 0.239,
+                  "innings_pitched": "18.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 23,
+                  "walks": 13,
+                  "home_runs": 1,
+                  "air_outs": 22,
+                  "hits": 17,
+                  "earned_runs": null,
+                  "split_ops": 0.731,
+                  "split_obp": 0.393,
+                  "split_slg": 0.338,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 168,
+                    "whip": 1008,
+                    "fip": 482,
+                    "xfip": 858,
+                    "avg_against": 643
+                  },
+                  "rank_pool_size": {
+                    "era": 674,
+                    "whip": 720,
+                    "fip": 720,
+                    "xfip": 706,
+                    "avg_against": 720
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 168,
+                  "whip": 176,
+                  "fip": 197,
+                  "xfip": 210,
+                  "avg_against": 118
+                },
+                "rank_pool_size": {
+                  "era": 674,
+                  "whip": 674,
+                  "fip": 674,
+                  "xfip": 662,
+                  "avg_against": 674
+                }
+              }
+            },
+            "last_30": {
+              "all": {
+                "era": 3.38,
+                "whip": 1.13,
+                "fip": 4.9,
+                "xfip": 3.2,
+                "avg_against": 0.167,
+                "innings_pitched": "13.1",
+                "games": 3,
+                "games_started": 3,
+                "strikeouts": 18,
+                "walks": 7,
+                "home_runs": 3,
+                "air_outs": 12,
+                "hits": 8,
+                "earned_runs": 5,
+                "split_ops": 0.627,
+                "split_obp": 0.273,
+                "split_slg": 0.354,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.13,
+                  "fip": 4.03,
+                  "xfip": 3.22,
+                  "avg_against": 0.206,
+                  "innings_pitched": "35.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 42,
+                  "walks": 13,
+                  "home_runs": 6,
+                  "air_outs": 36,
+                  "hits": 27,
+                  "earned_runs": null,
+                  "split_ops": 0.66,
+                  "split_obp": 0.278,
+                  "split_slg": 0.382,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 153,
+                    "fip": 283,
+                    "xfip": 136,
+                    "avg_against": 160
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 584,
+                    "fip": 584,
+                    "xfip": 584,
+                    "avg_against": 584
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.64,
+                  "fip": 3.43,
+                  "xfip": 4.36,
+                  "avg_against": 0.239,
+                  "innings_pitched": "18.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 23,
+                  "walks": 13,
+                  "home_runs": 1,
+                  "air_outs": 22,
+                  "hits": 17,
+                  "earned_runs": null,
+                  "split_ops": 0.731,
+                  "split_obp": 0.393,
+                  "split_slg": 0.338,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 477,
+                    "fip": 235,
+                    "xfip": 425,
+                    "avg_against": 302
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 595,
+                    "fip": 595,
+                    "xfip": 595,
+                    "avg_against": 595
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 188,
+                  "whip": 170,
+                  "fip": 316,
+                  "xfip": 147,
+                  "avg_against": 75
+                },
+                "rank_pool_size": {
+                  "era": 479,
+                  "whip": 479,
+                  "fip": 479,
+                  "xfip": 479,
+                  "avg_against": 479
+                }
+              },
+              "home": {
+                "era": 3.6,
+                "whip": 1.52,
+                "fip": 4.26,
+                "xfip": 3.65,
+                "avg_against": 0.258,
+                "innings_pitched": "25.0",
+                "games": 6,
+                "games_started": 6,
+                "strikeouts": 31,
+                "walks": 13,
+                "home_runs": 4,
+                "air_outs": 27,
+                "hits": 25,
+                "earned_runs": 10,
+                "split_ops": 0.79,
+                "split_obp": 0.357,
+                "split_slg": 0.433,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.13,
+                  "fip": 4.03,
+                  "xfip": 3.22,
+                  "avg_against": 0.206,
+                  "innings_pitched": "35.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 42,
+                  "walks": 13,
+                  "home_runs": 6,
+                  "air_outs": 36,
+                  "hits": 27,
+                  "earned_runs": null,
+                  "split_ops": 0.66,
+                  "split_obp": 0.278,
+                  "split_slg": 0.382,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 265,
+                    "whip": 811,
+                    "fip": 687,
+                    "xfip": 488,
+                    "avg_against": 722
+                  },
+                  "rank_pool_size": {
+                    "era": 602,
+                    "whip": 623,
+                    "fip": 623,
+                    "xfip": 623,
+                    "avg_against": 623
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.64,
+                  "fip": 3.43,
+                  "xfip": 4.36,
+                  "avg_against": 0.239,
+                  "innings_pitched": "18.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 23,
+                  "walks": 13,
+                  "home_runs": 1,
+                  "air_outs": 22,
+                  "hits": 17,
+                  "earned_runs": null,
+                  "split_ops": 0.731,
+                  "split_obp": 0.393,
+                  "split_slg": 0.338,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 265,
+                    "whip": 949,
+                    "fip": 722,
+                    "xfip": 853,
+                    "avg_against": 761
+                  },
+                  "rank_pool_size": {
+                    "era": 602,
+                    "whip": 632,
+                    "fip": 632,
+                    "xfip": 632,
+                    "avg_against": 632
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 265,
+                  "whip": 436,
+                  "fip": 369,
+                  "xfip": 267,
+                  "avg_against": 376
+                },
+                "rank_pool_size": {
+                  "era": 602,
+                  "whip": 602,
+                  "fip": 602,
+                  "xfip": 601,
+                  "avg_against": 602
+                }
+              },
+              "away": {
+                "era": 2.79,
+                "whip": 1.1,
+                "fip": 3.44,
+                "xfip": 3.56,
+                "avg_against": 0.181,
+                "innings_pitched": "29.0",
+                "games": 6,
+                "games_started": 6,
+                "strikeouts": 34,
+                "walks": 13,
+                "home_runs": 3,
+                "air_outs": 31,
+                "hits": 19,
+                "earned_runs": 9,
+                "split_ops": 0.594,
+                "split_obp": 0.289,
+                "split_slg": 0.305,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.13,
+                  "fip": 4.03,
+                  "xfip": 3.22,
+                  "avg_against": 0.206,
+                  "innings_pitched": "35.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 42,
+                  "walks": 13,
+                  "home_runs": 6,
+                  "air_outs": 36,
+                  "hits": 27,
+                  "earned_runs": null,
+                  "split_ops": 0.66,
+                  "split_obp": 0.278,
+                  "split_slg": 0.382,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 135,
+                    "whip": 318,
+                    "fip": 540,
+                    "xfip": 393,
+                    "avg_against": 321
+                  },
+                  "rank_pool_size": {
+                    "era": 585,
+                    "whip": 615,
+                    "fip": 615,
+                    "xfip": 614,
+                    "avg_against": 615
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.64,
+                  "fip": 3.43,
+                  "xfip": 4.36,
+                  "avg_against": 0.239,
+                  "innings_pitched": "18.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 23,
+                  "walks": 13,
+                  "home_runs": 1,
+                  "air_outs": 22,
+                  "hits": 17,
+                  "earned_runs": null,
+                  "split_ops": 0.731,
+                  "split_obp": 0.393,
+                  "split_slg": 0.338,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 135,
+                    "whip": 916,
+                    "fip": 405,
+                    "xfip": 796,
+                    "avg_against": 577
+                  },
+                  "rank_pool_size": {
+                    "era": 585,
+                    "whip": 616,
+                    "fip": 616,
+                    "xfip": 615,
+                    "avg_against": 616
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 135,
+                  "whip": 151,
+                  "fip": 167,
+                  "xfip": 191,
+                  "avg_against": 92
+                },
+                "rank_pool_size": {
+                  "era": 585,
+                  "whip": 585,
+                  "fip": 585,
+                  "xfip": 584,
+                  "avg_against": 585
+                }
+              }
+            },
+            "season": {
+              "all": {
+                "era": 3.17,
+                "whip": 1.3,
+                "fip": 3.82,
+                "xfip": 3.6,
+                "avg_against": 0.218,
+                "innings_pitched": "54.0",
+                "games": 12,
+                "games_started": 12,
+                "strikeouts": 65,
+                "walks": 26,
+                "home_runs": 7,
+                "air_outs": 58,
+                "hits": 44,
+                "earned_runs": 19,
+                "split_ops": 0.688,
+                "split_obp": 0.322,
+                "split_slg": 0.366,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.13,
+                  "fip": 4.03,
+                  "xfip": 3.22,
+                  "avg_against": 0.206,
+                  "innings_pitched": "35.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 42,
+                  "walks": 13,
+                  "home_runs": 6,
+                  "air_outs": 36,
+                  "hits": 27,
+                  "earned_runs": null,
+                  "split_ops": 0.66,
+                  "split_obp": 0.278,
+                  "split_slg": 0.382,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 114,
+                    "fip": 219,
+                    "xfip": 102,
+                    "avg_against": 109
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 420,
+                    "fip": 420,
+                    "xfip": 420,
+                    "avg_against": 420
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.64,
+                  "fip": 3.43,
+                  "xfip": 4.36,
+                  "avg_against": 0.239,
+                  "innings_pitched": "18.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 23,
+                  "walks": 13,
+                  "home_runs": 1,
+                  "air_outs": 22,
+                  "hits": 17,
+                  "earned_runs": null,
+                  "split_ops": 0.731,
+                  "split_obp": 0.393,
+                  "split_slg": 0.338,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 384,
+                    "fip": 187,
+                    "xfip": 343,
+                    "avg_against": 236
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 434,
+                    "fip": 434,
+                    "xfip": 434,
+                    "avg_against": 434
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 138,
+                  "whip": 233,
+                  "fip": 218,
+                  "xfip": 203,
+                  "avg_against": 147
+                },
+                "rank_pool_size": {
+                  "era": 523,
+                  "whip": 523,
+                  "fip": 523,
+                  "xfip": 523,
+                  "avg_against": 523
+                }
+              },
+              "home": {
+                "era": 3.6,
+                "whip": 1.52,
+                "fip": 4.26,
+                "xfip": 3.65,
+                "avg_against": 0.258,
+                "innings_pitched": "25.0",
+                "games": 6,
+                "games_started": 6,
+                "strikeouts": 31,
+                "walks": 13,
+                "home_runs": 4,
+                "air_outs": 27,
+                "hits": 25,
+                "earned_runs": 10,
+                "split_ops": 0.79,
+                "split_obp": 0.357,
+                "split_slg": 0.433,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.13,
+                  "fip": 4.03,
+                  "xfip": 3.22,
+                  "avg_against": 0.206,
+                  "innings_pitched": "35.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 42,
+                  "walks": 13,
+                  "home_runs": 6,
+                  "air_outs": 36,
+                  "hits": 27,
+                  "earned_runs": null,
+                  "split_ops": 0.66,
+                  "split_obp": 0.278,
+                  "split_slg": 0.382,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 201,
+                    "whip": 642,
+                    "fip": 542,
+                    "xfip": 389,
+                    "avg_against": 555
+                  },
+                  "rank_pool_size": {
+                    "era": 433,
+                    "whip": 453,
+                    "fip": 453,
+                    "xfip": 453,
+                    "avg_against": 453
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.64,
+                  "fip": 3.43,
+                  "xfip": 4.36,
+                  "avg_against": 0.239,
+                  "innings_pitched": "18.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 23,
+                  "walks": 13,
+                  "home_runs": 1,
+                  "air_outs": 22,
+                  "hits": 17,
+                  "earned_runs": null,
+                  "split_ops": 0.731,
+                  "split_obp": 0.393,
+                  "split_slg": 0.338,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 201,
+                    "whip": 757,
+                    "fip": 578,
+                    "xfip": 682,
+                    "avg_against": 598
+                  },
+                  "rank_pool_size": {
+                    "era": 433,
+                    "whip": 451,
+                    "fip": 451,
+                    "xfip": 451,
+                    "avg_against": 451
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 201,
+                  "whip": 349,
+                  "fip": 296,
+                  "xfip": 210,
+                  "avg_against": 291
+                },
+                "rank_pool_size": {
+                  "era": 433,
+                  "whip": 433,
+                  "fip": 433,
+                  "xfip": 433,
+                  "avg_against": 433
+                }
+              },
+              "away": {
+                "era": 2.79,
+                "whip": 1.1,
+                "fip": 3.44,
+                "xfip": 3.56,
+                "avg_against": 0.181,
+                "innings_pitched": "29.0",
+                "games": 6,
+                "games_started": 6,
+                "strikeouts": 34,
+                "walks": 13,
+                "home_runs": 3,
+                "air_outs": 31,
+                "hits": 19,
+                "earned_runs": 9,
+                "split_ops": 0.594,
+                "split_obp": 0.289,
+                "split_slg": 0.305,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.13,
+                  "fip": 4.03,
+                  "xfip": 3.22,
+                  "avg_against": 0.206,
+                  "innings_pitched": "35.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 42,
+                  "walks": 13,
+                  "home_runs": 6,
+                  "air_outs": 36,
+                  "hits": 27,
+                  "earned_runs": null,
+                  "split_ops": 0.66,
+                  "split_obp": 0.278,
+                  "split_slg": 0.382,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 96,
+                    "whip": 238,
+                    "fip": 423,
+                    "xfip": 323,
+                    "avg_against": 227
+                  },
+                  "rank_pool_size": {
+                    "era": 422,
+                    "whip": 443,
+                    "fip": 443,
+                    "xfip": 443,
+                    "avg_against": 443
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.64,
+                  "fip": 3.43,
+                  "xfip": 4.36,
+                  "avg_against": 0.239,
+                  "innings_pitched": "18.1",
+                  "games": 12,
+                  "games_started": null,
+                  "strikeouts": 23,
+                  "walks": 13,
+                  "home_runs": 1,
+                  "air_outs": 22,
+                  "hits": 17,
+                  "earned_runs": null,
+                  "split_ops": 0.731,
+                  "split_obp": 0.393,
+                  "split_slg": 0.338,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 96,
+                    "whip": 739,
+                    "fip": 319,
+                    "xfip": 647,
+                    "avg_against": 448
+                  },
+                  "rank_pool_size": {
+                    "era": 422,
+                    "whip": 448,
+                    "fip": 448,
+                    "xfip": 448,
+                    "avg_against": 448
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 96,
+                  "whip": 112,
+                  "fip": 130,
+                  "xfip": 161,
+                  "avg_against": 63
+                },
+                "rank_pool_size": {
+                  "era": 422,
+                  "whip": 422,
+                  "fip": 422,
+                  "xfip": 422,
+                  "avg_against": 422
+                }
+              }
+            },
+            "vs_lhh": {
+              "era": null,
+              "whip": 1.13,
+              "fip": 4.03,
+              "xfip": 3.22,
+              "avg_against": 0.206,
+              "innings_pitched": "35.1",
+              "games": 12,
+              "games_started": null,
+              "strikeouts": 42,
+              "walks": 13,
+              "home_runs": 6,
+              "air_outs": 36,
+              "hits": 27,
+              "earned_runs": null,
+              "split_ops": 0.66,
+              "split_obp": 0.278,
+              "split_slg": 0.382,
+              "fip_source": "calculated",
+              "fip_constant": 3.1,
+              "xfip_source": "calculated_air_outs_league_hr_fb",
+              "league_hr_fb": 0.105,
+              "ranks": {
+                "era": null,
+                "whip": 114,
+                "fip": 219,
+                "xfip": 102,
+                "avg_against": 109
+              },
+              "rank_pool_size": {
+                "era": 0,
+                "whip": 420,
+                "fip": 420,
+                "xfip": 420,
+                "avg_against": 420
+              }
+            },
+            "vs_rhh": {
+              "era": null,
+              "whip": 1.64,
+              "fip": 3.43,
+              "xfip": 4.36,
+              "avg_against": 0.239,
+              "innings_pitched": "18.1",
+              "games": 12,
+              "games_started": null,
+              "strikeouts": 23,
+              "walks": 13,
+              "home_runs": 1,
+              "air_outs": 22,
+              "hits": 17,
+              "earned_runs": null,
+              "split_ops": 0.731,
+              "split_obp": 0.393,
+              "split_slg": 0.338,
+              "fip_source": "calculated",
+              "fip_constant": 3.1,
+              "xfip_source": "calculated_air_outs_league_hr_fb",
+              "league_hr_fb": 0.105,
+              "ranks": {
+                "era": null,
+                "whip": 384,
+                "fip": 187,
+                "xfip": 343,
+                "avg_against": 236
+              },
+              "rank_pool_size": {
+                "era": 0,
+                "whip": 434,
+                "fip": 434,
+                "xfip": 434,
+                "avg_against": 434
+              }
+            }
+          }
+        },
+        "home": {
+          "id": 605400,
+          "name": "Aaron Nola",
+          "status": "probable",
+          "age": 33,
+          "throws": "R",
+          "profile_url": "pitcher.html?id=605400",
+          "stats": {
+            "last_7": {
+              "all": {
+                "era": 3.6,
+                "whip": 1.0,
+                "fip": 3.7,
+                "xfip": 2.19,
+                "avg_against": 0.167,
+                "innings_pitched": "5.0",
+                "games": 1,
+                "games_started": 1,
+                "strikeouts": 8,
+                "walks": 2,
+                "home_runs": 1,
+                "air_outs": 4,
+                "hits": 3,
+                "earned_runs": 2,
+                "split_ops": 0.639,
+                "split_obp": 0.25,
+                "split_slg": 0.389,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.59,
+                  "fip": 5.31,
+                  "xfip": 3.93,
+                  "avg_against": 0.274,
+                  "innings_pitched": "54.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 58,
+                  "walks": 27,
+                  "home_runs": 12,
+                  "air_outs": 59,
+                  "hits": 60,
+                  "earned_runs": null,
+                  "split_ops": 0.853,
+                  "split_obp": 0.351,
+                  "split_slg": 0.502,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 473,
+                    "fip": 484,
+                    "xfip": 327,
+                    "avg_against": 475
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 691,
+                    "fip": 691,
+                    "xfip": 679,
+                    "avg_against": 691
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.25,
+                  "fip": 3.77,
+                  "xfip": 2.55,
+                  "avg_against": 0.286,
+                  "innings_pitched": "41.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 44,
+                  "walks": 4,
+                  "home_runs": 8,
+                  "air_outs": 39,
+                  "hits": 48,
+                  "earned_runs": null,
+                  "split_ops": 0.802,
+                  "split_obp": 0.302,
+                  "split_slg": 0.5,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 315,
+                    "fip": 340,
+                    "xfip": 70,
+                    "avg_against": 518
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 703,
+                    "fip": 703,
+                    "xfip": 689,
+                    "avg_against": 703
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 203,
+                  "whip": 124,
+                  "fip": 185,
+                  "xfip": 61,
+                  "avg_against": 119
+                },
+                "rank_pool_size": {
+                  "era": 337,
+                  "whip": 337,
+                  "fip": 337,
+                  "xfip": 311,
+                  "avg_against": 337
+                }
+              },
+              "home": {
+                "era": 6.81,
+                "whip": 1.7,
+                "fip": 4.53,
+                "xfip": 3.07,
+                "avg_against": 0.319,
+                "innings_pitched": "38.1",
+                "games": 8,
+                "games_started": 8,
+                "strikeouts": 44,
+                "walks": 13,
+                "home_runs": 8,
+                "air_outs": 35,
+                "hits": 52,
+                "earned_runs": 29,
+                "split_ops": 0.923,
+                "split_obp": 0.365,
+                "split_slg": 0.558,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.59,
+                  "fip": 5.31,
+                  "xfip": 3.93,
+                  "avg_against": 0.274,
+                  "innings_pitched": "54.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 58,
+                  "walks": 27,
+                  "home_runs": 12,
+                  "air_outs": 59,
+                  "hits": 60,
+                  "earned_runs": null,
+                  "split_ops": 0.853,
+                  "split_obp": 0.351,
+                  "split_slg": 0.502,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 555,
+                    "whip": 1045,
+                    "fip": 998,
+                    "xfip": 692,
+                    "avg_against": 1162
+                  },
+                  "rank_pool_size": {
+                    "era": 690,
+                    "whip": 714,
+                    "fip": 714,
+                    "xfip": 709,
+                    "avg_against": 714
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.25,
+                  "fip": 3.77,
+                  "xfip": 2.55,
+                  "avg_against": 0.286,
+                  "innings_pitched": "41.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 44,
+                  "walks": 4,
+                  "home_runs": 8,
+                  "air_outs": 39,
+                  "hits": 48,
+                  "earned_runs": null,
+                  "split_ops": 0.802,
+                  "split_obp": 0.302,
+                  "split_slg": 0.5,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 555,
+                    "whip": 1074,
+                    "fip": 884,
+                    "xfip": 317,
+                    "avg_against": 1158
+                  },
+                  "rank_pool_size": {
+                    "era": 690,
+                    "whip": 723,
+                    "fip": 723,
+                    "xfip": 716,
+                    "avg_against": 723
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 555,
+                  "whip": 531,
+                  "fip": 444,
+                  "xfip": 162,
+                  "avg_against": 576
+                },
+                "rank_pool_size": {
+                  "era": 690,
+                  "whip": 690,
+                  "fip": 690,
+                  "xfip": 682,
+                  "avg_against": 690
+                }
+              },
+              "away": {
+                "era": 5.06,
+                "whip": 1.26,
+                "fip": 4.7,
+                "xfip": 3.51,
+                "avg_against": 0.25,
+                "innings_pitched": "58.2",
+                "games": 11,
+                "games_started": 11,
+                "strikeouts": 58,
+                "walks": 18,
+                "home_runs": 12,
+                "air_outs": 63,
+                "hits": 56,
+                "earned_runs": 33,
+                "split_ops": 0.766,
+                "split_obp": 0.306,
+                "split_slg": 0.46,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.59,
+                  "fip": 5.31,
+                  "xfip": 3.93,
+                  "avg_against": 0.274,
+                  "innings_pitched": "54.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 58,
+                  "walks": 27,
+                  "home_runs": 12,
+                  "air_outs": 59,
+                  "hits": 60,
+                  "earned_runs": null,
+                  "split_ops": 0.853,
+                  "split_obp": 0.351,
+                  "split_slg": 0.502,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 424,
+                    "whip": 936,
+                    "fip": 965,
+                    "xfip": 633,
+                    "avg_against": 908
+                  },
+                  "rank_pool_size": {
+                    "era": 674,
+                    "whip": 717,
+                    "fip": 717,
+                    "xfip": 707,
+                    "avg_against": 717
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.25,
+                  "fip": 3.77,
+                  "xfip": 2.55,
+                  "avg_against": 0.286,
+                  "innings_pitched": "41.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 44,
+                  "walks": 4,
+                  "home_runs": 8,
+                  "air_outs": 39,
+                  "hits": 48,
+                  "earned_runs": null,
+                  "split_ops": 0.802,
+                  "split_obp": 0.302,
+                  "split_slg": 0.5,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 424,
+                    "whip": 580,
+                    "fip": 869,
+                    "xfip": 461,
+                    "avg_against": 988
+                  },
+                  "rank_pool_size": {
+                    "era": 674,
+                    "whip": 720,
+                    "fip": 720,
+                    "xfip": 706,
+                    "avg_against": 720
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 424,
+                  "whip": 260,
+                  "fip": 417,
+                  "xfip": 197,
+                  "avg_against": 335
+                },
+                "rank_pool_size": {
+                  "era": 674,
+                  "whip": 674,
+                  "fip": 674,
+                  "xfip": 662,
+                  "avg_against": 674
+                }
+              }
+            },
+            "last_30": {
+              "all": {
+                "era": 5.47,
+                "whip": 1.33,
+                "fip": 5.0,
+                "xfip": 3.1,
+                "avg_against": 0.264,
+                "innings_pitched": "26.1",
+                "games": 5,
+                "games_started": 5,
+                "strikeouts": 31,
+                "walks": 7,
+                "home_runs": 7,
+                "air_outs": 30,
+                "hits": 28,
+                "earned_runs": 16,
+                "split_ops": 0.838,
+                "split_obp": 0.31,
+                "split_slg": 0.528,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.59,
+                  "fip": 5.31,
+                  "xfip": 3.93,
+                  "avg_against": 0.274,
+                  "innings_pitched": "54.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 58,
+                  "walks": 27,
+                  "home_runs": 12,
+                  "air_outs": 59,
+                  "hits": 60,
+                  "earned_runs": null,
+                  "split_ops": 0.853,
+                  "split_obp": 0.351,
+                  "split_slg": 0.502,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 415,
+                    "fip": 425,
+                    "xfip": 295,
+                    "avg_against": 410
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 584,
+                    "fip": 584,
+                    "xfip": 584,
+                    "avg_against": 584
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.25,
+                  "fip": 3.77,
+                  "xfip": 2.55,
+                  "avg_against": 0.286,
+                  "innings_pitched": "41.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 44,
+                  "walks": 4,
+                  "home_runs": 8,
+                  "air_outs": 39,
+                  "hits": 48,
+                  "earned_runs": null,
+                  "split_ops": 0.802,
+                  "split_obp": 0.302,
+                  "split_slg": 0.5,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 274,
+                    "fip": 288,
+                    "xfip": 52,
+                    "avg_against": 468
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 595,
+                    "fip": 595,
+                    "xfip": 595,
+                    "avg_against": 595
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 333,
+                  "whip": 244,
+                  "fip": 326,
+                  "xfip": 132,
+                  "avg_against": 290
+                },
+                "rank_pool_size": {
+                  "era": 479,
+                  "whip": 479,
+                  "fip": 479,
+                  "xfip": 479,
+                  "avg_against": 479
+                }
+              },
+              "home": {
+                "era": 6.81,
+                "whip": 1.7,
+                "fip": 4.53,
+                "xfip": 3.07,
+                "avg_against": 0.319,
+                "innings_pitched": "38.1",
+                "games": 8,
+                "games_started": 8,
+                "strikeouts": 44,
+                "walks": 13,
+                "home_runs": 8,
+                "air_outs": 35,
+                "hits": 52,
+                "earned_runs": 29,
+                "split_ops": 0.923,
+                "split_obp": 0.365,
+                "split_slg": 0.558,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.59,
+                  "fip": 5.31,
+                  "xfip": 3.93,
+                  "avg_against": 0.274,
+                  "innings_pitched": "54.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 58,
+                  "walks": 27,
+                  "home_runs": 12,
+                  "air_outs": 59,
+                  "hits": 60,
+                  "earned_runs": null,
+                  "split_ops": 0.853,
+                  "split_obp": 0.351,
+                  "split_slg": 0.502,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 506,
+                    "whip": 949,
+                    "fip": 896,
+                    "xfip": 637,
+                    "avg_against": 1043
+                  },
+                  "rank_pool_size": {
+                    "era": 602,
+                    "whip": 623,
+                    "fip": 623,
+                    "xfip": 623,
+                    "avg_against": 623
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.25,
+                  "fip": 3.77,
+                  "xfip": 2.55,
+                  "avg_against": 0.286,
+                  "innings_pitched": "41.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 44,
+                  "walks": 4,
+                  "home_runs": 8,
+                  "air_outs": 39,
+                  "hits": 48,
+                  "earned_runs": null,
+                  "split_ops": 0.802,
+                  "split_obp": 0.302,
+                  "split_slg": 0.5,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 506,
+                    "whip": 985,
+                    "fip": 788,
+                    "xfip": 281,
+                    "avg_against": 1054
+                  },
+                  "rank_pool_size": {
+                    "era": 602,
+                    "whip": 632,
+                    "fip": 632,
+                    "xfip": 632,
+                    "avg_against": 632
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 506,
+                  "whip": 493,
+                  "fip": 403,
+                  "xfip": 148,
+                  "avg_against": 529
+                },
+                "rank_pool_size": {
+                  "era": 602,
+                  "whip": 602,
+                  "fip": 602,
+                  "xfip": 601,
+                  "avg_against": 602
+                }
+              },
+              "away": {
+                "era": 5.06,
+                "whip": 1.26,
+                "fip": 4.7,
+                "xfip": 3.51,
+                "avg_against": 0.25,
+                "innings_pitched": "58.2",
+                "games": 11,
+                "games_started": 11,
+                "strikeouts": 58,
+                "walks": 18,
+                "home_runs": 12,
+                "air_outs": 63,
+                "hits": 56,
+                "earned_runs": 33,
+                "split_ops": 0.766,
+                "split_obp": 0.306,
+                "split_slg": 0.46,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.59,
+                  "fip": 5.31,
+                  "xfip": 3.93,
+                  "avg_against": 0.274,
+                  "innings_pitched": "54.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 58,
+                  "walks": 27,
+                  "home_runs": 12,
+                  "air_outs": 59,
+                  "hits": 60,
+                  "earned_runs": null,
+                  "split_ops": 0.853,
+                  "split_obp": 0.351,
+                  "split_slg": 0.502,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 379,
+                    "whip": 837,
+                    "fip": 858,
+                    "xfip": 577,
+                    "avg_against": 803
+                  },
+                  "rank_pool_size": {
+                    "era": 585,
+                    "whip": 615,
+                    "fip": 615,
+                    "xfip": 614,
+                    "avg_against": 615
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.25,
+                  "fip": 3.77,
+                  "xfip": 2.55,
+                  "avg_against": 0.286,
+                  "innings_pitched": "41.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 44,
+                  "walks": 4,
+                  "home_runs": 8,
+                  "air_outs": 39,
+                  "hits": 48,
+                  "earned_runs": null,
+                  "split_ops": 0.802,
+                  "split_obp": 0.302,
+                  "split_slg": 0.5,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 379,
+                    "whip": 512,
+                    "fip": 766,
+                    "xfip": 418,
+                    "avg_against": 898
+                  },
+                  "rank_pool_size": {
+                    "era": 585,
+                    "whip": 616,
+                    "fip": 616,
+                    "xfip": 615,
+                    "avg_against": 616
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 379,
+                  "whip": 233,
+                  "fip": 370,
+                  "xfip": 178,
+                  "avg_against": 308
+                },
+                "rank_pool_size": {
+                  "era": 585,
+                  "whip": 585,
+                  "fip": 585,
+                  "xfip": 584,
+                  "avg_against": 585
+                }
+              }
+            },
+            "season": {
+              "all": {
+                "era": 5.75,
+                "whip": 1.43,
+                "fip": 4.64,
+                "xfip": 3.33,
+                "avg_against": 0.279,
+                "innings_pitched": "97.0",
+                "games": 19,
+                "games_started": 19,
+                "strikeouts": 102,
+                "walks": 31,
+                "home_runs": 20,
+                "air_outs": 98,
+                "hits": 108,
+                "earned_runs": 62,
+                "split_ops": 0.832,
+                "split_obp": 0.331,
+                "split_slg": 0.501,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.59,
+                  "fip": 5.31,
+                  "xfip": 3.93,
+                  "avg_against": 0.274,
+                  "innings_pitched": "54.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 58,
+                  "walks": 27,
+                  "home_runs": 12,
+                  "air_outs": 59,
+                  "hits": 60,
+                  "earned_runs": null,
+                  "split_ops": 0.853,
+                  "split_obp": 0.351,
+                  "split_slg": 0.502,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 326,
+                    "fip": 328,
+                    "xfip": 243,
+                    "avg_against": 317
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 420,
+                    "fip": 420,
+                    "xfip": 420,
+                    "avg_against": 420
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.25,
+                  "fip": 3.77,
+                  "xfip": 2.55,
+                  "avg_against": 0.286,
+                  "innings_pitched": "41.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 44,
+                  "walks": 4,
+                  "home_runs": 8,
+                  "air_outs": 39,
+                  "hits": 48,
+                  "earned_runs": null,
+                  "split_ops": 0.802,
+                  "split_obp": 0.302,
+                  "split_slg": 0.5,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": null,
+                    "whip": 220,
+                    "fip": 232,
+                    "xfip": 36,
+                    "avg_against": 372
+                  },
+                  "rank_pool_size": {
+                    "era": 0,
+                    "whip": 434,
+                    "fip": 434,
+                    "xfip": 434,
+                    "avg_against": 434
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 429,
+                  "whip": 357,
+                  "fip": 363,
+                  "xfip": 123,
+                  "avg_against": 424
+                },
+                "rank_pool_size": {
+                  "era": 523,
+                  "whip": 523,
+                  "fip": 523,
+                  "xfip": 523,
+                  "avg_against": 523
+                }
+              },
+              "home": {
+                "era": 6.81,
+                "whip": 1.7,
+                "fip": 4.53,
+                "xfip": 3.07,
+                "avg_against": 0.319,
+                "innings_pitched": "38.1",
+                "games": 8,
+                "games_started": 8,
+                "strikeouts": 44,
+                "walks": 13,
+                "home_runs": 8,
+                "air_outs": 35,
+                "hits": 52,
+                "earned_runs": 29,
+                "split_ops": 0.923,
+                "split_obp": 0.365,
+                "split_slg": 0.558,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.59,
+                  "fip": 5.31,
+                  "xfip": 3.93,
+                  "avg_against": 0.274,
+                  "innings_pitched": "54.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 58,
+                  "walks": 27,
+                  "home_runs": 12,
+                  "air_outs": 59,
+                  "hits": 60,
+                  "earned_runs": null,
+                  "split_ops": 0.853,
+                  "split_obp": 0.351,
+                  "split_slg": 0.502,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 387,
+                    "whip": 737,
+                    "fip": 696,
+                    "xfip": 511,
+                    "avg_against": 794
+                  },
+                  "rank_pool_size": {
+                    "era": 433,
+                    "whip": 453,
+                    "fip": 453,
+                    "xfip": 453,
+                    "avg_against": 453
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.25,
+                  "fip": 3.77,
+                  "xfip": 2.55,
+                  "avg_against": 0.286,
+                  "innings_pitched": "41.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 44,
+                  "walks": 4,
+                  "home_runs": 8,
+                  "air_outs": 39,
+                  "hits": 48,
+                  "earned_runs": null,
+                  "split_ops": 0.802,
+                  "split_obp": 0.302,
+                  "split_slg": 0.5,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 387,
+                    "whip": 778,
+                    "fip": 629,
+                    "xfip": 211,
+                    "avg_against": 818
+                  },
+                  "rank_pool_size": {
+                    "era": 433,
+                    "whip": 451,
+                    "fip": 451,
+                    "xfip": 451,
+                    "avg_against": 451
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 387,
+                  "whip": 383,
+                  "fip": 320,
+                  "xfip": 108,
+                  "avg_against": 405
+                },
+                "rank_pool_size": {
+                  "era": 433,
+                  "whip": 433,
+                  "fip": 433,
+                  "xfip": 433,
+                  "avg_against": 433
+                }
+              },
+              "away": {
+                "era": 5.06,
+                "whip": 1.26,
+                "fip": 4.7,
+                "xfip": 3.51,
+                "avg_against": 0.25,
+                "innings_pitched": "58.2",
+                "games": 11,
+                "games_started": 11,
+                "strikeouts": 58,
+                "walks": 18,
+                "home_runs": 12,
+                "air_outs": 63,
+                "hits": 56,
+                "earned_runs": 33,
+                "split_ops": 0.766,
+                "split_obp": 0.306,
+                "split_slg": 0.46,
+                "vs_lhh": {
+                  "era": null,
+                  "whip": 1.59,
+                  "fip": 5.31,
+                  "xfip": 3.93,
+                  "avg_against": 0.274,
+                  "innings_pitched": "54.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 58,
+                  "walks": 27,
+                  "home_runs": 12,
+                  "air_outs": 59,
+                  "hits": 60,
+                  "earned_runs": null,
+                  "split_ops": 0.853,
+                  "split_obp": 0.351,
+                  "split_slg": 0.502,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 303,
+                    "whip": 674,
+                    "fip": 675,
+                    "xfip": 478,
+                    "avg_against": 627
+                  },
+                  "rank_pool_size": {
+                    "era": 422,
+                    "whip": 443,
+                    "fip": 443,
+                    "xfip": 443,
+                    "avg_against": 443
+                  }
+                },
+                "vs_rhh": {
+                  "era": null,
+                  "whip": 1.25,
+                  "fip": 3.77,
+                  "xfip": 2.55,
+                  "avg_against": 0.286,
+                  "innings_pitched": "41.2",
+                  "games": 19,
+                  "games_started": null,
+                  "strikeouts": 44,
+                  "walks": 4,
+                  "home_runs": 8,
+                  "air_outs": 39,
+                  "hits": 48,
+                  "earned_runs": null,
+                  "split_ops": 0.802,
+                  "split_obp": 0.302,
+                  "split_slg": 0.5,
+                  "fip_source": "calculated",
+                  "fip_constant": 3.1,
+                  "xfip_source": "calculated_air_outs_league_hr_fb",
+                  "league_hr_fb": 0.105,
+                  "ranks": {
+                    "era": 303,
+                    "whip": 407,
+                    "fip": 613,
+                    "xfip": 344,
+                    "avg_against": 709
+                  },
+                  "rank_pool_size": {
+                    "era": 422,
+                    "whip": 448,
+                    "fip": 448,
+                    "xfip": 448,
+                    "avg_against": 448
+                  }
+                },
+                "fip_source": "calculated",
+                "fip_constant": 3.1,
+                "xfip_source": "calculated_air_outs_league_hr_fb",
+                "league_hr_fb": 0.105,
+                "ranks": {
+                  "era": 303,
+                  "whip": 183,
+                  "fip": 294,
+                  "xfip": 150,
+                  "avg_against": 240
+                },
+                "rank_pool_size": {
+                  "era": 422,
+                  "whip": 422,
+                  "fip": 422,
+                  "xfip": 422,
+                  "avg_against": 422
+                }
+              }
+            },
+            "vs_lhh": {
+              "era": null,
+              "whip": 1.59,
+              "fip": 5.31,
+              "xfip": 3.93,
+              "avg_against": 0.274,
+              "innings_pitched": "54.2",
+              "games": 19,
+              "games_started": null,
+              "strikeouts": 58,
+              "walks": 27,
+              "home_runs": 12,
+              "air_outs": 59,
+              "hits": 60,
+              "earned_runs": null,
+              "split_ops": 0.853,
+              "split_obp": 0.351,
+              "split_slg": 0.502,
+              "fip_source": "calculated",
+              "fip_constant": 3.1,
+              "xfip_source": "calculated_air_outs_league_hr_fb",
+              "league_hr_fb": 0.105,
+              "ranks": {
+                "era": null,
+                "whip": 326,
+                "fip": 328,
+                "xfip": 243,
+                "avg_against": 317
+              },
+              "rank_pool_size": {
+                "era": 0,
+                "whip": 420,
+                "fip": 420,
+                "xfip": 420,
+                "avg_against": 420
+              }
+            },
+            "vs_rhh": {
+              "era": null,
+              "whip": 1.25,
+              "fip": 3.77,
+              "xfip": 2.55,
+              "avg_against": 0.286,
+              "innings_pitched": "41.2",
+              "games": 19,
+              "games_started": null,
+              "strikeouts": 44,
+              "walks": 4,
+              "home_runs": 8,
+              "air_outs": 39,
+              "hits": 48,
+              "earned_runs": null,
+              "split_ops": 0.802,
+              "split_obp": 0.302,
+              "split_slg": 0.5,
+              "fip_source": "calculated",
+              "fip_constant": 3.1,
+              "xfip_source": "calculated_air_outs_league_hr_fb",
+              "league_hr_fb": 0.105,
+              "ranks": {
+                "era": null,
+                "whip": 220,
+                "fip": 232,
+                "xfip": 36,
+                "avg_against": 372
+              },
+              "rank_pool_size": {
+                "era": 0,
+                "whip": 434,
+                "fip": 434,
+                "xfip": 434,
+                "avg_against": 434
+              }
+            }
+          }
+        }
+      },
+      "workflow": {
+        "research_state": "pending",
+        "publication_state": "unpublished",
+        "grading_state": "not_applicable",
+        "archive_state": "active",
+        "official_play_ids": [],
+        "best_bet_id": null,
+        "published_at": null,
+        "graded_at": null,
+        "archived_at": null
+      },
+      "offense": {
+        "away": {
+          "team_id": 121,
+          "opponent_throws": "R",
+          "stats": {
+            "last_7": {
+              "all": {
+                "AVG": {
+                  "overall": 0.2248062015503876,
+                  "overall_rank": 19,
+                  "vs_hand": 0.2696629213483146,
+                  "vs_hand_rank": 5,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.296551724137931,
+                  "overall_rank": 22,
+                  "vs_hand": 0.3163265306122449,
+                  "vs_hand_rank": 13,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.37209302325581395,
+                  "overall_rank": 21,
+                  "vs_hand": 0.449438202247191,
+                  "vs_hand_rank": 11,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.6686447473937449,
+                  "overall_rank": 22,
+                  "vs_hand": 0.7657647328594359,
+                  "vs_hand_rank": 11,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 8.96551724137931,
+                  "overall_rank": 14,
+                  "vs_hand": 6.122448979591836,
+                  "vs_hand_rank": 24,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 22.06896551724138,
+                  "overall_rank": 15,
+                  "vs_hand": 20.408163265306122,
+                  "vs_hand_rank": 10,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "home": {
+                "AVG": {
+                  "overall": 0.2248062015503876,
+                  "overall_rank": 11,
+                  "vs_hand": 0.2696629213483146,
+                  "vs_hand_rank": 4,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.296551724137931,
+                  "overall_rank": 11,
+                  "vs_hand": 0.3163265306122449,
+                  "vs_hand_rank": 7,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.37209302325581395,
+                  "overall_rank": 12,
+                  "vs_hand": 0.449438202247191,
+                  "vs_hand_rank": 7,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.6686447473937449,
+                  "overall_rank": 12,
+                  "vs_hand": 0.7657647328594359,
+                  "vs_hand_rank": 7,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 8.96551724137931,
+                  "overall_rank": 7,
+                  "vs_hand": 6.122448979591836,
+                  "vs_hand_rank": 13,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 22.06896551724138,
+                  "overall_rank": 8,
+                  "vs_hand": 20.408163265306122,
+                  "vs_hand_rank": 5,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "away": {
+                "AVG": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              }
+            },
+            "last_30": {
+              "all": {
+                "AVG": {
+                  "overall": 0.24475524475524477,
+                  "overall_rank": 16,
+                  "vs_hand": 0.2395104895104895,
+                  "vs_hand_rank": 18,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.3243801652892562,
+                  "overall_rank": 12,
+                  "vs_hand": 0.31937984496124033,
+                  "vs_hand_rank": 14,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.4125874125874126,
+                  "overall_rank": 14,
+                  "vs_hand": 0.4090909090909091,
+                  "vs_hand_rank": 16,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.7369675778766688,
+                  "overall_rank": 13,
+                  "vs_hand": 0.7284707540521494,
+                  "vs_hand_rank": 15,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 9.700722394220847,
+                  "overall_rank": 5,
+                  "vs_hand": 9.45736434108527,
+                  "vs_hand_rank": 5,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 21.155830753353975,
+                  "overall_rank": 11,
+                  "vs_hand": 21.240310077519382,
+                  "vs_hand_rank": 12,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "home": {
+                "AVG": {
+                  "overall": 0.23623853211009174,
+                  "overall_rank": 20,
+                  "vs_hand": 0.24914675767918087,
+                  "vs_hand_rank": 16,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.3273453093812375,
+                  "overall_rank": 12,
+                  "vs_hand": 0.33432835820895523,
+                  "vs_hand_rank": 14,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.4059633027522936,
+                  "overall_rank": 17,
+                  "vs_hand": 0.43686006825938567,
+                  "vs_hand_rank": 14,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.733308612133531,
+                  "overall_rank": 14,
+                  "vs_hand": 0.7711884264683408,
+                  "vs_hand_rank": 11,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 11.377245508982035,
+                  "overall_rank": 3,
+                  "vs_hand": 10.746268656716417,
+                  "vs_hand_rank": 5,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 20.55888223552894,
+                  "overall_rank": 11,
+                  "vs_hand": 19.402985074626866,
+                  "vs_hand_rank": 8,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "away": {
+                "AVG": {
+                  "overall": 0.25355450236966826,
+                  "overall_rank": 10,
+                  "vs_hand": 0.22939068100358423,
+                  "vs_hand_rank": 18,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.32119914346895073,
+                  "overall_rank": 9,
+                  "vs_hand": 0.3032258064516129,
+                  "vs_hand_rank": 15,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.4194312796208531,
+                  "overall_rank": 13,
+                  "vs_hand": 0.37992831541218636,
+                  "vs_hand_rank": 21,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.7406304230898038,
+                  "overall_rank": 12,
+                  "vs_hand": 0.6831541218637993,
+                  "vs_hand_rank": 21,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 7.905982905982905,
+                  "overall_rank": 17,
+                  "vs_hand": 8.064516129032258,
+                  "vs_hand_rank": 17,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 21.794871794871796,
+                  "overall_rank": 14,
+                  "vs_hand": 23.225806451612904,
+                  "vs_hand_rank": 16,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              }
+            },
+            "season": {
+              "all": {
+                "AVG": {
+                  "overall": 0.23350721080085915,
+                  "overall_rank": 26,
+                  "vs_hand": 0.23315696649029982,
+                  "vs_hand_rank": 25,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.30262793914246194,
+                  "overall_rank": 29,
+                  "vs_hand": 0.3052132701421801,
+                  "vs_hand_rank": 28,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.3807916538815588,
+                  "overall_rank": 27,
+                  "vs_hand": 0.37389770723104054,
+                  "vs_hand_rank": 29,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.6834195930240208,
+                  "overall_rank": 28,
+                  "vs_hand": 0.6791109773732207,
+                  "vs_hand_rank": 29,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 8.23011285439031,
+                  "overall_rank": 25,
+                  "vs_hand": 8.69291338582677,
+                  "vs_hand_rank": 21,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 21.937792458023672,
+                  "overall_rank": 15,
+                  "vs_hand": 21.88976377952756,
+                  "vs_hand_rank": 14,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "home": {
+                "AVG": {
+                  "overall": 0.2365988909426987,
+                  "overall_rank": 24,
+                  "vs_hand": 0.2454212454212454,
+                  "vs_hand_rank": 17,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.31115997800989553,
+                  "overall_rank": 21,
+                  "vs_hand": 0.3194805194805195,
+                  "vs_hand_rank": 19,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.3869377695625385,
+                  "overall_rank": 24,
+                  "vs_hand": 0.4,
+                  "vs_hand_rank": 22,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.698097747572434,
+                  "overall_rank": 24,
+                  "vs_hand": 0.7194805194805195,
+                  "vs_hand_rank": 24,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 9.135667396061269,
+                  "overall_rank": 13,
+                  "vs_hand": 9.455958549222798,
+                  "vs_hand_rank": 14,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 21.553610503282275,
+                  "overall_rank": 16,
+                  "vs_hand": 20.72538860103627,
+                  "vs_hand_rank": 13,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "away": {
+                "AVG": {
+                  "overall": 0.230440097799511,
+                  "overall_rank": 26,
+                  "vs_hand": 0.2217687074829932,
+                  "vs_hand_rank": 28,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.29398663697104677,
+                  "overall_rank": 28,
+                  "vs_hand": 0.2916923076923077,
+                  "vs_hand_rank": 27,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.3746943765281174,
+                  "overall_rank": 22,
+                  "vs_hand": 0.34965986394557824,
+                  "vs_hand_rank": 29,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.6686810134991641,
+                  "overall_rank": 26,
+                  "vs_hand": 0.6413521716378859,
+                  "vs_hand_rank": 29,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 7.313019390581718,
+                  "overall_rank": 28,
+                  "vs_hand": 7.970570202329859,
+                  "vs_hand_rank": 22,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 22.326869806094184,
+                  "overall_rank": 12,
+                  "vs_hand": 22.992029429797668,
+                  "vs_hand_rank": 16,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              }
+            }
+          },
+          "raw_splits": {},
+          "team": "NYM",
+          "rank_scope": "all_30_mlb_teams_exact_active_filters",
+          "source": "MLB team game logs + Baseball Savant date-bounded plate appearances",
+          "as_of": "2026-07-16"
+        },
+        "home": {
+          "team_id": 143,
+          "opponent_throws": "R",
+          "stats": {
+            "last_7": {
+              "all": {
+                "AVG": {
+                  "overall": 0.19230769230769232,
+                  "overall_rank": 27,
+                  "vs_hand": 0.18627450980392157,
+                  "vs_hand_rank": 20,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.2638888888888889,
+                  "overall_rank": 26,
+                  "vs_hand": 0.25663716814159293,
+                  "vs_hand_rank": 22,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.25384615384615383,
+                  "overall_rank": 29,
+                  "vs_hand": 0.2549019607843137,
+                  "vs_hand_rank": 26,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.5177350427350427,
+                  "overall_rank": 29,
+                  "vs_hand": 0.5115391289259066,
+                  "vs_hand_rank": 26,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 6.206896551724138,
+                  "overall_rank": 24,
+                  "vs_hand": 6.140350877192982,
+                  "vs_hand_rank": 23,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 24.137931034482758,
+                  "overall_rank": 21,
+                  "vs_hand": 22.807017543859647,
+                  "vs_hand_rank": 17,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "home": {
+                "AVG": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "away": {
+                "AVG": {
+                  "overall": 0.19230769230769232,
+                  "overall_rank": 14,
+                  "vs_hand": 0.18627450980392157,
+                  "vs_hand_rank": 10,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.2638888888888889,
+                  "overall_rank": 13,
+                  "vs_hand": 0.25663716814159293,
+                  "vs_hand_rank": 11,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.25384615384615383,
+                  "overall_rank": 14,
+                  "vs_hand": 0.2549019607843137,
+                  "vs_hand_rank": 13,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.5177350427350427,
+                  "overall_rank": 14,
+                  "vs_hand": 0.5115391289259066,
+                  "vs_hand_rank": 13,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 6.206896551724138,
+                  "overall_rank": 12,
+                  "vs_hand": 6.140350877192982,
+                  "vs_hand_rank": 11,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 24.137931034482758,
+                  "overall_rank": 11,
+                  "vs_hand": 22.807017543859647,
+                  "vs_hand_rank": 8,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              }
+            },
+            "last_30": {
+              "all": {
+                "AVG": {
+                  "overall": 0.2561117578579744,
+                  "overall_rank": 11,
+                  "vs_hand": 0.26804123711340205,
+                  "vs_hand_rank": 5,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.3192834562697576,
+                  "overall_rank": 13,
+                  "vs_hand": 0.33075734157650694,
+                  "vs_hand_rank": 7,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.42956926658905703,
+                  "overall_rank": 11,
+                  "vs_hand": 0.46563573883161513,
+                  "vs_hand_rank": 6,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.7488527228588147,
+                  "overall_rank": 10,
+                  "vs_hand": 0.7963930804081221,
+                  "vs_hand_rank": 7,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 7.547169811320755,
+                  "overall_rank": 24,
+                  "vs_hand": 7.987711213517665,
+                  "vs_hand_rank": 23,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 24.423480083857445,
+                  "overall_rank": 23,
+                  "vs_hand": 22.58064516129032,
+                  "vs_hand_rank": 16,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "home": {
+                "AVG": {
+                  "overall": 0.27419354838709675,
+                  "overall_rank": 6,
+                  "vs_hand": 0.28699551569506726,
+                  "vs_hand_rank": 4,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.33724340175953077,
+                  "overall_rank": 6,
+                  "vs_hand": 0.34959349593495936,
+                  "vs_hand_rank": 5,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.5,
+                  "overall_rank": 4,
+                  "vs_hand": 0.5381165919282511,
+                  "vs_hand_rank": 1,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.8372434017595307,
+                  "overall_rank": 5,
+                  "vs_hand": 0.8877100878632105,
+                  "vs_hand_rank": 2,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 7.288629737609329,
+                  "overall_rank": 25,
+                  "vs_hand": 8.097165991902834,
+                  "vs_hand_rank": 19,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 25.072886297376094,
+                  "overall_rank": 27,
+                  "vs_hand": 24.291497975708502,
+                  "vs_hand_rank": 23,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "away": {
+                "AVG": {
+                  "overall": 0.2459016393442623,
+                  "overall_rank": 14,
+                  "vs_hand": 0.2562674094707521,
+                  "vs_hand_rank": 8,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.3092105263157895,
+                  "overall_rank": 17,
+                  "vs_hand": 0.3192019950124688,
+                  "vs_hand_rank": 10,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.38979963570127507,
+                  "overall_rank": 22,
+                  "vs_hand": 0.4206128133704735,
+                  "vs_hand_rank": 12,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.6990101620170646,
+                  "overall_rank": 19,
+                  "vs_hand": 0.7398148083829423,
+                  "vs_hand_rank": 9,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 7.6923076923076925,
+                  "overall_rank": 19,
+                  "vs_hand": 7.920792079207921,
+                  "vs_hand_rank": 19,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 24.058919803600652,
+                  "overall_rank": 20,
+                  "vs_hand": 21.534653465346533,
+                  "vs_hand_rank": 11,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              }
+            },
+            "season": {
+              "all": {
+                "AVG": {
+                  "overall": 0.23597916028194912,
+                  "overall_rank": 24,
+                  "vs_hand": 0.23416080029640607,
+                  "vs_hand_rank": 24,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.30320619126589277,
+                  "overall_rank": 28,
+                  "vs_hand": 0.30120481927710846,
+                  "vs_hand_rank": 29,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.398406374501992,
+                  "overall_rank": 17,
+                  "vs_hand": 0.4016302334197851,
+                  "vs_hand_rank": 18,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.7016125657678848,
+                  "overall_rank": 23,
+                  "vs_hand": 0.7028350526968936,
+                  "vs_hand_rank": 26,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 7.915057915057915,
+                  "overall_rank": 28,
+                  "vs_hand": 7.849031396125585,
+                  "vs_hand_rank": 27,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 23.46938775510204,
+                  "overall_rank": 24,
+                  "vs_hand": 23.380093520374082,
+                  "vs_hand_rank": 24,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "home": {
+                "AVG": {
+                  "overall": 0.2537704918032787,
+                  "overall_rank": 8,
+                  "vs_hand": 0.24745497259201252,
+                  "vs_hand_rank": 16,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.32375366568914954,
+                  "overall_rank": 14,
+                  "vs_hand": 0.31834153197470133,
+                  "vs_hand_rank": 22,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.44131147540983606,
+                  "overall_rank": 5,
+                  "vs_hand": 0.4408770555990603,
+                  "vs_hand_rank": 5,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.7650651410989856,
+                  "overall_rank": 8,
+                  "vs_hand": 0.7592185875737616,
+                  "vs_hand_rank": 11,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 8.421052631578947,
+                  "overall_rank": 23,
+                  "vs_hand": 8.485273492286115,
+                  "vs_hand_rank": 25,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 22.45614035087719,
+                  "overall_rank": 24,
+                  "vs_hand": 22.6507713884993,
+                  "vs_hand_rank": 24,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              },
+              "away": {
+                "AVG": {
+                  "overall": 0.22036823935558114,
+                  "overall_rank": 29,
+                  "vs_hand": 0.2222222222222222,
+                  "vs_hand_rank": 27,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OBP": {
+                  "overall": 0.2848928384736017,
+                  "overall_rank": 30,
+                  "vs_hand": 0.2856230031948882,
+                  "vs_hand_rank": 29,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "SLG": {
+                  "overall": 0.36075949367088606,
+                  "overall_rank": 29,
+                  "vs_hand": 0.3663853727144866,
+                  "vs_hand_rank": 24,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "OPS": {
+                  "overall": 0.6456523321444878,
+                  "overall_rank": 29,
+                  "vs_hand": 0.6520083759093749,
+                  "vs_hand_rank": 26,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "wRC+": {
+                  "overall": null,
+                  "overall_rank": null,
+                  "vs_hand": null,
+                  "vs_hand_rank": null,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "BB%": {
+                  "overall": 7.463465553235908,
+                  "overall_rank": 27,
+                  "vs_hand": 7.270408163265306,
+                  "vs_hand_rank": 27,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                },
+                "K%": {
+                  "overall": 24.37369519832985,
+                  "overall_rank": 24,
+                  "vs_hand": 24.043367346938776,
+                  "vs_hand_rank": 21,
+                  "overall_rank_coverage": 30,
+                  "vs_hand_rank_coverage": 30
+                }
+              }
+            }
+          },
+          "raw_splits": {},
+          "team": "PHI",
+          "rank_scope": "all_30_mlb_teams_exact_active_filters",
+          "source": "MLB team game logs + Baseball Savant date-bounded plate appearances",
+          "as_of": "2026-07-16"
+        }
+      },
+      "lineups": {
+        "away": {
+          "team": "NYM",
+          "team_id": 121,
+          "status": "confirmed",
+          "status_label": "Confirmed Lineup",
+          "last_updated": "2026-07-16T22:54:48.011293+00:00",
+          "players": [
+            {
+              "id": 805999,
+              "name": "A.J. Ewing",
+              "position": "CF",
+              "bats": "L",
+              "order": 1
+            },
+            {
+              "id": 665742,
+              "name": "Juan Soto",
+              "position": "LF",
+              "bats": "L",
+              "order": 2
+            },
+            {
+              "id": 666182,
+              "name": "Bo Bichette",
+              "position": "3B",
+              "bats": "R",
+              "order": 3
+            },
+            {
+              "id": 596019,
+              "name": "Francisco Lindor",
+              "position": "SS",
+              "bats": "S",
+              "order": 4
+            },
+            {
+              "id": 701807,
+              "name": "Carson Benge",
+              "position": "RF",
+              "bats": "L",
+              "order": 5
+            },
+            {
+              "id": 593871,
+              "name": "Jorge Polanco",
+              "position": "DH",
+              "bats": "S",
+              "order": 6
+            },
+            {
+              "id": 676724,
+              "name": "Jared Young",
+              "position": "1B",
+              "bats": "L",
+              "order": 7
+            },
+            {
+              "id": 683146,
+              "name": "Brett Baty",
+              "position": "2B",
+              "bats": "L",
+              "order": 8
+            },
+            {
+              "id": 682626,
+              "name": "Francisco Alvarez",
+              "position": "C",
+              "bats": "R",
+              "order": 9
+            }
+          ]
+        },
+        "home": {
+          "team": "PHI",
+          "team_id": 143,
+          "status": "confirmed",
+          "status_label": "Confirmed Lineup",
+          "last_updated": "2026-07-16T22:54:48.011327+00:00",
+          "players": [
+            {
+              "id": 607208,
+              "name": "Trea Turner",
+              "position": "SS",
+              "bats": "R",
+              "order": 1
+            },
+            {
+              "id": 656941,
+              "name": "Kyle Schwarber",
+              "position": "DH",
+              "bats": "L",
+              "order": 2
+            },
+            {
+              "id": 547180,
+              "name": "Bryce Harper",
+              "position": "1B",
+              "bats": "L",
+              "order": 3
+            },
+            {
+              "id": 669016,
+              "name": "Brandon Marsh",
+              "position": "LF",
+              "bats": "L",
+              "order": 4
+            },
+            {
+              "id": 664761,
+              "name": "Alec Bohm",
+              "position": "3B",
+              "bats": "R",
+              "order": 5
+            },
+            {
+              "id": 681082,
+              "name": "Bryson Stott",
+              "position": "2B",
+              "bats": "L",
+              "order": 6
+            },
+            {
+              "id": 592663,
+              "name": "J.T. Realmuto",
+              "position": "C",
+              "bats": "R",
+              "order": 7
+            },
+            {
+              "id": 687282,
+              "name": "Gabriel Rincones Jr.",
+              "position": "RF",
+              "bats": "L",
+              "order": 8
+            },
+            {
+              "id": 702222,
+              "name": "Justin Crawford",
+              "position": "CF",
+              "bats": "L",
+              "order": 9
+            }
+          ]
+        }
+      },
+      "pitcher_vs_lineup": {},
+      "bullpens": {
+        "away": {
+          "team_id": 121,
+          "stats": {
+            "last_7": {
+              "all": {
+                "era": 2.52,
+                "whip": 1.12,
+                "fip": null,
+                "innings_pitched": "39.1",
+                "games": 5,
+                "wins": 1,
+                "losses": 3,
+                "saves": 0,
+                "save_opportunities": 1,
+                "strikeouts": 37,
+                "walks": 15,
+                "hits": 29,
+                "home_runs": 6,
+                "earned_runs": 11
+              },
+              "home": {},
+              "away": {}
+            },
+            "last_30": {
+              "all": {
+                "era": 5.12,
+                "whip": 1.41,
+                "fip": null,
+                "innings_pitched": "223.1",
+                "games": 26,
+                "wins": 8,
+                "losses": 17,
+                "saves": 4,
+                "save_opportunities": 8,
+                "strikeouts": 238,
+                "walks": 92,
+                "hits": 223,
+                "home_runs": 37,
+                "earned_runs": 127
+              },
+              "home": {},
+              "away": {}
+            },
+            "season": {
+              "all": {
+                "era": 4.01,
+                "whip": 1.27,
+                "fip": null,
+                "innings_pitched": "417.1",
+                "games": 97,
+                "wins": 21,
+                "losses": 19,
+                "saves": 16,
+                "save_opportunities": 29,
+                "strikeouts": 419,
+                "walks": 155,
+                "hits": 375,
+                "home_runs": 53,
+                "earned_runs": 186
+              },
+              "home": {},
+              "away": {}
+            }
+          },
+          "used_yesterday": 0,
+          "back_to_back": 0,
+          "fresh_leverage": null,
+          "usage": {
+            "yesterday_date": "2026-07-15",
+            "two_days_ago_date": "2026-07-14",
+            "used_yesterday": [],
+            "used_two_days_ago": [],
+            "back_to_back_pitcher_ids": []
+          },
+          "notes": "",
+          "details_url": "#",
+          "team": "NYM"
+        },
+        "home": {
+          "team_id": 143,
+          "stats": {
+            "last_7": {
+              "all": {
+                "era": 2.84,
+                "whip": 1.0,
+                "fip": null,
+                "innings_pitched": "38.0",
+                "games": 5,
+                "wins": 3,
+                "losses": 1,
+                "saves": 2,
+                "save_opportunities": 2,
+                "strikeouts": 48,
+                "walks": 12,
+                "hits": 26,
+                "home_runs": 5,
+                "earned_runs": 12
+              },
+              "home": {},
+              "away": {}
+            },
+            "last_30": {
+              "all": {
+                "era": 4.74,
+                "whip": 1.36,
+                "fip": null,
+                "innings_pitched": "222.0",
+                "games": 26,
+                "wins": 15,
+                "losses": 10,
+                "saves": 6,
+                "save_opportunities": 9,
+                "strikeouts": 280,
+                "walks": 82,
+                "hits": 220,
+                "home_runs": 41,
+                "earned_runs": 117
+              },
+              "home": {},
+              "away": {}
+            },
+            "season": {
+              "all": {
+                "era": 4.44,
+                "whip": 1.35,
+                "fip": null,
+                "innings_pitched": "342.1",
+                "games": 96,
+                "wins": 20,
+                "losses": 14,
+                "saves": 29,
+                "save_opportunities": 39,
+                "strikeouts": 382,
+                "walks": 127,
+                "hits": 335,
+                "home_runs": 43,
+                "earned_runs": 169
+              },
+              "home": {},
+              "away": {}
+            }
+          },
+          "used_yesterday": 0,
+          "back_to_back": 0,
+          "fresh_leverage": null,
+          "usage": {
+            "yesterday_date": "2026-07-15",
+            "two_days_ago_date": "2026-07-14",
+            "used_yesterday": [],
+            "used_two_days_ago": [],
+            "back_to_back_pitcher_ids": []
+          },
+          "notes": "",
+          "details_url": "#",
+          "team": "PHI"
+        }
+      },
+      "weather": {},
+      "market": {},
+      "injuries": [],
+      "notes": "",
+      "last_updated": "2026-07-16T22:50:46.609169+00:00",
+      "context": {
+        "version": "2.0",
+        "score": 66,
+        "label": "MIXED",
+        "alerts": [
+          {
+            "title": "WEATHER PENDING",
+            "summary": "Game-time weather has not been imported.",
+            "level": "caution",
+            "weight": -3,
+            "team": null,
+            "category": "weather"
+          },
+          {
+            "title": "MARKET PENDING",
+            "summary": "Current sportsbook prices are unavailable.",
+            "level": "caution",
+            "weight": -4,
+            "team": null,
+            "category": "market"
+          }
+        ],
+        "positives": [
+          {
+            "title": "NYM LINEUP CONFIRMED",
+            "summary": "The batting order is confirmed.",
+            "level": "good",
+            "weight": 3,
+            "team": "NYM",
+            "category": "lineup"
+          },
+          {
+            "title": "PHI LINEUP CONFIRMED",
+            "summary": "The batting order is confirmed.",
+            "level": "good",
+            "weight": 3,
+            "team": "PHI",
+            "category": "lineup"
+          },
+          {
+            "title": "NYM STARTER SET",
+            "summary": "Christian Scott is available.",
+            "level": "good",
+            "weight": 2,
+            "team": "NYM",
+            "category": "starter"
+          },
+          {
+            "title": "PHI STARTER SET",
+            "summary": "Aaron Nola is available.",
+            "level": "good",
+            "weight": 2,
+            "team": "PHI",
+            "category": "starter"
+          },
+          {
+            "title": "PHI STRONG SPLIT OFFENSE",
+            "summary": "The offense ranks 7th in OPS against the opposing starter's handedness.",
+            "level": "good",
+            "weight": 5,
+            "team": "PHI",
+            "category": "offense"
+          },
+          {
+            "title": "NYM BULLPEN RESTED",
+            "summary": "Only 0 reliever(s) were used yesterday.",
+            "level": "good",
+            "weight": 5,
+            "team": "NYM",
+            "category": "bullpen_usage"
+          },
+          {
+            "title": "NYM NO B2B ARMS",
+            "summary": "No relievers are flagged for consecutive-day usage.",
+            "level": "good",
+            "weight": 2,
+            "team": "NYM",
+            "category": "bullpen_usage"
+          },
+          {
+            "title": "PHI BULLPEN RESTED",
+            "summary": "Only 0 reliever(s) were used yesterday.",
+            "level": "good",
+            "weight": 5,
+            "team": "PHI",
+            "category": "bullpen_usage"
+          },
+          {
+            "title": "PHI NO B2B ARMS",
+            "summary": "No relievers are flagged for consecutive-day usage.",
+            "level": "good",
+            "weight": 2,
+            "team": "PHI",
+            "category": "bullpen_usage"
+          }
+        ],
+        "information": [],
+        "sources": {
+          "lineups": true,
+          "starters": true,
+          "pitcher_form": true,
+          "offense": true,
+          "bullpens": true,
+          "weather": true,
+          "market": true,
+          "travel": false,
+          "trade_deadline": false,
+          "standings": false,
+          "streaks": false,
+          "injuries": false
+        },
+        "updated_at": "2026-07-16T22:54:48.167961+00:00",
+        "negatives": [
+          {
+            "title": "PHI STARTER STRUGGLING",
+            "summary": "Aaron Nola has a 5.47 ERA over the last 30 days.",
+            "level": "negative",
+            "weight": -6,
+            "team": "PHI",
+            "category": "pitcher_form"
+          },
+          {
+            "title": "NYM BULLPEN QUALITY",
+            "summary": "The relief unit has a 5.12 ERA over the last 30 days.",
+            "level": "negative",
+            "weight": -6,
+            "team": "NYM",
+            "category": "bullpen"
+          },
+          {
+            "title": "NYM BULLPEN TRAFFIC",
+            "summary": "The relief unit has a 1.41 WHIP over the last 30 days.",
+            "level": "negative",
+            "weight": -4,
+            "team": "NYM",
+            "category": "bullpen"
+          }
+        ]
+      },
+      "intelligence_meta": {
+        "engine_version": "0.2.0",
+        "fip": "calculated from MLB component stats; constant configurable",
+        "xfip": "calculated from air outs using configurable league HR/FB",
+        "wrc_plus": "FanGraphs team leaderboard feed; exact active filters",
+        "rank_policy": "best value receives rank 1; coverage stored per rank"
+      }
+    }
+  ]
+}
