@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <meta
+    name="description"
+    content="Boring Bets matchup deep dive"
+  >
+  <title>Game Center | Boring Bets</title>
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="game-page">
+  <header class="site-header">
+    <a class="brand" href="index.html">BORING BETS</a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a id="gameCenterNavLink" href="todays-card.html">MLB Game Center</a>
+      <a href="index.html#results">Results</a>
+      <a href="index.html#articles">Articles</a>
+      <a href="index.html#tools">Tools</a>
+    </nav>
+  </header>
+
+  <main class="game-main">
+    <section class="game-context-navigation" aria-label="Game Center navigation">
+      <div class="game-context-top">
+        <a id="backToSlateLink" class="back-link" href="todays-card.html">← Back to MLB slate</a>
+        <div class="sport-mode-switcher" aria-label="Sport mode">
+          <a class="sport-mode active" href="todays-card.html" aria-current="page">MLB</a>
+          <span class="sport-mode disabled" aria-disabled="true">NFL</span>
+          <span class="sport-mode disabled" aria-disabled="true">NBA</span>
+          <span class="sport-mode disabled" aria-disabled="true">NHL</span>
+          <span class="sport-mode disabled" aria-disabled="true">Soccer</span>
+        </div>
+      </div>
+
+      <div class="game-date-navigation">
+        <a id="previousDayLink" class="game-date-link" href="#">← Previous day</a>
+        <strong id="gameDateLabel">Loading date…</strong>
+        <a id="nextDayLink" class="game-date-link" href="#">Next day →</a>
+      </div>
+
+      <div class="game-sequence-navigation">
+        <a id="previousGameLink" class="game-sequence-link" href="#">← Previous MLB game</a>
+        <span id="gamePosition">Game — of —</span>
+        <a id="nextGameLink" class="game-sequence-link" href="#">Next MLB game →</a>
+      </div>
+    </section>
+
+    <div id="gameStatus" class="card-message">Loading matchup…</div>
+
+    <article id="gameDetails" hidden>
+      <section class="game-matchup">
+        <div class="game-team">
+          <img id="gameAwayLogo" alt="">
+          <span id="gameAwayTeam"></span>
+        </div>
+        <div class="game-versus">@</div>
+        <div class="game-team">
+          <img id="gameHomeLogo" alt="">
+          <span id="gameHomeTeam"></span>
+        </div>
+      </section>
+
+      <section class="game-status-strip">
+        <span id="gameUpdatedStatus">UPDATED —</span>
+        <span id="lineupStatus">PROJECTED LINEUP</span>
+        <span id="starterStatus">STARTERS —</span>
+      </section>
+
+      <section class="game-controls-panel">
+        <div class="control-group">
+          <span class="control-label">TIMEFRAME</span>
+          <div class="segmented-control">
+            <button type="button" data-timeframe="last_7">7 Days</button>
+            <button type="button" data-timeframe="last_30">30 Days</button>
+            <button type="button" data-timeframe="season">Season</button>
+          </div>
+        </div>
+        <div class="control-group">
+          <span class="control-label">LOCATION</span>
+          <div class="segmented-control">
+            <button type="button" data-location="all">All</button>
+            <button type="button" data-location="home">Home</button>
+            <button type="button" data-location="away">Away</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="pitching" class="matchup-console">
+        <article class="matchup-column">
+          <div id="awayPitcherCard" class="pitcher-comparison-card"></div>
+          <div id="homeOffenseCard" class="offense-comparison-card"></div>
+          <div id="awayPitcherLineupCard" class="lineup-matchup-card"></div>
+        </article>
+        <article class="matchup-column">
+          <div id="homePitcherCard" class="pitcher-comparison-card"></div>
+          <div id="awayOffenseCard" class="offense-comparison-card"></div>
+          <div id="homePitcherLineupCard" class="lineup-matchup-card"></div>
+        </article>
+      </section>
+
+      <section id="bullpens" class="bullpen-console">
+        <div class="bullpen-comparison-grid">
+          <article id="awayBullpenCard" class="bullpen-card"></article>
+          <article id="homeBullpenCard" class="bullpen-card"></article>
+        </div>
+      </section>
+
+      <section class="intelligence-grid">
+        <a id="weather" class="intelligence-card" href="#">
+          <p class="kicker">WEATHER</p>
+          <h3>Park Conditions</h3>
+          <p>Hourly weather and park impact will appear here.</p>
+        </a>
+        <a id="market" class="intelligence-card" href="#">
+          <p class="kicker">MARKET</p>
+          <h3>Line Movement</h3>
+          <p>Opening lines, current prices, and movement.</p>
+        </a>
+      </section>
+
+      <section id="context" class="game-context-panel" aria-labelledby="contextHeading">
+        <div class="context-section-heading">
+          <div>
+            <p class="kicker">GAME INTELLIGENCE</p>
+            <h2 id="contextHeading">Context</h2>
+          </div>
+          <p>Lineups, starters, bullpen usage, weather, and market conditions.</p>
+        </div>
+        <div id="gameContext">
+          <div class="context-empty">Context is loading…</div>
+        </div>
+      </section>
+
+      <section class="game-lifecycle-panel" aria-labelledby="gameLifecycleHeading">
+        <div class="game-lifecycle-heading">
+          <div>
+            <p class="kicker">PUBLISHING LIFECYCLE</p>
+            <h2 id="gameLifecycleHeading">Official Plays</h2>
+          </div>
+          <span id="gameLifecycleStatus" class="game-lifecycle-status">NO OFFICIAL PLAY</span>
+        </div>
+
+        <div class="game-lifecycle-grid">
+          <section class="game-lifecycle-group">
+            <h3>Official Plays</h3>
+            <div id="gameOfficialPlays">
+              <p class="module-note">No official plays published.</p>
+            </div>
+          </section>
+
+          <section class="game-lifecycle-group">
+            <h3>Results</h3>
+            <div id="gameResults">
+              <p class="module-note">Results pending.</p>
+            </div>
+          </section>
+
+          <section class="game-lifecycle-group">
+            <h3>Evaluation</h3>
+            <div id="gameEvaluations">
+              <p class="module-note">Postgame evaluation pending.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <strong>Boring Bets</strong>
+    <span>Data over hype.</span>
+  </footer>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>

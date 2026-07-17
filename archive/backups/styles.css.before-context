@@ -1,0 +1,1355 @@
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--white);font-family:var(--font-body);line-height:1.5}a{color:inherit}button,input,select{font:inherit}img{max-width:100%}[hidden]{display:none!important}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;background:radial-gradient(circle at 10% -10%,rgba(57,255,136,.09),transparent 34%),radial-gradient(circle at 92% 12%,rgba(24,216,216,.08),transparent 29%),linear-gradient(var(--bg),var(--bg))}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.18;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(to bottom,black,transparent 80%)}
+.site-shell{width:min(1180px,90%);margin:0 auto}.site-header{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;gap:28px;padding:16px 5vw;background:rgba(3,7,5,.9);border-bottom:1px solid rgba(57,255,136,.13);backdrop-filter:blur(16px)}
+.brand{display:flex;align-items:center;gap:11px;color:var(--white);font-family:var(--font-data);font-size:1rem;font-weight:900;letter-spacing:.14em;text-decoration:none}.brand-mark{display:inline-grid;place-items:center;width:27px;height:27px;border:1px solid var(--green);border-radius:5px;color:var(--green);box-shadow:var(--glow-green);font-size:.76rem}.main-nav{display:flex;align-items:center;gap:22px;overflow-x:auto}.main-nav a{position:relative;color:var(--muted);font-size:.84rem;font-weight:750;text-decoration:none;white-space:nowrap}.main-nav a:hover,.main-nav a[aria-current="page"]{color:var(--green)}.main-nav a[aria-current="page"]::after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:2px;background:var(--green);box-shadow:0 0 10px rgba(57,255,136,.5)}
+.eyebrow,.kicker{margin:0 0 9px;color:var(--teal);font-family:var(--font-data);font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}.section-heading h2,h2{margin:0;font-family:var(--font-heading);font-size:clamp(1.9rem,4vw,3.15rem);letter-spacing:-.035em}.section-heading p:last-child{margin:0;max-width:500px;color:var(--muted)}
+.primary-button,.secondary-button,.text-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:12px 18px;border-radius:var(--radius-sm);font-weight:850;text-decoration:none;transition:transform var(--speed-fast),border-color var(--speed-fast),background var(--speed-fast),box-shadow var(--speed-fast)}.primary-button{background:var(--green);border:1px solid var(--green);color:#031007;box-shadow:0 0 18px rgba(57,255,136,.15)}.primary-button:hover{transform:translateY(-2px);background:var(--green-soft);box-shadow:0 0 25px rgba(57,255,136,.25)}.secondary-button{background:rgba(10,21,15,.8);border:1px solid var(--border-teal);color:var(--teal-soft)}.secondary-button:hover{transform:translateY(-2px);border-color:var(--teal);box-shadow:var(--glow-teal)}.text-link{min-height:auto;padding:0;color:var(--green)}
+.site-footer{display:flex;justify-content:space-between;gap:20px;padding:25px 5vw;color:var(--muted);border-top:1px solid var(--border);font-size:.85rem}.site-footer strong{color:var(--white);font-family:var(--font-data);letter-spacing:.08em}
+
+/* HOME */
+.home-page main{padding:0 5vw 76px}.home-hero{position:relative;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);align-items:center;gap:54px;min-height:75vh;padding:82px 0}.home-hero h1{margin:0;max-width:850px;font-family:var(--font-heading);font-size:clamp(4rem,10vw,8.6rem);line-height:.82;letter-spacing:-.07em}.home-hero h1 span{color:var(--green);text-shadow:0 0 34px rgba(57,255,136,.17)}.home-intro{max-width:650px;margin:28px 0 0;color:var(--text);font-size:1.13rem;line-height:1.75}.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}.terminal-panel{position:relative;padding:22px;background:linear-gradient(145deg,rgba(15,29,22,.94),rgba(7,16,11,.95));border:1px solid var(--border-teal);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg),var(--glow-teal);overflow:hidden}.terminal-panel::before{content:"BORING BETS // LIVE";display:block;margin-bottom:18px;color:var(--teal);font-family:var(--font-data);font-size:.7rem;letter-spacing:.14em}.terminal-line{display:flex;justify-content:space-between;gap:18px;padding:12px 0;border-bottom:1px solid var(--border)}.terminal-line:last-child{border:0}.terminal-line span{color:var(--muted);font-size:.83rem}.terminal-line strong{font-family:var(--font-data);color:var(--white);text-align:right}.terminal-dot{display:inline-block;width:7px;height:7px;margin-right:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.home-section{padding:76px 0;border-top:1px solid var(--border)}.featured-grid,.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.home-card,.stat-card,.tool-card,.featured-play{background:linear-gradient(145deg,var(--panel),var(--bg-soft));border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm)}.featured-play{display:block;padding:22px;text-decoration:none;transition:transform var(--speed-normal),border-color var(--speed-normal),box-shadow var(--speed-normal)}.featured-play:hover,.tool-card:hover{transform:translateY(-4px);border-color:var(--green-dark);box-shadow:var(--shadow-md),var(--glow-green)}.featured-play .matchup{color:var(--teal);font-family:var(--font-data);font-size:.75rem;font-weight:800;letter-spacing:.1em}.featured-play h3{margin:13px 0 8px;font-size:1.22rem}.featured-play .play-meta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-family:var(--font-data);font-size:.82rem}.home-card{padding:26px}.home-card p,.tool-card p{color:var(--muted);line-height:1.7}.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat-card{padding:22px}.stat-card span{display:block;color:var(--muted);font-family:var(--font-data);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em}.stat-card strong{display:block;margin-top:10px;color:var(--green);font-family:var(--font-data);font-size:1.4rem}.tool-card{display:block;padding:24px;color:var(--white);text-decoration:none;transition:transform var(--speed-normal),border-color var(--speed-normal),box-shadow var(--speed-normal)}.tool-card>span{color:var(--teal);font-family:var(--font-data);font-size:.7rem;font-weight:900;letter-spacing:.11em}.tool-card h3{margin:12px 0 8px}.muted-card{opacity:.55}.discord-section{display:flex;justify-content:space-between;align-items:center;gap:28px;padding:34px;background:linear-gradient(115deg,rgba(57,255,136,.07),rgba(24,216,216,.08));border:1px solid var(--border-teal);border-radius:var(--radius-lg)}.discord-section p{margin:7px 0 0;color:var(--text)}
+
+/* TODAY'S CARD */
+.card-main,.play-main,.deadline-main{width:min(1120px,90%);margin:0 auto;padding:68px 0 84px}.card-hero,.deadline-hero{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:30px}.card-hero h1,.deadline-hero h1{margin:0;font-family:var(--font-heading);font-size:clamp(3.1rem,8vw,6.5rem);line-height:.88;letter-spacing:-.06em}.card-meta{display:flex;flex-direction:column;align-items:flex-end;gap:7px;color:var(--muted);font-family:var(--font-data);font-size:.78rem}.card-summary,.statusbar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:34px}.card-summary>div,.statusbar>div{padding:19px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-md)}.card-summary span,.statusbar span{display:block;color:var(--muted);font-family:var(--font-data);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em}.card-summary strong,.statusbar strong{display:block;margin-top:8px;color:var(--green);font-family:var(--font-data);font-size:1.45rem}.card-message{padding:24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-md);color:var(--muted)}#playsContainer{display:grid;gap:18px}.sport-group-title{display:flex;align-items:center;gap:12px;margin:24px 0 0;color:var(--teal);font-family:var(--font-data);font-size:.82rem;letter-spacing:.14em}.sport-group-title::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,var(--border-teal),transparent)}
+.play-card{position:relative;padding:24px;background:linear-gradient(145deg,var(--panel-strong),var(--bg-soft));border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);cursor:pointer;overflow:hidden;transition:transform var(--speed-normal),border-color var(--speed-normal),box-shadow var(--speed-normal)}.play-card:hover,.play-card:focus-visible{transform:translateY(-4px);border-color:var(--green-dark);box-shadow:var(--shadow-lg),var(--glow-green);outline:none}.matchup-logos{display:grid;grid-template-columns:minmax(0,1fr) 36px minmax(0,1fr);align-items:center;gap:12px;margin-bottom:22px;padding:17px;background:rgba(3,7,5,.65);border:1px solid var(--border);border-radius:var(--radius-md)}.team-logo{display:flex;align-items:center;gap:11px;font-family:var(--font-data);font-weight:900;letter-spacing:.08em}.team-logo img{display:block;width:58px!important;height:58px!important;max-width:58px!important;max-height:58px!important;flex:0 0 58px;object-fit:contain;filter:drop-shadow(0 7px 10px rgba(0,0,0,.45))}.away-logo{justify-content:flex-start;animation:logoLeft .62s cubic-bezier(.2,.8,.2,1) both}.home-logo{justify-content:flex-end;animation:logoRight .62s cubic-bezier(.2,.8,.2,1) both}.matchup-at{text-align:center;color:var(--teal);font-family:var(--font-data);font-weight:900}.play-top{display:flex;justify-content:space-between;gap:14px}.sport{color:var(--teal);font-family:var(--font-data);font-size:.72rem;font-weight:900;letter-spacing:.12em}.stars{color:var(--gold);letter-spacing:.08em}.play-card h2{margin:11px 0 15px;font-size:clamp(1.35rem,3vw,2.05rem)}.play-card p{margin:7px 0;color:var(--text)}.play-card small{display:block;margin-top:18px;color:var(--muted);font-family:var(--font-data)}.play-card .card-cta{position:absolute;right:22px;bottom:21px;color:var(--green);font-family:var(--font-data);font-size:.72rem}
+@keyframes logoLeft{from{opacity:0;transform:translateX(-45px) scale(.9)}to{opacity:1;transform:none}}@keyframes logoRight{from{opacity:0;transform:translateX(45px) scale(.9)}to{opacity:1;transform:none}}
+
+/* PLAY PAGE */
+.back-link{display:inline-block;margin-bottom:24px;color:var(--green);font-weight:800;text-decoration:none}.play-matchup{display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);align-items:center;gap:18px;margin-bottom:28px;padding:28px;background:linear-gradient(145deg,var(--panel-strong),var(--bg-soft));border:1px solid var(--border-teal);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg),var(--glow-teal)}.play-team{display:flex;align-items:center;gap:15px;font-family:var(--font-data);font-weight:900;letter-spacing:.1em}.play-team:first-child{justify-content:flex-start;animation:logoLeft .68s ease both}.play-team:last-child{justify-content:flex-end;animation:logoRight .68s ease both}.play-team img{width:74px!important;height:74px!important;max-width:74px!important;max-height:74px!important;object-fit:contain}.play-versus{text-align:center;color:var(--teal);font-family:var(--font-data);font-size:1.2rem;font-weight:900}.play-header h1{margin:6px 0 23px;font-family:var(--font-heading);font-size:clamp(2.8rem,7vw,5.8rem);line-height:.9;letter-spacing:-.055em}.play-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}.play-facts>div{padding:18px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-md)}.play-facts span{display:block;color:var(--muted);font-family:var(--font-data);font-size:.69rem;text-transform:uppercase;letter-spacing:.1em}.play-facts strong{display:block;margin-top:9px;color:var(--white);font-family:var(--font-data);font-size:1.1rem}.analysis-section{padding:30px;background:linear-gradient(145deg,var(--panel),var(--bg-soft));border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md)}#playAnalysis{color: #dce5df;line-height:1.85;white-space:pre-line}#playAnalysis p{margin:0 0 1.3em}
+
+/* TRADE DEADLINE */
+.deadline-page .site-header{position:sticky}.deadline-hero{padding:28px 0 6px}.deadline-copy{max-width:730px}.deadline-copy p:last-child{color:var(--text);font-size:1.02rem}.deadline-card{min-width:290px;padding:20px;background:var(--panel);border:1px solid var(--border-teal);border-radius:var(--radius-md);box-shadow:var(--glow-teal)}.deadline-card span{display:block;color:var(--muted);font-family:var(--font-data);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em}.deadline-card strong{display:block;margin:8px 0;font-family:var(--font-data)}#countdown{color:var(--green);font-family:var(--font-data);font-weight:900}.deadline-page .statusbar{grid-template-columns:repeat(4,1fr)}.tabs{display:flex;gap:8px;margin:28px 0 20px;overflow:auto}.tabs button,.search,select{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:11px 14px;border-radius:var(--radius-sm)}.tabs button{cursor:pointer;white-space:nowrap;font-family:var(--font-data);font-weight:800}.tabs button.active{background:var(--green);color:#031007;border-color:var(--green)}.tab-panel{display:none}.tab-panel.active{display:block}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:16px}.cards{display:grid;gap:12px}.card{border:1px solid var(--border);background:linear-gradient(145deg,var(--panel),var(--bg-soft));border-radius:var(--radius-md);padding:19px}.card-top{display:flex;justify-content:space-between;gap:16px}.badge{display:inline-flex;align-items:center;padding:4px 9px;border-radius:99px;font-family:var(--font-data);font-size:.68rem;font-weight:900;text-transform:uppercase}.badge.high,.badge.confirmed{background:rgba(57,255,136,.12);color:var(--green)}.badge.medium{background:rgba(255,209,102,.12);color:var(--gold)}.badge.low{background:rgba(255,97,117,.12);color:#ff9cab}.trade-title{font-size:1.15rem;font-weight:850;margin:7px 0}.meta,.context{color:var(--muted)}.impact{border-left:3px solid var(--teal);padding-left:12px;margin-top:12px}.source{color:var(--teal-soft);text-decoration:none;font-size:.84rem}.notice{padding:13px 14px;border:1px solid var(--border-teal);background:rgba(24,216,216,.07);color:var(--teal-soft);border-radius:var(--radius-sm);margin-bottom:14px}.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:var(--radius-md)}table{border-collapse:collapse;width:100%;min-width:900px;background:var(--panel)}th,td{text-align:left;padding:13px;border-bottom:1px solid var(--border)}th{color:var(--teal);font-family:var(--font-data);font-size:.69rem;text-transform:uppercase;letter-spacing:.08em}.tier{font-weight:900}.tier.Aggressive-Buyer{color:var(--green)}.tier.Buyer{color:var(--teal-soft)}.tier.Bubble{color:var(--gold)}.tier.Seller,.tier.Rebuilder{color:var(--red)}.impact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.impact-grid .card h3{margin:10px 0}
+
+@media(max-width:900px){.home-hero{grid-template-columns:1fr;min-height:auto}.terminal-panel{max-width:620px}.featured-grid,.tool-grid{grid-template-columns:1fr 1fr}.stat-grid{grid-template-columns:repeat(2,1fr)}.deadline-page .statusbar{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.site-header{align-items:flex-start;flex-direction:column;gap:13px}.main-nav{width:100%;gap:17px;padding-bottom:3px}.home-page main{padding-inline:5vw}.home-hero{padding:65px 0}.home-hero h1{font-size:clamp(3.7rem,20vw,6.2rem)}.featured-grid,.tool-grid,.stat-grid{grid-template-columns:1fr}.discord-section,.card-hero,.deadline-hero,.section-head{align-items:flex-start;flex-direction:column}.card-meta{align-items:flex-start}.card-summary{grid-template-columns:1fr}.matchup-logos,.play-matchup{grid-template-columns:1fr 28px 1fr;padding:16px 11px}.team-logo,.play-team{flex-direction:column;gap:7px;text-align:center}.team-logo img{width:48px!important;height:48px!important;max-width:48px!important;max-height:48px!important;flex-basis:48px}.play-team img{width:56px!important;height:56px!important;max-width:56px!important;max-height:56px!important}.play-facts{grid-template-columns:repeat(2,1fr)}.impact-grid{grid-template-columns:1fr}.site-footer{flex-direction:column}.deadline-card{min-width:0;width:100%}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+/* =========================
+   MATCHUP DEEP DIVE
+   ========================= */
+
+.game-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--white);
+}
+
+.game-main {
+  width: min(1100px, 90%);
+  margin: 0 auto;
+  padding: 60px 0 80px;
+}
+
+.game-matchup {
+  display: grid;
+  grid-template-columns: 1fr 44px 1fr;
+  align-items: center;
+  gap: 18px;
+  padding: 28px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.game-team {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-weight: 900;
+}
+
+.game-team:first-child {
+  justify-content: flex-start;
+}
+
+.game-team:last-child {
+  justify-content: flex-end;
+}
+
+.game-team img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+}
+
+.game-versus {
+  text-align: center;
+  color: var(--green);
+  font-weight: 900;
+}
+
+.game-heading {
+  padding: 34px 0;
+}
+
+.game-heading h1 {
+  margin: 6px 0 10px;
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+}
+
+.game-date {
+  color: var(--muted);
+}
+
+.intelligence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.intelligence-card,
+.game-plays-section {
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.game-plays-section {
+  margin-top: 18px;
+}
+
+#relatedPlays {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.related-play-card {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  color: var(--white);
+  text-decoration: none;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.related-play-card:hover {
+  border-color: var(--teal);
+}
+
+.related-play-card span {
+  color: var(--teal);
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.related-play-card small {
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  .intelligence-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .game-matchup {
+    grid-template-columns: 1fr 30px 1fr;
+    padding: 20px 14px;
+  }
+
+  .game-team {
+    flex-direction: column;
+  }
+
+  .game-team img {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+
+
+.deep-dive-panel {
+  margin-top: 18px;
+  padding: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.deep-dive-button {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 24px 26px;
+  color: var(--white);
+  text-decoration: none;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(57, 255, 136, 0.08),
+      rgba(24, 216, 216, 0.08)
+    );
+  transition:
+    background var(--speed-normal),
+    border-color var(--speed-normal),
+    transform var(--speed-normal);
+}
+
+.deep-dive-button span {
+  color: var(--teal);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.deep-dive-button strong {
+  font-size: clamp(1.15rem, 3vw, 1.6rem);
+}
+
+.deep-dive-button:hover {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(57, 255, 136, 0.15),
+      rgba(24, 216, 216, 0.15)
+    );
+  transform: translateY(-2px);
+}
+
+
+/* =========================
+   GAME INTELLIGENCE ENGINE
+   ========================= */
+
+.game-controls-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 18px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.control-group {
+  display: grid;
+  gap: 8px;
+}
+
+.control-label {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.segmented-control {
+  display: inline-flex;
+  gap: 6px;
+  padding: 5px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.segmented-control button {
+  min-height: 38px;
+  padding: 8px 14px;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 800;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    color var(--speed-fast),
+    background var(--speed-fast),
+    box-shadow var(--speed-fast);
+}
+
+.segmented-control button:hover {
+  color: var(--white);
+}
+
+.segmented-control button.active {
+  color: #041009;
+  background: var(--green);
+  box-shadow: var(--glow-green);
+}
+
+.game-section {
+  margin-bottom: 22px;
+}
+
+.game-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.game-section-heading h2 {
+  margin: 4px 0 0;
+}
+
+.game-section-heading > p {
+  max-width: 420px;
+  margin: 0;
+  color: var(--muted);
+  text-align: right;
+}
+
+.pitcher-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pitcher-comparison-card {
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.pitcher-card-link {
+  display: block;
+  height: 100%;
+  padding: 22px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.pitcher-card-link:hover {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(57, 255, 136, 0.05),
+      rgba(24, 216, 216, 0.04)
+    );
+}
+
+.pitcher-card-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.pitcher-card-heading h2 {
+  margin: 5px 0;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+.pitcher-card-heading p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.data-label {
+  color: var(--teal);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.open-data {
+  align-self: flex-start;
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.data-table thead th {
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.data-table th:first-child,
+.data-table td:first-child {
+  text-align: left;
+}
+
+.data-table tbody th {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.data-table tbody td {
+  color: var(--white);
+  font-family: var(--bb-font-data, monospace);
+}
+
+.data-table tbody tr:last-child th,
+.data-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.intelligence-card {
+  color: inherit;
+  text-decoration: none;
+}
+
+.intelligence-card h3 {
+  margin: 7px 0 8px;
+}
+
+.intelligence-card:hover {
+  border-color: var(--teal);
+}
+
+@media (max-width: 850px) {
+  .pitcher-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .game-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .game-section-heading > p {
+    text-align: left;
+  }
+}
+
+@media (max-width: 620px) {
+  .game-controls-panel {
+    display: grid;
+  }
+
+  .segmented-control {
+    width: 100%;
+  }
+
+  .segmented-control button {
+    flex: 1;
+  }
+
+  .pitcher-card-heading {
+    flex-direction: column;
+  }
+
+  .open-data {
+    align-self: auto;
+  }
+}
+
+/* =========================
+   REFINED LOGO MOTION
+   ========================= */
+
+.card-page .away-logo,
+.card-page .home-logo,
+.play-page .play-team,
+.game-page .game-team {
+  animation: none !important;
+}
+
+.card-page .team-logo img,
+.play-page .play-team img,
+.game-page .game-team img {
+  transform: none;
+  transition:
+    transform 140ms ease,
+    filter 140ms ease,
+    opacity 140ms ease;
+}
+
+.card-page .team-logo:hover img,
+.play-page .play-team:hover img,
+.game-page .game-team:hover img {
+  transform: scale(1.035);
+  filter:
+    drop-shadow(0 8px 14px rgba(0, 0, 0, 0.42))
+    drop-shadow(0 0 8px rgba(57, 255, 136, 0.14));
+}
+
+
+/* ==========================================
+   MATCHUP CONSOLE
+========================================== */
+
+.matchup-console{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin:24px 0;
+}
+
+.matchup-column{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.offense-comparison-card,
+.lineup-matchup-card,
+.bullpen-card{
+
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:18px;
+
+}
+
+.placeholder-copy{
+
+    color:var(--muted);
+    margin-top:10px;
+    line-height:1.6;
+
+}
+
+.bullpen-console{
+
+    margin-top:24px;
+
+}
+
+.bullpen-comparison-grid{
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+
+}
+
+@media(max-width:950px){
+
+.matchup-console{
+
+grid-template-columns:1fr;
+
+}
+
+.bullpen-comparison-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+
+/* =========================
+   DATA MODULES — SPRINT 3
+   ========================= */
+
+.module-link,
+.module-button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 18px;
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.module-link:hover,
+.module-button:hover {
+  background: linear-gradient(135deg, rgba(57, 255, 136, 0.035), rgba(24, 216, 216, 0.03));
+}
+
+.module-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.module-heading h3 {
+  margin: 4px 0;
+}
+
+.module-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.compact-heading {
+  align-items: flex-start;
+}
+
+.offense-comparison-card,
+.lineup-matchup-card,
+.bullpen-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.offense-data-table th,
+.offense-data-table td {
+  padding: 9px 8px;
+}
+
+.rank-cell {
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.stat-best {
+  color: #d8ffe8 !important;
+  background: rgba(57, 255, 136, 0.18);
+}
+
+.stat-good {
+  color: #bcf8dd !important;
+  background: rgba(57, 255, 136, 0.09);
+}
+
+.stat-neutral {
+  color: var(--white) !important;
+  background: rgba(24, 216, 216, 0.025);
+}
+
+.stat-poor {
+  color: #ffd4d9 !important;
+  background: rgba(255, 90, 110, 0.09);
+}
+
+.stat-worst {
+  color: #ffe0e4 !important;
+  background: rgba(255, 90, 110, 0.17);
+}
+
+.matchup-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--border);
+}
+
+.summary-stat {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 11px 8px;
+  text-align: center;
+  background: var(--bg-soft);
+}
+
+.summary-stat small {
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.summary-stat strong {
+  color: var(--white);
+  font-family: var(--bb-font-data, monospace);
+  font-size: 0.95rem;
+}
+
+.bullpen-summary-grid {
+  margin-top: 4px;
+}
+
+.module-note {
+  margin: 12px 0 0;
+  color: var(--text);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.game-page .intelligence-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 620px) {
+  .matchup-console {
+    display: flex;
+    gap: 12px;
+    margin-inline: -5vw;
+    padding: 0 5vw 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .matchup-column {
+    flex: 0 0 min(92vw, 560px);
+    scroll-snap-align: start;
+  }
+
+  .pitcher-card-link,
+  .module-link,
+  .module-button {
+    padding: 14px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 9px 7px;
+    font-size: 0.78rem;
+  }
+
+  .matchup-summary-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .game-page .intelligence-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+}
+
+
+/* ==========================================
+   SPRINT 4 — DENSE RESEARCH CONSOLE
+   ========================================== */
+
+/* Tighter overall matchup layout */
+.matchup-console {
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.matchup-column {
+  gap: 8px;
+}
+
+/* Compact pitcher and offense panels */
+.pitcher-comparison-card,
+.offense-comparison-card,
+.lineup-matchup-card {
+  border-radius: 5px;
+}
+
+.pitcher-card-link,
+.offense-comparison-card,
+.lineup-matchup-card {
+  padding: 10px 12px;
+}
+
+/* Compress pitcher heading */
+.pitcher-card-heading {
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+
+.pitcher-card-heading h2 {
+  margin: 2px 0;
+  font-size: 1rem;
+  line-height: 1.15;
+}
+
+.pitcher-card-heading p {
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.data-label,
+.open-data {
+  font-size: 0.61rem;
+  letter-spacing: 0.08em;
+}
+
+.open-data {
+  margin-top: 2px;
+}
+
+/* Dense data tables */
+.data-table {
+  font-size: 0.72rem;
+  line-height: 1.1;
+}
+
+.data-table th,
+.data-table td {
+  padding: 5px 6px;
+}
+
+.data-table thead th {
+  font-size: 0.58rem;
+  letter-spacing: 0.045em;
+}
+
+.data-table tbody th {
+  font-size: 0.68rem;
+}
+
+/* Compact offense headings */
+.offense-comparison-card h3,
+.lineup-matchup-card h3 {
+  margin: 3px 0 6px;
+  font-size: 0.92rem;
+}
+
+.offense-comparison-card .kicker,
+.lineup-matchup-card .kicker {
+  margin-bottom: 2px;
+  font-size: 0.6rem;
+}
+
+/* Smaller controls */
+.game-controls-panel {
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border-radius: 5px;
+}
+
+.control-group {
+  gap: 4px;
+}
+
+.control-label {
+  font-size: 0.58rem;
+}
+
+.segmented-control {
+  gap: 2px;
+  padding: 2px;
+}
+
+.segmented-control button {
+  min-height: 26px;
+  padding: 4px 9px;
+  font-size: 0.67rem;
+  border-radius: 3px;
+}
+
+/* Preserve the bullpen sizing you liked */
+.bullpen-console {
+  margin-top: 14px;
+}
+
+.bullpen-card {
+  padding: 16px;
+}
+
+/* Tighter status strip */
+.game-status-strip {
+  margin: 7px 0 10px;
+  padding: 6px 10px;
+  font-size: 0.61rem;
+  border-radius: 3px;
+}
+
+/* Phone remains readable */
+@media (max-width: 620px) {
+  .pitcher-card-link,
+  .offense-comparison-card,
+  .lineup-matchup-card {
+    padding: 9px;
+  }
+
+  .data-table {
+    font-size: 0.68rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 5px;
+  }
+
+  .pitcher-card-heading {
+    flex-direction: row;
+  }
+
+  .open-data {
+    max-width: 70px;
+    text-align: right;
+    white-space: normal;
+  }
+}
+
+
+/* ==========================================
+   METRIC HEAT ENGINE
+   ========================================== */
+
+.metric-elite {
+  color: #63ff9b;
+  background: rgba(57, 255, 136, 0.18);
+  box-shadow: inset 3px 0 0 #39ff88;
+}
+
+.metric-good {
+  color: #a2f5bf;
+  background: rgba(57, 255, 136, 0.08);
+  box-shadow: inset 3px 0 0 rgba(57, 255, 136, 0.55);
+}
+
+.metric-average {
+  color: var(--text);
+  background: rgba(130, 144, 135, 0.05);
+  box-shadow: inset 3px 0 0 rgba(130, 144, 135, 0.25);
+}
+
+.metric-poor {
+  color: #ffadb8;
+  background: rgba(255, 97, 117, 0.08);
+  box-shadow: inset 3px 0 0 rgba(255, 97, 117, 0.55);
+}
+
+.metric-awful {
+  color: #ff7184;
+  background: rgba(255, 97, 117, 0.17);
+  box-shadow: inset 3px 0 0 #ff6175;
+}
+
+/* Missing data should remain quiet */
+.metric-missing {
+  color: var(--muted);
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Keep heat colors readable in dense tables */
+.data-table td[class*="metric-"] {
+  font-weight: 800;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+}
+
+.data-table td[class*="metric-"]:hover {
+  filter: brightness(1.12);
+}
+
+
+/* ==========================================
+   DENSITY PASS — PITCHER + OFFENSE ONLY
+   ========================================== */
+
+.matchup-console {
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+
+.matchup-column {
+  gap: 6px;
+}
+
+/* Do not affect bullpen, weather, or market cards */
+.pitcher-comparison-card,
+.offense-comparison-card,
+.lineup-matchup-card {
+  border-radius: 4px;
+}
+
+.pitcher-card-link,
+.offense-comparison-card,
+.lineup-matchup-card {
+  padding: 7px 9px;
+}
+
+/* Pitcher identity row */
+.pitcher-card-heading {
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.pitcher-card-heading h2 {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.05;
+}
+
+.pitcher-card-heading p {
+  margin: 1px 0 0;
+  font-size: 0.62rem;
+  line-height: 1.1;
+}
+
+.data-label,
+.open-data {
+  font-size: 0.52rem;
+  letter-spacing: 0.055em;
+}
+
+.open-data {
+  margin: 0;
+}
+
+/* Spreadsheet-density tables */
+.pitcher-comparison-card .data-table,
+.offense-comparison-card .data-table,
+.lineup-matchup-card .data-table {
+  font-size: 0.63rem;
+  line-height: 1;
+}
+
+.pitcher-comparison-card .data-table th,
+.pitcher-comparison-card .data-table td,
+.offense-comparison-card .data-table th,
+.offense-comparison-card .data-table td,
+.lineup-matchup-card .data-table th,
+.lineup-matchup-card .data-table td {
+  padding: 3px 4px;
+}
+
+.pitcher-comparison-card .data-table thead th,
+.offense-comparison-card .data-table thead th,
+.lineup-matchup-card .data-table thead th {
+  font-size: 0.5rem;
+  letter-spacing: 0.025em;
+}
+
+.pitcher-comparison-card .data-table tbody th,
+.offense-comparison-card .data-table tbody th,
+.lineup-matchup-card .data-table tbody th {
+  font-size: 0.59rem;
+}
+
+/* Compact offense and lineup headings */
+.offense-comparison-card h3,
+.lineup-matchup-card h3 {
+  margin: 1px 0 4px;
+  font-size: 0.78rem;
+  line-height: 1.05;
+}
+
+.offense-comparison-card .kicker,
+.lineup-matchup-card .kicker {
+  margin: 0 0 1px;
+  font-size: 0.49rem;
+}
+
+/* Remove unnecessary vertical space before bullpen cards */
+.bullpen-console {
+  margin-top: 10px;
+}
+
+/* Preserve bullpen card dimensions */
+.bullpen-card {
+  padding: 16px;
+}
+
+@media (max-width: 620px) {
+  .pitcher-card-link,
+  .offense-comparison-card,
+  .lineup-matchup-card {
+    padding: 7px;
+  }
+
+  .pitcher-comparison-card .data-table,
+  .offense-comparison-card .data-table,
+  .lineup-matchup-card .data-table {
+    font-size: 0.61rem;
+  }
+
+  .pitcher-card-heading {
+    align-items: flex-start;
+  }
+}
+
+
+/* ==========================================
+   TRUE MODULE WIDTH COMPRESSION
+   ========================================== */
+
+/* Two compact matchup columns instead of two full-width halves */
+.matchup-console {
+  grid-template-columns: repeat(2, minmax(330px, 410px));
+  justify-content: center;
+  align-items: start;
+  gap: 10px;
+}
+
+/* Prevent each column from stretching unnecessarily */
+.matchup-column {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Modules now follow the narrower column width */
+.pitcher-comparison-card,
+.offense-comparison-card,
+.lineup-matchup-card {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Stop research tables from stretching across the whole card */
+.pitcher-comparison-card .data-table,
+.offense-comparison-card .data-table,
+.lineup-matchup-card .data-table {
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  table-layout: auto;
+}
+
+/* Keep every statistical column compact */
+.pitcher-comparison-card .data-table th,
+.pitcher-comparison-card .data-table td,
+.offense-comparison-card .data-table th,
+.offense-comparison-card .data-table td,
+.lineup-matchup-card .data-table th,
+.lineup-matchup-card .data-table td {
+  width: 1%;
+  min-width: 42px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+/* Metric names only need a small first column */
+.pitcher-comparison-card .data-table th:first-child,
+.offense-comparison-card .data-table th:first-child,
+.lineup-matchup-card .data-table th:first-child,
+.pitcher-comparison-card .data-table td:first-child,
+.offense-comparison-card .data-table td:first-child,
+.lineup-matchup-card .data-table td:first-child {
+  width: 52px;
+  min-width: 52px;
+  max-width: 62px;
+}
+
+/* Remove excess empty room around the table */
+.pitcher-comparison-card .table-scroll,
+.offense-comparison-card .table-scroll,
+.lineup-matchup-card .table-scroll {
+  width: fit-content;
+  max-width: 100%;
+}
+
+/* Slightly wider layouts can use larger compact modules */
+@media (min-width: 1250px) {
+  .matchup-console {
+    grid-template-columns: repeat(2, minmax(360px, 440px));
+  }
+}
+
+/* Phone: retain one-column layout and full available width */
+@media (max-width: 760px) {
+  .matchup-console {
+    grid-template-columns: 1fr;
+    justify-content: stretch;
+  }
+
+  .pitcher-comparison-card .data-table,
+  .offense-comparison-card .data-table,
+  .lineup-matchup-card .data-table {
+    width: max-content;
+  }
+}
+
+/* ==========================================
+   FINAL CONSOLE ALIGNMENT OVERRIDE
+   ========================================== */
+
+.game-controls-panel,
+.matchup-console,
+.bullpen-console,
+.bullpen-comparison-grid {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box;
+}
+
+.matchup-console,
+.bullpen-comparison-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  justify-content: stretch !important;
+  align-items: start;
+  gap: 10px !important;
+}
+
+.matchup-column,
+.pitcher-comparison-card,
+.offense-comparison-card,
+.lineup-matchup-card,
+.bullpen-card {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  box-sizing: border-box;
+}
+
+.matchup-console {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+@media (max-width: 760px) {
+  .matchup-console,
+  .bullpen-comparison-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+
+/* ==========================================
+   ALIGN MATCHUP MODULES WITH FULL CONSOLE
+   ========================================== */
+
+/* Restore the matchup area to the full available width */
+.matchup-console {
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-content: stretch;
+  gap: 10px;
+}
+
+/* Each side aligns with the controls and bullpen columns */
+.matchup-column,
+.pitcher-comparison-card,
+.offense-comparison-card,
+.lineup-matchup-card {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Keep the contents dense without shrinking the outer modules */
+.pitcher-comparison-card .table-scroll,
+.offense-comparison-card .table-scroll,
+.lineup-matchup-card .table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Tables use the card width, but columns stay tightly proportioned */
+.pitcher-comparison-card .data-table,
+.offense-comparison-card .data-table,
+.lineup-matchup-card .data-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Compact first column for ERA, WHIP, AVG, etc. */
+.pitcher-comparison-card .data-table th:first-child,
+.pitcher-comparison-card .data-table td:first-child,
+.offense-comparison-card .data-table th:first-child,
+.offense-comparison-card .data-table td:first-child,
+.lineup-matchup-card .data-table th:first-child,
+.lineup-matchup-card .data-table td:first-child {
+  width: 18%;
+  min-width: 0;
+  max-width: none;
+}
+
+/* Remaining statistical columns divide the available room evenly */
+.pitcher-comparison-card .data-table th:not(:first-child),
+.pitcher-comparison-card .data-table td:not(:first-child),
+.offense-comparison-card .data-table th:not(:first-child),
+.offense-comparison-card .data-table td:not(:first-child),
+.lineup-matchup-card .data-table th:not(:first-child),
+.lineup-matchup-card .data-table td:not(:first-child) {
+  width: auto;
+  min-width: 0;
+}
+
+/* Keep the two bullpen cards on the exact same column grid */
+.bullpen-comparison-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 760px) {
+  .matchup-console,
+  .bullpen-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pitcher-comparison-card .data-table,
+  .offense-comparison-card .data-table,
+  .lineup-matchup-card .data-table {
+    min-width: 420px;
+  }
+}
+
+/* Play page title refinement */
+.play-header h1 {
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+  line-height: 1.15;
+  margin: 5px 0 12px;
+}
+
+/* ==========================================
+   MATCHUP SNAPSHOT HEAT
+   ========================================== */
+
+.snapshot-value-good {
+  color: #8fffb4;
+}
+
+.snapshot-value-neutral {
+  color: var(--text);
+}
+
+.snapshot-value-poor {
+  color: #ff8e9d;
+}
+
+.snapshot-value-missing {
+  color: var(--muted);
+}
+
+/* Keep the snapshot compact and readable */
+.snapshot-row strong {
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+
+.snapshot-row strong span + span::before {
+  content: " · ";
+  color: var(--muted);
+}
+
+/* Lineup status emphasis */
+.lineup-status-confirmed {
+  color: var(--green);
+}
+
+.lineup-status-projected {
+  color: var(--muted);
+}
+
+/* Status strip state colors */
+.status-confirmed {
+  color: var(--green);
+}
+
+.status-partial {
+  color: #e6c96b;
+}
+
+.status-projected {
+  color: var(--muted);
+}
