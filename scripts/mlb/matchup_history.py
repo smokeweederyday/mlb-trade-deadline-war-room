@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from pathlib import Path
 from typing import Any
 import json
 import urllib.parse
@@ -8,6 +9,15 @@ import urllib.request
 
 
 MLB_LIVE_API_BASE = "https://statsapi.mlb.com/api/v1.1/game"
+
+ROOT = Path(__file__).resolve().parents[2]
+MATCHUP_CACHE_DIR = (
+    ROOT
+    / "data"
+    / "cache"
+    / "matchup-history"
+    / "games"
+)
 
 
 HIT_BASES = {
@@ -460,12 +470,27 @@ def build_pitcher_career_history(
         cutoff_date=cutoff_date,
     )
 
-    for indexed_game in games:
-        raw = fetch_live_game(
-            int(indexed_game["game_pk"])
+    for game_number, indexed_game in enumerate(
+        games,
+        start=1,
+    ):
+        game_pk = int(
+            indexed_game["game_pk"]
         )
 
-        rows = summarize_game_matchups(raw)
+        rows = load_or_build_game_matchups(
+            game_pk
+        )
+
+        if (
+            game_number == 1
+            or game_number % 25 == 0
+            or game_number == len(games)
+        ):
+            print(
+                f"  Matchup history pitcher {pitcher_id}: "
+                f"{game_number}/{len(games)} games"
+            )
 
         for (batter_id, row_pitcher_id), row in rows.items():
             if row_pitcher_id != pitcher_id:
@@ -626,3 +651,167 @@ def build_game_career_bvp(
         }
 
     return output
+
+
+def matchup_game_cache_path(
+    game_pk: int,
+) -> Path:
+    return (
+        MATCHUP_CACHE_DIR
+        / f"{int(game_pk)}.json"
+    )
+
+
+def serialize_matchup_rows(
+    rows: dict[
+        tuple[int, int],
+        dict[str, Any],
+    ],
+) -> list[dict[str, Any]]:
+    return [
+        dict(row)
+        for _, row in sorted(
+            rows.items(),
+            key=lambda item: (
+                item[0][1],
+                item[0][0],
+            ),
+        )
+    ]
+
+
+def deserialize_matchup_rows(
+    rows: list[dict[str, Any]],
+) -> dict[
+    tuple[int, int],
+    dict[str, Any],
+]:
+    output: dict[
+        tuple[int, int],
+        dict[str, Any],
+    ] = {}
+
+    for raw_row in rows:
+        if not isinstance(raw_row, dict):
+            continue
+
+        batter_id = raw_row.get("batter_id")
+        pitcher_id = raw_row.get("pitcher_id")
+
+        try:
+            key = (
+                int(batter_id),
+                int(pitcher_id),
+            )
+        except (
+            TypeError,
+            ValueError,
+        ):
+            continue
+
+        output[key] = dict(raw_row)
+
+    return output
+
+
+def load_cached_game_matchups(
+    game_pk: int,
+) -> dict[
+    tuple[int, int],
+    dict[str, Any],
+] | None:
+    path = matchup_game_cache_path(
+        game_pk
+    )
+
+    if not path.exists():
+        return None
+
+    try:
+        payload = json.loads(
+            path.read_text(
+                encoding="utf-8"
+            )
+        )
+    except (
+        json.JSONDecodeError,
+        OSError,
+    ):
+        return None
+
+    if int(
+        payload.get("game_pk")
+        or 0
+    ) != int(game_pk):
+        return None
+
+    rows = payload.get("matchups")
+
+    if not isinstance(rows, list):
+        return None
+
+    return deserialize_matchup_rows(
+        rows
+    )
+
+
+def save_cached_game_matchups(
+    game_pk: int,
+    rows: dict[
+        tuple[int, int],
+        dict[str, Any],
+    ],
+) -> None:
+    MATCHUP_CACHE_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    path = matchup_game_cache_path(
+        game_pk
+    )
+
+    payload = {
+        "schema_version": "1.0",
+        "game_pk": int(game_pk),
+        "matchups": serialize_matchup_rows(
+            rows
+        ),
+    }
+
+    path.write_text(
+        json.dumps(
+            payload,
+            indent=2,
+        ) + "\n",
+        encoding="utf-8",
+    )
+
+
+def load_or_build_game_matchups(
+    game_pk: int,
+) -> dict[
+    tuple[int, int],
+    dict[str, Any],
+]:
+    cached = load_cached_game_matchups(
+        game_pk
+    )
+
+    if cached is not None:
+        return cached
+
+    raw = fetch_live_game(
+        int(game_pk)
+    )
+
+    rows = summarize_game_matchups(
+        raw
+    )
+
+    save_cached_game_matchups(
+        game_pk,
+        rows,
+    )
+
+    return rows

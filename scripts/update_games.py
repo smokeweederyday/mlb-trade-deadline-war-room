@@ -625,8 +625,116 @@ def enrich_bullpens(
     return enriched_games
 
 
+def build_recent_confirmed_lineup_index(
+    games: list[dict[str, Any]],
+    cutoff_date: str,
+) -> dict[int, dict[str, Any]]:
+    latest: dict[int, dict[str, Any]] = {}
+
+    ordered_games = sorted(
+        games,
+        key=lambda game: (
+            game.get("date") or "",
+            game.get("game_time") or "",
+            game.get("id") or "",
+        ),
+    )
+
+    for game in ordered_games:
+        game_date = str(game.get("date") or "")
+
+        if not game_date or game_date >= cutoff_date:
+            continue
+
+        for side in ("away", "home"):
+            team = game.get(f"{side}_team") or {}
+            team_id = team.get("team_id")
+
+            # Exclude non-MLB All-Star clubs.
+            if not team_id or int(team_id) in (159, 160):
+                continue
+
+            lineup = (
+                (game.get("lineups") or {}).get(side)
+                or {}
+            )
+            players = lineup.get("players") or []
+
+            if (
+                lineup.get("status") != "confirmed"
+                or len(players) < 9
+            ):
+                continue
+
+            latest[int(team_id)] = {
+                "team": (
+                    lineup.get("team")
+                    or team.get("abbr")
+                    or team.get("name")
+                ),
+                "team_id": int(team_id),
+                "source_game_id": game.get("id"),
+                "source_date": game_date,
+                "players": [
+                    dict(player)
+                    for player in players[:9]
+                ],
+            }
+
+    return latest
+
+
+def projected_lineup_from_recent(
+    team: dict[str, Any],
+    recent_lineups: dict[int, dict[str, Any]],
+) -> dict[str, Any] | None:
+    team_id = team.get("team_id")
+
+    if not team_id:
+        return None
+
+    recent = recent_lineups.get(int(team_id))
+
+    if not recent:
+        return None
+
+    players = [
+        dict(player)
+        for player in recent.get("players") or []
+    ][:9]
+
+    if len(players) < 9:
+        return None
+
+    return {
+        "team": (
+            team.get("abbr")
+            or recent.get("team")
+            or team.get("name")
+        ),
+        "team_id": int(team_id),
+        "status": "projected",
+        "status_label": "Projected Lineup",
+        "confidence": 0.65,
+        "completeness": {
+            "count": len(players),
+            "expected": 9,
+            "ratio": round(len(players) / 9, 3),
+        },
+        "players": players,
+        "source": "Most recent confirmed MLB lineup",
+        "projection_method": "most_recent_confirmed_lineup",
+        "source_game_id": recent.get("source_game_id"),
+        "source_date": recent.get("source_date"),
+        "last_updated": datetime.now(
+            timezone.utc
+        ).isoformat(),
+    }
+
+
 def enrich_lineups(
     games: list[dict[str, Any]],
+    recent_lineups: dict[int, dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     """
     Populate away and home lineups from MLB's live game feed.
@@ -636,10 +744,41 @@ def enrich_lineups(
     request fails.
     """
 
+    recent_lineups = recent_lineups or {}
     enriched_games = []
 
     for stored_game in games:
         game = dict(stored_game)
+
+        existing_lineups = dict(
+            game.get("lineups", {})
+        )
+
+        # Seed missing future lineups from each team's most recent
+        # confirmed nine-player batting order. MLB's posted lineup,
+        # when available, will overwrite this projection below.
+        for side in ("away", "home"):
+            existing_lineup = dict(
+                existing_lineups.get(side) or {}
+            )
+            existing_players = (
+                existing_lineup.get("players")
+                or []
+            )
+
+            if len(existing_players) >= 9:
+                continue
+
+            team = game.get(f"{side}_team") or {}
+            projected = projected_lineup_from_recent(
+                team,
+                recent_lineups,
+            )
+
+            if projected:
+                existing_lineups[side] = projected
+
+        game["lineups"] = existing_lineups
 
         game_pk = game.get(
             "mlb_game_pk"
@@ -690,10 +829,6 @@ def enrich_lineups(
             )
             continue
 
-        existing_lineups = dict(
-            game.get("lineups", {})
-        )
-
         for side in (
             "away",
             "home",
@@ -717,13 +852,28 @@ def enrich_lineups(
                 )
             )
 
-            # Preserve an existing projected lineup when MLB's
-            # feed has not posted any hitters yet.
+            # Preserve an existing usable lineup when MLB has not posted
+            # hitters yet. Otherwise project from the team's most recent
+            # confirmed nine-player lineup.
             if not incoming_players:
-                if not existing_lineup:
-                    existing_lineups[
-                        side
-                    ] = incoming_lineup
+                existing_players = (
+                    existing_lineup.get("players")
+                    or []
+                )
+
+                if len(existing_players) >= 9:
+                    continue
+
+                team = game.get(f"{side}_team") or {}
+                projected = projected_lineup_from_recent(
+                    team,
+                    recent_lineups,
+                )
+
+                if projected:
+                    existing_lineups[side] = projected
+                elif not existing_lineup:
+                    existing_lineups[side] = incoming_lineup
 
                 continue
 
@@ -2035,8 +2185,19 @@ def main() -> None:
         target_date,
     )
 
+    recent_lineups = build_recent_confirmed_lineup_index(
+        current.get("games", []),
+        target_date,
+    )
+
+    print(
+        f"Projected-lineup fallback available for "
+        f"{len(recent_lineups)} MLB teams."
+    )
+
     merged_games = enrich_lineups(
         merged_games,
+        recent_lineups,
     )
 
     merged_games = enrich_batter_vs_pitcher(
