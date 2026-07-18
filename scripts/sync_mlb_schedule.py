@@ -95,12 +95,15 @@ def main() -> int:
     current["games"] = games
 
     GAMES_FILE.write_text(json.dumps(current, indent=2) + "\n", encoding="utf-8")
+    days_index = build_days_index(
+        games
+    )
+
     DAYS_FILE.write_text(
-        json.dumps({
-            "schema_version": "1.1",
-            "updated_at": datetime.now(timezone.utc).isoformat(),
-            "days": build_days_index(games),
-        }, indent=2) + "\n",
+        json.dumps(
+            days_index,
+            indent=2,
+        ) + "\n",
         encoding="utf-8",
     )
 
