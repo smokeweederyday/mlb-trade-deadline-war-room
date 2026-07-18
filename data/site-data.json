@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026-07-18T19:19:48.128381+00:00",
+    "updated_at": "2026-07-18T20:24:09.614316+00:00",
     "deadline": "2026-08-03T18:00:00-04:00"
   },
   "teams": [
@@ -74,9 +74,9 @@
       "team": "CLE",
       "division": "",
       "w": 51,
-      "l": 46,
-      "wcgb": 2.5,
-      "run_diff": -2,
+      "l": 47,
+      "wcgb": 2.0,
+      "run_diff": -8,
       "tier": "Buyer",
       "need": "Editorial review needed",
       "betting_note": "Review roster and market impact"
@@ -260,10 +260,10 @@
     {
       "team": "PIT",
       "division": "",
-      "w": 50,
+      "w": 51,
       "l": 47,
-      "wcgb": 1.5,
-      "run_diff": 44,
+      "wcgb": 1.0,
+      "run_diff": 50,
       "tier": "Buyer",
       "need": "Editorial review needed",
       "betting_note": "Review roster and market impact"
