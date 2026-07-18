@@ -1,0 +1,112 @@
+name: Refresh MLB game intelligence
+
+on:
+  workflow_dispatch:
+    inputs:
+      days_ahead:
+        description: Future dates to refresh
+        required: false
+        default: "7"
+  schedule:
+    # Refresh today's slate every hour.
+    - cron: "17 * * * *"
+
+    # Refresh today plus the next seven days every morning.
+    - cron: "42 9 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mlb-game-intelligence-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh-today:
+    if: github.event_name == 'schedule' && github.event.schedule == '17 * * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+
+    steps:
+      - name: Download website files
+        uses: actions/checkout@v5
+
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Refresh today's MLB slate
+        run: |
+          python3 -u scripts/scheduled_refresh.py \
+            --days-ahead 0 \
+            --skip-globe \
+            --skip-verification
+
+      - name: Save updated MLB intelligence
+        run: |
+          git config user.name "boring-bets-intelligence-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/games.json data/days.json data/plays.json data/results.json data/evaluations.json
+          git diff --cached --quiet || git commit -m "Auto-refresh today's MLB intelligence"
+          git push
+
+  refresh-future:
+    if: github.event_name == 'schedule' && github.event.schedule == '42 9 * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+
+    steps:
+      - name: Download website files
+        uses: actions/checkout@v5
+
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Refresh rolling MLB window
+        run: |
+          python3 -u scripts/scheduled_refresh.py \
+            --days-ahead 7 \
+            --skip-globe \
+            --skip-verification \
+            --continue-on-error
+
+      - name: Save updated MLB intelligence
+        run: |
+          git config user.name "boring-bets-intelligence-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/games.json data/days.json data/plays.json data/results.json data/evaluations.json
+          git diff --cached --quiet || git commit -m "Auto-refresh future MLB intelligence"
+          git push
+
+  manual-refresh:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+
+    steps:
+      - name: Download website files
+        uses: actions/checkout@v5
+
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Refresh requested MLB window
+        run: |
+          python3 -u scripts/scheduled_refresh.py \
+            --days-ahead "${{ inputs.days_ahead }}" \
+            --skip-globe \
+            --skip-verification \
+            --continue-on-error
+
+      - name: Save updated MLB intelligence
+        run: |
+          git config user.name "boring-bets-intelligence-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/games.json data/days.json data/plays.json data/results.json data/evaluations.json
+          git diff --cached --quiet || git commit -m "Manually refresh MLB intelligence"
+          git push

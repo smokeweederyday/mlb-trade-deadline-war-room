@@ -29,7 +29,9 @@ from mlb.bullpen import (
     build_bullpen_snapshot,
 )
 
-from mlb.batter_vs_pitcher import build_bvp_for_game
+from mlb.matchup_history import (
+    build_game_career_bvp,
+)
 from mlb.lineups import (
     build_lineup_snapshot,
     annotate_lineup_for_pitcher,
@@ -777,16 +779,58 @@ def enrich_lineups(
     return enriched_games
 
 
-def enrich_batter_vs_pitcher(games: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def enrich_batter_vs_pitcher(
+    games: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
     enriched = []
+
     for stored_game in games:
         game = dict(stored_game)
+
+        existing = dict(
+            game.get("pitcher_vs_lineup")
+            or {}
+        )
+
         try:
-            print(f"Fetching batter-vs-pitcher history: {game.get('id', 'unknown')}" )
-            game["pitcher_vs_lineup"] = build_bvp_for_game(game)
+            print(
+                "Fetching batter-vs-pitcher history: "
+                f"{game.get('id', 'unknown')}"
+            )
+
+            incoming = build_game_career_bvp(game)
+
+            for key in (
+                "away_pitcher",
+                "home_pitcher",
+            ):
+                incoming_side = (
+                    incoming.get(key)
+                    or {}
+                )
+
+                incoming_rows = (
+                    incoming_side
+                    .get("batters")
+                    or {}
+                )
+
+                # Populate each side independently. A known starter and
+                # opposing lineup are sufficient; the other starter does
+                # not need to be available.
+                if incoming_rows:
+                    existing[key] = incoming_side
+
+            game["pitcher_vs_lineup"] = existing
+
         except Exception as error:
-            print(f"BvP refresh retained prior data for {game.get('id')}: {error}")
+            print(
+                "BvP refresh retained prior data "
+                f"for {game.get('id')}: {error}"
+            )
+
         enriched.append(game)
+
     return enriched
 
 

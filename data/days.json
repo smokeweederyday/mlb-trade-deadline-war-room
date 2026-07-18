@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-17T01:46:46.631689+00:00",
+  "updated_at": "2026-07-18T00:08:07.117172+00:00",
   "days": [
     {
       "id": "2026-03-25-mlb",
@@ -4057,7 +4057,7 @@
       "id": "2026-07-17-mlb",
       "date": "2026-07-17",
       "sport": "MLB",
-      "state": "future",
+      "state": "today",
       "previous_day": "2026-07-16",
       "next_day": "2026-07-18",
       "game_ids": [
@@ -4099,17 +4099,18 @@
       "previous_day": "2026-07-17",
       "next_day": "2026-07-19",
       "game_ids": [
+        "2026-07-18-pit-cle",
         "2026-07-18-min-chc",
         "2026-07-18-cws-tor",
         "2026-07-18-cin-col",
         "2026-07-18-nym-phi",
         "2026-07-18-bal-hou",
         "2026-07-18-mia-mil",
-        "2026-07-18-pit-cle",
         "2026-07-18-sd-kc",
         "2026-07-18-stl-ari",
         "2026-07-18-tb-bos",
         "2026-07-18-tex-atl",
+        "2026-07-18-pit-cle",
         "2026-07-18-lad-nyy",
         "2026-07-18-sfg-sea",
         "2026-07-18-wsh-ath",
@@ -4124,7 +4125,7 @@
         "archived": false
       },
       "summary": {
-        "games": 15,
+        "games": 16,
         "official_plays": 0,
         "research_ready": 0
       }

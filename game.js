@@ -1,10 +1,10 @@
 import {
   renderOffenseWidget
-} from "./assets/js/widgets/offenseWidget.js";
+} from "./assets/js/widgets/offenseWidget.js?v=phase8b-fix2";
 
 import {
   renderPitcherWidget
-} from "./assets/js/widgets/pitcherWidget.js";
+} from "./assets/js/widgets/pitcherWidget.js?v=phase8b-fix2";
 
 import {
   renderBullpenWidget
