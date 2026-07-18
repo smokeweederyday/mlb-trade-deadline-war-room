@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026-07-18T20:24:09.614316+00:00",
+    "updated_at": "2026-07-18T21:29:44.369264+00:00",
     "deadline": "2026-08-03T18:00:00-04:00"
   },
   "teams": [
@@ -85,9 +85,9 @@
       "team": "MIN",
       "division": "",
       "w": 49,
-      "l": 49,
-      "wcgb": 0.0,
-      "run_diff": -11,
+      "l": 50,
+      "wcgb": 0.5,
+      "run_diff": -15,
       "tier": "Aggressive Buyer",
       "need": "Editorial review needed",
       "betting_note": "Review roster and market impact"
@@ -238,10 +238,10 @@
     {
       "team": "CHC",
       "division": "",
-      "w": 54,
+      "w": 55,
       "l": 43,
-      "wcgb": 2.5,
-      "run_diff": 49,
+      "wcgb": 3.0,
+      "run_diff": 53,
       "tier": "Buyer",
       "need": "Editorial review needed",
       "betting_note": "Review roster and market impact"
