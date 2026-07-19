@@ -78,7 +78,9 @@ export function buildMlbPitcherModule({
   game,
   side,
   timeframe = "season",
-  location = "all"
+  location = "all",
+  startMode = false,
+  startCount = 7
 }) {
   const isAway = side === "away";
   const team = isAway ? game.away_team : game.home_team;
@@ -86,24 +88,88 @@ export function buildMlbPitcherModule({
   const opposingLineup = isAway ? game.lineups?.home : game.lineups?.away;
   const safePitcher = pitcher || createUnknownPitcher();
 
-  // Season is a stable baseline. It changes only with All/Home/Away.
+  const allowedStartCounts = [
+    1,
+    3,
+    7,
+    10,
+    20
+  ];
+
+  const requestedStartCount =
+    Number(startCount);
+
+  const normalizedStartCount =
+    allowedStartCounts.includes(
+      requestedStartCount
+    )
+      ? requestedStartCount
+      : 7;
+
+  // Season remains the default baseline.
   const season = selectPitcherLocationBlock(
     safePitcher.stats?.season,
     location
   );
 
-  const vsLeft = resolvePitcherSplitBlock(
-    safePitcher, timeframe, location, "vs_lhh"
-  );
-  const vsRight = resolvePitcherSplitBlock(
-    safePitcher, timeframe, location, "vs_rhh"
-  );
+  // This is a true start-count block generated
+  // from pitcher game logs. It is not days.
+  const selectedStarts =
+    safePitcher.stats
+      ?.last_starts
+      ?.[String(normalizedStartCount)]
+      ?.[location] || {};
+
+  const primaryBlock =
+    startMode
+      ? selectedStarts
+      : season;
+
+  const vsLeft =
+    startMode
+      ? selectedStarts?.vs_lhh || {}
+      : resolvePitcherSplitBlock(
+          safePitcher,
+          timeframe,
+          location,
+          "vs_lhh"
+        );
+
+  const vsRight =
+    startMode
+      ? selectedStarts?.vs_rhh || {}
+      : resolvePitcherSplitBlock(
+          safePitcher,
+          timeframe,
+          location,
+          "vs_rhh"
+        );
+
   const lineupMix = summarizeLineupHandedness(
     opposingLineup,
     safePitcher.throws
   );
 
-  const seasonContext = `Season · ${formatLocationLabel(location)}`;
+  const seasonContext =
+    `Season · ${formatLocationLabel(location)}`;
+
+  const startsUsed =
+    Number(selectedStarts?.starts_used);
+
+  const startSampleLabel =
+    startMode &&
+    Number.isFinite(startsUsed)
+      ? (
+          startsUsed < normalizedStartCount
+            ? `${startsUsed} of ${normalizedStartCount} starts available`
+            : `${startsUsed} starts used`
+        )
+      : "";
+
+  const primaryContext =
+    startMode
+      ? `Last ${normalizedStartCount} Starts · ${formatLocationLabel(location)}`
+      : seasonContext;
 
   return {
     name: safePitcher.name || "Starter TBD",
@@ -112,44 +178,126 @@ export function buildMlbPitcherModule({
     handLabel: safePitcher.throws ? `${safePitcher.throws}HP` : "Throws —",
     statusLabel: formatPitcherStatus(safePitcher.status),
     detailsUrl: safePitcher.profile_url || "#",
-    contextLabel: seasonContext,
+    contextLabel: primaryContext,
     activeLocation: location,
+    startMode: Boolean(startMode),
+    activeStartCount:
+      normalizedStartCount,
+    startOptions:
+      allowedStartCounts,
+    startSampleLabel,
     lineupStatusLabel: lineupMix.statusLabel,
     lineupStatusClass: lineupMix.statusClass,
     lineupHandednessLabel: lineupMix.label,
     lineupCompleteness: lineupMix.completeness,
     lineupChanged: lineupMix.changed,
-    columns: [
-      { label: "Season" },
-      { label: "vs LHH" },
-      { label: "vs RHH" }
-    ],
-    metrics: MLB_PITCHER_METRICS.map(metric => ({
-      label: metric.label,
-      values: [
-        normalizeRankedPitcherValue(
-          season,
-          metric.key,
-          metric.type,
-          seasonContext,
-          metric.ranked !== false
-        ),
-        normalizeRankedPitcherValue(
-          vsLeft,
-          metric.key,
-          metric.type,
-          `${vsLeft?._contextFallback || seasonContext} · vs LHH`,
-          metric.ranked !== false
-        ),
-        normalizeRankedPitcherValue(
-          vsRight,
-          metric.key,
-          metric.type,
-          `${vsRight?._contextFallback || seasonContext} · vs RHH`,
-          metric.ranked !== false
-        )
-      ]
-    }))
+    columns: startMode
+      ? [
+          {
+            label: "Season"
+          },
+          {
+            label:
+              `Last ${normalizedStartCount} Starts`
+          },
+          {
+            label:
+              `Last ${normalizedStartCount} Starts vs LHH`
+          },
+          {
+            label:
+              `Last ${normalizedStartCount} Starts vs RHH`
+          }
+        ]
+      : [
+          {
+            label: "Season"
+          },
+          {
+            label: "vs LHH"
+          },
+          {
+            label: "vs RHH"
+          }
+        ],
+
+    metrics: MLB_PITCHER_METRICS.map(
+      metric => ({
+        label: metric.label,
+
+        values: startMode
+          ? [
+              normalizeRankedPitcherValue(
+                season,
+                metric.key,
+                metric.type,
+                seasonContext,
+                metric.ranked !== false
+              ),
+
+              normalizeRankedPitcherValue(
+                selectedStarts,
+                metric.key,
+                metric.type,
+                primaryContext,
+                metric.ranked !== false
+              ),
+
+              normalizeRankedPitcherValue(
+                vsLeft,
+                metric.key,
+                metric.type,
+                `${
+                  vsLeft?._contextFallback
+                  || primaryContext
+                } · vs LHH`,
+                metric.ranked !== false
+              ),
+
+              normalizeRankedPitcherValue(
+                vsRight,
+                metric.key,
+                metric.type,
+                `${
+                  vsRight?._contextFallback
+                  || primaryContext
+                } · vs RHH`,
+                metric.ranked !== false
+              )
+            ]
+          : [
+              normalizeRankedPitcherValue(
+                season,
+                metric.key,
+                metric.type,
+                seasonContext,
+                metric.ranked !== false
+              ),
+
+              normalizeRankedPitcherValue(
+                vsLeft,
+                metric.key,
+                metric.type,
+                `${
+                  vsLeft?._contextFallback
+                  || seasonContext
+                } · vs LHH`,
+                metric.ranked !== false
+              ),
+
+              normalizeRankedPitcherValue(
+                vsRight,
+                metric.key,
+                metric.type,
+                `${
+                  vsRight?._contextFallback
+                  || seasonContext
+                } · vs RHH`,
+                metric.ranked !== false
+              )
+            ]
+      })
+    )
   };
 }
 
@@ -261,6 +409,22 @@ function formatPitcherSample(block) {
 
 function pitcherQualificationMinimum(contextLabel = "") {
   const normalized = String(contextLabel).toLowerCase();
+
+  const startMatch = normalized.match(
+    /last\s+(1|3|7|10|20)\s+starts?/
+  );
+
+  if (startMatch) {
+    const count = Number(
+      startMatch[1]
+    );
+
+    return `${count} completed ${
+      count === 1
+        ? "start"
+        : "starts"
+    }`;
+  }
 
   if (normalized.includes("season")) {
     return "10.0 IP";

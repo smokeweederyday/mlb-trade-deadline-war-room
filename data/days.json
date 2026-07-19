@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-19T02:12:40.129520+00:00",
+  "updated_at": "2026-07-19T05:29:42.426183+00:00",
   "days": [
     {
       "id": "2026-03-25-mlb",
@@ -4089,7 +4089,7 @@
       "id": "2026-07-18-mlb",
       "date": "2026-07-18",
       "sport": "MLB",
-      "state": "live",
+      "state": "completed",
       "previous_day": "2026-07-17",
       "next_day": "2026-07-19",
       "game_ids": [
@@ -4114,7 +4114,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": false,
+        "results_complete": true,
         "evaluations_complete": false,
         "archived": false
       },
@@ -4128,7 +4128,7 @@
       "id": "2026-07-19-mlb",
       "date": "2026-07-19",
       "sport": "MLB",
-      "state": "future",
+      "state": "today",
       "previous_day": "2026-07-18",
       "next_day": "2026-07-20",
       "game_ids": [

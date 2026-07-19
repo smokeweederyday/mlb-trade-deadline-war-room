@@ -3308,3 +3308,251 @@ td.bullpen-pitches.bullpen-zero {
   background: rgba(130, 144, 135, .09) !important;
   box-shadow: inset 0 0 0 1px rgba(130, 144, 135, .12) !important;
 }
+
+/* True pitcher Last Starts control */
+.pitcher-start-control {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.pitcher-start-toggle {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 13px;
+  border: 1px solid rgba(120, 135, 128, 0.35);
+  border-radius: 10px;
+  background: rgba(10, 15, 13, 0.78);
+  color: rgba(238, 244, 241, 0.78);
+  cursor: pointer;
+}
+
+.pitcher-start-toggle span {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.pitcher-start-toggle small {
+  font-size: 0.7rem;
+  color: rgba(220, 229, 224, 0.58);
+}
+
+.pitcher-start-toggle.active {
+  border-color: rgba(79, 255, 153, 0.68);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(23, 112, 66, 0.32),
+      rgba(7, 18, 13, 0.88)
+    );
+  box-shadow:
+    0 0 18px rgba(35, 255, 130, 0.12);
+  color: rgba(232, 255, 241, 0.98);
+}
+
+.pitcher-start-toggle.active small {
+  color: rgba(132, 255, 181, 0.9);
+}
+
+.pitcher-start-slider-panel {
+  padding: 12px 14px 10px;
+  border: 1px solid rgba(68, 255, 145, 0.24);
+  border-radius: 11px;
+  background: rgba(5, 12, 9, 0.78);
+}
+
+.pitcher-start-slider-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 9px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: rgba(219, 229, 224, 0.6);
+}
+
+.pitcher-start-slider-heading strong {
+  color: rgba(117, 255, 174, 0.96);
+}
+
+.pitcher-start-slider-panel input[type="range"] {
+  width: 100%;
+  margin: 2px 0 4px;
+  accent-color: #55f596;
+  cursor: pointer;
+}
+
+.pitcher-start-ticks {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+.pitcher-start-ticks button {
+  border: 0;
+  padding: 4px 2px;
+  background: transparent;
+  color: rgba(211, 222, 216, 0.52);
+  font: inherit;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.pitcher-start-ticks button.active {
+  color: rgba(118, 255, 176, 1);
+  font-weight: 800;
+}
+
+.pitcher-start-sample {
+  margin: 7px 0 0;
+  text-align: center;
+  font-size: 0.68rem;
+  color: rgba(220, 229, 224, 0.62);
+}
+
+/* Compact pitcher filters */
+.pitcher-filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  margin: 12px 0;
+}
+
+.pitcher-filter-row .pitcher-location-control {
+  width: auto;
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.pitcher-filter-row
+.pitcher-location-control button {
+  min-height: 34px;
+  padding: 5px 10px;
+}
+
+.pitcher-start-compact {
+  position: relative;
+  flex: 0 0 148px;
+  height: 34px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: stretch;
+  padding: 0 5px;
+  border: 1px solid rgba(111, 126, 118, 0.36);
+  border-radius: 8px;
+  background: rgba(8, 13, 11, 0.76);
+  overflow: hidden;
+  transition:
+    border-color 140ms ease,
+    opacity 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.pitcher-start-compact.inactive {
+  opacity: 0.48;
+  filter: grayscale(1);
+}
+
+.pitcher-start-compact.active {
+  border-color: rgba(71, 255, 146, 0.54);
+  box-shadow:
+    0 0 13px rgba(38, 255, 132, 0.1);
+}
+
+.pitcher-start-track {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  right: 15px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(182, 194, 188, 0.28);
+  pointer-events: none;
+}
+
+.pitcher-start-compact.active
+.pitcher-start-track {
+  background: rgba(68, 255, 145, 0.3);
+}
+
+.pitcher-start-compact button {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: 16px 12px;
+  justify-items: center;
+  align-items: center;
+  padding: 2px 0 1px;
+  border: 0;
+  background: transparent;
+  color: rgba(208, 218, 213, 0.56);
+  cursor: pointer;
+}
+
+.pitcher-start-dot {
+  width: 7px;
+  height: 7px;
+  align-self: center;
+  border-radius: 50%;
+  background: rgba(188, 199, 193, 0.72);
+  box-shadow:
+    0 0 0 2px rgba(7, 12, 10, 0.94);
+}
+
+.pitcher-start-compact button small {
+  font-size: 0.57rem;
+  line-height: 1;
+  color: inherit;
+}
+
+.pitcher-start-compact button.selected {
+  color: rgba(223, 232, 227, 0.9);
+  font-weight: 800;
+}
+
+.pitcher-start-compact
+button.selected
+.pitcher-start-dot {
+  width: 10px;
+  height: 10px;
+}
+
+.pitcher-start-compact.active
+button.selected {
+  color: rgba(105, 255, 169, 1);
+}
+
+.pitcher-start-compact.active
+button.selected
+.pitcher-start-dot {
+  background: rgba(74, 255, 151, 1);
+  box-shadow:
+    0 0 0 2px rgba(7, 20, 13, 0.95),
+    0 0 9px rgba(53, 255, 140, 0.65);
+}
+
+@media (max-width: 520px) {
+  .pitcher-filter-row {
+    gap: 6px;
+  }
+
+  .pitcher-filter-row
+  .pitcher-location-control button {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+  .pitcher-start-compact {
+    flex-basis: 135px;
+  }
+}

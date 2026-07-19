@@ -251,6 +251,393 @@ def normalize_pitching_stat(
 
     return add_pitcher_rate_metrics(stats)
 
+
+LAST_START_COUNTS = (1, 3, 7, 10, 20)
+
+
+def pitcher_innings_to_outs(
+    value: Any,
+) -> int | None:
+    if value is None or value == "":
+        return None
+
+    whole_text, separator, partial_text = (
+        str(value).strip().partition(".")
+    )
+
+    try:
+        whole = int(whole_text)
+        partial = (
+            int(partial_text)
+            if separator
+            else 0
+        )
+    except ValueError:
+        return None
+
+    if partial not in (0, 1, 2):
+        return None
+
+    return whole * 3 + partial
+
+
+def pitcher_game_log_location(
+    split: dict[str, Any],
+) -> bool | None:
+    is_home = split.get("isHome")
+
+    if isinstance(is_home, bool):
+        return is_home
+
+    game = split.get("game") or {}
+
+    home_away = (
+        split.get("homeAway")
+        or game.get("homeAway")
+    )
+
+    if isinstance(home_away, str):
+        normalized = home_away.strip().lower()
+
+        if normalized == "home":
+            return True
+
+        if normalized == "away":
+            return False
+
+    return None
+
+
+def fetch_pitcher_start_game_logs(
+    pitcher_id: int,
+    target_date: str,
+) -> list[dict[str, Any]]:
+    """Return starts strictly before the selected matchup date."""
+
+    target = datetime.strptime(
+        target_date,
+        "%Y-%m-%d",
+    ).date()
+
+    rows_by_game: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    # Include the prior season so early-season
+    # Last 10/20 selections can cross seasons.
+    for season in (
+        target.year - 1,
+        target.year,
+    ):
+        params = urllib.parse.urlencode(
+            {
+                "stats": "gameLog",
+                "group": "pitching",
+                "season": season,
+            }
+        )
+
+        raw = get_json(
+            f"{MLB_API_BASE}/people/"
+            f"{pitcher_id}/stats?{params}"
+        )
+
+        for group in raw.get("stats", []):
+            for split in group.get(
+                "splits",
+                [],
+            ):
+                stat = split.get("stat") or {}
+
+                # This is the critical rule:
+                # relief appearances are never included.
+                if (
+                    to_int(
+                        stat.get("gamesStarted")
+                    )
+                    or 0
+                ) < 1:
+                    continue
+
+                raw_date = str(
+                    split.get("date")
+                    or split.get("gameDate")
+                    or ""
+                )[:10]
+
+                try:
+                    game_date = datetime.strptime(
+                        raw_date,
+                        "%Y-%m-%d",
+                    ).date()
+                except ValueError:
+                    continue
+
+                if game_date >= target:
+                    continue
+
+                game = split.get("game") or {}
+                game_pk = game.get("gamePk")
+
+                key = (
+                    str(game_pk)
+                    if game_pk
+                    else (
+                        f"{raw_date}-"
+                        f"{season}-"
+                        f"{len(rows_by_game)}"
+                    )
+                )
+
+                rows_by_game[key] = {
+                    "date": raw_date,
+                    "game_pk": game_pk,
+                    "is_home":
+                        pitcher_game_log_location(
+                            split
+                        ),
+                    "stat": stat,
+                }
+
+    return sorted(
+        rows_by_game.values(),
+        key=lambda row: (
+            row.get("date") or "",
+            row.get("game_pk") or 0,
+        ),
+    )
+
+
+def aggregate_pitcher_start_rows(
+    rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    if not rows:
+        return {}
+
+    totals = {
+        "outs": 0,
+        "at_bats": 0,
+        "hits": 0,
+        "earned_runs": 0,
+        "walks": 0,
+        "hit_batsmen": 0,
+        "strikeouts": 0,
+        "home_runs": 0,
+        "batters_faced": 0,
+        "ground_outs": 0,
+        "air_outs": 0,
+    }
+
+    for row in rows:
+        stat = row.get("stat") or {}
+
+        outs = to_int(
+            stat.get("outs")
+            or stat.get("outsPitched")
+        )
+
+        if outs is None:
+            outs = pitcher_innings_to_outs(
+                stat.get("inningsPitched")
+            )
+
+        totals["outs"] += outs or 0
+        totals["at_bats"] += (
+            to_int(stat.get("atBats"))
+            or 0
+        )
+        totals["hits"] += (
+            to_int(stat.get("hits"))
+            or 0
+        )
+        totals["earned_runs"] += (
+            to_int(stat.get("earnedRuns"))
+            or 0
+        )
+        totals["walks"] += (
+            to_int(stat.get("baseOnBalls"))
+            or 0
+        )
+        totals["hit_batsmen"] += (
+            to_int(
+                stat.get("hitBatsmen")
+                or stat.get("hitByPitch")
+            )
+            or 0
+        )
+        totals["strikeouts"] += (
+            to_int(stat.get("strikeOuts"))
+            or 0
+        )
+        totals["home_runs"] += (
+            to_int(stat.get("homeRuns"))
+            or 0
+        )
+        totals["batters_faced"] += (
+            to_int(stat.get("battersFaced"))
+            or 0
+        )
+        totals["ground_outs"] += (
+            to_int(stat.get("groundOuts"))
+            or 0
+        )
+        totals["air_outs"] += (
+            to_int(
+                stat.get("airOuts")
+                or stat.get("flyOuts")
+            )
+            or 0
+        )
+
+    outs = totals["outs"]
+
+    if outs <= 0:
+        return {}
+
+    innings = outs / 3
+    at_bats = totals["at_bats"]
+
+    stats: dict[str, Any] = {
+        "era": round(
+            totals["earned_runs"]
+            * 9
+            / innings,
+            2,
+        ),
+        "whip": round(
+            (
+                totals["hits"]
+                + totals["walks"]
+            )
+            / innings,
+            2,
+        ),
+        "fip": None,
+        "xfip": None,
+        "avg_against": (
+            round(
+                totals["hits"] / at_bats,
+                3,
+            )
+            if at_bats
+            else None
+        ),
+        "innings_pitched":
+            f"{outs // 3}.{outs % 3}",
+        "outs": outs,
+        "games": len(rows),
+        "games_started": len(rows),
+        "batters_faced":
+            totals["batters_faced"],
+        "strikeouts":
+            totals["strikeouts"],
+        "walks":
+            totals["walks"],
+        "home_runs":
+            totals["home_runs"],
+        "hit_batsmen":
+            totals["hit_batsmen"],
+        "hit_by_pitch":
+            totals["hit_batsmen"],
+        "hbp":
+            totals["hit_batsmen"],
+        "ground_outs":
+            totals["ground_outs"],
+        "air_outs":
+            totals["air_outs"],
+        "fly_balls":
+            totals["air_outs"],
+        "hits":
+            totals["hits"],
+        "earned_runs":
+            totals["earned_runs"],
+        "start_dates": [
+            row.get("date")
+            for row in rows
+        ],
+        "sample_type": "starts",
+    }
+
+    add_pitcher_rate_metrics(stats)
+
+    # Use the same FIP/xFIP calculators already
+    # used by the existing pitcher rank engine.
+    try:
+        from mlb.intelligence import (
+            add_fip,
+            add_xfip,
+        )
+
+        add_fip(stats)
+        add_xfip(stats)
+    except Exception as error:
+        print(
+            "Last-start FIP/xFIP unavailable: "
+            f"{error}"
+        )
+
+    return stats
+
+
+def build_last_start_blocks(
+    rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    output: dict[str, Any] = {}
+
+    for requested_count in LAST_START_COUNTS:
+        count_key = str(requested_count)
+        output[count_key] = {}
+
+        for location in (
+            "all",
+            "home",
+            "away",
+        ):
+            eligible = [
+                row
+                for row in rows
+                if (
+                    location == "all"
+                    or (
+                        location == "home"
+                        and row.get("is_home")
+                        is True
+                    )
+                    or (
+                        location == "away"
+                        and row.get("is_home")
+                        is False
+                    )
+                )
+            ]
+
+            selected = eligible[
+                -requested_count:
+            ]
+
+            block = (
+                aggregate_pitcher_start_rows(
+                    selected
+                )
+            )
+
+            if block:
+                block["requested_starts"] = (
+                    requested_count
+                )
+                block["starts_used"] = len(
+                    selected
+                )
+                block["location"] = location
+
+            output[count_key][location] = (
+                block
+            )
+
+    return output
+
+
 def fetch_safe_split(
     pitcher_id: int,
     season: int,
@@ -285,6 +672,13 @@ def build_pitcher_snapshot(
     target = datetime.strptime(target_date, "%Y-%m-%d").date()
     season = target.year
     profile = fetch_pitcher_profile(pitcher_id)
+
+    start_game_logs = (
+        fetch_pitcher_start_game_logs(
+            pitcher_id,
+            target_date,
+        )
+    )
 
     windows = {
         "last_7": ("byDateRange", target - timedelta(days=7), target),
@@ -334,6 +728,12 @@ def build_pitcher_snapshot(
                 split_block["split_label"] = split_label
                 block[split_key] = split_block
             stats_root[timeframe][location] = block
+
+    stats_root["last_starts"] = (
+        build_last_start_blocks(
+            start_game_logs
+        )
+    )
 
     return {
         **profile,
@@ -657,8 +1057,6 @@ def build_pitcher_statcast_split_rows(target_date: str) -> dict[tuple[str,str,st
     season_start=date(target.year,3,1)
     season_rows=fetch_pitcher_statcast_range(season_start,cutoff)
     windows={
-        "last_7": target-timedelta(days=7),
-        "last_30": target-timedelta(days=30),
         "season": season_start,
     }
     output={}
@@ -761,19 +1159,544 @@ def _competition_ranks(rows: list[dict[str, Any]], metric: str) -> dict[int, int
     return result
 
 
+
+
+def build_league_last_start_rank_filters(
+    target_date: str,
+) -> dict[str, Any]:
+    """
+    Rank overall and handedness statistics using
+    actual pitcher starts, never calendar days.
+    """
+
+    print(
+        "Building MLB-wide Last Starts "
+        "pitcher rank pools..."
+    )
+
+    def eligible_start_rows(
+        rows: list[dict[str, Any]],
+        location: str,
+    ) -> list[dict[str, Any]]:
+        return [
+            row
+            for row in rows
+            if (
+                location == "all"
+                or (
+                    location == "home"
+                    and row.get("is_home") is True
+                )
+                or (
+                    location == "away"
+                    and row.get("is_home") is False
+                )
+            )
+        ]
+
+    def build_rank_payload(
+        rows: list[dict[str, Any]],
+        context: str,
+    ) -> dict[str, Any]:
+        ranks = {
+            metric:
+                _competition_ranks(
+                    rows,
+                    metric,
+                )
+            for metric
+            in PITCHER_RANK_METRICS
+        }
+
+        pitchers: dict[str, Any] = {}
+
+        for row in rows:
+            pitcher_id = int(
+                row["pitcher_id"]
+            )
+
+            stats = dict(
+                row["stats"]
+            )
+
+            stats["ranks"] = {
+                metric:
+                    ranks[metric].get(
+                        pitcher_id
+                    )
+                for metric
+                in PITCHER_RANK_METRICS
+            }
+
+            stats["rank_pool_size"] = {
+                metric:
+                    len(ranks[metric])
+                for metric
+                in PITCHER_RANK_METRICS
+            }
+
+            stats["rank_context"] = context
+
+            pitchers[str(pitcher_id)] = (
+                stats
+            )
+
+        return {
+            "pitchers": pitchers,
+            "qualified_count": len(rows),
+        }
+
+    season_rows = _global_pitcher_stats(
+        target_date,
+        "season",
+        "all",
+    )
+
+    pitcher_ids = sorted({
+        int(row["pitcher_id"])
+        for row in season_rows
+        if (
+            to_int(
+                row.get("stats", {})
+                .get("games_started")
+            )
+            or 0
+        ) > 0
+    })
+
+    print(
+        "Last Starts candidates:",
+        len(pitcher_ids),
+    )
+
+    start_rows_by_pitcher: dict[
+        int,
+        list[dict[str, Any]],
+    ] = {}
+
+    workers = max(
+        2,
+        min(
+            int(
+                os.getenv(
+                    "BORING_BETS_MLB_FETCH_WORKERS",
+                    "10",
+                )
+            ),
+            16,
+        ),
+    )
+
+    with ThreadPoolExecutor(
+        max_workers=workers,
+    ) as executor:
+        futures = {
+            executor.submit(
+                fetch_pitcher_start_game_logs,
+                pitcher_id,
+                target_date,
+            ): pitcher_id
+            for pitcher_id in pitcher_ids
+        }
+
+        completed = 0
+
+        for future in as_completed(futures):
+            pitcher_id = futures[future]
+            completed += 1
+
+            try:
+                start_rows_by_pitcher[
+                    pitcher_id
+                ] = future.result()
+            except Exception as error:
+                print(
+                    "Last Starts game log skipped "
+                    f"{pitcher_id}: {error}"
+                )
+
+            if (
+                completed == 1
+                or completed % 25 == 0
+                or completed == len(futures)
+            ):
+                print(
+                    "Last Starts game logs: "
+                    f"{completed}/{len(futures)}"
+                )
+
+    # Fetch Statcast only for dates that belong
+    # to a selected Last 20 sample.
+    relevant_dates: set[str] = set()
+    maximum_count = max(LAST_START_COUNTS)
+
+    for rows in start_rows_by_pitcher.values():
+        for location in (
+            "all",
+            "home",
+            "away",
+        ):
+            selected = eligible_start_rows(
+                rows,
+                location,
+            )[-maximum_count:]
+
+            relevant_dates.update(
+                str(row.get("date"))
+                for row in selected
+                if row.get("date")
+            )
+
+    print(
+        "Last Starts Statcast dates:",
+        len(relevant_dates),
+    )
+
+    statcast_rows: list[
+        dict[str, Any]
+    ] = []
+
+    statcast_workers = max(
+        1,
+        min(
+            int(
+                os.getenv(
+                    "BORING_BETS_STATCAST_WORKERS",
+                    "4",
+                )
+            ),
+            6,
+        ),
+    )
+
+    with ThreadPoolExecutor(
+        max_workers=statcast_workers,
+    ) as executor:
+        futures = {
+            executor.submit(
+                fetch_pitcher_statcast_terminal_pas,
+                day,
+            ): day
+            for day in sorted(relevant_dates)
+        }
+
+        completed = 0
+
+        for future in as_completed(futures):
+            day = futures[future]
+            completed += 1
+
+            try:
+                statcast_rows.extend(
+                    future.result()
+                )
+            except Exception as error:
+                print(
+                    "Last Starts Statcast skipped "
+                    f"{day}: {error}"
+                )
+
+            if (
+                completed == 1
+                or completed % 25 == 0
+                or completed == len(futures)
+            ):
+                print(
+                    "Last Starts Statcast dates: "
+                    f"{completed}/{len(futures)}"
+                )
+
+    statcast_by_pitcher_date: dict[
+        int,
+        dict[
+            str,
+            list[dict[str, Any]],
+        ],
+    ] = {}
+
+    for row in statcast_rows:
+        try:
+            pitcher_id = int(
+                row.get("pitcher_id")
+            )
+        except (
+            TypeError,
+            ValueError,
+        ):
+            continue
+
+        day = str(
+            row.get("date") or ""
+        )
+
+        if not day:
+            continue
+
+        statcast_by_pitcher_date.setdefault(
+            pitcher_id,
+            {},
+        ).setdefault(
+            day,
+            [],
+        ).append(row)
+
+    blocks_by_pitcher: dict[
+        int,
+        dict[str, Any],
+    ] = {}
+
+    for (
+        pitcher_id,
+        start_rows,
+    ) in start_rows_by_pitcher.items():
+        blocks = build_last_start_blocks(
+            start_rows
+        )
+
+        pitcher_statcast = (
+            statcast_by_pitcher_date.get(
+                pitcher_id,
+                {},
+            )
+        )
+
+        for requested_count in (
+            LAST_START_COUNTS
+        ):
+            count_key = str(
+                requested_count
+            )
+
+            for location in (
+                "all",
+                "home",
+                "away",
+            ):
+                selected = (
+                    eligible_start_rows(
+                        start_rows,
+                        location,
+                    )[-requested_count:]
+                )
+
+                block = (
+                    blocks
+                    .get(count_key, {})
+                    .get(location, {})
+                )
+
+                if not block:
+                    continue
+
+                selected_statcast: list[
+                    dict[str, Any]
+                ] = []
+
+                for start_row in selected:
+                    day = str(
+                        start_row.get("date")
+                        or ""
+                    )
+
+                    selected_statcast.extend(
+                        pitcher_statcast.get(
+                            day,
+                            [],
+                        )
+                    )
+
+                for (
+                    split_key,
+                    batter_side,
+                    split_label,
+                ) in (
+                    (
+                        "vs_lhh",
+                        "L",
+                        "vs LHH",
+                    ),
+                    (
+                        "vs_rhh",
+                        "R",
+                        "vs RHH",
+                    ),
+                ):
+                    split_rows = (
+                        aggregate_pitcher_statcast_splits(
+                            selected_statcast,
+                            "all",
+                            batter_side,
+                        )
+                    )
+
+                    matching = next(
+                        (
+                            row.get("stats", {})
+                            for row in split_rows
+                            if int(
+                                row.get(
+                                    "pitcher_id",
+                                    0,
+                                )
+                            ) == pitcher_id
+                        ),
+                        {},
+                    )
+
+                    split_stats = dict(
+                        matching
+                    )
+
+                    if split_stats:
+                        split_stats[
+                            "requested_starts"
+                        ] = requested_count
+                        split_stats[
+                            "starts_used"
+                        ] = len(selected)
+                        split_stats[
+                            "start_dates"
+                        ] = [
+                            row.get("date")
+                            for row in selected
+                        ]
+                        split_stats[
+                            "sample_type"
+                        ] = "starts"
+                        split_stats[
+                            "split_label"
+                        ] = split_label
+                        split_stats[
+                            "era"
+                        ] = None
+                        split_stats[
+                            "era_unavailable_reason"
+                        ] = (
+                            "Earned runs cannot be "
+                            "assigned reliably by "
+                            "batter handedness."
+                        )
+
+                    block[split_key] = (
+                        split_stats
+                    )
+
+        blocks_by_pitcher[
+            pitcher_id
+        ] = blocks
+
+    output: dict[str, Any] = {}
+
+    for requested_count in LAST_START_COUNTS:
+        count_key = str(requested_count)
+        output[count_key] = {}
+
+        for location in (
+            "all",
+            "home",
+            "away",
+        ):
+            overall_rows = []
+            left_rows = []
+            right_rows = []
+
+            for (
+                pitcher_id,
+                blocks,
+            ) in blocks_by_pitcher.items():
+                stats = (
+                    blocks
+                    .get(count_key, {})
+                    .get(location, {})
+                )
+
+                starts_used = (
+                    to_int(
+                        stats.get("starts_used")
+                    )
+                    or 0
+                )
+
+                # An incomplete requested sample is
+                # displayed but not league-ranked.
+                if starts_used < requested_count:
+                    continue
+
+                overall_rows.append({
+                    "pitcher_id": pitcher_id,
+                    "stats": dict(stats),
+                })
+
+                left_stats = (
+                    stats.get("vs_lhh")
+                    or {}
+                )
+
+                if left_stats:
+                    left_rows.append({
+                        "pitcher_id":
+                            pitcher_id,
+                        "stats":
+                            dict(left_stats),
+                    })
+
+                right_stats = (
+                    stats.get("vs_rhh")
+                    or {}
+                )
+
+                if right_stats:
+                    right_rows.append({
+                        "pitcher_id":
+                            pitcher_id,
+                        "stats":
+                            dict(right_stats),
+                    })
+
+            overall_payload = (
+                build_rank_payload(
+                    overall_rows,
+                    "last_starts",
+                )
+            )
+
+            output[count_key][location] = {
+                **overall_payload,
+                "vs_lhh":
+                    build_rank_payload(
+                        left_rows,
+                        "last_starts_vs_lhh",
+                    ),
+                "vs_rhh":
+                    build_rank_payload(
+                        right_rows,
+                        "last_starts_vs_rhh",
+                    ),
+            }
+
+            print(
+                "Last Starts pool: "
+                f"{requested_count}/"
+                f"{location} = "
+                f"{len(overall_rows)} overall, "
+                f"{len(left_rows)} LHH, "
+                f"{len(right_rows)} RHH"
+            )
+
+    return output
 def build_league_pitcher_cache(target_date: str) -> dict[str, Any]:
     cache_root=Path(__file__).resolve().parents[2]/"data"/"cache"
     cache_root.mkdir(parents=True,exist_ok=True)
-    cache_file=cache_root/f"mlb-pitcher-ranks-{target_date}.json"
+    cache_file=cache_root/f"mlb-pitcher-ranks-v5-{target_date}.json"
     force=os.getenv("BORING_BETS_REBUILD_PITCHER_RANK_CACHE")=="1"
     if cache_file.exists() and not force:
         try: return json.loads(cache_file.read_text())
         except Exception: pass
     matrix={"date":target_date,"filters":{}}
-    print("Building date-bounded pitcher LHH/RHH location splits from Statcast...")
+    print("Building Season and Last Starts pitcher rank pools...")
     statcast_split_rows = build_pitcher_statcast_split_rows(target_date)
-    total=27; count=0
-    for timeframe in ("last_7","last_30","season"):
+    total=9; count=0
+    for timeframe in ("season",):
         matrix["filters"].setdefault(timeframe,{})
         for location in ("all","home","away"):
             matrix["filters"][timeframe].setdefault(location,{})
@@ -818,7 +1741,19 @@ def build_league_pitcher_cache(target_date: str) -> dict[str, Any]:
                     "pitchers": payload,
                     "qualified_count": len(qualified),
                 }
-    cache_file.write_text(json.dumps(matrix,indent=2))
+    matrix["filters"]["last_starts"] = (
+        build_league_last_start_rank_filters(
+            target_date
+        )
+    )
+
+    cache_file.write_text(
+        json.dumps(
+            matrix,
+            indent=2,
+        )
+    )
+
     return matrix
 
 
@@ -831,7 +1766,7 @@ def apply_league_pitcher_cache(games: list[dict[str, Any]], cache: dict[str, Any
             if not pid: continue
             pid=str(pid)
             stats_root=pitcher.setdefault("stats",{})
-            for timeframe in ("last_7","last_30","season"):
+            for timeframe in ("season",):
                 period=stats_root.setdefault(timeframe,{})
                 for location in ("all","home","away"):
                     location_block=period.setdefault(location,{})
@@ -841,6 +1776,83 @@ def apply_league_pitcher_cache(games: list[dict[str, Any]], cache: dict[str, Any
                     for split_key in ("vs_lhh","vs_rhh"):
                         split_stats=filter_block.get(split_key,{}).get("pitchers",{}).get(pid)
                         if split_stats: location_block[split_key]=split_stats
+            last_start_filters = (
+                filters.get(
+                    "last_starts",
+                    {},
+                )
+            )
+
+            last_start_root = (
+                stats_root.setdefault(
+                    "last_starts",
+                    {},
+                )
+            )
+
+            for requested_count in (
+                1,
+                3,
+                7,
+                10,
+                20,
+            ):
+                count_key = str(
+                    requested_count
+                )
+
+                count_root = (
+                    last_start_root.setdefault(
+                        count_key,
+                        {},
+                    )
+                )
+
+                for location in (
+                    "all",
+                    "home",
+                    "away",
+                ):
+                    location_block = (
+                        count_root.setdefault(
+                            location,
+                            {},
+                        )
+                    )
+
+                    count_filter = (
+                        last_start_filters
+                        .get(count_key, {})
+                        .get(location, {})
+                    )
+
+                    ranked_stats = (
+                        count_filter
+                        .get("pitchers", {})
+                        .get(pid)
+                    )
+
+                    if ranked_stats:
+                        location_block.update(
+                            ranked_stats
+                        )
+
+                    for split_key in (
+                        "vs_lhh",
+                        "vs_rhh",
+                    ):
+                        split_stats = (
+                            count_filter
+                            .get(split_key, {})
+                            .get("pitchers", {})
+                            .get(pid)
+                        )
+
+                        if split_stats:
+                            location_block[
+                                split_key
+                            ] = split_stats
+
             # Backwards-compatible season split aliases.
             season_all=stats_root.get("season",{}).get("all",{})
             if season_all.get("vs_lhh"): stats_root["vs_lhh"]=season_all["vs_lhh"]

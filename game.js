@@ -4,7 +4,7 @@ import {
 
 import {
   renderPitcherWidget
-} from "./assets/js/widgets/pitcherWidget.js?v=phase8e-unranked-tooltip1";
+} from "./assets/js/widgets/pitcherWidget.js?v=phase10b-compact-starts1";
 
 import {
   renderBullpenWidget
@@ -33,7 +33,7 @@ import {
   buildMlbMatchupModule,
   buildMlbWeatherModule,
   buildMlbMarketModule
-} from "./assets/js/sports/mlbEngine.js?v=phase9n-bullpen-title1";
+} from "./assets/js/sports/mlbEngine.js?v=phase10e-start-handedness1";
 
 const GAME_LOGO_BASE =
   "https://www.mlbstatic.com/team-logos/team-cap-on-dark";
@@ -49,6 +49,10 @@ const state = {
   timeframe: "last_30",
   awayPitcherLocation: "all",
   homePitcherLocation: "all",
+  awayPitcherStartMode: false,
+  homePitcherStartMode: false,
+  awayPitcherStartCount: 7,
+  homePitcherStartCount: 7,
   awayOffenseTimeframe: "last_30",
   homeOffenseTimeframe: "last_30"
 };
@@ -639,7 +643,11 @@ function renderPitchers() {
       timeframe:
         "season",
       location:
-        state.awayPitcherLocation
+        state.awayPitcherLocation,
+      startMode:
+        state.awayPitcherStartMode,
+      startCount:
+        state.awayPitcherStartCount
     });
 
   renderPitcherWidget({
@@ -650,10 +658,33 @@ function renderPitchers() {
 
     module:
       awayPitcherModule,
+
     onLocationChange: location => {
       state.awayPitcherLocation = location;
       renderPitchers();
       renderLineupMatchups();
+    },
+
+    onStartModeChange: active => {
+      state.awayPitcherStartMode =
+        Boolean(active);
+
+      if (active) {
+        state.awayPitcherStartCount =
+          state.awayPitcherStartCount || 7;
+      }
+
+      renderPitchers();
+    },
+
+    onStartCountChange: count => {
+      state.awayPitcherStartCount =
+        Number(count) || 7;
+
+      state.awayPitcherStartMode =
+        true;
+
+      renderPitchers();
     }
   });
 
@@ -664,7 +695,11 @@ function renderPitchers() {
       timeframe:
         "season",
       location:
-        state.homePitcherLocation
+        state.homePitcherLocation,
+      startMode:
+        state.homePitcherStartMode,
+      startCount:
+        state.homePitcherStartCount
     });
 
   renderPitcherWidget({
@@ -675,10 +710,33 @@ function renderPitchers() {
 
     module:
       homePitcherModule,
+
     onLocationChange: location => {
       state.homePitcherLocation = location;
       renderPitchers();
       renderLineupMatchups();
+    },
+
+    onStartModeChange: active => {
+      state.homePitcherStartMode =
+        Boolean(active);
+
+      if (active) {
+        state.homePitcherStartCount =
+          state.homePitcherStartCount || 7;
+      }
+
+      renderPitchers();
+    },
+
+    onStartCountChange: count => {
+      state.homePitcherStartCount =
+        Number(count) || 7;
+
+      state.homePitcherStartMode =
+        true;
+
+      renderPitchers();
     }
   });
 }

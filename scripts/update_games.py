@@ -517,6 +517,233 @@ def enrich_team_offenses(
     return enriched_games
 
 
+
+
+def apply_bullpen_ranks(
+    games: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """
+    Rank bullpen ERA, WHIP, FIP, K/9 and BB/9.
+
+    Lower is better except for K/9.
+    Each MLB team appears only once in a rank pool.
+    """
+
+    metric_directions = {
+        "era": False,
+        "whip": False,
+        "fip": False,
+        "k_per_9": True,
+        "bb_per_9": False,
+    }
+
+    def innings_value(
+        innings_pitched: Any,
+    ) -> float | None:
+        if innings_pitched in (
+            None,
+            "",
+            "—",
+            "-",
+        ):
+            return None
+
+        text_value = str(
+            innings_pitched
+        ).strip()
+
+        whole_text, separator, partial_text = (
+            text_value.partition(".")
+        )
+
+        try:
+            whole = int(whole_text)
+            partial = (
+                int(partial_text)
+                if separator
+                else 0
+            )
+        except (
+            TypeError,
+            ValueError,
+        ):
+            return None
+
+        if partial not in (
+            0,
+            1,
+            2,
+        ):
+            return None
+
+        return whole + partial / 3
+
+    def per_nine(
+        numerator: Any,
+        innings_pitched: Any,
+    ) -> float | None:
+        try:
+            numeric_numerator = float(
+                numerator
+            )
+        except (
+            TypeError,
+            ValueError,
+        ):
+            return None
+
+        innings = innings_value(
+            innings_pitched
+        )
+
+        if innings is None or innings <= 0:
+            return None
+
+        return round(
+            numeric_numerator * 9 / innings,
+            2,
+        )
+
+    for timeframe in (
+        "last_7",
+        "last_30",
+        "season",
+    ):
+        for location in (
+            "all",
+            "home",
+            "away",
+        ):
+            blocks_by_team: dict[
+                int,
+                dict[str, Any],
+            ] = {}
+
+            for game in games:
+                for side in (
+                    "away",
+                    "home",
+                ):
+                    bullpen = (
+                        game.get("bullpens", {})
+                        .get(side, {})
+                    )
+
+                    team_id = bullpen.get(
+                        "team_id"
+                    )
+
+                    try:
+                        team_id = int(team_id)
+                    except (
+                        TypeError,
+                        ValueError,
+                    ):
+                        continue
+
+                    block = (
+                        bullpen
+                        .get("stats", {})
+                        .get(timeframe, {})
+                        .get(location, {})
+                    )
+
+                    if block:
+                        blocks_by_team[
+                            team_id
+                        ] = block
+
+            # Create the two rate fields before ranking.
+            for block in blocks_by_team.values():
+                block["k_per_9"] = per_nine(
+                    block.get("strikeouts"),
+                    block.get(
+                        "innings_pitched"
+                    ),
+                )
+
+                block["bb_per_9"] = per_nine(
+                    block.get("walks"),
+                    block.get(
+                        "innings_pitched"
+                    ),
+                )
+
+            for (
+                metric,
+                higher_is_better,
+            ) in metric_directions.items():
+                values = []
+
+                for (
+                    team_id,
+                    block,
+                ) in blocks_by_team.items():
+                    value = block.get(metric)
+
+                    if isinstance(
+                        value,
+                        (int, float),
+                    ):
+                        values.append(
+                            (
+                                team_id,
+                                float(value),
+                            )
+                        )
+
+                values.sort(
+                    key=lambda item: item[1],
+                    reverse=higher_is_better,
+                )
+
+                ranks: dict[int, int] = {}
+                previous_value = None
+                previous_rank = 0
+
+                for index, (
+                    team_id,
+                    value,
+                ) in enumerate(
+                    values,
+                    start=1,
+                ):
+                    rank = (
+                        previous_rank
+                        if value == previous_value
+                        else index
+                    )
+
+                    ranks[team_id] = rank
+                    previous_value = value
+                    previous_rank = rank
+
+                pool_size = len(values)
+
+                for (
+                    team_id,
+                    block,
+                ) in blocks_by_team.items():
+                    block.setdefault(
+                        "ranks",
+                        {},
+                    )[metric] = ranks.get(
+                        team_id
+                    )
+
+                    block.setdefault(
+                        "rank_pool_size",
+                        {},
+                    )[metric] = pool_size
+
+            if blocks_by_team:
+                print(
+                    "Bullpen rank pool: "
+                    f"{timeframe}/{location} = "
+                    f"{len(blocks_by_team)} teams"
+                )
+
+    return games
 def enrich_bullpens(
     games: list[dict[str, Any]],
     target_date: str,
@@ -2229,6 +2456,10 @@ def main() -> None:
     merged_games = enrich_bullpens(
         merged_games,
         target_date,
+    )
+
+    merged_games = apply_bullpen_ranks(
+        merged_games,
     )
 
     recent_lineups = build_recent_confirmed_lineup_index(

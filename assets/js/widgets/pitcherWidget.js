@@ -5,7 +5,9 @@ import {
 export function renderPitcherWidget({
   container,
   module,
-  onLocationChange
+  onLocationChange,
+  onStartModeChange,
+  onStartCountChange
 }) {
   if (!container) return;
 
@@ -20,6 +22,22 @@ export function renderPitcherWidget({
 
   const metrics = Array.isArray(module.metrics) ? module.metrics : [];
   const columns = Array.isArray(module.columns) ? module.columns : [];
+
+  const startOptions =
+    Array.isArray(module.startOptions) &&
+    module.startOptions.length
+      ? module.startOptions.map(Number)
+      : [1, 3, 7, 10, 20];
+
+  const requestedStartIndex =
+    startOptions.indexOf(
+      Number(module.activeStartCount)
+    );
+
+  const activeStartIndex =
+    requestedStartIndex >= 0
+      ? requestedStartIndex
+      : startOptions.indexOf(7);
 
   container.innerHTML = `
     <div class="pitcher-card-link">
@@ -47,14 +65,72 @@ export function renderPitcherWidget({
       </div>
 
 
-      <div class="pitcher-location-control" role="group" aria-label="Pitcher location split">
-        ${["all", "home", "away"].map(location => `
-          <button
-            type="button"
-            data-pitcher-location="${location}"
-            class="${module.activeLocation === location ? "active" : ""}"
-          >${location[0].toUpperCase() + location.slice(1)}</button>
-        `).join("")}
+      <div class="pitcher-filter-row">
+        <div
+          class="pitcher-location-control"
+          role="group"
+          aria-label="Pitcher location split"
+        >
+          ${["all", "home", "away"].map(location => `
+            <button
+              type="button"
+              data-pitcher-location="${location}"
+              class="${module.activeLocation === location ? "active" : ""}"
+            >
+              ${location[0].toUpperCase() + location.slice(1)}
+            </button>
+          `).join("")}
+        </div>
+
+        <div
+          class="pitcher-start-compact ${
+            module.startMode
+              ? "active"
+              : "inactive"
+          }"
+          role="group"
+          aria-label="Recent pitcher starts"
+          title="${escapeAttribute(
+            module.startMode
+              ? `${module.startSampleLabel || `Last ${module.activeStartCount} starts`}. Click the selected number again for Season.`
+              : "Season active. Select a number to use recent starts."
+          )}"
+        >
+          <span
+            class="pitcher-start-track"
+            aria-hidden="true"
+          ></span>
+
+          ${startOptions.map(option => `
+            <button
+              type="button"
+              data-pitcher-start-count="${option}"
+              class="${
+                Number(module.activeStartCount) === option
+                  ? "selected"
+                  : ""
+              }"
+              aria-pressed="${
+                module.startMode &&
+                Number(module.activeStartCount) === option
+                  ? "true"
+                  : "false"
+              }"
+              title="${
+                module.startMode &&
+                Number(module.activeStartCount) === option
+                  ? `Last ${option} starts active. Click again for Season.`
+                  : `Use last ${option} starts`
+              }"
+            >
+              <span
+                class="pitcher-start-dot"
+                aria-hidden="true"
+              ></span>
+              <small>${option}</small>
+            </button>
+          `).join("")}
+        </div>
       </div>
 
       <div class="table-scroll">
@@ -76,6 +152,38 @@ export function renderPitcherWidget({
       </div>
     </div>
   `;
+
+  container
+    .querySelectorAll(
+      "[data-pitcher-start-count]"
+    )
+    .forEach(button => {
+      button.addEventListener(
+        "click",
+        event => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const count = Number(
+            button.dataset
+              .pitcherStartCount
+          );
+
+          const selectedIsActive =
+            Boolean(module.startMode) &&
+            Number(
+              module.activeStartCount
+            ) === count;
+
+          if (selectedIsActive) {
+            onStartModeChange?.(false);
+            return;
+          }
+
+          onStartCountChange?.(count);
+        }
+      );
+    });
 
   container.querySelectorAll("[data-pitcher-location]").forEach(button => {
     button.addEventListener("click", event => {
