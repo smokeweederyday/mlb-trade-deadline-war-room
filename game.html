@@ -12,7 +12,7 @@
   >
   <title>Game Center | Boring Bets</title>
   <link rel="stylesheet" href="assets/css/variables.css">
-  <link rel="stylesheet" href="styles.css?v=phase9q-workload-boxes1">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body class="game-page">
   <header class="site-header">
@@ -20,6 +20,7 @@
     <nav class="main-nav">
       <a href="index.html">Home</a>
       <a id="gameCenterNavLink" href="todays-card.html">MLB Game Center</a>
+      <a href="live.html">Live</a>
       <a href="index.html#results">Results</a>
       <a href="index.html#articles">Articles</a>
       <a href="index.html#tools">Tools</a>
@@ -60,12 +61,7 @@
           <img id="gameAwayLogo" alt="">
           <span id="gameAwayTeam"></span>
         </div>
-        <div
-          id="gameStartTime"
-          class="game-versus game-start-time"
-        >
-          Time TBD
-        </div>
+        <div class="game-versus">@</div>
         <div class="game-team">
           <img id="gameHomeLogo" alt="">
           <span id="gameHomeTeam"></span>
@@ -78,14 +74,27 @@
         <span id="starterStatus">STARTERS —</span>
       </section>
 
+      <section class="game-controls-panel">
+        <div class="control-group">
+          <span class="control-label">TIMEFRAME</span>
+          <div class="segmented-control">
+            <button type="button" data-timeframe="last_7">7 Days</button>
+            <button type="button" data-timeframe="last_30">30 Days</button>
+            <button type="button" data-timeframe="season">Season</button>
+          </div>
+        </div>
+      </section>
+
       <section id="pitching" class="matchup-console">
         <article class="matchup-column">
           <div id="awayPitcherCard" class="pitcher-comparison-card"></div>
-          <div id="awayOffenseCard" class="offense-comparison-card"></div>
+          <div id="homeOffenseCard" class="offense-comparison-card"></div>
+          <div id="awayPitcherLineupCard" class="lineup-matchup-card"></div>
         </article>
         <article class="matchup-column">
           <div id="homePitcherCard" class="pitcher-comparison-card"></div>
-          <div id="homeOffenseCard" class="offense-comparison-card"></div>
+          <div id="awayOffenseCard" class="offense-comparison-card"></div>
+          <div id="homePitcherLineupCard" class="lineup-matchup-card"></div>
         </article>
       </section>
 
@@ -94,15 +103,6 @@
           <article id="awayBullpenCard" class="bullpen-card"></article>
           <article id="homeBullpenCard" class="bullpen-card"></article>
         </div>
-      </section>
-
-      <section id="matchupIntelligence" class="matchup-console">
-        <article class="matchup-column">
-          <div id="awayPitcherLineupCard" class="lineup-matchup-card"></div>
-        </article>
-        <article class="matchup-column">
-          <div id="homePitcherLineupCard" class="lineup-matchup-card"></div>
-        </article>
       </section>
 
       <section class="intelligence-grid">
@@ -189,6 +189,6 @@
     <span>Data over hype.</span>
   </footer>
 
-  <script type="module" src="game.js?v=phase10b-compact-starts1"></script>
+  <script type="module" src="game.js?v=phase8b-fix1"></script>
 </body>
 </html>

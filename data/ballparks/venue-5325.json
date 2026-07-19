@@ -1,0 +1,24 @@
+{
+  "id": 5325,
+  "name": "Globe Life Field",
+  "city": "Arlington",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 149,
+    "right_start": 845,
+    "center_y": 86,
+    "left_curve_x": 89,
+    "right_curve_x": 869,
+    "left_curve_y": 235,
+    "right_curve_y": 225
+  },
+  "venue": {
+    "latitude": 32.747299,
+    "longitude": -97.081818,
+    "timezone": "America/Toronto",
+    "altitude_ft": 250,
+    "roof": null,
+    "surface": null
+  }
+}

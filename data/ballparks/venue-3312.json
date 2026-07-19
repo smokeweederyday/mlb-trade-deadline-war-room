@@ -1,0 +1,24 @@
+{
+  "id": 3312,
+  "name": "Target Field",
+  "city": "Minneapolis",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 128,
+    "right_start": 854,
+    "center_y": 61,
+    "left_curve_x": 122,
+    "right_curve_x": 914,
+    "left_curve_y": 204,
+    "right_curve_y": 198
+  },
+  "venue": {
+    "latitude": 44.981829,
+    "longitude": -93.277891,
+    "timezone": null,
+    "altitude_ft": null,
+    "roof": null,
+    "surface": null
+  }
+}

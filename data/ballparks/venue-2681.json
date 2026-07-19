@@ -1,0 +1,24 @@
+{
+  "id": 2681,
+  "name": "Citizens Bank Park",
+  "city": "Philadelphia",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 163,
+    "right_start": 865,
+    "center_y": 71,
+    "left_curve_x": 99,
+    "right_curve_x": 863,
+    "left_curve_y": 202,
+    "right_curve_y": 234
+  },
+  "venue": {
+    "latitude": 39.90539086,
+    "longitude": -75.16716957,
+    "timezone": "America/New_York",
+    "altitude_ft": 490,
+    "roof": null,
+    "surface": null
+  }
+}

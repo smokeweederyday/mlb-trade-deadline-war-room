@@ -1,0 +1,24 @@
+{
+  "id": 15,
+  "name": "Chase Field",
+  "city": "Phoenix",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 149,
+    "right_start": 833,
+    "center_y": 71,
+    "left_curve_x": 107,
+    "right_curve_x": 869,
+    "left_curve_y": 250,
+    "right_curve_y": 215
+  },
+  "venue": {
+    "latitude": 33.445302,
+    "longitude": -112.066687,
+    "timezone": "America/New_York",
+    "altitude_ft": 750,
+    "roof": null,
+    "surface": null
+  }
+}

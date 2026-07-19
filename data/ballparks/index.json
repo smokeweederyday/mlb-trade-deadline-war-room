@@ -1,0 +1,822 @@
+{
+  "schema_version": "0.1",
+  "note": "Each park has isolated editable HUD geometry. Values are visual placeholders until surveyed park dimensions are entered.",
+  "parks": [
+    {
+      "id": 1,
+      "name": "Angel Stadium",
+      "city": "Anaheim",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 135,
+        "right_start": 861,
+        "center_y": 61,
+        "left_curve_x": 91,
+        "right_curve_x": 911,
+        "left_curve_y": 207,
+        "right_curve_y": 209
+      },
+      "venue": {
+        "latitude": 33.80019044,
+        "longitude": -117.8823996,
+        "timezone": "America/Los_Angeles",
+        "altitude_ft": 160,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 2,
+      "name": "Oriole Park at Camden Yards",
+      "city": "Baltimore",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 142,
+        "right_start": 850,
+        "center_y": 74,
+        "left_curve_x": 96,
+        "right_curve_x": 908,
+        "left_curve_y": 224,
+        "right_curve_y": 228
+      },
+      "venue": {
+        "latitude": 39.283787,
+        "longitude": -76.621689,
+        "timezone": "America/Chicago",
+        "altitude_ft": 466,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 3,
+      "name": "Fenway Park",
+      "city": "Boston",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 149,
+        "right_start": 839,
+        "center_y": 87,
+        "left_curve_x": 101,
+        "right_curve_x": 905,
+        "left_curve_y": 241,
+        "right_curve_y": 247
+      },
+      "venue": {
+        "latitude": 42.346456,
+        "longitude": -71.097441,
+        "timezone": "America/New_York",
+        "altitude_ft": 20,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 4,
+      "name": "Rate Field",
+      "city": "Chicago",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 156,
+        "right_start": 870,
+        "center_y": 57,
+        "left_curve_x": 106,
+        "right_curve_x": 902,
+        "left_curve_y": 193,
+        "right_curve_y": 201
+      },
+      "venue": {
+        "latitude": 41.83,
+        "longitude": -87.634167,
+        "timezone": "America/New_York",
+        "altitude_ft": 653,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 5,
+      "name": "Progressive Field",
+      "city": "Cleveland",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 163,
+        "right_start": 859,
+        "center_y": 70,
+        "left_curve_x": 111,
+        "right_curve_x": 899,
+        "left_curve_y": 210,
+        "right_curve_y": 220
+      },
+      "venue": {
+        "latitude": 41.495861,
+        "longitude": -81.685255,
+        "timezone": "America/New_York",
+        "altitude_ft": 10,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 7,
+      "name": "Kauffman Stadium",
+      "city": "Kansas City",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 135,
+        "right_start": 837,
+        "center_y": 53,
+        "left_curve_x": 121,
+        "right_curve_x": 893,
+        "left_curve_y": 244,
+        "right_curve_y": 193
+      },
+      "venue": {
+        "latitude": 39.051567,
+        "longitude": -94.480483,
+        "timezone": "America/New_York",
+        "altitude_ft": 20,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 12,
+      "name": "Tropicana Field",
+      "city": "St. Petersburg",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 128,
+        "right_start": 866,
+        "center_y": 75,
+        "left_curve_x": 92,
+        "right_curve_x": 878,
+        "left_curve_y": 199,
+        "right_curve_y": 223
+      },
+      "venue": {
+        "latitude": 27.767778,
+        "longitude": -82.6525,
+        "timezone": "America/Los_Angeles",
+        "altitude_ft": 10,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 14,
+      "name": "Rogers Centre",
+      "city": "Toronto",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 142,
+        "right_start": 844,
+        "center_y": 58,
+        "left_curve_x": 102,
+        "right_curve_x": 872,
+        "left_curve_y": 233,
+        "right_curve_y": 196
+      },
+      "venue": {
+        "latitude": 43.64155,
+        "longitude": -79.38915,
+        "timezone": "America/Phoenix",
+        "altitude_ft": 1082,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 15,
+      "name": "Chase Field",
+      "city": "Phoenix",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 149,
+        "right_start": 833,
+        "center_y": 71,
+        "left_curve_x": 107,
+        "right_curve_x": 869,
+        "left_curve_y": 250,
+        "right_curve_y": 215
+      },
+      "venue": {
+        "latitude": 33.445302,
+        "longitude": -112.066687,
+        "timezone": "America/New_York",
+        "altitude_ft": 750,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 17,
+      "name": "Wrigley Field",
+      "city": "Chicago",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 163,
+        "right_start": 853,
+        "center_y": 54,
+        "left_curve_x": 117,
+        "right_curve_x": 863,
+        "left_curve_y": 219,
+        "right_curve_y": 253
+      },
+      "venue": {
+        "latitude": 41.948171,
+        "longitude": -87.655503,
+        "timezone": "America/New_York",
+        "altitude_ft": 20,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 19,
+      "name": "Coors Field",
+      "city": "Denver",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 135,
+        "right_start": 831,
+        "center_y": 80,
+        "left_curve_x": 127,
+        "right_curve_x": 911,
+        "left_curve_y": 253,
+        "right_curve_y": 226
+      },
+      "venue": {
+        "latitude": 39.756042,
+        "longitude": -104.994136,
+        "timezone": "America/Denver",
+        "altitude_ft": 5200,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 22,
+      "name": "UNIQLO Field at Dodger Stadium",
+      "city": "Los Angeles",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 156,
+        "right_start": 840,
+        "center_y": 76,
+        "left_curve_x": 88,
+        "right_curve_x": 902,
+        "left_curve_y": 239,
+        "right_curve_y": 218
+      },
+      "venue": {
+        "latitude": 34.07368,
+        "longitude": -118.24053,
+        "timezone": "America/Chicago",
+        "altitude_ft": 551,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 31,
+      "name": "PNC Park",
+      "city": "Pittsburgh",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 135,
+        "right_start": 867,
+        "center_y": 64,
+        "left_curve_x": 133,
+        "right_curve_x": 875,
+        "left_curve_y": 197,
+        "right_curve_y": 194
+      },
+      "venue": {
+        "latitude": 40.446904,
+        "longitude": -80.005753,
+        "timezone": "America/Chicago",
+        "altitude_ft": 600,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 32,
+      "name": "American Family Field",
+      "city": "Milwaukee",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 142,
+        "right_start": 856,
+        "center_y": 77,
+        "left_curve_x": 138,
+        "right_curve_x": 872,
+        "left_curve_y": 214,
+        "right_curve_y": 213
+      },
+      "venue": {
+        "latitude": 43.02838,
+        "longitude": -87.97099,
+        "timezone": "America/New_York",
+        "altitude_ft": 730,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 680,
+      "name": "T-Mobile Park",
+      "city": "Seattle",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 142,
+        "right_start": 868,
+        "center_y": 73,
+        "left_curve_x": 138,
+        "right_curve_x": 872,
+        "left_curve_y": 245,
+        "right_curve_y": 240
+      },
+      "venue": {
+        "latitude": 47.591333,
+        "longitude": -122.33251,
+        "timezone": "America/Los_Angeles",
+        "altitude_ft": 20,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 2392,
+      "name": "Daikin Park",
+      "city": "Houston",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 156,
+        "right_start": 852,
+        "center_y": 55,
+        "left_curve_x": 112,
+        "right_curve_x": 866,
+        "left_curve_y": 229,
+        "right_curve_y": 203
+      },
+      "venue": {
+        "latitude": 29.756967,
+        "longitude": -95.355509,
+        "timezone": "America/Los_Angeles",
+        "altitude_ft": 515,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 2394,
+      "name": "Comerica Park",
+      "city": "Detroit",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 128,
+        "right_start": 872,
+        "center_y": 81,
+        "left_curve_x": 122,
+        "right_curve_x": 914,
+        "left_curve_y": 198,
+        "right_curve_y": 241
+      },
+      "venue": {
+        "latitude": 42.3391151,
+        "longitude": -83.048695,
+        "timezone": "America/Detroit",
+        "altitude_ft": 585,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 2395,
+      "name": "Oracle Park",
+      "city": "San Francisco",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 135,
+        "right_start": 861,
+        "center_y": 51,
+        "left_curve_x": 127,
+        "right_curve_x": 911,
+        "left_curve_y": 215,
+        "right_curve_y": 195
+      },
+      "venue": {
+        "latitude": 37.778383,
+        "longitude": -122.389448,
+        "timezone": "America/New_York",
+        "altitude_ft": 55,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 2529,
+      "name": "Sutter Health Park",
+      "city": "Sacramento",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 149,
+        "right_start": 857,
+        "center_y": 73,
+        "left_curve_x": 95,
+        "right_curve_x": 887,
+        "left_curve_y": 218,
+        "right_curve_y": 206
+      },
+      "venue": {
+        "latitude": 38.57994,
+        "longitude": -121.51246,
+        "timezone": "America/New_York",
+        "altitude_ft": 25,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 2602,
+      "name": "Great American Ball Park",
+      "city": "Cincinnati",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 156,
+        "right_start": 852,
+        "center_y": 76,
+        "left_curve_x": 136,
+        "right_curve_x": 884,
+        "left_curve_y": 224,
+        "right_curve_y": 228
+      },
+      "venue": {
+        "latitude": 39.097389,
+        "longitude": -84.506611,
+        "timezone": "America/Chicago",
+        "altitude_ft": 595,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 2680,
+      "name": "Petco Park",
+      "city": "San Diego",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 156,
+        "right_start": 834,
+        "center_y": 58,
+        "left_curve_x": 94,
+        "right_curve_x": 866,
+        "left_curve_y": 250,
+        "right_curve_y": 215
+      },
+      "venue": {
+        "latitude": 32.707861,
+        "longitude": -117.157278,
+        "timezone": "America/Chicago",
+        "altitude_ft": 635,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 2681,
+      "name": "Citizens Bank Park",
+      "city": "Philadelphia",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 163,
+        "right_start": 865,
+        "center_y": 71,
+        "left_curve_x": 99,
+        "right_curve_x": 863,
+        "left_curve_y": 202,
+        "right_curve_y": 234
+      },
+      "venue": {
+        "latitude": 39.90539086,
+        "longitude": -75.16716957,
+        "timezone": "America/New_York",
+        "altitude_ft": 490,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 2735,
+      "name": "Journey Bank Ballpark",
+      "city": "Williamsport",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 163,
+        "right_start": 859,
+        "center_y": 85,
+        "left_curve_x": 99,
+        "right_curve_x": 863,
+        "left_curve_y": 210,
+        "right_curve_y": 220
+      },
+      "venue": {
+        "latitude": 41.2419845,
+        "longitude": -77.0475104,
+        "timezone": null,
+        "altitude_ft": null,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 2889,
+      "name": "Busch Stadium",
+      "city": "St. Louis",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 149,
+        "right_start": 845,
+        "center_y": 66,
+        "left_curve_x": 113,
+        "right_curve_x": 887,
+        "left_curve_y": 228,
+        "right_curve_y": 221
+      },
+      "venue": {
+        "latitude": 38.62256667,
+        "longitude": -90.19286667,
+        "timezone": "America/Los_Angeles",
+        "altitude_ft": 25,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 3289,
+      "name": "Citi Field",
+      "city": "Flushing",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 135,
+        "right_start": 855,
+        "center_y": 63,
+        "left_curve_x": 115,
+        "right_curve_x": 875,
+        "left_curve_y": 203,
+        "right_curve_y": 216
+      },
+      "venue": {
+        "latitude": 40.75753012,
+        "longitude": -73.84559155,
+        "timezone": null,
+        "altitude_ft": null,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 3309,
+      "name": "Nationals Park",
+      "city": "Washington",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 149,
+        "right_start": 845,
+        "center_y": 65,
+        "left_curve_x": 107,
+        "right_curve_x": 869,
+        "left_curve_y": 218,
+        "right_curve_y": 206
+      },
+      "venue": {
+        "latitude": 38.872861,
+        "longitude": -77.007501,
+        "timezone": null,
+        "altitude_ft": null,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 3312,
+      "name": "Target Field",
+      "city": "Minneapolis",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 128,
+        "right_start": 854,
+        "center_y": 61,
+        "left_curve_x": 122,
+        "right_curve_x": 914,
+        "left_curve_y": 204,
+        "right_curve_y": 198
+      },
+      "venue": {
+        "latitude": 44.981829,
+        "longitude": -93.277891,
+        "timezone": null,
+        "altitude_ft": null,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 3313,
+      "name": "Yankee Stadium",
+      "city": "Bronx",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 135,
+        "right_start": 843,
+        "center_y": 74,
+        "left_curve_x": 127,
+        "right_curve_x": 911,
+        "left_curve_y": 221,
+        "right_curve_y": 217
+      },
+      "venue": {
+        "latitude": 40.82919482,
+        "longitude": -73.9264977,
+        "timezone": null,
+        "altitude_ft": null,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 4169,
+      "name": "loanDepot park",
+      "city": "Miami",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 163,
+        "right_start": 835,
+        "center_y": 65,
+        "left_curve_x": 87,
+        "right_curve_x": 881,
+        "left_curve_y": 213,
+        "right_curve_y": 231
+      },
+      "venue": {
+        "latitude": 25.77796236,
+        "longitude": -80.21951795,
+        "timezone": "America/New_York",
+        "altitude_ft": 10,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 4705,
+      "name": "Truist Park",
+      "city": "Atlanta",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 135,
+        "right_start": 861,
+        "center_y": 67,
+        "left_curve_x": 121,
+        "right_curve_x": 893,
+        "left_curve_y": 225,
+        "right_curve_y": 210
+      },
+      "venue": {
+        "latitude": 33.890672,
+        "longitude": -84.467641,
+        "timezone": "America/New_York",
+        "altitude_ft": 1000,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 5325,
+      "name": "Globe Life Field",
+      "city": "Arlington",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 149,
+        "right_start": 845,
+        "center_y": 86,
+        "left_curve_x": 89,
+        "right_curve_x": 869,
+        "left_curve_y": 235,
+        "right_curve_y": 225
+      },
+      "venue": {
+        "latitude": 32.747299,
+        "longitude": -97.081818,
+        "timezone": "America/Toronto",
+        "altitude_ft": 250,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 5340,
+      "name": "Estadio Alfredo Harp Helu",
+      "city": "Mexico City",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 128,
+        "right_start": 848,
+        "center_y": 66,
+        "left_curve_x": 110,
+        "right_curve_x": 878,
+        "left_curve_y": 230,
+        "right_curve_y": 250
+      },
+      "venue": {
+        "latitude": null,
+        "longitude": null,
+        "timezone": null,
+        "altitude_ft": null,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 5355,
+      "name": "Las Vegas Ballpark",
+      "city": "Las Vegas",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 149,
+        "right_start": 851,
+        "center_y": 89,
+        "left_curve_x": 131,
+        "right_curve_x": 887,
+        "left_curve_y": 225,
+        "right_curve_y": 210
+      },
+      "venue": {
+        "latitude": 36.152607,
+        "longitude": -115.329888,
+        "timezone": null,
+        "altitude_ft": null,
+        "roof": null,
+        "surface": null
+      }
+    },
+    {
+      "id": 5445,
+      "name": "Field of Dreams",
+      "city": "Dyersville",
+      "version": "V0.1",
+      "status": "editable_placeholder_geometry",
+      "geometry": {
+        "left_start": 149,
+        "right_start": 869,
+        "center_y": 55,
+        "left_curve_x": 95,
+        "right_curve_x": 887,
+        "left_curve_y": 195,
+        "right_curve_y": 230
+      },
+      "venue": {
+        "latitude": 42.498241,
+        "longitude": -91.056486,
+        "timezone": null,
+        "altitude_ft": null,
+        "roof": null,
+        "surface": null
+      }
+    }
+  ]
+}

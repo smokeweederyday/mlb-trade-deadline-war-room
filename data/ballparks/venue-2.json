@@ -1,0 +1,24 @@
+{
+  "id": 2,
+  "name": "Oriole Park at Camden Yards",
+  "city": "Baltimore",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 142,
+    "right_start": 850,
+    "center_y": 74,
+    "left_curve_x": 96,
+    "right_curve_x": 908,
+    "left_curve_y": 224,
+    "right_curve_y": 228
+  },
+  "venue": {
+    "latitude": 39.283787,
+    "longitude": -76.621689,
+    "timezone": "America/Chicago",
+    "altitude_ft": 466,
+    "roof": null,
+    "surface": null
+  }
+}

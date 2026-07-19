@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Boring Bets Live Game Center — a live MLB intelligence workstation.">
+  <title>Live Game Center | Boring Bets</title>
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="live.css">
+</head>
+<body class="live-page">
+  <header class="live-site-header">
+    <a class="live-brand" href="index.html"><span>BB</span> BORING BETS</a>
+    <nav class="live-nav" aria-label="Primary navigation">
+      <a href="todays-card.html">Card</a>
+      <a href="game.html">Research</a>
+      <a href="globe.html">Globe</a>
+      <a href="live.html" aria-current="page">Live</a>
+    </nav>
+    <div class="feed-health"><i></i><span id="feedHealthText">DEMO FEED READY</span></div>
+  </header>
+
+  <main class="live-workstation" id="liveWorkstation">
+    <aside class="game-rail panel-shell" id="gameRail">
+      <div class="panel-heading compact-heading">
+        <div>
+          <span class="panel-kicker">CARD</span>
+          <strong id="railDateLabel">Games</strong>
+        </div>
+        <button class="icon-button" id="toggleGameRail" type="button" aria-label="Collapse game rail">‹</button>
+      </div>
+      <div class="date-switcher">
+        <button id="previousDate" type="button" aria-label="Previous date">←</button>
+        <span id="selectedDate">—</span>
+        <button id="nextDate" type="button" aria-label="Next date">→</button>
+      </div>
+      <div class="game-list" id="gameList" aria-live="polite"></div>
+    </aside>
+
+    <aside class="event-rail panel-shell" id="eventRail">
+      <div class="panel-heading compact-heading">
+        <div>
+          <span class="panel-kicker">LIVE EVENTS</span>
+          <strong>Game Log</strong>
+        </div>
+        <button class="icon-button" id="toggleEventRail" type="button" aria-label="Collapse event log">‹</button>
+      </div>
+      <div class="event-controls">
+        <button class="control-chip active" id="allEventsButton" type="button">All</button>
+        <button class="control-chip" id="alertsOnlyButton" type="button">Alerts</button>
+        <button class="control-chip" id="pauseFeedButton" type="button">Pause</button>
+      </div>
+      <div class="event-stream" id="eventStream"></div>
+    </aside>
+
+    <section class="game-stage-column">
+      <section class="team-marquee panel-shell" id="teamMarquee">
+        <div class="marquee-team away-team">
+          <img id="awayLogo" alt="">
+          <div><span id="awayRecord">AWAY</span><strong id="awayName">—</strong></div>
+          <b id="awayScore">0</b>
+        </div>
+        <div class="marquee-center">
+          <div class="live-state-row"><span class="live-pill" id="livePill">DEMO LIVE</span><span id="inningLabel">▲ 6TH</span></div>
+          <span id="venueLabel">Loading ballpark…</span>
+          <small id="gameClock">Feed initializing</small>
+        </div>
+        <div class="marquee-team home-team">
+          <b id="homeScore">0</b>
+          <div><span id="homeRecord">HOME</span><strong id="homeName">—</strong></div>
+          <img id="homeLogo" alt="">
+        </div>
+      </section>
+
+      <section class="ballpark-console panel-shell" id="ballparkConsole">
+        <div class="hud-toolbar">
+          <div><span class="panel-kicker">BALLPARK HUD</span><strong id="parkGeometryLabel">PARK GEOMETRY</strong></div>
+          <div class="hud-statuses">
+            <span><i class="green-dot"></i> FEED <b id="feedLatency">42ms</b></span>
+            <span>WIND <b id="windSummary">7 MPH ↗</b></span>
+            <span>ROOF <b id="roofSummary">OPEN</b></span>
+          </div>
+        </div>
+
+        <div class="ballpark-stage" id="ballparkStage">
+          <div class="park-glow park-glow-left"></div>
+          <div class="park-glow park-glow-right"></div>
+          <svg id="ballparkSvg" class="ballpark-svg" viewBox="0 0 1000 690" role="img" aria-label="Interactive baseball field">
+            <defs>
+              <linearGradient id="grassGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#123b27"/>
+                <stop offset="100%" stop-color="#071b11"/>
+              </linearGradient>
+              <linearGradient id="dirtGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#9d7048"/>
+                <stop offset="100%" stop-color="#49321f"/>
+              </linearGradient>
+              <filter id="fieldGlow"><feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <path id="outfieldShape" class="outfield-shape" d="M 145 555 Q 118 220 500 72 Q 882 220 855 555 L 720 555 Q 680 360 500 275 Q 320 360 280 555 Z"/>
+            <path id="warningTrack" class="warning-track" d="M 137 554 Q 100 207 500 54 Q 900 207 863 554"/>
+            <path id="infieldShape" class="infield-shape" d="M500 338 L660 492 L500 646 L340 492 Z"/>
+            <circle class="mound" cx="500" cy="490" r="28"/>
+            <path class="baseline" d="M500 625 L350 492 L500 350 L650 492 Z"/>
+            <g class="bases">
+              <rect x="485" y="615" width="30" height="30" transform="rotate(45 500 630)"/>
+              <rect x="635" y="477" width="30" height="30" transform="rotate(45 650 492)"/>
+              <rect x="485" y="335" width="30" height="30" transform="rotate(45 500 350)"/>
+              <rect x="335" y="477" width="30" height="30" transform="rotate(45 350 492)"/>
+            </g>
+            <path id="pitchTrail" class="pitch-trail" d="M500 490 Q505 552 500 615"/>
+            <path id="hitTrail" class="hit-trail" d="M500 615 Q610 400 730 235"/>
+            <circle id="ballMarker" class="ball-marker" cx="730" cy="235" r="7"/>
+            <g id="windArrow" class="wind-arrow" transform="translate(792 115) rotate(38)"><path d="M0 18 H82 M64 0 L82 18 L64 36"/></g>
+          </svg>
+
+          <button class="field-region outfield-region" id="outfieldRegion" type="button" aria-label="Open outfield intelligence"><span>OUTFIELD</span><small>Click for range, walls, wind and positioning</small></button>
+          <button class="field-region infield-region" id="infieldRegion" type="button" aria-label="Open infield intelligence"><span>INFIELD</span><small>Click for shifts, range and run prevention</small></button>
+
+          <div class="field-players" id="fieldPlayers"></div>
+
+          <article class="matchup-focus pitcher-focus" id="pitcherFocus">
+            <span>PITCHER</span>
+            <button id="pitcherLink" type="button"><strong id="pitcherName">—</strong><small id="pitcherPulse">84 P · 12 WHIFFS · +1.8 MPH</small></button>
+          </article>
+          <article class="matchup-focus batter-focus" id="batterFocus">
+            <span>AT BAT</span>
+            <button id="batterLink" type="button"><strong id="batterName">—</strong><small id="batterPulse">2–3 · 104.8 EV · HR</small></button>
+          </article>
+
+          <div class="base-state" aria-label="Base runners">
+            <i id="baseSecond"></i><i id="baseThird"></i><i id="baseFirst"></i>
+          </div>
+
+          <div class="field-intelligence-stack" id="fieldIntelligenceStack">
+            <div class="intelligence-alert positive"><span>POSITIVE CONDITION</span><strong>Starter velocity holding above baseline</strong></div>
+            <div class="intelligence-alert warning"><span>FATIGUE WATCH</span><strong>31 pitches this inning</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="score-bug panel-shell" id="scoreBug">
+        <div class="score-primary">
+          <div class="score-team away"><img id="bugAwayLogo" alt=""><span id="bugAwayAbbr">AWY</span><b id="bugAwayScore">0</b></div>
+          <div class="score-state">
+            <strong id="bugInning">▲ 6TH</strong>
+            <span id="bugOuts">1 OUT</span>
+            <div class="bug-bases"><i id="bugBaseSecond"></i><i id="bugBaseThird"></i><i id="bugBaseFirst"></i></div>
+          </div>
+          <div class="score-team home"><b id="bugHomeScore">0</b><span id="bugHomeAbbr">HME</span><img id="bugHomeLogo" alt=""></div>
+          <div class="count-cluster"><span>COUNT</span><strong id="countValue">2–1</strong><small>PITCH <b id="pitchCount">84</b></small></div>
+        </div>
+        <div class="score-secondary">
+          <div><span>BATTER</span><strong id="bugBatter">—</strong></div>
+          <div><span>PITCHER</span><strong id="bugPitcher">—</strong></div>
+          <div><span>LAST PITCH</span><strong id="lastPitch">96.4 MPH FOUR-SEAM · BALL</strong></div>
+          <div><span>RUN EXPECTANCY</span><strong id="runExpectancy">1.42</strong></div>
+          <div><span>WIN PROB</span><strong id="winProbability">54% / 46%</strong></div>
+        </div>
+        <div class="score-tertiary">
+          <div class="line-score" id="lineScore"></div>
+          <div class="market-strip"><span>LIVE ML <b id="liveMoneyline">—</b></span><span>TOTAL <b id="liveTotal">—</b></span><span>LEVERAGE <b id="leverageIndex">2.14 HIGH</b></span><span>NEXT <b id="dueUp">—</b></span></div>
+        </div>
+      </section>
+    </section>
+
+    <aside class="intelligence-rail panel-shell" id="intelligenceRail">
+      <div class="right-panel-tabs" role="tablist">
+        <button class="active" data-right-tab="lineups" type="button">Lineups</button>
+        <button data-right-tab="pitcher" type="button">Pitcher</button>
+        <button data-right-tab="fielders" type="button">Fielders</button>
+      </div>
+
+      <section class="right-tab-panel active" data-right-panel="lineups">
+        <div class="lineup-switcher">
+          <button class="active" id="awayLineupButton" type="button">Away</button>
+          <button id="homeLineupButton" type="button">Home</button>
+        </div>
+        <div class="lineup-meta"><span id="lineupStatusLabel">LINEUP</span><small id="lineupFreshness">—</small></div>
+        <div class="live-lineup" id="liveLineup"></div>
+        <section class="mini-section due-up-section">
+          <div class="mini-section-heading"><span>DUE UP</span><small>Next three</small></div>
+          <div class="due-up-list" id="dueUpList"></div>
+        </section>
+      </section>
+
+      <section class="right-tab-panel" data-right-panel="pitcher">
+        <div class="pitcher-panel-heading">
+          <div><span class="panel-kicker">CURRENT OUTING</span><strong id="pitcherPanelName">—</strong></div>
+          <span class="pulse-badge positive" id="pitcherStatusBadge">DOMINATING</span>
+        </div>
+        <div class="pitcher-stat-grid" id="pitcherStatGrid"></div>
+        <section class="mini-section">
+          <div class="mini-section-heading"><span>ARSENAL</span><small>Live vs baseline</small></div>
+          <div class="arsenal-list" id="arsenalList"></div>
+        </section>
+        <section class="mini-section">
+          <div class="mini-section-heading"><span>REMOVAL RISK</span><small id="removalRiskLabel">36%</small></div>
+          <div class="risk-meter"><i id="removalRiskMeter"></i></div>
+          <div class="risk-notes" id="riskNotes"></div>
+        </section>
+      </section>
+
+      <section class="right-tab-panel" data-right-panel="fielders">
+        <div class="mini-section-heading"><span>DEFENSIVE ALIGNMENT</span><small>Click to locate</small></div>
+        <div class="fielder-grid" id="fielderGrid"></div>
+        <section class="mini-section">
+          <div class="mini-section-heading"><span>FIELDING CONDITIONS</span><small>Live</small></div>
+          <div class="condition-grid">
+            <div><span>Surface</span><strong id="surfaceCondition">Dry</strong></div>
+            <div><span>Visibility</span><strong id="visibilityCondition">Clear</strong></div>
+            <div><span>Wind</span><strong id="fieldWindCondition">7 MPH RF</strong></div>
+            <div><span>Sun</span><strong id="sunCondition">Low 3B side</strong></div>
+          </div>
+        </section>
+      </section>
+
+      <button class="chat-launch" id="chatLaunch" type="button"><span>BB AI</span><strong>Open live intelligence chat</strong><b>›</b></button>
+    </aside>
+  </main>
+
+  <aside class="chat-drawer" id="chatDrawer" aria-hidden="true">
+    <div class="chat-heading"><div><span class="panel-kicker">LIVE INTELLIGENCE</span><strong>Boring Bets AI</strong></div><button id="closeChat" type="button">×</button></div>
+    <div class="chat-body">
+      <div class="chat-message system">I am watching pitch quality, fatigue, bullpen state, weather, defensive changes and market movement for this game.</div>
+      <div class="chat-message alert"><span>NEW CONDITION</span> The starter has lost 1.4 MPH over the last 11 pitches while three left-handed batters are due.</div>
+      <div class="chat-message system muted">Chat is a visual shell in this phase. The live intelligence engine will connect here later.</div>
+    </div>
+    <form class="chat-input" id="chatForm"><input id="chatInput" type="text" placeholder="Ask about the live game…"><button type="submit">Send</button></form>
+  </aside>
+
+  <aside class="detail-drawer" id="detailDrawer" aria-hidden="true">
+    <button class="drawer-close" id="closeDetailDrawer" type="button">×</button>
+    <span class="panel-kicker" id="detailKicker">FIELD INTELLIGENCE</span>
+    <h2 id="detailTitle">Outfield</h2>
+    <div id="detailBody"></div>
+  </aside>
+
+  <div class="live-toast" id="liveToast" role="status" aria-live="polite"></div>
+  <script src="live.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "id": 2394,
+  "name": "Comerica Park",
+  "city": "Detroit",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 128,
+    "right_start": 872,
+    "center_y": 81,
+    "left_curve_x": 122,
+    "right_curve_x": 914,
+    "left_curve_y": 198,
+    "right_curve_y": 241
+  },
+  "venue": {
+    "latitude": 42.3391151,
+    "longitude": -83.048695,
+    "timezone": "America/Detroit",
+    "altitude_ft": 585,
+    "roof": null,
+    "surface": null
+  }
+}

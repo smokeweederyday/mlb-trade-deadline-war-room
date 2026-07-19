@@ -1,0 +1,24 @@
+{
+  "id": 32,
+  "name": "American Family Field",
+  "city": "Milwaukee",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 142,
+    "right_start": 856,
+    "center_y": 77,
+    "left_curve_x": 138,
+    "right_curve_x": 872,
+    "left_curve_y": 214,
+    "right_curve_y": 213
+  },
+  "venue": {
+    "latitude": 43.02838,
+    "longitude": -87.97099,
+    "timezone": "America/New_York",
+    "altitude_ft": 730,
+    "roof": null,
+    "surface": null
+  }
+}

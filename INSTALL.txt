@@ -1,0 +1,14 @@
+BORING BETS LIVE GAME CENTER — PHASE 1
+
+1. Open this folder.
+2. Copy every file and folder into the root of your existing boring-bets project.
+3. Choose Merge/Replace when macOS asks. Only the five existing HTML navigation files are replaced; the Live Game Center files are new.
+4. From the boring-bets project folder run:
+
+   python3 -u scripts/check_live_game_center.py
+
+5. Start the local server and open:
+
+   http://localhost:8000/live.html
+
+The first page opens in an explicitly labeled demo-live mode using the real game, lineup, pitcher, bullpen and venue structures already in the project.

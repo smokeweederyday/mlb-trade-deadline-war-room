@@ -1,0 +1,24 @@
+{
+  "id": 5340,
+  "name": "Estadio Alfredo Harp Helu",
+  "city": "Mexico City",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 128,
+    "right_start": 848,
+    "center_y": 66,
+    "left_curve_x": 110,
+    "right_curve_x": 878,
+    "left_curve_y": 230,
+    "right_curve_y": 250
+  },
+  "venue": {
+    "latitude": null,
+    "longitude": null,
+    "timezone": null,
+    "altitude_ft": null,
+    "roof": null,
+    "surface": null
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": 2529,
+  "name": "Sutter Health Park",
+  "city": "Sacramento",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 149,
+    "right_start": 857,
+    "center_y": 73,
+    "left_curve_x": 95,
+    "right_curve_x": 887,
+    "left_curve_y": 218,
+    "right_curve_y": 206
+  },
+  "venue": {
+    "latitude": 38.57994,
+    "longitude": -121.51246,
+    "timezone": "America/New_York",
+    "altitude_ft": 25,
+    "roof": null,
+    "surface": null
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": 14,
+  "name": "Rogers Centre",
+  "city": "Toronto",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 142,
+    "right_start": 844,
+    "center_y": 58,
+    "left_curve_x": 102,
+    "right_curve_x": 872,
+    "left_curve_y": 233,
+    "right_curve_y": 196
+  },
+  "venue": {
+    "latitude": 43.64155,
+    "longitude": -79.38915,
+    "timezone": "America/Phoenix",
+    "altitude_ft": 1082,
+    "roof": null,
+    "surface": null
+  }
+}

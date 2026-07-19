@@ -1,0 +1,24 @@
+{
+  "id": 17,
+  "name": "Wrigley Field",
+  "city": "Chicago",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 163,
+    "right_start": 853,
+    "center_y": 54,
+    "left_curve_x": 117,
+    "right_curve_x": 863,
+    "left_curve_y": 219,
+    "right_curve_y": 253
+  },
+  "venue": {
+    "latitude": 41.948171,
+    "longitude": -87.655503,
+    "timezone": "America/New_York",
+    "altitude_ft": 20,
+    "roof": null,
+    "surface": null
+  }
+}

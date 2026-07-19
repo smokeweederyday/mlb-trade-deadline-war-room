@@ -1,0 +1,24 @@
+{
+  "id": 2392,
+  "name": "Daikin Park",
+  "city": "Houston",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 156,
+    "right_start": 852,
+    "center_y": 55,
+    "left_curve_x": 112,
+    "right_curve_x": 866,
+    "left_curve_y": 229,
+    "right_curve_y": 203
+  },
+  "venue": {
+    "latitude": 29.756967,
+    "longitude": -95.355509,
+    "timezone": "America/Los_Angeles",
+    "altitude_ft": 515,
+    "roof": null,
+    "surface": null
+  }
+}

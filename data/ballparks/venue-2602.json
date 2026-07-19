@@ -1,0 +1,24 @@
+{
+  "id": 2602,
+  "name": "Great American Ball Park",
+  "city": "Cincinnati",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 156,
+    "right_start": 852,
+    "center_y": 76,
+    "left_curve_x": 136,
+    "right_curve_x": 884,
+    "left_curve_y": 224,
+    "right_curve_y": 228
+  },
+  "venue": {
+    "latitude": 39.097389,
+    "longitude": -84.506611,
+    "timezone": "America/Chicago",
+    "altitude_ft": 595,
+    "roof": null,
+    "surface": null
+  }
+}

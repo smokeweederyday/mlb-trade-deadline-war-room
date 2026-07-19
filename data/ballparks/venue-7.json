@@ -1,0 +1,24 @@
+{
+  "id": 7,
+  "name": "Kauffman Stadium",
+  "city": "Kansas City",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 135,
+    "right_start": 837,
+    "center_y": 53,
+    "left_curve_x": 121,
+    "right_curve_x": 893,
+    "left_curve_y": 244,
+    "right_curve_y": 193
+  },
+  "venue": {
+    "latitude": 39.051567,
+    "longitude": -94.480483,
+    "timezone": "America/New_York",
+    "altitude_ft": 20,
+    "roof": null,
+    "surface": null
+  }
+}

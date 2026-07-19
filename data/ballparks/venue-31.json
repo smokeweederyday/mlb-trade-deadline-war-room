@@ -1,0 +1,24 @@
+{
+  "id": 31,
+  "name": "PNC Park",
+  "city": "Pittsburgh",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 135,
+    "right_start": 867,
+    "center_y": 64,
+    "left_curve_x": 133,
+    "right_curve_x": 875,
+    "left_curve_y": 197,
+    "right_curve_y": 194
+  },
+  "venue": {
+    "latitude": 40.446904,
+    "longitude": -80.005753,
+    "timezone": "America/Chicago",
+    "altitude_ft": 600,
+    "roof": null,
+    "surface": null
+  }
+}

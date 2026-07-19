@@ -1,0 +1,24 @@
+{
+  "id": 22,
+  "name": "UNIQLO Field at Dodger Stadium",
+  "city": "Los Angeles",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 156,
+    "right_start": 840,
+    "center_y": 76,
+    "left_curve_x": 88,
+    "right_curve_x": 902,
+    "left_curve_y": 239,
+    "right_curve_y": 218
+  },
+  "venue": {
+    "latitude": 34.07368,
+    "longitude": -118.24053,
+    "timezone": "America/Chicago",
+    "altitude_ft": 551,
+    "roof": null,
+    "surface": null
+  }
+}

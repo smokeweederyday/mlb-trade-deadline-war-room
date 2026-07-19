@@ -1,0 +1,24 @@
+{
+  "id": 2680,
+  "name": "Petco Park",
+  "city": "San Diego",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 156,
+    "right_start": 834,
+    "center_y": 58,
+    "left_curve_x": 94,
+    "right_curve_x": 866,
+    "left_curve_y": 250,
+    "right_curve_y": 215
+  },
+  "venue": {
+    "latitude": 32.707861,
+    "longitude": -117.157278,
+    "timezone": "America/Chicago",
+    "altitude_ft": 635,
+    "roof": null,
+    "surface": null
+  }
+}

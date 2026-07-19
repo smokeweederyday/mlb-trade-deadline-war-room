@@ -1,0 +1,24 @@
+{
+  "id": 4,
+  "name": "Rate Field",
+  "city": "Chicago",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 156,
+    "right_start": 870,
+    "center_y": 57,
+    "left_curve_x": 106,
+    "right_curve_x": 902,
+    "left_curve_y": 193,
+    "right_curve_y": 201
+  },
+  "venue": {
+    "latitude": 41.83,
+    "longitude": -87.634167,
+    "timezone": "America/New_York",
+    "altitude_ft": 653,
+    "roof": null,
+    "surface": null
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": 1,
+  "name": "Angel Stadium",
+  "city": "Anaheim",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 135,
+    "right_start": 861,
+    "center_y": 61,
+    "left_curve_x": 91,
+    "right_curve_x": 911,
+    "left_curve_y": 207,
+    "right_curve_y": 209
+  },
+  "venue": {
+    "latitude": 33.80019044,
+    "longitude": -117.8823996,
+    "timezone": "America/Los_Angeles",
+    "altitude_ft": 160,
+    "roof": null,
+    "surface": null
+  }
+}

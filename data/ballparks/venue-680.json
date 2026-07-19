@@ -1,0 +1,24 @@
+{
+  "id": 680,
+  "name": "T-Mobile Park",
+  "city": "Seattle",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 142,
+    "right_start": 868,
+    "center_y": 73,
+    "left_curve_x": 138,
+    "right_curve_x": 872,
+    "left_curve_y": 245,
+    "right_curve_y": 240
+  },
+  "venue": {
+    "latitude": 47.591333,
+    "longitude": -122.33251,
+    "timezone": "America/Los_Angeles",
+    "altitude_ft": 20,
+    "roof": null,
+    "surface": null
+  }
+}

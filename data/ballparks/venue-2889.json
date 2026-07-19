@@ -1,0 +1,24 @@
+{
+  "id": 2889,
+  "name": "Busch Stadium",
+  "city": "St. Louis",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 149,
+    "right_start": 845,
+    "center_y": 66,
+    "left_curve_x": 113,
+    "right_curve_x": 887,
+    "left_curve_y": 228,
+    "right_curve_y": 221
+  },
+  "venue": {
+    "latitude": 38.62256667,
+    "longitude": -90.19286667,
+    "timezone": "America/Los_Angeles",
+    "altitude_ft": 25,
+    "roof": null,
+    "surface": null
+  }
+}

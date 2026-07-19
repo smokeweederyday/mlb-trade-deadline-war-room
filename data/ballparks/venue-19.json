@@ -1,0 +1,24 @@
+{
+  "id": 19,
+  "name": "Coors Field",
+  "city": "Denver",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 135,
+    "right_start": 831,
+    "center_y": 80,
+    "left_curve_x": 127,
+    "right_curve_x": 911,
+    "left_curve_y": 253,
+    "right_curve_y": 226
+  },
+  "venue": {
+    "latitude": 39.756042,
+    "longitude": -104.994136,
+    "timezone": "America/Denver",
+    "altitude_ft": 5200,
+    "roof": null,
+    "surface": null
+  }
+}

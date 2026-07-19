@@ -1,0 +1,24 @@
+{
+  "id": 3289,
+  "name": "Citi Field",
+  "city": "Flushing",
+  "version": "V0.1",
+  "status": "editable_placeholder_geometry",
+  "geometry": {
+    "left_start": 135,
+    "right_start": 855,
+    "center_y": 63,
+    "left_curve_x": 115,
+    "right_curve_x": 875,
+    "left_curve_y": 203,
+    "right_curve_y": 216
+  },
+  "venue": {
+    "latitude": 40.75753012,
+    "longitude": -73.84559155,
+    "timezone": null,
+    "altitude_ft": null,
+    "roof": null,
+    "surface": null
+  }
+}
