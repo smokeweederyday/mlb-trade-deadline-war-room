@@ -39,6 +39,11 @@ export function renderPitcherWidget({
       ? requestedStartIndex
       : startOptions.indexOf(7);
 
+  applyPitcherAtmosphere(
+    container,
+    module
+  );
+
   container.innerHTML = `
     <div class="pitcher-card-link">
       <div class="pitcher-card-heading">
@@ -46,7 +51,18 @@ export function renderPitcherWidget({
           <span class="data-label">
             ${escapeHtml(module.statusLabel || "STARTER TBD")}
           </span>
-          <h2>${escapeHtml(module.name || "Starter TBD")}</h2>
+          <h2
+            class="pitcher-name-signal ${escapeHtml(
+              module.nameSignalClass ||
+              "pitcher-signal-neutral"
+            )}"
+            title="${escapeAttribute(
+              module.nameSignalLabel ||
+              "League-relative pitcher signal"
+            )}"
+          >
+            ${escapeHtml(module.name || "Starter TBD")}
+          </h2>
           <div class="pitcher-meta-line">
             <p>
               ${escapeHtml(module.team || "—")}
@@ -192,6 +208,78 @@ export function renderPitcherWidget({
       onLocationChange?.(button.dataset.pitcherLocation);
     });
   });
+}
+
+function applyPitcherAtmosphere(
+  container,
+  module
+) {
+  if (
+    !document.body ||
+    !document.body.classList.contains(
+      "game-page"
+    )
+  ) {
+    return;
+  }
+
+  const side =
+    module.side === "away" ||
+    module.side === "home"
+      ? module.side
+      : null;
+
+  if (!side) return;
+
+  const rawScore = Number(
+    module.nameSignalScore
+  );
+
+  const score =
+    Number.isFinite(rawScore)
+      ? Math.max(
+          -1,
+          Math.min(1, rawScore)
+        )
+      : 0;
+
+  const strength = Math.abs(score);
+
+  const greenAlpha =
+    score >= 0.08
+      ? 0.025 + strength * 0.17
+      : 0;
+
+  const redAlpha =
+    score <= -0.08
+      ? 0.025 + strength * 0.16
+      : 0;
+
+  document.body.style.setProperty(
+    `--${side}-pitcher-green-alpha`,
+    greenAlpha.toFixed(3)
+  );
+
+  document.body.style.setProperty(
+    `--${side}-pitcher-red-alpha`,
+    redAlpha.toFixed(3)
+  );
+
+  document.body.style.setProperty(
+    `--${side}-pitcher-signal`,
+    score.toFixed(3)
+  );
+
+  document.body.dataset[
+    `${side}PitcherSignal`
+  ] = (
+    module.nameSignalClass ||
+    "pitcher-signal-neutral"
+  );
+
+  container.dataset.pitcherSignal =
+    module.nameSignalClass ||
+    "pitcher-signal-neutral";
 }
 
 function renderPitcherMetricRow(metric) {

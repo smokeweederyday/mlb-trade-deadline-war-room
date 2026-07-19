@@ -13,6 +13,115 @@ const MLB_PITCHER_METRICS = [
   { key: "go_ao", label: "GO/AO", type: "number" }
 ];
 
+const PITCHER_SIGNAL_WEIGHTS = Object.freeze({
+  era: 1.25,
+  whip: 1.1,
+  fip: 1.35,
+  xfip: 1.35,
+  avg_against: 0.9,
+  k_rate: 0.9,
+  bb_rate: 0.8,
+  go_ao: 0.5
+});
+
+function buildPitcherNameSignal(block) {
+  let weightedScore = 0;
+  let weightTotal = 0;
+  let metricsUsed = 0;
+
+  Object.entries(
+    PITCHER_SIGNAL_WEIGHTS
+  ).forEach(([metric, weight]) => {
+    const rank = Number(
+      block?.ranks?.[metric]
+    );
+
+    const poolSize = Number(
+      block?.rank_pool_size?.[metric]
+    );
+
+    if (
+      !Number.isFinite(rank) ||
+      !Number.isFinite(poolSize) ||
+      rank < 1 ||
+      poolSize < 2
+    ) {
+      return;
+    }
+
+    // Every stored pitcher rank already uses
+    // rank 1 as best, regardless of metric direction.
+    const metricScore =
+      1 -
+      (
+        2 *
+        (rank - 1) /
+        (poolSize - 1)
+      );
+
+    weightedScore += (
+      metricScore * weight
+    );
+
+    weightTotal += weight;
+    metricsUsed += 1;
+  });
+
+  if (!weightTotal) {
+    return {
+      score: 0,
+      className:
+        "pitcher-signal-neutral",
+      label:
+        "League-relative pitcher signal unavailable"
+    };
+  }
+
+  const score = Math.max(
+    -1,
+    Math.min(
+      1,
+      weightedScore / weightTotal
+    )
+  );
+
+  let className =
+    "pitcher-signal-neutral";
+
+  let description =
+    "League average";
+
+  if (score >= 0.45) {
+    className =
+      "pitcher-signal-strong-positive";
+    description =
+      "Strong positive pitcher profile";
+  } else if (score >= 0.14) {
+    className =
+      "pitcher-signal-positive";
+    description =
+      "Positive pitcher profile";
+  } else if (score <= -0.45) {
+    className =
+      "pitcher-signal-strong-negative";
+    description =
+      "Strong negative pitcher profile";
+  } else if (score <= -0.14) {
+    className =
+      "pitcher-signal-negative";
+    description =
+      "Negative pitcher profile";
+  }
+
+  return {
+    score: Number(score.toFixed(3)),
+    className,
+    label:
+      `${description} · ` +
+      `${metricsUsed} ranked metrics used`
+  };
+}
+
 export function buildMlbOffenseModule({
   game,
   side,
@@ -171,8 +280,20 @@ export function buildMlbPitcherModule({
       ? `Last ${normalizedStartCount} Starts · ${formatLocationLabel(location)}`
       : seasonContext;
 
+  const nameSignal =
+    buildPitcherNameSignal(
+      primaryBlock
+    );
+
   return {
+    side,
     name: safePitcher.name || "Starter TBD",
+    nameSignalScore:
+      nameSignal.score,
+    nameSignalClass:
+      nameSignal.className,
+    nameSignalLabel:
+      nameSignal.label,
     team: team?.abbr || "—",
     age: safePitcher.age ?? "—",
     handLabel: safePitcher.throws ? `${safePitcher.throws}HP` : "Throws —",

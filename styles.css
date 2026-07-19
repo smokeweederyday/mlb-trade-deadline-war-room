@@ -32,8 +32,57 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opa
    ========================= */
 
 .game-page {
+  --away-pitcher-green-alpha: 0;
+  --away-pitcher-red-alpha: 0;
+  --home-pitcher-green-alpha: 0;
+  --home-pitcher-red-alpha: 0;
+
   min-height: 100vh;
-  background: var(--bg);
+
+  background:
+    radial-gradient(
+      circle at 10% 24%,
+      rgba(
+        57,
+        255,
+        136,
+        var(--away-pitcher-green-alpha)
+      ),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 10% 24%,
+      rgba(
+        255,
+        71,
+        96,
+        var(--away-pitcher-red-alpha)
+      ),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 90% 24%,
+      rgba(
+        57,
+        255,
+        136,
+        var(--home-pitcher-green-alpha)
+      ),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 90% 24%,
+      rgba(
+        255,
+        71,
+        96,
+        var(--home-pitcher-red-alpha)
+      ),
+      transparent 34%
+    ),
+    var(--bg);
+
+  background-attachment: fixed;
   color: var(--white);
 }
 
@@ -3555,4 +3604,46 @@ button.selected
   .pitcher-start-compact {
     flex-basis: 135px;
   }
+}
+
+
+/* League-relative pitcher name signal */
+.pitcher-name-signal {
+  display: inline-block;
+  transition:
+    color 180ms ease,
+    text-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.pitcher-name-signal.pitcher-signal-strong-positive {
+  color: #79ffac;
+  text-shadow:
+    0 0 9px rgba(57, 255, 136, 0.66),
+    0 0 24px rgba(57, 255, 136, 0.28);
+}
+
+.pitcher-name-signal.pitcher-signal-positive {
+  color: #b3f5c9;
+  text-shadow:
+    0 0 12px rgba(57, 255, 136, 0.25);
+}
+
+.pitcher-name-signal.pitcher-signal-neutral {
+  color: rgba(235, 243, 239, 0.88);
+  text-shadow:
+    0 0 10px rgba(170, 184, 177, 0.08);
+}
+
+.pitcher-name-signal.pitcher-signal-negative {
+  color: #ffadb8;
+  text-shadow:
+    0 0 12px rgba(255, 71, 96, 0.25);
+}
+
+.pitcher-name-signal.pitcher-signal-strong-negative {
+  color: #ff7185;
+  text-shadow:
+    0 0 9px rgba(255, 71, 96, 0.62),
+    0 0 24px rgba(255, 71, 96, 0.25);
 }
