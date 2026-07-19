@@ -1,0 +1,14 @@
+BORING BETS — PLATE HUD EXPANSION
+
+1. Copy live.html, live.css, live.js, assets, and scripts into the root of your current boring-bets folder.
+2. Choose Merge/Replace when Finder asks.
+3. Run:
+
+   python3 -u scripts/check_plate_hud_expansion.py
+
+4. Start the local server:
+
+   python3 -m http.server 8000
+
+5. Open live.html, select PLATE VIEW, then click the plate scene.
+6. Close with the × button, Escape, or by clicking the black backdrop.

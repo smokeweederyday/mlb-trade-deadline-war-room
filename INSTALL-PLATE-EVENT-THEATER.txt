@@ -1,0 +1,16 @@
+PLATE EVENT THEATER — PHASE 1
+
+Copy the contents of this folder into the root of the current boring-bets project.
+Choose Merge/Replace when Finder asks.
+
+Validate:
+python3 -u scripts/check_plate_event_theater_phase1.py
+
+Run locally:
+python3 -m http.server 8000
+
+Open:
+http://localhost:8000/live.html
+
+Select Plate View, then click the embedded plate scene to enter the full-screen Event Theater.
+Move the pointer left or right to look around. Click the park to return to the Live Game HUD.

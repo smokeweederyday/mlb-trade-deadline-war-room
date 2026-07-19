@@ -233,6 +233,7 @@
 <span class="zone-axis zone-axis-left">−plate_x</span>
 <span class="zone-axis zone-axis-right">+plate_x</span>
 </div>
+<button aria-label="Open full-screen Plate View HUD" class="plate-expand-hit-area" id="openPlateHudButton" type="button"><span>OPEN FULL-SCREEN PLATE HUD</span><small>CLICK THE SCENE</small></button>
 </div>
 <div class="matchup-edge-panels">
 <article class="edge-card batter-edge"><span>BATTER ADVANTAGE</span><strong id="batterAdvantageZone">—</strong><small id="batterAdvantageDetail">Waiting for heat-map data</small></article>
@@ -405,6 +406,108 @@
     </header>
     <div class="complete-event-log" id="completeEventLog"></div>
   </article>
+</section>
+
+<section aria-hidden="true" aria-label="Full-screen retro Plate View HUD" class="full-plate-hud" hidden id="fullPlateHud" role="dialog">
+  <div class="full-plate-hud-shell" id="fullPlateHudShell">
+    <div aria-label="Interactive Tron Park plate-view environment. Move the pointer left or right to look around. Click the park to return to the Live Game HUD." class="plate-theater-scene" id="fullPlateHudScene" role="button" tabindex="0">
+      <svg aria-hidden="true" class="plate-theater-world" id="plateTheaterWorld" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1800 900">
+        <defs>
+          <radialGradient id="theaterSky" cx="50%" cy="12%" r="84%"><stop offset="0" stop-color="#072c25"/><stop offset=".48" stop-color="#020b09"/><stop offset="1" stop-color="#000"/></radialGradient>
+          <linearGradient id="theaterField" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#073b2c"/><stop offset="1" stop-color="#010704"/></linearGradient>
+          <filter id="theaterGlow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="theaterBigGlow"><feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <rect width="1800" height="900" fill="url(#theaterSky)"/>
+        <g class="theater-stars" fill="#43ffbd" opacity=".16">
+          <circle cx="130" cy="92" r="2"/><circle cx="310" cy="52" r="1.5"/><circle cx="492" cy="118" r="2"/><circle cx="720" cy="65" r="1.5"/><circle cx="1010" cy="90" r="2"/><circle cx="1260" cy="42" r="1.5"/><circle cx="1480" cy="108" r="2"/><circle cx="1670" cy="62" r="1.5"/>
+        </g>
+        <g class="theater-stadium" fill="none" stroke="#10d99a" stroke-width="2" opacity=".55">
+          <path d="M0 344 Q260 190 560 278 Q900 144 1240 278 Q1540 190 1800 344"/>
+          <path d="M0 390 Q280 260 560 326 Q900 214 1240 326 Q1520 260 1800 390" opacity=".55"/>
+          <path d="M0 438 Q270 330 560 374 Q900 286 1240 374 Q1530 330 1800 438" opacity=".35"/>
+          <path d="M44 344 V240 H190 V312 M1610 312 V240 H1756 V344"/>
+          <path d="M72 240 H162 M1638 240 H1728 M84 257 H150 M1650 257 H1716"/>
+          <path d="M510 320 V210 H650 V300 M1150 300 V210 H1290 V320"/>
+          <path d="M536 210 H624 M1176 210 H1264"/>
+        </g>
+        <g class="theater-light-towers" fill="#43ffbd" opacity=".62" filter="url(#theaterGlow)">
+          <g transform="translate(302 185)"><path d="M0 172 L30 0 L60 172" fill="none" stroke="#43ffbd" stroke-width="3"/><rect width="94" height="42" x="-17" y="-4" fill="none" stroke="#43ffbd"/><g opacity=".8"><circle cx="0" cy="8" r="4"/><circle cx="18" cy="8" r="4"/><circle cx="36" cy="8" r="4"/><circle cx="54" cy="8" r="4"/><circle cx="72" cy="8" r="4"/><circle cx="0" cy="26" r="4"/><circle cx="18" cy="26" r="4"/><circle cx="36" cy="26" r="4"/><circle cx="54" cy="26" r="4"/><circle cx="72" cy="26" r="4"/></g></g>
+          <g transform="translate(1438 185)"><path d="M0 172 L30 0 L60 172" fill="none" stroke="#43ffbd" stroke-width="3"/><rect width="94" height="42" x="-17" y="-4" fill="none" stroke="#43ffbd"/><g opacity=".8"><circle cx="0" cy="8" r="4"/><circle cx="18" cy="8" r="4"/><circle cx="36" cy="8" r="4"/><circle cx="54" cy="8" r="4"/><circle cx="72" cy="8" r="4"/><circle cx="0" cy="26" r="4"/><circle cx="18" cy="26" r="4"/><circle cx="36" cy="26" r="4"/><circle cx="54" cy="26" r="4"/><circle cx="72" cy="26" r="4"/></g></g>
+        </g>
+        <g class="theater-batter-eye">
+          <rect x="700" y="218" width="400" height="190" rx="6" fill="#00130d" stroke="#17e9a8" stroke-width="3"/>
+          <rect x="732" y="250" width="336" height="126" fill="#000805" stroke="#0b7757" stroke-width="2"/>
+          <text id="fullParkScoreboard" x="900" y="326" fill="#3cffb9" font-family="ui-monospace,monospace" font-size="42" font-weight="900" text-anchor="middle" opacity=".72">TRON PARK</text>
+        </g>
+        <path d="M0 430 Q900 332 1800 430 V900 H0Z" fill="url(#theaterField)" stroke="#12b984" stroke-width="3"/>
+        <g class="theater-wall" fill="#00120d" stroke="#18e6a6" stroke-width="3">
+          <path d="M0 424 Q420 346 700 402 L700 462 Q410 414 0 486Z"/>
+          <path d="M1100 402 Q1380 346 1800 424 V486 Q1390 414 1100 462Z"/>
+          <path d="M700 402 H1100 V462 H700Z"/>
+        </g>
+        <text id="fullWallHome" x="205" y="439" fill="#f24b4b" font-family="ui-monospace,monospace" font-size="40" font-weight="900" letter-spacing="7">HOME TEAM</text>
+        <text id="fullWallPark" x="1370" y="439" fill="#32ffb6" font-family="ui-monospace,monospace" font-size="40" font-weight="900" letter-spacing="7">TRON PARK</text>
+        <g class="theater-field-grid" fill="none" stroke="#0ac58c" stroke-width="2" opacity=".42">
+          <path d="M120 900 L900 457 L1680 900"/>
+          <path d="M280 900 L900 457 L1520 900"/>
+          <path d="M450 900 L900 457 L1350 900"/>
+          <path d="M620 900 L900 457 L1180 900"/>
+          <path d="M790 900 L900 457 L1010 900"/>
+          <path d="M0 780 Q900 590 1800 780 M0 690 Q900 540 1800 690 M0 610 Q900 500 1800 610 M0 542 Q900 470 1800 542"/>
+        </g>
+        <ellipse cx="900" cy="520" rx="104" ry="28" fill="#033121" stroke="#23f6af" stroke-width="3" opacity=".78"/>
+        <path d="M873 520 H927" stroke="#baffdf" stroke-width="6" stroke-linecap="round"/>
+        <g class="theater-pitcher-ghost" id="fullPitcherGhost" fill="none" stroke="#48ffc2" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" filter="url(#theaterGlow)">
+          <circle cx="900" cy="390" r="20"/><path d="M884 412 Q900 400 916 412 L930 468 Q900 487 870 468Z"/><path d="M879 425 Q852 443 864 468 M920 425 Q945 443 934 468"/><path d="M877 468 L864 516 M923 468 L938 516"/><path d="M871 433 Q900 457 929 433"/><path d="M883 399 Q900 382 918 399"/><circle cx="929" cy="435" r="10"/>
+        </g>
+        <g class="theater-batter-ghost" id="fullBatterGhost" fill="none" stroke="#52ffc5" stroke-linecap="round" stroke-linejoin="round" stroke-width="8" filter="url(#theaterBigGlow)">
+          <circle cx="520" cy="545" r="38"/><path d="M478 585 Q520 558 562 585 L590 710 Q525 752 462 710Z"/><path d="M482 606 Q414 645 432 718 M557 603 Q622 626 650 681"/><path d="M485 710 L438 862 M553 710 L598 862"/><path d="M407 866 H474 M573 866 H638"/><path d="M432 718 L650 398" stroke="#95ffe0" stroke-width="12"/><path d="M480 533 Q520 499 560 533"/>
+        </g>
+        <g class="theater-catcher-ghost" id="fullCatcherGhost" fill="none" stroke="#35ffb4" stroke-linecap="round" stroke-linejoin="round" stroke-width="7" filter="url(#theaterGlow)">
+          <circle cx="900" cy="700" r="43"/><path d="M842 754 Q900 712 958 754 L994 900 H806Z"/><path d="M851 735 H949 M858 712 H942 M870 690 H930"/><path d="M837 776 Q790 818 802 878 M964 776 Q1012 818 998 878"/><path d="M854 808 L820 900 M946 808 L980 900"/>
+        </g>
+        <g class="theater-home-plate" fill="none" stroke="#95ffe0" stroke-width="5" opacity=".84"><path d="M858 880 L900 850 L942 880 L930 900 H870Z"/><path d="M742 900 L846 788 M1058 900 L954 788"/></g>
+      </svg>
+      <div class="plate-theater-zone" id="fullPlateZone"><i></i><i></i><i></i><i></i><span id="fullZonePitchDot"></span></div>
+      <div aria-live="polite" class="plate-event-layer" id="plateEventLayer"><i class="plate-event-ball" id="plateEventBall"></i><i class="plate-event-impact" id="plateEventImpact"></i><strong class="plate-event-glyph" id="plateEventGlyph"></strong><div class="plate-event-banner" id="plateEventBanner"></div></div>
+      <div class="plate-look-hint left">LOOK LEFT</div><div class="plate-look-hint right">LOOK RIGHT</div>
+      <div class="plate-return-hint">MOVE TO LOOK AROUND · CLICK THE PARK TO RETURN TO LIVE VIEW</div>
+    </div>
+
+    <div class="plate-theater-ui" data-plate-ui>
+      <section class="plate-module batter-module" id="fullBatterModule">
+        <header><span>AT BAT</span><b id="fullBatterOrder">3</b></header>
+        <strong id="fullBatterName">LINEUP PENDING</strong>
+        <small id="fullBatterMeta">RHB · RF</small>
+        <div class="plate-module-line"><span>TODAY</span><b id="fullBatterToday">2–3 · HR · 2 RBI</b></div>
+      </section>
+      <section class="plate-module batter-game-module">
+        <header><span>GAME LOG</span><b id="fullBatterPulse">HOT</b></header>
+        <div id="fullBatterGameEvents"><p>1ST · FLY OUT TO CF</p><p>3RD · SOLO HOME RUN</p><p>5TH · SINGLE TO RF</p></div>
+      </section>
+
+      <section class="plate-scorebug" id="fullPlateScoreBug">
+        <div class="plate-score-team"><span id="fullAwayAbbr">AWY</span><strong id="fullAwayScore">0</strong></div>
+        <div class="plate-score-state"><b id="fullPlateInning">▲ 1ST</b><div class="plate-score-bases"><i id="fullBaseSecond"></i><i id="fullBaseThird"></i><i id="fullBaseFirst"></i></div><span id="fullPlateCount">0–0</span><small id="fullPlateOuts">0 OUTS</small></div>
+        <div class="plate-score-team"><span id="fullHomeAbbr">HME</span><strong id="fullHomeScore">0</strong></div>
+      </section>
+
+      <section class="plate-module pitcher-module" id="fullPitcherModule">
+        <header><span>PITCHER</span><b id="fullPitcherHand">RHP</b></header>
+        <strong id="fullPitcherName">STARTER TBD</strong>
+        <small id="fullPitcherLine">5.2 IP · 7 K · 2 ER</small>
+        <div class="plate-module-line"><span>PITCH COUNT</span><b id="fullPitchCount">84</b></div>
+      </section>
+      <section class="plate-module pitch-trails-module">
+        <header><span>PITCH TRAILS</span><b id="fullLatestPitch">—</b></header>
+        <div class="full-pitch-mini-zone" id="fullPitchMiniZone"></div>
+        <div class="full-pitch-list" id="fullPitchList"></div>
+      </section>
+      <div class="plate-live-feed"><span>&gt;&gt; LIVE FEED</span><strong id="fullPlateLiveFeed">WAITING FOR NEXT EVENT…</strong><small id="fullPlateLatency">— MS</small></div>
+      <button aria-label="Return to Live Game HUD" class="full-plate-hud-close" id="closePlateHudButton" type="button">LIVE HUD</button>
+    </div>
+  </div>
 </section>
 <aside aria-hidden="true" class="chat-drawer" id="chatDrawer">
 <div class="chat-heading"><div><span class="panel-kicker">LIVE INTELLIGENCE</span><strong>Boring Bets AI</strong></div><button id="closeChat" type="button">×</button></div>

@@ -12,7 +12,7 @@
   const state = {
     games: [], days: [], parks: [], index: null, lineupArchive: {}, game: null, dayGames: [], lineupSide: "away", eventFilter: "all",
     events: [], eventIndex: 0, paused: false, timer: null, demo: true, currentBatterIndex: 2,
-    hudView: "field", autoView: false, heatLayer: "combined", pitchHistory: [], fieldProjection: null,
+    hudView: "field", autoView: false, heatLayer: "combined", pitchHistory: [], fieldProjection: null, plateLook: 0, lastPlateEvent: null,
     simulated: { awayScore: 3, homeScore: 2, inning: 6, half: "top", outs: 1, balls: 2, strikes: 1, pitchCount: 84, bases: [true, false, true] }
   };
 
@@ -82,6 +82,17 @@
     $("pauseFeedButton").addEventListener("click", togglePause);
     $("fieldViewButton").addEventListener("click", () => setHudView("field"));
     $("plateViewButton").addEventListener("click", () => setHudView("plate"));
+    $("openPlateHudButton")?.addEventListener("click", openFullPlateHud);
+    $("closePlateHudButton")?.addEventListener("click", closeFullPlateHud);
+    $("fullPlateHudScene")?.addEventListener("click", closeFullPlateHud);
+    $("fullPlateHudScene")?.addEventListener("pointermove", handlePlateLook);
+    $("fullPlateHudScene")?.addEventListener("pointerleave", () => setPlateLook(0));
+    $("fullPlateHudScene")?.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); closeFullPlateHud(); }
+      if (event.key === "ArrowLeft") { event.preventDefault(); setPlateLook(state.plateLook - 0.18); }
+      if (event.key === "ArrowRight") { event.preventDefault(); setPlateLook(state.plateLook + 0.18); }
+    });
+    document.querySelectorAll("[data-close-plate-hud]").forEach(node => node.addEventListener("click", closeFullPlateHud));
     $("autoViewButton").addEventListener("click", toggleAutoView);
     document.querySelectorAll("[data-heat-layer]").forEach(button => button.addEventListener("click", () => setHeatLayer(button.dataset.heatLayer)));
     $("awayLineupButton").addEventListener("click", () => setLineupSide("away"));
@@ -94,7 +105,10 @@
     $("chatLaunch").addEventListener("click", openChat);
     $("closeChat").addEventListener("click", closeChat);
     $("chatForm").addEventListener("submit", event => { event.preventDefault(); if ($("chatInput").value.trim()) { showToast("Chat UI is staged; the intelligence engine connects in a later phase."); $("chatInput").value = ""; } });
-    document.addEventListener("keydown", event => { if (event.key === "Escape") { closeChat(); closeDetailDrawer(); } });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") { closeFullPlateHud(); closeChat(); closeDetailDrawer(); }
+      if ((event.key === "Enter" || event.key === " ") && document.activeElement === $("openPlateHudButton")) { event.preventDefault(); openFullPlateHud(); }
+    });
   }
 
   function setDay(date) {
@@ -154,6 +168,7 @@
     renderScoreBug();
     renderEvents();
     renderLowerGameModules();
+    renderFullPlateHudContext();
     setHudView(state.hudView, false);
     document.title = `${state.game.away_team?.abbr || "Away"} at ${state.game.home_team?.abbr || "Home"} Live | Boring Bets`;
   }
@@ -586,6 +601,7 @@
     renderMiniPlate();
     renderLineScore();
     renderGameRail();
+    renderFullPlateHudState();
   }
 
   function renderBaseState() {
@@ -841,12 +857,18 @@
   function simulatePitch() {
     const s = state.simulated;
     if (state.autoView) setHudView("plate", false);
+
+    // Demo-only event branches exercise the same normalized animation adapter
+    // that the future low-latency live feed will call.
+    if (state.eventIndex > 0 && state.eventIndex % 13 === 0) return simulateBattedBall("home-run");
+    if (state.eventIndex > 0 && state.eventIndex % 7 === 0) return simulateBattedBall("line-drive");
+
     const pitches = [
-      ["97.1 MPH FOUR-SEAM", "CALLED STRIKE", "pitch"],
-      ["87.4 MPH SLIDER", "SWINGING STRIKE", "pitch"],
-      ["90.2 MPH SPLITTER", "BALL IN DIRT", "pitch"],
-      ["95.8 MPH SINKER", "FOUL", "pitch"],
-      ["86.9 MPH CHANGEUP", "BALL LOW", "pitch"]
+      ["97.1 MPH FOUR-SEAM", "CALLED STRIKE", "called-strike"],
+      ["87.4 MPH SLIDER", "SWINGING STRIKE", "swinging-strike"],
+      ["90.2 MPH SPLITTER", "BALL IN DIRT", "ball"],
+      ["95.8 MPH SINKER", "FOUL", "foul"],
+      ["86.9 MPH CHANGEUP", "BALL LOW", "ball"]
     ];
     const pick = pitches[state.eventIndex % pitches.length];
     state.eventIndex += 1;
@@ -858,16 +880,82 @@
     else if (outcome.includes("BALL")) s.balls += 1;
     if (outcome === "FOUL" && s.strikes < 2) s.strikes += 1;
     $("lastPitch").textContent = `${pick[0]} · ${pick[1]}`;
-    state.events.unshift(event("pitch","PITCH",`${pick[0]} — ${pick[1].toLowerCase()}.`,`Feed received in ${38 + (state.eventIndex % 19)}ms`));
-    if (s.strikes >= 3 || s.balls >= 4) advancePlateAppearance(s.strikes >= 3 ? "Strikeout" : "Walk");
+    const latency = 38 + (state.eventIndex % 19);
+    state.events.unshift(event("pitch", "PITCH", `${pick[0]} — ${pick[1].toLowerCase()}.`, `Feed received in ${latency}ms`));
+
+    let animationType = pick[2];
+    let animationBanner = pick[1];
+    if (s.strikes >= 3) {
+      animationType = "strikeout";
+      animationBanner = "STRIKEOUT";
+      advancePlateAppearance("Strikeout");
+    } else if (s.balls >= 4) {
+      animationType = "ball";
+      animationBanner = "WALK";
+      advancePlateAppearance("Walk");
+    }
+
     if (state.eventIndex % 5 === 0) {
       const alertEvent = event(state.eventIndex % 10 === 0 ? "negative" : "positive", state.eventIndex % 10 === 0 ? "FATIGUE CHANGE" : "PITCH QUALITY", state.eventIndex % 10 === 0 ? "Release point dropped another 1.7 inches." : "Whiff rate remains above expected baseline.", "Live intelligence condition updated", true);
       state.events.unshift(alertEvent);
       pulsePage(alertEvent.type);
     }
-    $("feedLatency").textContent = `${38 + (state.eventIndex % 19)}ms`;
+    $("feedLatency").textContent = `${latency}ms`;
     $("gameClock").textContent = `SIMULATED LIVE · ${new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"})}`;
+
+    // State and logs render first. The cinematic layer starts on the next frame
+    // so presentation can never hold up the live score/count update.
     renderScoreBug(); renderPitcherPanel(); renderPlateView(); renderEvents(); renderLowerGameModules();
+    const latest = state.pitchHistory.at(-1) || { x: 50, y: 50 };
+    requestAnimationFrame(() => playPlateEventAnimation(animationType, {
+      banner: animationBanner,
+      detail: `${pick[0]} · ${pick[1]}`,
+      liveText: `${pick[0]} — ${pick[1]}`,
+      x: 44 + latest.x * .12,
+      y: 57 + latest.y * .18
+    }));
+  }
+
+  function simulateBattedBall(kind) {
+    const s = state.simulated;
+    const { batter } = getActiveMatchup();
+    const offenseSide = s.half === "top" ? "away" : "home";
+    const direction = state.eventIndex % 2 ? "left" : "right";
+    state.eventIndex += 1;
+    s.pitchCount += 1;
+    recordPitchLocation("FF", "IN PLAY");
+    const runnerCount = s.bases.filter(Boolean).length;
+
+    if (kind === "home-run") {
+      const runs = runnerCount + 1;
+      if (offenseSide === "away") s.awayScore += runs; else s.homeScore += runs;
+      s.bases = [false, false, false];
+      state.events.unshift(event("positive", "HOME RUN", `${batter.name || "Batter"} launches a ${direction === "left" ? "pulled" : "opposite-field"} home run.`, `${runs} run${runs === 1 ? "" : "s"} score · event animation`, true));
+      $("lastPitch").textContent = "98.2 MPH FOUR-SEAM · HOME RUN";
+    } else {
+      const runs = Number(Boolean(s.bases[1])) + Number(Boolean(s.bases[2]));
+      if (offenseSide === "away") s.awayScore += runs; else s.homeScore += runs;
+      s.bases = [true, Boolean(s.bases[0]), false];
+      state.events.unshift(event("pitch", "LINE DRIVE", `${batter.name || "Batter"} shoots a 104.8 MPH line drive to ${direction} field.`, `${runs ? `${runs} run${runs === 1 ? "" : "s"} score` : "Runner reaches"} · event animation`));
+      $("lastPitch").textContent = "96.8 MPH FOUR-SEAM · 104.8 EV LINE DRIVE";
+    }
+
+    state.currentBatterIndex += 1;
+    s.balls = 0; s.strikes = 0;
+    const latency = 34 + (state.eventIndex % 15);
+    $("feedLatency").textContent = `${latency}ms`;
+    $("gameClock").textContent = `SIMULATED LIVE · ${new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"})}`;
+    renderHeader(); renderLineup(); renderScoreBug(); renderPitcherPanel(); renderPlateView(); renderEvents(); renderLowerGameModules();
+    requestAnimationFrame(() => playPlateEventAnimation(kind, {
+      direction,
+      banner: kind === "home-run" ? "HOME RUN" : "LINE DRIVE",
+      detail: kind === "home-run" ? "Ball clears the wall." : `Ball driven toward ${direction} field.`,
+      liveText: kind === "home-run" ? "CONTACT… DEEP DRIVE… GONE." : `CONTACT… LINE DRIVE TO ${direction.toUpperCase()} FIELD.`
+    }));
+    if (state.autoView && $("fullPlateHud")?.hidden) {
+      setTimeout(() => { if (state.autoView) setHudView("field", false); }, kind === "home-run" ? 1650 : 950);
+      setTimeout(() => { if (state.autoView) setHudView("plate", false); }, kind === "home-run" ? 3100 : 2200);
+    }
   }
 
   function advancePlateAppearance(result) {
@@ -906,6 +994,178 @@
     document.querySelectorAll("[data-right-tab]").forEach(button => button.classList.toggle("active", button.dataset.rightTab === tab));
     document.querySelectorAll("[data-right-panel]").forEach(panel => panel.classList.toggle("active", panel.dataset.rightPanel === tab));
   }
+
+  function setAnimatedText(id, value) {
+    const node = $(id);
+    if (!node) return;
+    const next = String(value ?? "—");
+    if (node.dataset.liveValue !== next) {
+      node.dataset.liveValue = next;
+      node.textContent = next;
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        node.animate([{ opacity: .45, transform: "translateY(-2px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 220, easing: "ease-out" });
+      }
+    }
+  }
+
+  function renderFullPlateHudState() {
+    if (!state.game || !$("fullPlateHud")) return;
+    const s = state.simulated || {};
+    const { pitcher, batter, batterHand } = getActiveMatchup();
+    const away = state.game.away_team || {};
+    const home = state.game.home_team || {};
+    const venue = state.game.venue?.name || "TRON PARK";
+    const pulse = playerPulse(state.currentBatterIndex);
+    const defenseSide = s.half === "top" ? "home" : "away";
+    const pitcherSample = pitcher.stats?.season?.[defenseSide] || pitcher.stats?.season?.all || {};
+    const inning = `${s.half === "top" ? "▲" : "▼"} ${ordinal(s.inning || 1)}`;
+
+    setAnimatedText("fullAwayAbbr", away.abbr || "AWY");
+    setAnimatedText("fullHomeAbbr", home.abbr || "HME");
+    setAnimatedText("fullAwayScore", s.awayScore ?? 0);
+    setAnimatedText("fullHomeScore", s.homeScore ?? 0);
+    setAnimatedText("fullPlateInning", inning);
+    setAnimatedText("fullPlateCount", `${s.balls || 0}–${s.strikes || 0}`);
+    setAnimatedText("fullPlateOuts", `${s.outs || 0} OUT${s.outs === 1 ? "" : "S"}`);
+    ["fullBaseFirst", "fullBaseSecond", "fullBaseThird"].forEach((id, index) => $(id)?.classList.toggle("active", Boolean(s.bases?.[index])));
+
+    setAnimatedText("fullBatterName", batter.name || "LINEUP PENDING");
+    setAnimatedText("fullBatterOrder", (state.currentBatterIndex % 9) + 1);
+    setAnimatedText("fullBatterMeta", `${batterHand || "R"}HB · ${batter.position || batter.primary_position || "BATTER"}`);
+    setAnimatedText("fullBatterToday", pulse.line || "0–0");
+    setAnimatedText("fullBatterPulse", pulse.label || "LIVE");
+    const batterEvents = state.events.filter(item => ["IN PLAY", "STRIKEOUT", "WALK", "HOME RUN", "LINE DRIVE"].includes(item.title)).slice(0, 3);
+    $("fullBatterGameEvents").innerHTML = batterEvents.length ? batterEvents.map(item => `<p>${html(item.title)} · ${html(item.detail)}</p>`).join("") : `<p>WAITING FOR FIRST PLATE APPEARANCE RESULT</p>`;
+
+    setAnimatedText("fullPitcherName", pitcher.name || "STARTER TBD");
+    setAnimatedText("fullPitcherHand", `${pitcher.throws || "R"}HP`);
+    setAnimatedText("fullPitchCount", s.pitchCount ?? 0);
+    setAnimatedText("fullPitcherLine", `${pitcherSample.innings_pitched || "—"} IP · ${pitcherSample.strikeouts ?? "—"} K · ${pitcherSample.earned_runs ?? "—"} ER`);
+    setAnimatedText("fullLatestPitch", state.pitchHistory.at(-1)?.label || "—");
+    setAnimatedText("fullPlateLatency", `${String($("feedLatency")?.textContent || "—").replace(/ms/i, "")} MS`);
+
+    const latest = state.pitchHistory.at(-1) || { x: 50, y: 50 };
+    $("fullZonePitchDot").style.left = `${clamp(latest.x, 4, 96)}%`;
+    $("fullZonePitchDot").style.top = `${clamp(latest.y, 4, 96)}%`;
+    $("fullPitchMiniZone").innerHTML = state.pitchHistory.slice(-6).map((pitch, index) => `<i style="left:${clamp(pitch.x, 4, 96)}%;top:${clamp(pitch.y, 4, 96)}%" title="${html(pitch.label)} · ${html(pitch.result)}"></i>`).join("");
+    $("fullPitchList").innerHTML = state.pitchHistory.slice(-4).reverse().map((pitch, index) => `<div><b>${index + 1}</b><strong>${html(pitch.label || "PITCH")}</strong><small>${html(pitch.result || "LOCATION")}</small></div>`).join("") || `<div><b>—</b><strong>WAITING</strong><small>NO PITCHES</small></div>`;
+
+    $("fullWallHome").textContent = home.abbr || "HOME TEAM";
+    $("fullWallPark").textContent = venue.toUpperCase();
+    $("fullParkScoreboard").textContent = `${away.abbr || "AWY"} ${s.awayScore ?? 0}  ·  ${home.abbr || "HME"} ${s.homeScore ?? 0}`;
+    $("fullPlateHud").setAttribute("aria-label", `${away.abbr || "Away"} at ${home.abbr || "Home"} immersive Plate View HUD at ${venue}`);
+  }
+
+  function setPlateLook(value) {
+    state.plateLook = clamp(Number(value) || 0, -1, 1);
+    const world = $("plateTheaterWorld");
+    if (!world) return;
+    const xShift = -50 - state.plateLook * 5.5;
+    const rotate = state.plateLook * 1.15;
+    world.style.transform = `translate3d(${xShift}%,-50%,0) rotateY(${rotate}deg) scale(1.015)`;
+  }
+
+  function handlePlateLook(event) {
+    const scene = $("fullPlateHudScene");
+    if (!scene) return;
+    const rect = scene.getBoundingClientRect();
+    setPlateLook(((event.clientX - rect.left) / Math.max(1, rect.width) - .5) * 2);
+  }
+
+  function openFullPlateHud() {
+    const modal = $("fullPlateHud");
+    if (!modal) return;
+    renderFullPlateHudState();
+    setPlateLook(0);
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("plate-hud-open");
+    $("fullPlateHudScene")?.focus({ preventScroll: true });
+  }
+
+  function closeFullPlateHud() {
+    const modal = $("fullPlateHud");
+    if (!modal || modal.hidden) return;
+    modal.hidden = true;
+    modal.setAttribute("aria-hidden", "true");
+    modal.classList.remove("event-pitch", "event-strikeout", "event-line-drive", "event-home-run", "event-foul");
+    document.body.classList.remove("plate-hud-open");
+    setPlateLook(0);
+    $("openPlateHudButton")?.focus({ preventScroll: true });
+  }
+
+  function animatePlateBall(keyframes, duration = 680) {
+    const ball = $("plateEventBall");
+    if (!ball || $("fullPlateHud")?.hidden) return;
+    ball.getAnimations().forEach(animation => animation.cancel());
+    ball.animate(keyframes, { duration, easing: "cubic-bezier(.2,.75,.25,1)", fill: "both" });
+  }
+
+  function flashPlateEvent(text, glyph = "") {
+    const banner = $("plateEventBanner");
+    const glyphNode = $("plateEventGlyph");
+    if (banner) {
+      banner.textContent = text;
+      banner.animate([{ opacity: 0, transform: "translate(-50%,-14px)" }, { opacity: 1, transform: "translate(-50%,0)" }, { opacity: 1, transform: "translate(-50%,0)", offset: .72 }, { opacity: 0, transform: "translate(-50%,10px)" }], { duration: 1400, easing: "ease-out" });
+    }
+    if (glyphNode && glyph) {
+      glyphNode.textContent = glyph;
+      glyphNode.animate([{ opacity: 0, transform: "translate(-50%,-50%) scale(.55)" }, { opacity: .95, transform: "translate(-50%,-50%) scale(1.02)" }, { opacity: 0, transform: "translate(-50%,-50%) scale(1.2)" }], { duration: 1050, easing: "ease-out" });
+    }
+  }
+
+  function playPlateEventAnimation(type, payload = {}) {
+    state.lastPlateEvent = { type, payload, at: Date.now() };
+    const modal = $("fullPlateHud");
+    const sceneOpen = modal && !modal.hidden;
+    const liveText = payload.liveText || payload.detail || type.replaceAll("-", " ").toUpperCase();
+    setAnimatedText("fullPlateLiveFeed", liveText);
+    if (!sceneOpen || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    modal.classList.remove("event-pitch", "event-strikeout", "event-line-drive", "event-home-run", "event-foul");
+    void modal.offsetWidth;
+    const direction = payload.direction === "right" ? 1 : payload.direction === "left" ? -1 : (state.eventIndex % 2 ? 1 : -1);
+    const endX = direction > 0 ? "82%" : "18%";
+    const impact = $("plateEventImpact");
+
+    if (type === "home-run") {
+      modal.classList.add("event-home-run");
+      flashPlateEvent(payload.banner || "HOME RUN", "HR");
+      animatePlateBall([{ left: "50%", top: "73%", opacity: 0, transform: "translate(-50%,-50%) scale(.5)" }, { opacity: 1, offset: .08 }, { left: direction > 0 ? "66%" : "34%", top: "30%", opacity: 1, transform: "translate(-50%,-50%) scale(1)" }, { left: endX, top: "3%", opacity: 0, transform: "translate(-50%,-50%) scale(.35)" }], 1550);
+      setPlateLook(direction * .78);
+      setTimeout(() => setPlateLook(0), 1500);
+    } else if (type === "line-drive") {
+      modal.classList.add("event-line-drive");
+      flashPlateEvent(payload.banner || "LINE DRIVE", "");
+      animatePlateBall([{ left: "50%", top: "73%", opacity: 0 }, { left: "49%", top: "69%", opacity: 1, offset: .08 }, { left: endX, top: "43%", opacity: 1 }, { left: direction > 0 ? "91%" : "9%", top: "39%", opacity: 0 }], 820);
+      setPlateLook(direction * .92);
+      setTimeout(() => setPlateLook(0), 1050);
+    } else if (type === "strikeout") {
+      modal.classList.add("event-strikeout");
+      flashPlateEvent(payload.banner || "STRIKEOUT", "K");
+      animatePlateBall([{ left: "50%", top: "49%", opacity: 0 }, { left: "50%", top: "61%", opacity: 1 }, { left: `${clamp(payload.x ?? 52, 38, 62)}%`, top: `${clamp(payload.y ?? 67, 55, 77)}%`, opacity: 1 }, { opacity: 0 }], 560);
+    } else if (type === "foul") {
+      modal.classList.add("event-foul");
+      flashPlateEvent("FOUL BALL");
+      animatePlateBall([{ left: "50%", top: "72%", opacity: 0 }, { opacity: 1, offset: .1 }, { left: direction > 0 ? "88%" : "12%", top: "38%", opacity: 0 }], 620);
+    } else {
+      modal.classList.add("event-pitch");
+      flashPlateEvent(payload.banner || (type === "ball" ? "BALL" : type === "called-strike" ? "CALLED STRIKE" : type === "swinging-strike" ? "SWING AND MISS" : "PITCH"));
+      animatePlateBall([{ left: "50%", top: "48%", opacity: 0, transform: "translate(-50%,-50%) scale(.45)" }, { opacity: 1, offset: .1 }, { left: `${clamp(payload.x ?? 50, 39, 61)}%`, top: `${clamp(payload.y ?? 68, 55, 80)}%`, opacity: 1, transform: "translate(-50%,-50%) scale(1)" }, { opacity: 0, offset: 1 }], 590);
+      if (impact) impact.animate([{ opacity: 0, transform: "translate(-50%,-50%) scale(.2)" }, { opacity: .85, transform: "translate(-50%,-50%) scale(1.8)", offset: .55 }, { opacity: 0, transform: "translate(-50%,-50%) scale(3)" }], { duration: 620, easing: "ease-out" });
+    }
+    setTimeout(() => modal.classList.remove("event-pitch", "event-strikeout", "event-line-drive", "event-home-run", "event-foul"), 1750);
+  }
+
+  function ingestPlateEvent(payload = {}) {
+    if (!state.game) return;
+    if (payload.state && typeof payload.state === "object") Object.assign(state.simulated, payload.state);
+    if (payload.pitch) recordPitchLocation(payload.pitch.label || payload.pitch.type || "P", payload.pitch.result || payload.type || "LIVE");
+    if (payload.event) state.events.unshift(event(payload.event.type || "pitch", payload.event.title || String(payload.type || "LIVE EVENT").toUpperCase(), payload.event.detail || "Live event received.", payload.event.meta || "External live event adapter", Boolean(payload.event.isAlert)));
+    renderScoreBug(); renderPitcherPanel(); renderPlateView(); renderEvents(); renderLowerGameModules();
+    requestAnimationFrame(() => playPlateEventAnimation(payload.type || "pitch", payload));
+  }
+
+  window.BoringBetsPlateHud = { ingest: ingestPlateEvent, open: openFullPlateHud, close: closeFullPlateHud, animate: playPlateEventAnimation };
 
   function openFieldDetail(type) {
     const isOutfield = type === "outfield";
