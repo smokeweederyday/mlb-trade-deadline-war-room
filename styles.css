@@ -2514,3 +2514,797 @@ many PA = radiant
       var(--bvp-bg-opacity, .22)
     );
 }
+
+
+/* Phase 9B: bullpen three-day usage graph */
+
+.bullpen-usage {
+  margin-top: 1rem;
+  padding-top: .85rem;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.bullpen-usage-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  margin-bottom: .65rem;
+}
+
+.bullpen-usage-heading span {
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  color: var(--text, #ecf4f0);
+}
+
+.bullpen-usage-heading small {
+  color: var(--muted, #88958f);
+  font-size: .7rem;
+}
+
+.bullpen-usage-chart {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .65rem;
+  align-items: end;
+}
+
+.bullpen-usage-day {
+  display: grid;
+  grid-template-rows:
+    4.6rem
+    auto
+    auto
+    auto;
+  gap: .18rem;
+  min-width: 0;
+  text-align: center;
+}
+
+.bullpen-usage-track {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  min-height: 4.6rem;
+  border-radius: .55rem;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.025);
+}
+
+.bullpen-usage-bar {
+  display: block;
+  width: 100%;
+  height: calc(var(--usage-level, 0) * 100%);
+  min-height: 0;
+  border-radius: .45rem .45rem .25rem .25rem;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(82,255,148,.96),
+      rgba(24,132,70,.72)
+    );
+  box-shadow:
+    0 0 12px rgba(57,255,136,.25),
+    inset 0 0 10px rgba(255,255,255,.12);
+  transition:
+    height .25s ease,
+    filter .2s ease;
+}
+
+.bullpen-card:hover .bullpen-usage-bar {
+  filter: brightness(1.12);
+}
+
+.bullpen-usage-day > strong {
+  color: #63ff9b;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.bullpen-usage-day > small {
+  color: var(--text, #ecf4f0);
+  font-size: .72rem;
+}
+
+.bullpen-usage-day > em {
+  overflow: hidden;
+  color: var(--muted, #88958f);
+  font-size: .65rem;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* Phase 9D: bullpen roster tables */
+
+.bullpen-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.bullpen-card {
+  width: 100%;
+  min-width: 0;
+}
+
+.bullpen-roster-section {
+  margin-top: 1rem;
+  padding-top: .9rem;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.bullpen-roster-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: .65rem;
+}
+
+.bullpen-roster-heading > span {
+  color: var(--text, #ecf4f0);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.bullpen-roster-heading > small {
+  color: var(--muted, #88958f);
+  font-size: .7rem;
+}
+
+.bullpen-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: .7rem;
+  background: rgba(0,0,0,.16);
+  scrollbar-width: thin;
+}
+
+.bullpen-roster-table {
+  width: 100%;
+  min-width: 790px;
+  border-collapse: collapse;
+  font-size: .76rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.bullpen-roster-table th,
+.bullpen-roster-table td {
+  padding: .56rem .48rem;
+  border-bottom: 1px solid rgba(255,255,255,.055);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.bullpen-roster-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  color: var(--muted, #88958f);
+  background: rgba(9,18,14,.96);
+  font-size: .67rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.bullpen-roster-table thead th:first-child,
+.bullpen-arm-name {
+  text-align: left;
+}
+
+.bullpen-roster-table tbody tr:last-child th,
+.bullpen-roster-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.bullpen-roster-table tbody tr:hover {
+  background: rgba(99,255,155,.045);
+}
+
+.bullpen-arm-name {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--text, #ecf4f0);
+  font-weight: 750;
+}
+
+.bullpen-il-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.55rem;
+  padding: .1rem .28rem;
+  border: 1px solid rgba(255,113,132,.55);
+  border-radius: .3rem;
+  color: #ff8b9a;
+  background: rgba(119,28,43,.24);
+  font-size: .58rem;
+  letter-spacing: .05em;
+}
+
+.bullpen-arm-il {
+  opacity: .58;
+}
+
+.bullpen-role {
+  display: inline-flex;
+  min-width: 2rem;
+  justify-content: center;
+  padding: .15rem .32rem;
+  border-radius: .3rem;
+  color: var(--text, #ecf4f0);
+  background: rgba(255,255,255,.07);
+  font-size: .65rem;
+  font-weight: 850;
+}
+
+.bullpen-role-cl {
+  color: #63ff9b;
+  background: rgba(31,108,66,.22);
+}
+
+.bullpen-role-su {
+  color: #9ceec0;
+  background: rgba(39,112,72,.16);
+}
+
+.bullpen-pitches {
+  font-weight: 800;
+}
+
+.bullpen-pitches-rested {
+  color: var(--muted, #88958f);
+}
+
+.bullpen-pitches-light {
+  color: #b9eccc;
+  background: rgba(39,112,72,.09);
+}
+
+.bullpen-pitches-medium {
+  color: #ffd27b;
+  background: rgba(131,91,18,.14);
+}
+
+.bullpen-pitches-heavy {
+  color: #ff8b9a;
+  background: rgba(119,28,43,.2);
+}
+
+@media (max-width: 760px) {
+  .bullpen-roster-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: .2rem;
+  }
+
+  .bullpen-roster-table {
+    min-width: 760px;
+  }
+}
+
+/* Phase 9E: collapsible bullpen roster */
+
+.bullpen-widget-shell {
+  width: 100%;
+}
+
+.bullpen-details-link {
+  position: relative;
+  z-index: 2;
+}
+
+.bullpen-roster-toggle {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: .8rem .85rem;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: .7rem;
+  color: var(--text, #ecf4f0);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(28,75,50,.19),
+      rgba(7,17,12,.88)
+    );
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.bullpen-roster-toggle:hover {
+  border-color: rgba(99,255,155,.25);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(33,92,60,.24),
+      rgba(7,17,12,.92)
+    );
+}
+
+.bullpen-toggle-title {
+  font-size: .72rem;
+  font-weight: 850;
+  letter-spacing: .11em;
+  white-space: nowrap;
+}
+
+.bullpen-toggle-summary {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+.bullpen-toggle-stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .38rem;
+  white-space: nowrap;
+}
+
+.bullpen-toggle-stat small {
+  color: var(--muted, #88958f);
+  font-size: .65rem;
+  font-weight: 700;
+}
+
+.bullpen-toggle-stat strong {
+  color: var(--text, #ecf4f0);
+  font-size: .82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.bullpen-toggle-chevron {
+  color: var(--muted, #88958f);
+  font-size: .72rem;
+  transition: transform .18s ease;
+}
+
+.bullpen-roster-toggle.is-open
+.bullpen-toggle-chevron {
+  transform: rotate(180deg);
+}
+
+.bullpen-roster-unavailable {
+  cursor: default;
+}
+
+.bullpen-roster-panel {
+  margin-top: .7rem;
+}
+
+.bullpen-roster-panel[hidden] {
+  display: none !important;
+}
+
+.bullpen-roster-table {
+  min-width: 900px;
+}
+
+.bullpen-roster-table thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 5;
+  width: 185px;
+  min-width: 185px;
+  max-width: 185px;
+  background: rgba(9,18,14,.99);
+  box-shadow: 8px 0 12px rgba(0,0,0,.23);
+}
+
+.bullpen-roster-table
+tbody
+.bullpen-arm-name {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  width: 185px;
+  min-width: 185px;
+  max-width: 185px;
+  background: rgba(9,18,14,.98);
+  box-shadow: 8px 0 12px rgba(0,0,0,.2);
+}
+
+.bullpen-arm-name-inner {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  min-width: 0;
+}
+
+.bullpen-arm-name-inner > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bullpen-roster-table
+tbody tr:hover
+.bullpen-arm-name {
+  background: rgba(13,29,21,.99);
+}
+
+.bullpen-roster-table th:not(:first-child),
+.bullpen-roster-table td {
+  min-width: 64px;
+}
+
+.bullpen-roster-table th:nth-child(8),
+.bullpen-roster-table th:nth-child(9),
+.bullpen-roster-table th:nth-child(10),
+.bullpen-roster-table td:nth-child(8),
+.bullpen-roster-table td:nth-child(9),
+.bullpen-roster-table td:nth-child(10) {
+  min-width: 54px;
+}
+
+@media (max-width: 760px) {
+  .bullpen-roster-toggle {
+    grid-template-columns: 1fr auto;
+    gap: .65rem;
+  }
+
+  .bullpen-toggle-summary {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: space-between;
+    gap: .5rem;
+  }
+
+  .bullpen-toggle-chevron {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .bullpen-toggle-stat {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .12rem;
+  }
+
+  .bullpen-roster-table {
+    min-width: 880px;
+  }
+
+  .bullpen-roster-table thead th:first-child,
+  .bullpen-roster-table
+  tbody
+  .bullpen-arm-name {
+    width: 155px;
+    min-width: 155px;
+    max-width: 155px;
+  }
+}
+
+
+/* Phase 9H: bullpen value heat */
+
+.bullpen-roster-table
+td[class*="metric-"] {
+  font-weight: 800;
+  transition:
+    color 120ms ease,
+    background 120ms ease;
+}
+
+.bullpen-toggle-stat
+strong[class*="metric-"] {
+  display: inline-flex;
+  justify-content: center;
+  min-width: 1.65rem;
+  padding: .12rem .3rem;
+  border-radius: .28rem;
+  font-weight: 900;
+  box-shadow: none;
+}
+
+.bullpen-pitches.metric-elite {
+  color: #63ff9b;
+  background: rgba(57,255,136,.18);
+}
+
+.bullpen-pitches.metric-good {
+  color: #a2f5bf;
+  background: rgba(57,255,136,.08);
+}
+
+.bullpen-pitches.metric-average {
+  color: var(--text);
+  background: rgba(130,144,135,.05);
+}
+
+.bullpen-pitches.metric-poor {
+  color: #ffadb8;
+  background: rgba(255,97,117,.08);
+}
+
+.bullpen-pitches.metric-awful {
+  color: #ff7184;
+  background: rgba(255,97,117,.17);
+}
+
+
+/* Phase 9I: bullpen text-only heat */
+
+.bullpen-widget-shell
+[class*="metric-"],
+.bullpen-widget-shell
+.bullpen-pitches[class*="metric-"] {
+  background: transparent;
+  box-shadow: none;
+}
+
+.bullpen-widget-shell
+.bullpen-zero {
+  color: var(--muted);
+  background: transparent;
+  box-shadow: none;
+}
+
+.bullpen-toggle-stat
+strong[class*="metric-"] {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.bullpen-roster-table
+td[class*="metric-"] {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Phase 9J: bullpen neutral roles and compact ranks */
+
+.bullpen-widget-shell .bullpen-role,
+.bullpen-widget-shell [class*="bullpen-role-"] {
+  color: var(--muted) !important;
+  background: rgba(130, 144, 135, .08) !important;
+  border-color: rgba(130, 144, 135, .24) !important;
+  box-shadow: none !important;
+}
+
+/* Bullpen heat affects text only. */
+.bullpen-widget-shell .metric-elite {
+  color: #63ff9b !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.bullpen-widget-shell .metric-good {
+  color: #a2f5bf !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.bullpen-widget-shell .metric-average {
+  color: var(--text) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.bullpen-widget-shell .metric-poor {
+  color: #ffadb8 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.bullpen-widget-shell .metric-awful {
+  color: #ff7184 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.bullpen-widget-shell .metric-missing,
+.bullpen-widget-shell .bullpen-zero {
+  color: var(--muted) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.bullpen-summary-stat {
+  align-content: start;
+}
+
+.bullpen-rank-line {
+  display: grid;
+  grid-template-columns: minmax(38px, 1fr) auto;
+  align-items: center;
+  gap: .35rem;
+  width: 100%;
+  margin-top: .28rem;
+}
+
+.bullpen-rank-track {
+  display: block;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(130, 144, 135, .20);
+}
+
+.bullpen-rank-fill {
+  display: block;
+  height: 100%;
+  min-width: 0;
+  border-radius: inherit;
+  background: currentColor !important;
+  box-shadow: none !important;
+}
+
+.bullpen-rank-label {
+  color: var(--muted);
+  font-size: .58rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Phase 9K: centered bullpen stat and rank numbers */
+
+.bullpen-summary-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.bullpen-summary-label,
+.bullpen-summary-value,
+.bullpen-summary-rank {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.bullpen-summary-value {
+  margin-top: .15rem;
+  font-weight: 900;
+}
+
+.bullpen-summary-rank {
+  margin-top: .22rem;
+  font-size: .68rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.bullpen-rank-line,
+.bullpen-rank-track,
+.bullpen-rank-fill,
+.bullpen-rank-label {
+  display: none !important;
+}
+
+.bullpen-roster-table
+.bullpen-pitches.bullpen-zero {
+  color: var(--muted) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Phase 9N: bullpen heading and colored metric labels */
+
+.bullpen-summary-label[class*="metric-"] {
+  background: transparent !important;
+  box-shadow: none !important;
+  text-align: center;
+  font-weight: 800;
+}
+
+
+/* Phase 9P: bullpen inline roles and sample warning */
+
+.bullpen-roster-table thead th:first-child,
+.bullpen-roster-table tbody .bullpen-arm-name {
+  width: 225px;
+  min-width: 225px;
+  max-width: 225px;
+}
+
+.bullpen-arm-name-inner {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.bullpen-arm-player-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bullpen-arm-name .bullpen-role {
+  flex: 0 0 auto;
+}
+
+.bullpen-small-sample-warning {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid rgba(92, 177, 255, .65);
+  border-radius: 50%;
+  color: #78bdff;
+  background: rgba(70, 151, 255, .12);
+  font-size: .7rem;
+  font-weight: 900;
+  line-height: 1;
+  cursor: help;
+}
+
+@media (max-width: 760px) {
+  .bullpen-roster-table thead th:first-child,
+  .bullpen-roster-table tbody .bullpen-arm-name {
+    width: 190px;
+    min-width: 190px;
+    max-width: 190px;
+  }
+}
+
+/* Phase 9Q: bullpen workload cell heat */
+
+.bullpen-widget-shell
+.bullpen-roster-table
+td.bullpen-pitches.metric-elite {
+  color: #63ff9b !important;
+  background: rgba(57, 255, 136, .18) !important;
+  box-shadow: inset 0 0 0 1px rgba(57, 255, 136, .22) !important;
+}
+
+.bullpen-widget-shell
+.bullpen-roster-table
+td.bullpen-pitches.metric-good {
+  color: #a2f5bf !important;
+  background: rgba(57, 255, 136, .09) !important;
+  box-shadow: inset 0 0 0 1px rgba(57, 255, 136, .12) !important;
+}
+
+.bullpen-widget-shell
+.bullpen-roster-table
+td.bullpen-pitches.metric-average {
+  color: var(--text) !important;
+  background: rgba(150, 160, 155, .11) !important;
+  box-shadow: inset 0 0 0 1px rgba(150, 160, 155, .14) !important;
+}
+
+.bullpen-widget-shell
+.bullpen-roster-table
+td.bullpen-pitches.metric-poor {
+  color: #ffadb8 !important;
+  background: rgba(255, 97, 117, .10) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 97, 117, .16) !important;
+}
+
+.bullpen-widget-shell
+.bullpen-roster-table
+td.bullpen-pitches.metric-awful {
+  color: #ff7184 !important;
+  background: rgba(255, 97, 117, .20) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 97, 117, .28) !important;
+}
+
+.bullpen-widget-shell
+.bullpen-roster-table
+td.bullpen-pitches.bullpen-zero {
+  color: var(--muted) !important;
+  background: rgba(130, 144, 135, .09) !important;
+  box-shadow: inset 0 0 0 1px rgba(130, 144, 135, .12) !important;
+}

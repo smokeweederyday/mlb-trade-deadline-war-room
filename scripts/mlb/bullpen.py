@@ -11,6 +11,260 @@ import urllib.request
 MLB_API_BASE = "https://statsapi.mlb.com/api/v1"
 
 
+_FIP_CONSTANT_CACHE: dict[tuple[int, str], float | None] = {}
+
+
+def fip_innings_to_outs(
+    value: Any,
+) -> int | None:
+    if value is None or value == "":
+        return None
+
+    text = str(value).strip()
+    whole_text, separator, partial_text = text.partition(".")
+
+    try:
+        whole = int(whole_text)
+        partial = int(partial_text) if separator else 0
+    except ValueError:
+        return None
+
+    if partial not in (0, 1, 2):
+        return None
+
+    return whole * 3 + partial
+
+
+def first_stat_value(
+    stat: dict[str, Any],
+    *keys: str,
+) -> Any:
+    for key in keys:
+        value = stat.get(key)
+
+        if value is not None and value != "":
+            return value
+
+    return None
+
+
+def calculate_fip(
+    stat: dict[str, Any],
+    constant: float | None,
+) -> float | None:
+    if constant is None:
+        return None
+
+    home_runs = to_float(
+        first_stat_value(
+            stat,
+            "home_runs",
+            "homeRuns",
+        )
+    )
+
+    walks = to_float(
+        first_stat_value(
+            stat,
+            "walks",
+            "baseOnBalls",
+        )
+    )
+
+    hit_batsmen = to_float(
+        first_stat_value(
+            stat,
+            "hit_batsmen",
+            "hitBatsmen",
+            "hitByPitch",
+        )
+    )
+
+    strikeouts = to_float(
+        first_stat_value(
+            stat,
+            "strikeouts",
+            "strikeOuts",
+        )
+    )
+
+    outs = to_int(
+        first_stat_value(
+            stat,
+            "outs",
+            "outsPitched",
+        )
+    )
+
+    if outs is None:
+        outs = fip_innings_to_outs(
+            first_stat_value(
+                stat,
+                "innings_pitched",
+                "inningsPitched",
+            )
+        )
+
+    if (
+        home_runs is None
+        or walks is None
+        or hit_batsmen is None
+        or strikeouts is None
+        or outs is None
+        or outs <= 0
+    ):
+        return None
+
+    innings = outs / 3
+
+    fip = (
+        (
+            13 * home_runs
+            + 3 * (walks + hit_batsmen)
+            - 2 * strikeouts
+        )
+        / innings
+        + constant
+    )
+
+    return round(fip, 2)
+
+
+def apply_calculated_fip(
+    stat: dict[str, Any],
+    constant: float | None,
+) -> None:
+    if stat:
+        stat["fip"] = calculate_fip(
+            stat,
+            constant,
+        )
+
+
+def fetch_league_fip_constant(
+    season: int,
+    target_date: str,
+) -> float | None:
+    requested_date = datetime.strptime(
+        target_date,
+        "%Y-%m-%d",
+    ).date()
+
+    effective_date = min(
+        requested_date,
+        date.today(),
+    )
+
+    end_date = effective_date.isoformat()
+    cache_key = (season, end_date)
+
+    if cache_key in _FIP_CONSTANT_CACHE:
+        return _FIP_CONSTANT_CACHE[cache_key]
+
+    params = urllib.parse.urlencode(
+        {
+            "stats": "byDateRange",
+            "group": "pitching",
+            "sportIds": 1,
+            "playerPool": "ALL",
+            "season": season,
+            "startDate": f"{season}-01-01",
+            "endDate": end_date,
+            "limit": 5000,
+        }
+    )
+
+    try:
+        raw = get_json(
+            f"{MLB_API_BASE}/stats?{params}"
+        )
+    except Exception as error:
+        print(
+            "FIP constant unavailable "
+            f"for {end_date}: {error}"
+        )
+        _FIP_CONSTANT_CACHE[cache_key] = None
+        return None
+
+    totals = {
+        "outs": 0,
+        "earned_runs": 0,
+        "home_runs": 0,
+        "walks": 0,
+        "hit_batsmen": 0,
+        "strikeouts": 0,
+    }
+
+    for group in raw.get("stats", []):
+        for split in group.get("splits", []):
+            stat = split.get("stat", {})
+
+            outs = to_int(
+                stat.get("outs")
+                or stat.get("outsPitched")
+            )
+
+            if outs is None:
+                outs = fip_innings_to_outs(
+                    stat.get("inningsPitched")
+                )
+
+            if outs is None or outs <= 0:
+                continue
+
+            totals["outs"] += outs
+            totals["earned_runs"] += (
+                to_int(stat.get("earnedRuns")) or 0
+            )
+            totals["home_runs"] += (
+                to_int(stat.get("homeRuns")) or 0
+            )
+            totals["walks"] += (
+                to_int(stat.get("baseOnBalls")) or 0
+            )
+            totals["hit_batsmen"] += (
+                to_int(
+                    stat.get("hitBatsmen")
+                    or stat.get("hitByPitch")
+                )
+                or 0
+            )
+            totals["strikeouts"] += (
+                to_int(stat.get("strikeOuts")) or 0
+            )
+
+    outs = totals["outs"]
+
+    if outs <= 0:
+        _FIP_CONSTANT_CACHE[cache_key] = None
+        return None
+
+    league_era = (
+        totals["earned_runs"] * 27 / outs
+    )
+
+    raw_league_fip = (
+        (
+            13 * totals["home_runs"]
+            + 3 * (
+                totals["walks"]
+                + totals["hit_batsmen"]
+            )
+            - 2 * totals["strikeouts"]
+        )
+        * 3
+        / outs
+    )
+
+    constant = round(
+        league_era - raw_league_fip,
+        4,
+    )
+
+    _FIP_CONSTANT_CACHE[cache_key] = constant
+    return constant
+
+
 def get_json(
     url: str,
 ) -> dict[str, Any]:
@@ -134,6 +388,10 @@ def normalize_pitching_stat(
         ),
         "home_runs": to_int(
             stat.get("homeRuns")
+        ),
+        "hit_batsmen": to_int(
+            stat.get("hitBatsmen")
+            or stat.get("hitByPitch")
         ),
         "earned_runs": to_int(
             stat.get("earnedRuns")
@@ -359,13 +617,92 @@ def fetch_relief_usage_for_date(
                 team_id,
             )
         ):
-            appearances_by_id[
-                appearance["id"]
-            ] = appearance
+            pitcher_id = appearance["id"]
+            existing = appearances_by_id.get(
+                pitcher_id
+            )
+
+            if existing:
+                existing["outs"] = (
+                    to_int(existing.get("outs")) or 0
+                ) + (
+                    to_int(appearance.get("outs")) or 0
+                )
+
+                existing["pitches"] = (
+                    to_int(existing.get("pitches")) or 0
+                ) + (
+                    to_int(appearance.get("pitches")) or 0
+                )
+
+                existing["batters_faced"] = (
+                    to_int(
+                        existing.get("batters_faced")
+                    ) or 0
+                ) + (
+                    to_int(
+                        appearance.get("batters_faced")
+                    ) or 0
+                )
+
+                whole, partial = divmod(
+                    existing["outs"],
+                    3,
+                )
+
+                existing["innings_pitched"] = (
+                    f"{whole}.{partial}"
+                )
+            else:
+                appearances_by_id[
+                    pitcher_id
+                ] = appearance
 
     return list(
         appearances_by_id.values()
     )
+
+
+def summarize_bullpen_usage_day(
+    game_date: str,
+    appearances: list[dict[str, Any]],
+) -> dict[str, Any]:
+    rows = [
+        row
+        for row in appearances
+        if isinstance(row, dict)
+    ]
+
+    pitcher_ids = {
+        to_int(row.get("id"))
+        for row in rows
+        if to_int(row.get("id")) is not None
+    }
+
+    total_pitches = sum(
+        to_int(row.get("pitches")) or 0
+        for row in rows
+    )
+
+    total_outs = sum(
+        to_int(row.get("outs")) or 0
+        for row in rows
+    )
+
+    whole_innings, partial_outs = divmod(
+        total_outs,
+        3,
+    )
+
+    return {
+        "date": game_date,
+        "pitchers": len(pitcher_ids),
+        "pitches": total_pitches,
+        "outs": total_outs,
+        "innings_pitched":
+            f"{whole_innings}.{partial_outs}",
+        "appearances": rows,
+    }
 
 
 def build_bullpen_usage(
@@ -377,36 +714,42 @@ def build_bullpen_usage(
         "%Y-%m-%d",
     ).date()
 
-    yesterday = (
-        target - timedelta(days=1)
-    ).isoformat()
+    day_dates = [
+        (
+            target - timedelta(days=days_ago)
+        ).isoformat()
+        for days_ago in (3, 2, 1)
+    ]
 
-    two_days_ago = (
-        target - timedelta(days=2)
-    ).isoformat()
+    usage_days = []
 
-    used_yesterday = (
-        fetch_relief_usage_for_date(
-            team_id,
-            yesterday,
+    for game_date in day_dates:
+        appearances = (
+            fetch_relief_usage_for_date(
+                team_id,
+                game_date,
+            )
         )
-    )
 
-    used_two_days_ago = (
-        fetch_relief_usage_for_date(
-            team_id,
-            two_days_ago,
+        usage_days.append(
+            summarize_bullpen_usage_day(
+                game_date,
+                appearances,
+            )
         )
-    )
+
+    three_days_ago_day = usage_days[0]
+    two_days_ago_day = usage_days[1]
+    yesterday_day = usage_days[2]
 
     yesterday_ids = {
         pitcher["id"]
-        for pitcher in used_yesterday
+        for pitcher in yesterday_day["appearances"]
     }
 
     two_days_ago_ids = {
         pitcher["id"]
-        for pitcher in used_two_days_ago
+        for pitcher in two_days_ago_day["appearances"]
     }
 
     back_to_back_ids = (
@@ -422,20 +765,500 @@ def build_bullpen_usage(
         "fresh_leverage":
             None,
         "usage": {
-            "yesterday_date":
-                yesterday,
+            "three_days_ago_date":
+                three_days_ago_day["date"],
             "two_days_ago_date":
-                two_days_ago,
-            "used_yesterday":
-                used_yesterday,
+                two_days_ago_day["date"],
+            "yesterday_date":
+                yesterday_day["date"],
+            "used_three_days_ago":
+                three_days_ago_day["appearances"],
             "used_two_days_ago":
-                used_two_days_ago,
+                two_days_ago_day["appearances"],
+            "used_yesterday":
+                yesterday_day["appearances"],
             "back_to_back_pitcher_ids":
-                sorted(
-                    back_to_back_ids
-                ),
+                sorted(back_to_back_ids),
+            "days":
+                usage_days,
         },
     }
+
+def fetch_team_roster(
+    team_id: int,
+    roster_type: str,
+) -> list[dict[str, Any]]:
+    params = urllib.parse.urlencode(
+        {
+            "rosterType": roster_type,
+        }
+    )
+
+    raw = get_json(
+        f"{MLB_API_BASE}/teams/"
+        f"{team_id}/roster?{params}"
+    )
+
+    return [
+        row
+        for row in raw.get("roster", [])
+        if isinstance(row, dict)
+    ]
+
+
+def is_injured_roster_status(
+    status: dict[str, Any],
+) -> bool:
+    code = str(
+        status.get("code", "")
+    ).upper()
+
+    description = str(
+        status.get("description", "")
+    ).lower()
+
+    return (
+        code.startswith("D")
+        or code.startswith("IL")
+        or "injured" in description
+        or "disabled" in description
+    )
+
+
+def fetch_people_relief_stats(
+    pitcher_ids: list[int],
+    season: int,
+) -> list[dict[str, Any]]:
+    if not pitcher_ids:
+        return []
+
+    hydrate = (
+        "stats("
+        "group=[pitching],"
+        "type=[statSplits],"
+        f"season={season},"
+        "sitCodes=rp"
+        ")"
+    )
+
+    params = urllib.parse.urlencode(
+        {
+            "personIds": ",".join(
+                str(pitcher_id)
+                for pitcher_id in pitcher_ids
+            ),
+            "hydrate": hydrate,
+        }
+    )
+
+    raw = get_json(
+        f"{MLB_API_BASE}/people?{params}"
+    )
+
+    return [
+        person
+        for person in raw.get("people", [])
+        if isinstance(person, dict)
+    ]
+
+
+def find_person_relief_split(
+    person: dict[str, Any],
+) -> dict[str, Any] | None:
+    for block in person.get("stats", []):
+        for split in block.get("splits", []):
+            if (
+                split
+                .get("split", {})
+                .get("code")
+                == "rp"
+            ):
+                return split
+
+    return None
+
+
+def infer_bullpen_roles(
+    rows: list[dict[str, Any]],
+) -> None:
+    maximum_saves = max(
+        (
+            to_int(row.get("saves")) or 0
+            for row in rows
+        ),
+        default=0,
+    )
+
+    maximum_holds = max(
+        (
+            to_int(row.get("holds")) or 0
+            for row in rows
+        ),
+        default=0,
+    )
+
+    for row in rows:
+        saves = to_int(
+            row.get("saves")
+        ) or 0
+
+        holds = to_int(
+            row.get("holds")
+        ) or 0
+
+        games = to_int(
+            row.get("games")
+        ) or 0
+
+        games_finished = to_int(
+            row.get("games_finished")
+        ) or 0
+
+        outs = to_int(
+            row.get("outs")
+        ) or 0
+
+        average_outs = (
+            outs / games
+            if games > 0
+            else 0
+        )
+
+        if (
+            maximum_saves >= 3
+            and saves == maximum_saves
+        ):
+            role = "CL"
+        elif (
+            holds >= 5
+            and holds >= maximum_holds * 0.45
+        ):
+            role = "SU"
+        elif average_outs >= 4.5:
+            role = "LR"
+        elif games_finished >= 8:
+            role = "MR"
+        else:
+            role = "MR"
+
+        row["role"] = role
+
+
+def build_usage_pitch_maps(
+    usage: dict[str, Any],
+) -> list[dict[int, int]]:
+    days = (
+        usage
+        .get("usage", {})
+        .get("days", [])
+    )
+
+    chronological = [
+        day
+        for day in days
+        if isinstance(day, dict)
+    ][-3:]
+
+    maps: list[dict[int, int]] = []
+
+    # Reverse chronological:
+    # yesterday, two days ago, three days ago.
+    for day in reversed(chronological):
+        pitch_map: dict[int, int] = {}
+
+        for appearance in day.get(
+            "appearances",
+            [],
+        ):
+            pitcher_id = to_int(
+                appearance.get("id")
+            )
+
+            if pitcher_id is None:
+                continue
+
+            pitch_map[pitcher_id] = (
+                pitch_map.get(pitcher_id, 0)
+                + (
+                    to_int(
+                        appearance.get("pitches")
+                    ) or 0
+                )
+            )
+
+        maps.append(pitch_map)
+
+    while len(maps) < 3:
+        maps.append({})
+
+    return maps[:3]
+
+
+def build_bullpen_roster(
+    team_id: int,
+    season: int,
+    usage: dict[str, Any],
+) -> list[dict[str, Any]]:
+    active_roster = fetch_team_roster(
+        team_id,
+        "active",
+    )
+
+    forty_man_roster = fetch_team_roster(
+        team_id,
+        "40Man",
+    )
+
+    roster_by_id: dict[
+        int,
+        dict[str, Any],
+    ] = {}
+
+    for row in active_roster:
+        if (
+            row
+            .get("position", {})
+            .get("type")
+            != "Pitcher"
+        ):
+            continue
+
+        pitcher_id = to_int(
+            row.get("person", {}).get("id")
+        )
+
+        if pitcher_id is None:
+            continue
+
+        roster_by_id[pitcher_id] = {
+            "id": pitcher_id,
+            "name":
+                row.get("person", {}).get(
+                    "fullName",
+                    f"Pitcher {pitcher_id}",
+                ),
+            "active": True,
+            "is_il": False,
+            "status_code":
+                row.get("status", {}).get(
+                    "code",
+                    "A",
+                ),
+            "status":
+                row.get("status", {}).get(
+                    "description",
+                    "Active",
+                ),
+            "injury_note":
+                row.get("note", ""),
+        }
+
+    for row in forty_man_roster:
+        if (
+            row
+            .get("position", {})
+            .get("type")
+            != "Pitcher"
+        ):
+            continue
+
+        status = row.get(
+            "status",
+            {},
+        )
+
+        if not is_injured_roster_status(
+            status
+        ):
+            continue
+
+        pitcher_id = to_int(
+            row.get("person", {}).get("id")
+        )
+
+        if pitcher_id is None:
+            continue
+
+        roster_by_id[pitcher_id] = {
+            "id": pitcher_id,
+            "name":
+                row.get("person", {}).get(
+                    "fullName",
+                    f"Pitcher {pitcher_id}",
+                ),
+            "active": False,
+            "is_il": True,
+            "status_code":
+                status.get("code", "IL"),
+            "status":
+                status.get(
+                    "description",
+                    "Injured",
+                ),
+            "injury_note":
+                row.get("note", ""),
+        }
+
+    people = fetch_people_relief_stats(
+        sorted(roster_by_id),
+        season,
+    )
+
+    pitches_1d, pitches_2d, pitches_3d = (
+        build_usage_pitch_maps(usage)
+    )
+
+    rows: list[dict[str, Any]] = []
+
+    for person in people:
+        pitcher_id = to_int(
+            person.get("id")
+        )
+
+        if (
+            pitcher_id is None
+            or pitcher_id not in roster_by_id
+        ):
+            continue
+
+        split = find_person_relief_split(
+            person
+        )
+
+        # This removes active starting pitchers while
+        # retaining actual relievers and injured relievers
+        # who have appeared from the bullpen this season.
+        if not split:
+            continue
+
+        stat = split.get(
+            "stat",
+            {},
+        )
+
+        roster_row = roster_by_id[
+            pitcher_id
+        ]
+
+        rows.append(
+            {
+                **roster_row,
+                "innings_pitched":
+                    stat.get(
+                        "inningsPitched"
+                    ),
+                "outs":
+                    to_int(
+                        stat.get("outs")
+                        or stat.get(
+                            "outsPitched"
+                        )
+                    ),
+                "games":
+                    to_int(
+                        stat.get("gamesPitched")
+                        or stat.get(
+                            "gamesPlayed"
+                        )
+                    ),
+                "era":
+                    to_float(
+                        stat.get("era")
+                    ),
+                "home_runs":
+                    to_int(
+                        stat.get("homeRuns")
+                    ),
+                "walks":
+                    to_int(
+                        stat.get("baseOnBalls")
+                    ),
+                "hit_batsmen":
+                    to_int(
+                        stat.get("hitBatsmen")
+                        or stat.get(
+                            "hitByPitch"
+                        )
+                    ),
+                "strikeouts":
+                    to_int(
+                        stat.get("strikeOuts")
+                    ),
+                "fip": None,
+                "whip":
+                    to_float(
+                        stat.get("whip")
+                    ),
+                "k_per_9":
+                    to_float(
+                        stat.get(
+                            "strikeoutsPer9Inn"
+                        )
+                    ),
+                "bb_per_9":
+                    to_float(
+                        stat.get(
+                            "walksPer9Inn"
+                        )
+                    ),
+                "saves":
+                    to_int(
+                        stat.get("saves")
+                    ),
+                "holds":
+                    to_int(
+                        stat.get("holds")
+                    ),
+                "games_finished":
+                    to_int(
+                        stat.get(
+                            "gamesFinished"
+                        )
+                    ),
+                "pitches_1d":
+                    pitches_1d.get(
+                        pitcher_id,
+                        0,
+                    ),
+                "pitches_2d":
+                    pitches_2d.get(
+                        pitcher_id,
+                        0,
+                    ),
+                "pitches_3d":
+                    pitches_3d.get(
+                        pitcher_id,
+                        0,
+                    ),
+            }
+        )
+
+    infer_bullpen_roles(rows)
+
+    role_order = {
+        "CL": 0,
+        "SU": 1,
+        "MR": 2,
+        "LR": 3,
+    }
+
+    rows.sort(
+        key=lambda row: (
+            bool(row.get("is_il")),
+            role_order.get(
+                str(row.get("role")),
+                9,
+            ),
+            -(
+                to_int(
+                    row.get("games")
+                ) or 0
+            ),
+            str(row.get("name", "")),
+        )
+    )
+
+    return rows
 
 
 def build_bullpen_snapshot(
@@ -452,6 +1275,11 @@ def build_bullpen_snapshot(
     season_relief = fetch_relief_split(
         team_id,
         season,
+    )
+
+    fip_constant = fetch_league_fip_constant(
+        season,
+        target_date,
     )
 
     last_7 = fetch_team_pitching_stats(
@@ -476,6 +1304,16 @@ def build_bullpen_snapshot(
         sit_code="rp",
     )
 
+    for stat_block in (
+        season_relief,
+        last_7,
+        last_30,
+    ):
+        apply_calculated_fip(
+            stat_block,
+            fip_constant,
+        )
+
     try:
         usage = build_bullpen_usage(
             team_id,
@@ -494,8 +1332,29 @@ def build_bullpen_snapshot(
             "usage": {},
         }
 
+    try:
+        bullpen_roster = build_bullpen_roster(
+            team_id,
+            season,
+            usage,
+        )
+    except Exception as error:
+        print(
+            "Bullpen roster unavailable "
+            f"for team {team_id}: {error}"
+        )
+
+        bullpen_roster = []
+
+    for reliever in bullpen_roster:
+        apply_calculated_fip(
+            reliever,
+            fip_constant,
+        )
+
     return {
         "team_id": team_id,
+        "roster": bullpen_roster,
         "stats": {
             "last_7": {
                 "all": last_7,

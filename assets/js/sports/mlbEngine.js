@@ -351,28 +351,143 @@ export function buildMlbBullpenModule({
   location = "all"
 }) {
   const isAway = side === "away";
-  const team = isAway ? game.away_team : game.home_team;
-  const bullpen = isAway ? game.bullpens?.away : game.bullpens?.home;
-  const period = bullpen?.stats?.[timeframe] || {};
-  const locationStats = period?.[location];
+  const team =
+    isAway
+      ? game.away_team
+      : game.home_team;
 
-  const selectedStats =
-    locationStats &&
-    Object.keys(locationStats).length
-      ? locationStats
-      : period?.all || period || {};
+  const bullpen =
+    isAway
+      ? game.bullpens?.away
+      : game.bullpens?.home;
+
+  const seasonStats =
+    bullpen?.stats?.season?.all || {};
+
+  const last30Stats =
+    bullpen?.stats?.last_30?.all || {};
+
+  const seasonRanks =
+    seasonStats?.ranks || {};
+
+  const seasonPools =
+    seasonStats?.rank_pool_size || {};
+
+  const last30Ranks =
+    last30Stats?.ranks || {};
+
+  const last30Pools =
+    last30Stats?.rank_pool_size || {};
+
+  const kPer9 =
+    calculateBullpenPerNine(
+      seasonStats.strikeouts,
+      seasonStats.innings_pitched
+    );
+
+  const bbPer9 =
+    calculateBullpenPerNine(
+      seasonStats.walks,
+      seasonStats.innings_pitched
+    );
+
+  const rankedValue = (
+    value,
+    rank,
+    poolSize
+  ) => ({
+    value,
+    rank,
+    poolSize
+  });
 
   return {
-    title: `${team?.abbr || bullpen?.team || "—"} relief unit`,
-    detailsUrl: bullpen?.details_url || "#",
+    title: `${
+      team?.abbr ||
+      bullpen?.team ||
+      "—"
+    } BULLPEN`,
+
+    detailsUrl:
+      bullpen?.details_url &&
+      bullpen.details_url !== "#"
+        ? bullpen.details_url
+        : `bullpen.html?team=${encodeURIComponent(
+            team?.abbr ||
+            bullpen?.team ||
+            ""
+          )}`,
+
     note: bullpen?.notes || "",
+
+    roster: normalizeBullpenRoster(
+      bullpen?.roster
+    ),
+
+    usage: normalizeBullpenUsage(
+      bullpen?.usage
+    ),
+
     metrics: [
-      normalizeBullpenMetric("ERA", selectedStats.era, "number"),
-      normalizeBullpenMetric("WHIP", selectedStats.whip, "number"),
-      normalizeBullpenMetric("FIP", selectedStats.fip, "number"),
-      normalizeBullpenMetric("Used Yday", bullpen?.used_yesterday, "integer"),
-      normalizeBullpenMetric("B2B Arms", bullpen?.back_to_back, "integer"),
-      normalizeBullpenMetric("Fresh", bullpen?.fresh_leverage, "integer")
+      normalizeBullpenMetric(
+        "ERA",
+        rankedValue(
+          seasonStats.era,
+          seasonRanks.era,
+          seasonPools.era
+        ),
+        "number"
+      ),
+
+      normalizeBullpenMetric(
+        "WHIP",
+        rankedValue(
+          seasonStats.whip,
+          seasonRanks.whip,
+          seasonPools.whip
+        ),
+        "number"
+      ),
+
+      normalizeBullpenMetric(
+        "FIP",
+        rankedValue(
+          seasonStats.fip,
+          seasonRanks.fip,
+          seasonPools.fip
+        ),
+        "number"
+      ),
+
+      normalizeBullpenMetric(
+        "K/9",
+        rankedValue(
+          kPer9,
+          seasonRanks.k_per_9,
+          seasonPools.k_per_9
+        ),
+        "number"
+      ),
+
+      normalizeBullpenMetric(
+        "BB/9",
+        rankedValue(
+          bbPer9,
+          seasonRanks.bb_per_9,
+          seasonPools.bb_per_9
+        ),
+        "number"
+      ),
+
+      normalizeBullpenMetric(
+        "L30 WHIP",
+        rankedValue(
+          last30Stats.whip,
+          last30Ranks.whip,
+          last30Pools.whip
+        ),
+        "number"
+      )
     ]
   };
 }
@@ -868,24 +983,271 @@ function normalizePitcherValue(rawValue, type) {
   };
 }
 
-function normalizeBullpenMetric(label, rawValue, type) {
+function calculateBullpenPerNine(rawCount, rawInnings) {
+  const countValue =
+    rawCount && typeof rawCount === "object"
+      ? rawCount.value
+      : rawCount;
+
+  const count = Number(countValue);
+  const outs = baseballInningsToOuts(rawInnings);
+
+  if (
+    !Number.isFinite(count) ||
+    !Number.isFinite(outs) ||
+    outs <= 0
+  ) {
+    return null;
+  }
+
+  return count * 27 / outs;
+}
+
+function baseballInningsToOuts(rawInnings) {
+  const inningsValue =
+    rawInnings && typeof rawInnings === "object"
+      ? rawInnings.value
+      : rawInnings;
+
+  if (
+    inningsValue === null ||
+    inningsValue === undefined ||
+    inningsValue === ""
+  ) {
+    return null;
+  }
+
+  const text = String(inningsValue).trim();
+  const match = text.match(/^(\d+)(?:\.([012]))?$/);
+
+  if (!match) {
+    return null;
+  }
+
+  const wholeInnings = Number(match[1]);
+  const partialOuts = Number(match[2] || 0);
+
+  return wholeInnings * 3 + partialOuts;
+}
+
+function normalizeBullpenRoster(rows = []) {
+  if (!Array.isArray(rows)) {
+    return [];
+  }
+
+  return rows.map(row => {
+    const inningsAvailable =
+      row?.innings_pitched !== null &&
+      row?.innings_pitched !== undefined &&
+      row?.innings_pitched !== "";
+
+    return {
+      id: row?.id ?? null,
+      name: row?.name || "Unknown reliever",
+      role: row?.role || "MR",
+      isIl: Boolean(row?.is_il),
+      status: row?.status || "",
+      injuryNote: row?.injury_note || "",
+
+      inningsPitched:
+        inningsAvailable
+          ? String(row.innings_pitched)
+          : "—",
+
+      inningsHeatClass:
+        inningsAvailable
+          ? "metric-average"
+          : "metric-missing",
+
+      era: formatMlbMetric(
+        row?.era,
+        "number"
+      ),
+
+      eraHeatClass:
+        getBullpenMetricHeatClass(
+          "ERA",
+          row?.era
+        ),
+
+      fip: formatMlbMetric(
+        row?.fip,
+        "number"
+      ),
+
+      fipHeatClass:
+        getBullpenMetricHeatClass(
+          "FIP",
+          row?.fip
+        ),
+
+      whip: formatMlbMetric(
+        row?.whip,
+        "number"
+      ),
+
+      whipHeatClass:
+        getBullpenMetricHeatClass(
+          "WHIP",
+          row?.whip
+        ),
+
+      kPer9: formatMlbMetric(
+        row?.k_per_9,
+        "number"
+      ),
+
+      kPer9HeatClass:
+        getBullpenMetricHeatClass(
+          "K/9",
+          row?.k_per_9
+        ),
+
+      bbPer9: formatMlbMetric(
+        row?.bb_per_9,
+        "number"
+      ),
+
+      bbPer9HeatClass:
+        getBullpenMetricHeatClass(
+          "BB/9",
+          row?.bb_per_9
+        ),
+
+      pitches1d:
+        Number(row?.pitches_1d) || 0,
+
+      pitches2d:
+        Number(row?.pitches_2d) || 0,
+
+      pitches3d:
+        Number(row?.pitches_3d) || 0
+    };
+  });
+}
+
+function normalizeBullpenUsage(usage = {}) {
+  const days =
+    Array.isArray(usage?.days)
+      ? usage.days
+      : [];
+
+  return days.slice(-3).map(day => ({
+    date: day?.date || "",
+    pitches: Number(day?.pitches) || 0,
+    pitchers: Number(day?.pitchers) || 0,
+    outs: Number(day?.outs) || 0,
+    inningsPitched:
+      day?.innings_pitched || "0.0"
+  }));
+}
+
+function normalizeBullpenMetric(
+  label,
+  rawValue,
+  type
+) {
   const value =
-    rawValue && typeof rawValue === "object"
+    rawValue &&
+    typeof rawValue === "object"
       ? rawValue.value
       : rawValue;
 
   const rank =
-    rawValue && typeof rawValue === "object"
-      ? rawValue.rank
+    rawValue &&
+    typeof rawValue === "object"
+      ? Number(rawValue.rank)
       : null;
+
+  const poolSize =
+    rawValue &&
+    typeof rawValue === "object"
+      ? Number(rawValue.poolSize)
+      : 30;
+
+  const validRank =
+    Number.isFinite(rank) &&
+    rank >= 1 &&
+    Number.isFinite(poolSize) &&
+    poolSize >= rank;
 
   return {
     label,
     value: value ?? null,
-    rank: rank ?? null,
-    display: formatMlbMetric(value, type),
-    heatClass: getRankHeatClass(rank)
+    rank:
+      validRank
+        ? rank
+        : null,
+    poolSize:
+      Number.isFinite(poolSize)
+        ? poolSize
+        : 30,
+    display: formatMlbMetric(
+      value,
+      type
+    ),
+    heatClass:
+      validRank
+        ? getRankHeatClass(
+            rank,
+            poolSize
+          )
+        : getBullpenMetricHeatClass(
+            label,
+            value
+          )
   };
+}
+
+function getBullpenMetricHeatClass(
+  label,
+  rawValue
+) {
+  const value = Number(rawValue);
+
+  if (!Number.isFinite(value)) {
+    return "metric-missing";
+  }
+
+  const metric =
+    String(label || "").toUpperCase();
+
+  if (
+    metric === "ERA" ||
+    metric === "FIP"
+  ) {
+    if (value <= 3.20) return "metric-elite";
+    if (value <= 3.80) return "metric-good";
+    if (value <= 4.30) return "metric-average";
+    if (value <= 4.80) return "metric-poor";
+    return "metric-awful";
+  }
+
+  if (metric.includes("WHIP")) {
+    if (value <= 1.15) return "metric-elite";
+    if (value <= 1.25) return "metric-good";
+    if (value <= 1.35) return "metric-average";
+    if (value <= 1.45) return "metric-poor";
+    return "metric-awful";
+  }
+
+  if (metric === "K/9") {
+    if (value >= 10.50) return "metric-elite";
+    if (value >= 9.50) return "metric-good";
+    if (value >= 8.50) return "metric-average";
+    if (value >= 7.50) return "metric-poor";
+    return "metric-awful";
+  }
+
+  if (metric === "BB/9") {
+    if (value <= 2.50) return "metric-elite";
+    if (value <= 3.00) return "metric-good";
+    if (value <= 3.60) return "metric-average";
+    if (value <= 4.20) return "metric-poor";
+    return "metric-awful";
+  }
+
+  return "metric-average";
 }
 
 function normalizeMatchupMetric(label, rawValue, type) {

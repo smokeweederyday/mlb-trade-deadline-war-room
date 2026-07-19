@@ -8,7 +8,7 @@ import {
 
 import {
   renderBullpenWidget
-} from "./assets/js/widgets/bullpenWidget.js";
+} from "./assets/js/widgets/bullpenWidget.js?v=phase9s-tooltip2";
 
 import {
   renderMatchupWidget
@@ -33,7 +33,7 @@ import {
   buildMlbMatchupModule,
   buildMlbWeatherModule,
   buildMlbMarketModule
-} from "./assets/js/sports/mlbEngine.js?v=phase8j-bvp-intensity2";
+} from "./assets/js/sports/mlbEngine.js?v=phase9n-bullpen-title1";
 
 const GAME_LOGO_BASE =
   "https://www.mlbstatic.com/team-logos/team-cap-on-dark";
