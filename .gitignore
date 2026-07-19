@@ -1,17 +1,19 @@
 .DS_Store
-__pycache__/
-*.pyc
-.env
-.DS_Store
+__MACOSX/
 .vscode/
 .env
-# Locally generated MLB data and caches
-data/cache/
-data/*progress*.json
 __pycache__/
 *.pyc
 
-# Local archived source backups
-archive/backups/
+# Locally generated caches and progress files
+data/cache/
+data/*progress*.json
+
 # Rebuilt locally from public MLB date files
 data/games.json
+
+# Local archived source backups
+archive/backups/
+
+# Keep downloaded deployment/back-up archives outside the repository
+*.zip

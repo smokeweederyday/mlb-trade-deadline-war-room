@@ -8,8 +8,11 @@ on:
         required: false
         default: "7"
   schedule:
-    # Refresh today's slate every hour.
-    - cron: "17 * * * *"
+    # Lightweight schedule/status/score/card refresh every 15 minutes.
+    - cron: "0,30,45 * * * *"
+
+    # Full enrichment of today's slate every hour.
+    - cron: "15 * * * *"
 
     # Refresh today plus the next seven days every morning.
     - cron: "42 9 * * *"
@@ -22,10 +25,61 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  refresh-today:
-    if: github.event_name == 'schedule' && github.event.schedule == '17 * * * *'
+  refresh-card-status:
+    if: github.event_name == 'schedule' && github.event.schedule == '0,30,45 * * * *'
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 25
+
+    steps:
+      - name: Download website files
+        uses: actions/checkout@v5
+
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Resolve Eastern card date
+        id: card-date
+        run: |
+          CARD_DATE=$(TZ=America/New_York date +%F)
+          SEASON=${CARD_DATE%%-*}
+          echo "date=$CARD_DATE" >> "$GITHUB_OUTPUT"
+          echo "season=$SEASON" >> "$GITHUB_OUTPUT"
+
+      - name: Refresh official MLB status, start times, probable pitchers, and scores
+        run: |
+          python3 -u scripts/sync_baseball_final_scores.py \
+            --season "${{ steps.card-date.outputs.season }}" \
+            --date "${{ steps.card-date.outputs.date }}"
+
+      - name: Refresh affiliated Minor League daily cards
+        continue-on-error: true
+        run: |
+          python3 -u scripts/build_minor_league_schedules.py \
+            --season "${{ steps.card-date.outputs.season }}" \
+            --date "${{ steps.card-date.outputs.date }}" \
+            --daily-only
+
+      - name: Rebuild lightweight MLB card feed
+        run: |
+          python3 -u scripts/build_todays_card_data.py \
+            --date "${{ steps.card-date.outputs.date }}"
+
+      - name: Save updated card data
+        run: |
+          git config user.name "boring-bets-intelligence-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A data/games data/live-games data/cards data/schedules/baseball
+          git diff --cached --quiet || git commit -m "Auto-refresh today's baseball cards"
+          git push
+
+  refresh-today:
+    if: github.event_name == 'schedule' && github.event.schedule == '15 * * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    env:
+      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
 
     steps:
       - name: Download website files
@@ -45,7 +99,7 @@ jobs:
             matchup-history-${{ runner.os }}-${{ hashFiles('scripts/mlb/matchup_history.py') }}-
             matchup-history-${{ runner.os }}-
 
-      - name: Refresh today's MLB slate
+      - name: Refresh today's MLB slate and card feeds
         run: |
           python3 -u scripts/scheduled_refresh.py \
             --days-ahead 0 \
@@ -56,7 +110,7 @@ jobs:
         run: |
           git config user.name "boring-bets-intelligence-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A data/games
+          git add -A data/games data/live-games data/cards data/schedules/baseball
           git add data/games-meta.json data/games-index.json data/days.json data/plays.json data/results.json data/evaluations.json
           git diff --cached --quiet || git commit -m "Auto-refresh today's MLB intelligence"
           git push
@@ -64,7 +118,9 @@ jobs:
   refresh-future:
     if: github.event_name == 'schedule' && github.event.schedule == '42 9 * * *'
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 210
+    env:
+      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
 
     steps:
       - name: Download website files
@@ -84,7 +140,7 @@ jobs:
             matchup-history-${{ runner.os }}-${{ hashFiles('scripts/mlb/matchup_history.py') }}-
             matchup-history-${{ runner.os }}-
 
-      - name: Refresh rolling MLB window
+      - name: Refresh rolling MLB window and card feeds
         run: |
           python3 -u scripts/scheduled_refresh.py \
             --days-ahead 7 \
@@ -98,7 +154,7 @@ jobs:
         run: |
           git config user.name "boring-bets-intelligence-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A data/games
+          git add -A data/games data/live-games data/cards data/schedules/baseball
           git add data/games-meta.json data/games-index.json data/days.json data/plays.json data/results.json data/evaluations.json
           git diff --cached --quiet || git commit -m "Auto-refresh future MLB intelligence"
           git push
@@ -106,7 +162,9 @@ jobs:
   manual-refresh:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 210
+    env:
+      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
 
     steps:
       - name: Download website files
@@ -126,7 +184,7 @@ jobs:
             matchup-history-${{ runner.os }}-${{ hashFiles('scripts/mlb/matchup_history.py') }}-
             matchup-history-${{ runner.os }}-
 
-      - name: Refresh requested MLB window
+      - name: Refresh requested MLB window and card feeds
         run: |
           python3 -u scripts/scheduled_refresh.py \
             --days-ahead "${{ inputs.days_ahead }}" \
@@ -138,7 +196,7 @@ jobs:
         run: |
           git config user.name "boring-bets-intelligence-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A data/games
+          git add -A data/games data/live-games data/cards data/schedules/baseball
           git add data/games-meta.json data/games-index.json data/days.json data/plays.json data/results.json data/evaluations.json
           git diff --cached --quiet || git commit -m "Manually refresh MLB intelligence"
           git push

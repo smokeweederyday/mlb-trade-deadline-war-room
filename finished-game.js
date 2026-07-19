@@ -45,8 +45,14 @@ async function loadFinishedGame() {
 
 async function loadEvent({ id, date, league, gamePk }) {
   if (league === "mlb") {
-    const document = await fetchJson(`data/live-games/${encodeURIComponent(date)}.json`);
-    return findEvent(document.games || [], id, gamePk);
+    const enriched = await fetchOptionalJson(`data/games/${encodeURIComponent(date)}.json`);
+    if (enriched) {
+      const event = findEvent(enriched.games || [], id, gamePk);
+      if (event) return event;
+    }
+
+    const live = await fetchOptionalJson(`data/live-games/${encodeURIComponent(date)}.json`);
+    return live ? findEvent(live.games || [], id, gamePk) : null;
   }
 
   const dailyPath = `data/cards/${encodeURIComponent(date)}/${encodeURIComponent(league)}.json`;

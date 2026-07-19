@@ -975,3 +975,48 @@
   border-color: rgba(53, 242, 165, 0.42);
   box-shadow: 0 0 18px rgba(53, 242, 165, 0.08);
 }
+
+/* Data-rich compact card signals. These values are generated from the same
+   current MLB research shard used by the full game page. */
+.compact-event-signal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 7px;
+}
+
+.compact-event-signal {
+  min-width: 0;
+  padding: 5px 6px;
+  border: 1px solid rgba(128, 167, 151, 0.11);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.016);
+}
+
+.compact-event-signal span,
+.compact-event-signal strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compact-event-signal span {
+  color: rgba(103, 220, 234, 0.72);
+  font-family: var(--font-data, monospace);
+  font-size: 0.43rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.compact-event-signal strong {
+  margin-top: 2px;
+  color: rgba(237, 247, 241, 0.84);
+  font-family: var(--font-data, monospace);
+  font-size: 0.5rem;
+  font-weight: 650;
+}
+
+.compact-event-signal.is-pending strong {
+  color: rgba(156, 185, 172, 0.42);
+}

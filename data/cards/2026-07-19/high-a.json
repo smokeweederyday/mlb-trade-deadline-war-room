@@ -3,10 +3,10 @@
   "sport": "baseball",
   "league": "high-a",
   "date": "2026-07-19",
-  "updated_at": "2026-07-19T11:46:58Z",
+  "updated_at": "2026-07-19T13:21:46Z",
   "source": {
     "provider": "MLB Stats API",
-    "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=13&season=2026&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore&startDate=2026-07-19&endDate=2026-07-19"
+    "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=13&season=2026&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore%2Cdecisions&startDate=2026-07-19&endDate=2026-07-19"
   },
   "events": [
     {
@@ -50,8 +50,90 @@
       },
       "away_detail": "Allen Facundo",
       "home_detail": "Frank Camarillo",
+      "linescore": {
+        "scheduled_innings": 7,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-822334&sport=baseball&league=high-a&gamePk=822334",
       "live_url": "live.html?id=high-a-822334&sport=baseball&league=high-a&gamePk=822334"
+    },
+    {
+      "id": "high-a-822337",
+      "game_pk": 822337,
+      "date": "2026-07-19",
+      "start_time": "2026-07-19T16:05:00Z",
+      "status": "Scheduled",
+      "abstract_status": "Preview",
+      "league": "high-a",
+      "sport_id": 13,
+      "game_type": "R",
+      "game_number": 2,
+      "double_header": "Y",
+      "series_description": "Regular Season",
+      "venue": {
+        "id": 2795,
+        "name": "Maimonides Park"
+      },
+      "away": {
+        "id": 537,
+        "abbreviation": "HV",
+        "name": "Hudson Valley Renegades",
+        "score": null,
+        "record": {
+          "wins": 41,
+          "losses": 45,
+          "pct": ".477"
+        }
+      },
+      "home": {
+        "id": 453,
+        "abbreviation": "BRK",
+        "name": "Brooklyn Cyclones",
+        "score": null,
+        "record": {
+          "wins": 37,
+          "losses": 49,
+          "pct": ".430"
+        }
+      },
+      "away_detail": "Starter TBD",
+      "home_detail": "Jose Chirinos",
+      "linescore": {
+        "scheduled_innings": 7,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
+      "game_url": "game.html?id=high-a-822337&sport=baseball&league=high-a&gamePk=822337",
+      "live_url": "live.html?id=high-a-822337&sport=baseball&league=high-a&gamePk=822337"
     },
     {
       "id": "high-a-819860",
@@ -94,6 +176,25 @@
       },
       "away_detail": "Ty Floyd",
       "home_detail": "Jackson Humphries",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-819860&sport=baseball&league=high-a&gamePk=819860",
       "live_url": "live.html?id=high-a-819860&sport=baseball&league=high-a&gamePk=819860"
     },
@@ -138,6 +239,25 @@
       },
       "away_detail": "Dylan Howard",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-821881&sport=baseball&league=high-a&gamePk=821881",
       "live_url": "live.html?id=high-a-821881&sport=baseball&league=high-a&gamePk=821881"
     },
@@ -182,6 +302,25 @@
       },
       "away_detail": "Abraham Parra",
       "home_detail": "Ben Hansen",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-819792&sport=baseball&league=high-a&gamePk=819792",
       "live_url": "live.html?id=high-a-819792&sport=baseball&league=high-a&gamePk=819792"
     },
@@ -226,6 +365,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Jakob Wright",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-819923&sport=baseball&league=high-a&gamePk=819923",
       "live_url": "live.html?id=high-a-819923&sport=baseball&league=high-a&gamePk=819923"
     },
@@ -270,6 +428,25 @@
       },
       "away_detail": "Reese Dutton",
       "home_detail": "Yoel Tejeda Jr.",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-821818&sport=baseball&league=high-a&gamePk=821818",
       "live_url": "live.html?id=high-a-821818&sport=baseball&league=high-a&gamePk=821818"
     },
@@ -314,6 +491,25 @@
       },
       "away_detail": "Tanner Franklin",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-819595&sport=baseball&league=high-a&gamePk=819595",
       "live_url": "live.html?id=high-a-819595&sport=baseball&league=high-a&gamePk=819595"
     },
@@ -358,6 +554,25 @@
       },
       "away_detail": "Julio Mendez",
       "home_detail": "Michael Ross",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-820122&sport=baseball&league=high-a&gamePk=820122",
       "live_url": "live.html?id=high-a-820122&sport=baseball&league=high-a&gamePk=820122"
     },
@@ -402,6 +617,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-822409&sport=baseball&league=high-a&gamePk=822409",
       "live_url": "live.html?id=high-a-822409&sport=baseball&league=high-a&gamePk=822409"
     },
@@ -446,6 +680,25 @@
       },
       "away_detail": "Kendry Chourio",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-819458&sport=baseball&league=high-a&gamePk=819458",
       "live_url": "live.html?id=high-a-819458&sport=baseball&league=high-a&gamePk=819458"
     },
@@ -490,6 +743,25 @@
       },
       "away_detail": "JT Quinn",
       "home_detail": "Jojo Ingrassia",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-822149&sport=baseball&league=high-a&gamePk=822149",
       "live_url": "live.html?id=high-a-822149&sport=baseball&league=high-a&gamePk=822149"
     },
@@ -534,6 +806,25 @@
       },
       "away_detail": "Evan Truitt",
       "home_detail": "Yujanyer Herrera",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-819204&sport=baseball&league=high-a&gamePk=819204",
       "live_url": "live.html?id=high-a-819204&sport=baseball&league=high-a&gamePk=819204"
     },
@@ -578,52 +869,27 @@
       },
       "away_detail": "Hung-Leng Chang",
       "home_detail": "Kamdyn Perry",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-822073&sport=baseball&league=high-a&gamePk=822073",
       "live_url": "live.html?id=high-a-822073&sport=baseball&league=high-a&gamePk=822073"
-    },
-    {
-      "id": "high-a-822337",
-      "game_pk": 822337,
-      "date": "2026-07-19",
-      "start_time": "2026-07-19T22:00:00Z",
-      "status": "Scheduled",
-      "abstract_status": "Preview",
-      "league": "high-a",
-      "sport_id": 13,
-      "game_type": "R",
-      "game_number": 2,
-      "double_header": "Y",
-      "series_description": "Regular Season",
-      "venue": {
-        "id": 2795,
-        "name": "Maimonides Park"
-      },
-      "away": {
-        "id": 537,
-        "abbreviation": "HV",
-        "name": "Hudson Valley Renegades",
-        "score": null,
-        "record": {
-          "wins": 41,
-          "losses": 45,
-          "pct": ".477"
-        }
-      },
-      "home": {
-        "id": 453,
-        "abbreviation": "BRK",
-        "name": "Brooklyn Cyclones",
-        "score": null,
-        "record": {
-          "wins": 37,
-          "losses": 49,
-          "pct": ".430"
-        }
-      },
-      "away_detail": "Starter TBD",
-      "home_detail": "Jose Chirinos",
-      "game_url": "game.html?id=high-a-822337&sport=baseball&league=high-a&gamePk=822337",
-      "live_url": "live.html?id=high-a-822337&sport=baseball&league=high-a&gamePk=822337"
     },
     {
       "id": "high-a-819391",
@@ -666,6 +932,25 @@
       },
       "away_detail": "David Hagaman",
       "home_detail": "Niko Mazza",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-819391&sport=baseball&league=high-a&gamePk=819391",
       "live_url": "live.html?id=high-a-819391&sport=baseball&league=high-a&gamePk=819391"
     },
@@ -710,6 +995,25 @@
       },
       "away_detail": "Landen Maroudis",
       "home_detail": "Chase Shores",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=high-a-819130&sport=baseball&league=high-a&gamePk=819130",
       "live_url": "live.html?id=high-a-819130&sport=baseball&league=high-a&gamePk=819130"
     }

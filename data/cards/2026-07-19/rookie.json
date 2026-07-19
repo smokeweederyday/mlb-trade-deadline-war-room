@@ -3,10 +3,10 @@
   "sport": "baseball",
   "league": "rookie",
   "date": "2026-07-19",
-  "updated_at": "2026-07-19T11:46:59Z",
+  "updated_at": "2026-07-19T13:21:47Z",
   "source": {
     "provider": "MLB Stats API",
-    "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=16&season=2026&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore&startDate=2026-07-19&endDate=2026-07-19"
+    "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=16&season=2026&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore%2Cdecisions&startDate=2026-07-19&endDate=2026-07-19"
   },
   "events": [
     {
@@ -50,6 +50,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=rookie-849569&sport=baseball&league=rookie&gamePk=849569",
       "live_url": "live.html?id=rookie-849569&sport=baseball&league=rookie&gamePk=849569"
     }

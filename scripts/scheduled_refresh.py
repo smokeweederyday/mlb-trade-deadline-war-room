@@ -16,7 +16,7 @@ import time
 from dataclasses import asdict, dataclass
 from datetime import date, datetime, timedelta
 from pathlib import Path
-from typing import Sequence
+from typing import Optional, Sequence
 from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,10 +34,10 @@ class StepResult:
     required: bool
     status: str
     started_at: str
-    finished_at: str | None = None
-    duration_seconds: float | None = None
-    return_code: int | None = None
-    message: str | None = None
+    finished_at: Optional[str] = None
+    duration_seconds: Optional[float] = None
+    return_code: Optional[int] = None
+    message: Optional[str] = None
 
 
 def parse_args() -> argparse.Namespace:
@@ -83,6 +83,21 @@ def parse_args() -> argparse.Namespace:
         help="Skip non-mutating health checks.",
     )
     parser.add_argument(
+        "--skip-results",
+        action="store_true",
+        help="Skip official MLB status, score, line-score, and decision synchronization.",
+    )
+    parser.add_argument(
+        "--skip-minors",
+        action="store_true",
+        help="Skip current-date affiliated Minor League schedule/status refreshes.",
+    )
+    parser.add_argument(
+        "--skip-card-data",
+        action="store_true",
+        help="Skip rebuilding lightweight data/cards date shards.",
+    )
+    parser.add_argument(
         "--continue-on-error",
         action="store_true",
         help="Continue after a required step fails; final exit remains nonzero.",
@@ -104,7 +119,7 @@ def iso_now() -> str:
     return datetime.now(EASTERN).isoformat(timespec="seconds")
 
 
-def require_script(name: str, required: bool = True) -> Path | None:
+def require_script(name: str, required: bool = True) -> Optional[Path]:
     path = SCRIPTS / name
     if path.exists():
         return path
@@ -221,6 +236,54 @@ def build_plan(args: argparse.Namespace) -> list[tuple[str, list[str], bool]]:
         plan.append((
             "Build public MLB date files",
             command_for("build_public_mlb_data.py"),
+            True,
+        ))
+
+    refreshed_dates = [
+        (first_date + timedelta(days=offset)).isoformat()
+        for offset in range(args.days_ahead + 1)
+    ]
+
+    if not args.skip_results and (SCRIPTS / "sync_baseball_final_scores.py").exists():
+        for target in refreshed_dates:
+            plan.append((
+                f"Sync official MLB status and score ({target})",
+                command_for(
+                    "sync_baseball_final_scores.py",
+                    "--season",
+                    str(season),
+                    "--date",
+                    target,
+                ),
+                True,
+            ))
+
+    if not args.skip_minors and (SCRIPTS / "build_minor_league_schedules.py").exists():
+        for target in refreshed_dates:
+            plan.append((
+                f"Refresh affiliated Minor League cards ({target})",
+                command_for(
+                    "build_minor_league_schedules.py",
+                    "--season",
+                    str(season),
+                    "--date",
+                    target,
+                    "--daily-only",
+                ),
+                False,
+            ))
+
+    if not args.skip_card_data and (SCRIPTS / "build_todays_card_data.py").exists():
+        card_command = [
+            sys.executable,
+            "-u",
+            str(require_script("build_todays_card_data.py")),
+        ]
+        for target in refreshed_dates:
+            card_command.extend(["--date", target])
+        plan.append((
+            "Build lightweight Today’s Card date feeds",
+            card_command,
             True,
         ))
 

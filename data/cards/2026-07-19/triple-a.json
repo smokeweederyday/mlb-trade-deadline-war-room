@@ -3,10 +3,10 @@
   "sport": "baseball",
   "league": "triple-a",
   "date": "2026-07-19",
-  "updated_at": "2026-07-19T11:46:57Z",
+  "updated_at": "2026-07-19T13:21:46Z",
   "source": {
     "provider": "MLB Stats API",
-    "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=11&season=2026&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore&startDate=2026-07-19&endDate=2026-07-19"
+    "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=11&season=2026&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore%2Cdecisions&startDate=2026-07-19&endDate=2026-07-19"
   },
   "events": [
     {
@@ -50,6 +50,25 @@
       },
       "away_detail": "Chad Dallas",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-815652&sport=baseball&league=triple-a&gamePk=815652",
       "live_url": "live.html?id=triple-a-815652&sport=baseball&league=triple-a&gamePk=815652"
     },
@@ -94,6 +113,25 @@
       },
       "away_detail": "Antwone Kelly",
       "home_detail": "Yorman Gómez",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-816783&sport=baseball&league=triple-a&gamePk=816783",
       "live_url": "live.html?id=triple-a-816783&sport=baseball&league=triple-a&gamePk=816783"
     },
@@ -138,6 +176,25 @@
       },
       "away_detail": "Osvaldo Berrios",
       "home_detail": "Alexander Cornielle",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-815804&sport=baseball&league=triple-a&gamePk=815804",
       "live_url": "live.html?id=triple-a-815804&sport=baseball&league=triple-a&gamePk=815804"
     },
@@ -182,6 +239,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-816182&sport=baseball&league=triple-a&gamePk=816182",
       "live_url": "live.html?id=triple-a-816182&sport=baseball&league=triple-a&gamePk=816182"
     },
@@ -226,6 +302,25 @@
       },
       "away_detail": "Jose Acuna",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-815725&sport=baseball&league=triple-a&gamePk=815725",
       "live_url": "live.html?id=triple-a-815725&sport=baseball&league=triple-a&gamePk=815725"
     },
@@ -270,6 +365,25 @@
       },
       "away_detail": "Hurston Waldrep",
       "home_detail": "Sawyer Gipson-Long",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-815582&sport=baseball&league=triple-a&gamePk=815582",
       "live_url": "live.html?id=triple-a-815582&sport=baseball&league=triple-a&gamePk=815582"
     },
@@ -314,6 +428,25 @@
       },
       "away_detail": "Cole Irvin",
       "home_detail": "Nick Hull",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-814754&sport=baseball&league=triple-a&gamePk=814754",
       "live_url": "live.html?id=triple-a-814754&sport=baseball&league=triple-a&gamePk=814754"
     },
@@ -357,7 +490,26 @@
         }
       },
       "away_detail": "Patrick Monteverde",
-      "home_detail": "Starter TBD",
+      "home_detail": "Zach Penrod",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-815875&sport=baseball&league=triple-a&gamePk=815875",
       "live_url": "live.html?id=triple-a-815875&sport=baseball&league=triple-a&gamePk=815875"
     },
@@ -402,6 +554,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Michael Forret",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-816702&sport=baseball&league=triple-a&gamePk=816702",
       "live_url": "live.html?id=triple-a-816702&sport=baseball&league=triple-a&gamePk=816702"
     },
@@ -446,6 +617,25 @@
       },
       "away_detail": "Drake Fellows",
       "home_detail": "Mitch Spence",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-815952&sport=baseball&league=triple-a&gamePk=815952",
       "live_url": "live.html?id=triple-a-815952&sport=baseball&league=triple-a&gamePk=815952"
     },
@@ -490,6 +680,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-815058&sport=baseball&league=triple-a&gamePk=815058",
       "live_url": "live.html?id=triple-a-815058&sport=baseball&league=triple-a&gamePk=815058"
     },
@@ -534,6 +743,25 @@
       },
       "away_detail": "Trey Gibson",
       "home_detail": "Coleman Crow",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-816102&sport=baseball&league=triple-a&gamePk=816102",
       "live_url": "live.html?id=triple-a-816102&sport=baseball&league=triple-a&gamePk=816102"
     },
@@ -578,6 +806,25 @@
       },
       "away_detail": "Tommy Henry",
       "home_detail": "George Klassen",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-814903&sport=baseball&league=triple-a&gamePk=814903",
       "live_url": "live.html?id=triple-a-814903&sport=baseball&league=triple-a&gamePk=814903"
     },
@@ -622,6 +869,25 @@
       },
       "away_detail": "Ethan Pecko",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-815358&sport=baseball&league=triple-a&gamePk=815358",
       "live_url": "live.html?id=triple-a-815358&sport=baseball&league=triple-a&gamePk=815358"
     },
@@ -666,6 +932,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=triple-a-815428&sport=baseball&league=triple-a&gamePk=815428",
       "live_url": "live.html?id=triple-a-815428&sport=baseball&league=triple-a&gamePk=815428"
     }

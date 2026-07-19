@@ -14,7 +14,10 @@ const cardState = {
   plays: [],
   playsByEventId: new Map(),
   leagueCache: new Map(),
-  renderGeneration: 0
+  renderGeneration: 0,
+  latestFeedUpdate: null,
+  refreshTimer: null,
+  refreshInFlight: false
 };
 
 const cardEscape = (value = "") =>
@@ -26,11 +29,19 @@ const cardEscape = (value = "") =>
     "'": "&#039;"
   })[character]);
 
-window.addEventListener("DOMContentLoaded", () => {
-  initialiseTodaysCard({ preserveCache: false });
+window.addEventListener("DOMContentLoaded", async () => {
+  await initialiseTodaysCard({ preserveCache: false });
+  scheduleCardAutoRefresh();
 });
 
-window.addEventListener("popstate", () => initialiseTodaysCard({ preserveCache: false }));
+window.addEventListener("popstate", async () => {
+  await initialiseTodaysCard({ preserveCache: false });
+  scheduleCardAutoRefresh();
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) refreshOpenLeagueFeeds();
+});
 
 // Capture image failures so every baseball card either advances to the next
 // official logo source or falls back to a clean team abbreviation mark.
@@ -43,7 +54,9 @@ document.addEventListener("error", event => {
 async function initialiseTodaysCard(options = {}) {
   const generation = ++cardState.renderGeneration;
   try {
-    cardState.date = getSelectedDate();
+    const selectedDate = getSelectedDate();
+    if (selectedDate !== cardState.date) cardState.latestFeedUpdate = null;
+    cardState.date = selectedDate;
     cardState.statusFilter = getRequestedFilter();
 
     if (!options.preserveCache) {
@@ -146,10 +159,24 @@ function saveSelection() {
 
 function renderDateHeader() {
   setText("cardDate", formatCardDate(cardState.date));
-  setText("cardUpdated", `Board refreshed ${new Intl.DateTimeFormat(undefined, {
+  renderFeedUpdateLabel();
+}
+
+function renderFeedUpdateLabel() {
+  const target = document.getElementById("cardUpdated");
+  if (!target) return;
+  const updated = cardState.latestFeedUpdate ? new Date(cardState.latestFeedUpdate) : null;
+  if (updated && !Number.isNaN(updated.getTime())) {
+    target.textContent = `Feed updated ${new Intl.DateTimeFormat(undefined, {
+      hour: "numeric",
+      minute: "2-digit"
+    }).format(updated)}`;
+    return;
+  }
+  target.textContent = `Feeds checked ${new Intl.DateTimeFormat(undefined, {
     hour: "numeric",
     minute: "2-digit"
-  }).format(new Date())}`);
+  }).format(new Date())}`;
 }
 
 function renderDateNavigation() {
@@ -350,6 +377,7 @@ async function loadLeagueIntoPanel(
     if (generation !== cardState.renderGeneration || requestedDate !== cardState.date) return;
 
     cardState.leagueCache.set(leagueCacheKey(sportId, leagueId, requestedDate), result);
+    recordFeedUpdate(result.updatedAt);
     renderLeagueResult(panel, sportId, leagueId, result);
     updateLeagueCount(sportId, leagueId, result.events.length, result.available);
     updateSportCounts();
@@ -481,29 +509,114 @@ function selectEventsForCardDate(events, cardDate, options = {}) {
 }
 
 async function loadMlbEvents(date) {
-  const dailyPath = `data/live-games/${encodeURIComponent(date)}.json`;
-  const response = await fetch(dailyPath, { cache: "no-store" });
+  const cardPath = `data/cards/${encodeURIComponent(date)}/mlb.json`;
+  const enrichedPath = `data/games/${encodeURIComponent(date)}.json`;
+  const livePath = `data/live-games/${encodeURIComponent(date)}.json`;
 
-  if (response.ok) {
-    const data = await response.json();
-    if (!documentMatchesCardDate(data, date)) {
-      return { available: true, events: [], source: dailyPath, dateMismatch: true };
+  const cardDocument = await fetchOptionalDocument(cardPath);
+  if (cardDocument) {
+    if (!documentMatchesCardDate(cardDocument, date)) {
+      return { available: true, events: [], source: cardPath, dateMismatch: true };
     }
-    const selected = selectEventsForCardDate(data.games || [], date, { assumeDailyShard: true });
+    const selected = selectEventsForCardDate(cardDocument.games || cardDocument.events || [], date, { assumeDailyShard: true });
     return {
       available: true,
       events: selected.map(game => normalizeMlbEvent(game, date)).sort(sortEvents),
-      source: dailyPath,
-      updatedAt: data.updated_at || null
+      source: cardPath,
+      updatedAt: cardDocument.updated_at || cardDocument.source_updated_at || null
+    };
+  }
+
+  const enrichedDocument = await fetchOptionalDocument(enrichedPath);
+  if (enrichedDocument) {
+    if (!documentMatchesCardDate(enrichedDocument, date)) {
+      return { available: true, events: [], source: enrichedPath, dateMismatch: true };
+    }
+    const liveDocument = await fetchOptionalDocument(livePath);
+    const mergedGames = mergeMlbGameCollections(
+      enrichedDocument.games || [],
+      liveDocument?.games || []
+    );
+    const selected = selectEventsForCardDate(mergedGames, date, { assumeDailyShard: true });
+    return {
+      available: true,
+      events: selected.map(game => normalizeMlbEvent(game, date)).sort(sortEvents),
+      source: enrichedPath,
+      updatedAt: newestFeedTimestamp(enrichedDocument.updated_at, liveDocument?.updated_at)
+    };
+  }
+
+  const liveDocument = await fetchOptionalDocument(livePath);
+  if (liveDocument) {
+    const selected = selectEventsForCardDate(liveDocument.games || [], date, { assumeDailyShard: true });
+    return {
+      available: true,
+      events: selected.map(game => normalizeMlbEvent(game, date)).sort(sortEvents),
+      source: livePath,
+      updatedAt: liveDocument.updated_at || null
     };
   }
 
   return {
     available: false,
     events: [],
-    source: dailyPath,
-    message: `Daily MLB card file not found: ${dailyPath}`
+    source: cardPath,
+    message: `No MLB card feed exists for ${date}. Run scripts/scheduled_refresh.py.`
   };
+}
+
+async function fetchOptionalDocument(path) {
+  const response = await fetch(`${path}?v=${Date.now()}`, { cache: "no-store" });
+  if (response.status === 404) return null;
+  if (!response.ok) throw new Error(`Unable to load ${path}.`);
+  return response.json();
+}
+
+function mergeMlbGameCollections(enrichedGames, statusGames) {
+  const merged = (enrichedGames || []).map(game => ({ ...game }));
+  const byKey = new Map(merged.map(game => [mlbGameIdentity(game), game]));
+
+  (statusGames || []).forEach(statusGame => {
+    const key = mlbGameIdentity(statusGame);
+    const target = byKey.get(key);
+    if (!target) {
+      const copy = { ...statusGame };
+      merged.push(copy);
+      byKey.set(key, copy);
+      return;
+    }
+
+    ["status", "abstract_status", "score", "linescore", "decisions", "game_time"].forEach(field => {
+      if (statusGame?.[field] !== undefined && statusGame?.[field] !== null) {
+        target[field] = statusGame[field];
+      }
+    });
+
+    ["away_team", "home_team", "pitchers", "venue"].forEach(field => {
+      if (statusGame?.[field] && typeof statusGame[field] === "object") {
+        target[field] = mergeNestedObjects(target[field], statusGame[field]);
+      }
+    });
+  });
+
+  return merged;
+}
+
+function mlbGameIdentity(game) {
+  const gamePk = game?.mlb_game_pk || game?.game_pk || game?.gamePk;
+  return gamePk ? `pk:${gamePk}` : `id:${game?.id || ""}`;
+}
+
+function mergeNestedObjects(base, overlay) {
+  const result = { ...(base || {}) };
+  Object.entries(overlay || {}).forEach(([key, value]) => {
+    if (value && typeof value === "object" && !Array.isArray(value) && result[key] && typeof result[key] === "object" && !Array.isArray(result[key])) {
+      result[key] = mergeNestedObjects(result[key], value);
+    } else if (value !== undefined && value !== null) {
+      result[key] = value;
+    }
+  });
+  return result;
 }
 
 function normalizeMlbEvent(game, cardDate = cardState.date) {
@@ -514,8 +627,10 @@ function normalizeMlbEvent(game, cardDate = cardState.date) {
   const homeScore = readTeamScore(game, "home");
   const finalScoreAvailable = hasFinalScore(awayScore, homeScore);
   const status = resolveEventStatus(rawStatus, startTime, eventDate, cardDate, finalScoreAvailable);
-  const gameUrl = `game.html?id=${encodeURIComponent(game.id)}`;
-  const liveUrl = `live.html?id=${encodeURIComponent(game.id)}`;
+  const gameUrl = game.game_url || `game.html?id=${encodeURIComponent(game.id)}`;
+  const liveUrl = game.live_url || `live.html?id=${encodeURIComponent(game.id)}`;
+  const awayPitcher = game.pitchers?.away || {};
+  const homePitcher = game.pitchers?.home || {};
 
   return {
     id: game.id,
@@ -526,23 +641,33 @@ function normalizeMlbEvent(game, cardDate = cardState.date) {
     rawStatus,
     startTime,
     venue: game.venue?.name || "",
-    away: {
-      id: game.away_team?.team_id,
-      abbreviation: game.away_team?.abbr || "AWAY",
-      name: game.away_team?.name || game.away_team?.abbr || "Away",
+    away: normalizeParticipant({
+      ...(game.away_team || {}),
+      id: game.away_team?.team_id || game.away_team?.id,
+      abbreviation: game.away_team?.abbr || game.away_team?.abbreviation,
       score: awayScore
-    },
-    home: {
-      id: game.home_team?.team_id,
-      abbreviation: game.home_team?.abbr || "HOME",
-      name: game.home_team?.name || game.home_team?.abbr || "Home",
+    }, "AWAY"),
+    home: normalizeParticipant({
+      ...(game.home_team || {}),
+      id: game.home_team?.team_id || game.home_team?.id,
+      abbreviation: game.home_team?.abbr || game.home_team?.abbreviation,
       score: homeScore
+    }, "HOME"),
+    awayDetail: game.card?.away_detail || formatPitcherCardDetail(awayPitcher),
+    homeDetail: game.card?.home_detail || formatPitcherCardDetail(homePitcher),
+    cardData: {
+      pitchers: game.pitchers || {},
+      weather: game.weather || {},
+      market: game.market || {},
+      context: game.context || {},
+      lineups: game.lineups || {},
+      bullpens: game.bullpens || {},
+      offense: game.offense || {},
+      availability: game.card?.data_available || {}
     },
-    awayDetail: game.pitchers?.away?.name || "Starter TBD",
-    homeDetail: game.pitchers?.home?.name || "Starter TBD",
     gameUrl,
     liveUrl,
-    breakdownUrl: buildFinishedGameUrl({
+    breakdownUrl: game.breakdown_url || buildFinishedGameUrl({
       id: game.id,
       eventDate,
       sportId: "baseball",
@@ -585,6 +710,16 @@ function normalizeGenericEvent(event, sportId, leagueId, cardDate = cardState.da
     home,
     awayDetail: event.away_detail || event.awayDetail || "",
     homeDetail: event.home_detail || event.homeDetail || "",
+    cardData: {
+      pitchers: event.pitchers || {},
+      weather: event.weather || {},
+      market: event.market || {},
+      context: event.context || {},
+      lineups: event.lineups || {},
+      bullpens: event.bullpens || {},
+      offense: event.offense || {},
+      availability: event.card?.data_available || event.data_available || {}
+    },
     gameUrl,
     liveUrl,
     breakdownUrl: event.breakdown_url || buildFinishedGameUrl({
@@ -601,12 +736,17 @@ function normalizeGenericEvent(event, sportId, leagueId, cardDate = cardState.da
 }
 
 function normalizeParticipant(participant, fallback) {
-  if (typeof participant === "string") return { id: null, abbreviation: participant, name: participant, score: null };
+  if (typeof participant === "string") {
+    return { id: null, abbreviation: participant, name: participant, score: null, record: null, logoUrl: "" };
+  }
+  const record = participant.record || participant.league_record || participant.leagueRecord || null;
   return {
     id: participant.id || participant.team_id || null,
     abbreviation: participant.abbr || participant.abbreviation || participant.short_name || fallback,
     name: participant.name || participant.full_name || participant.abbr || fallback,
-    score: participant.score ?? null
+    score: participant.score ?? null,
+    record: record && typeof record === "object" ? record : null,
+    logoUrl: participant.logo_url || participant.logoUrl || ""
   };
 }
 
@@ -662,6 +802,7 @@ function renderCompactEventCard(event, league) {
       </a>
       ${(event.awayDetail || event.homeDetail) ? `<div class="compact-event-details"><span title="${cardEscape(event.awayDetail)}">${cardEscape(event.awayDetail || "—")}</span><i>vs</i><span title="${cardEscape(event.homeDetail)}">${cardEscape(event.homeDetail || "—")}</span></div>` : ""}
       ${event.venue ? `<p class="compact-event-venue">${cardEscape(event.venue)}</p>` : ""}
+      ${renderCompactGameSignals(event)}
       ${scoreSyncWarning}
       ${renderPlayChips(plays)}
       <div class="compact-event-actions">${completed
@@ -672,7 +813,191 @@ function renderCompactEventCard(event, league) {
 }
 
 function renderCompactParticipant(participant, sportId, showScore) {
-  return `<div class="compact-participant">${renderParticipantLogo(participant, sportId)}<span><strong>${cardEscape(participant.abbreviation)}</strong><small>${cardEscape(participant.name)}</small></span>${showScore && participant.score !== null ? `<b class="compact-participant-score">${cardEscape(participant.score)}</b>` : ""}</div>`;
+  const record = formatTeamRecord(participant.record);
+  const secondary = [participant.name, record].filter(Boolean).join(" · ");
+  return `<div class="compact-participant">${renderParticipantLogo(participant, sportId)}<span><strong>${cardEscape(participant.abbreviation)}</strong><small>${cardEscape(secondary)}</small></span>${showScore && participant.score !== null ? `<b class="compact-participant-score">${cardEscape(participant.score)}</b>` : ""}</div>`;
+}
+
+function renderCompactGameSignals(event) {
+  if (event.sportId !== "baseball" || event.leagueId !== "mlb") return "";
+  const data = event.cardData || {};
+  const signals = [
+    ["Weather", formatWeatherSignal(data.weather)],
+    ["Market", formatMarketSignal(data.market, event)],
+    ["Matchup", formatContextSignal(data.context)],
+    ["Lineups", formatLineupSignal(data.lineups)],
+    ["Offense", formatOffenseSignal(data.offense, event)],
+    ["Bullpens", formatBullpenSignal(data.bullpens, event)]
+  ];
+
+  return `<div class="compact-event-signal-grid">${signals.map(([label, value]) => `
+    <div class="compact-event-signal${String(value).toLowerCase().includes("pending") ? " is-pending" : ""}">
+      <span>${cardEscape(label)}</span>
+      <strong title="${cardEscape(value)}">${cardEscape(value)}</strong>
+    </div>`).join("")}
+  </div>`;
+}
+
+function formatTeamRecord(record) {
+  if (!record || typeof record !== "object") return "";
+  const wins = record.wins;
+  const losses = record.losses;
+  return wins !== null && wins !== undefined && losses !== null && losses !== undefined
+    ? `${wins}-${losses}`
+    : "";
+}
+
+function formatPitcherCardDetail(pitcher = {}) {
+  const name = pitcher.name || "Starter TBD";
+  const throws = pitcher.throws || "";
+  const era = readPitcherCardStat(pitcher, "era");
+  const pieces = [name];
+  if (throws) pieces.push(String(throws));
+  if (era !== null) pieces.push(`${era.toFixed(2)} ERA`);
+  return pieces.join(" · ");
+}
+
+function readPitcherCardStat(pitcher, metric) {
+  const candidates = [
+    pitcher?.last_30?.[metric],
+    pitcher?.stats?.last_30?.all?.[metric],
+    pitcher?.season?.[metric],
+    pitcher?.stats?.season?.all?.[metric]
+  ];
+  for (const value of candidates) {
+    const number = Number(value);
+    if (Number.isFinite(number)) return number;
+  }
+  return null;
+}
+
+function formatWeatherSignal(weather = {}) {
+  const condition = weather.condition || "";
+  const temperature = finiteNumber(weather.temperature);
+  const wind = finiteNumber(weather.wind_speed);
+  const direction = weather.wind_direction || "";
+  const rain = finiteNumber(weather.rain_probability);
+  if (!condition && temperature === null && wind === null && rain === null) return "Weather pending";
+  const pieces = [];
+  if (temperature !== null) pieces.push(`${Math.round(temperature)}°`);
+  if (condition) pieces.push(condition);
+  if (wind !== null) pieces.push(`${direction ? `${direction} ` : ""}${Math.round(wind)} mph`);
+  if (rain !== null && rain >= 20) pieces.push(`${Math.round(rain)}% rain`);
+  return pieces.join(" · ") || "Weather pending";
+}
+
+function formatMarketSignal(market = {}, event) {
+  const moneyline = market.moneyline || {};
+  const best = moneyline.best || {};
+  const consensus = moneyline.consensus || {};
+  const awayPrice = firstDefined(
+    market.away_moneyline,
+    best.away?.price,
+    consensus.away
+  );
+  const homePrice = firstDefined(
+    market.home_moneyline,
+    best.home?.price,
+    consensus.home
+  );
+  const totalRow = Array.isArray(market.total?.books) ? market.total.books.find(Boolean) : null;
+  const total = firstDefined(
+    typeof market.total === "number" ? market.total : null,
+    typeof market.total === "string" ? market.total : null,
+    totalRow?.over?.point,
+    totalRow?.under?.point
+  );
+  if (awayPrice === null && homePrice === null && total === null) return "Odds pending";
+  const pieces = [];
+  if (awayPrice !== null) pieces.push(`${event.away.abbreviation} ${formatAmericanOdds(awayPrice)}`);
+  if (homePrice !== null) pieces.push(`${event.home.abbreviation} ${formatAmericanOdds(homePrice)}`);
+  if (total !== null) pieces.push(`T ${formatLineNumber(total)}`);
+  return pieces.join(" · ");
+}
+
+function formatContextSignal(context = {}) {
+  const score = finiteNumber(context.score);
+  const label = context.label || "";
+  if (score === null && !label) return "Model pending";
+  return [label, score !== null ? Math.round(score) : ""].filter(value => value !== "").join(" · ");
+}
+
+function formatLineupSignal(lineups = {}) {
+  const away = lineupStatusLabel(lineups.away);
+  const home = lineupStatusLabel(lineups.home);
+  if (!away && !home) return "Lineups pending";
+  return `${away || "Pending"} / ${home || "Pending"}`;
+}
+
+function formatOffenseSignal(offense = {}, event) {
+  const away = readOffenseCardSignal(offense.away);
+  const home = readOffenseCardSignal(offense.home);
+  if (!away && !home) return "Offense pending";
+  return `${event.away.abbreviation} ${away || "—"} · ${event.home.abbreviation} ${home || "—"}`;
+}
+
+function readOffenseCardSignal(teamOffense = {}) {
+  const compactRank = firstDefined(teamOffense.wrc_plus_rank, teamOffense.ops_rank);
+  const compactValue = firstDefined(teamOffense.wrc_plus, teamOffense.ops);
+  const all = teamOffense?.stats?.last_30?.all || {};
+  const wrc = all["wRC+"] || {};
+  const ops = all.OPS || {};
+  const rank = firstDefined(compactRank, wrc.vs_hand_rank, wrc.overall_rank, ops.vs_hand_rank, ops.overall_rank);
+  const value = firstDefined(compactValue, wrc.vs_hand, wrc.overall, ops.vs_hand, ops.overall);
+  if (rank !== null) return `rank ${Math.round(Number(rank))}`;
+  const number = finiteNumber(value);
+  if (number === null) return "";
+  return number > 2 ? `${Math.round(number)} wRC+` : `${number.toFixed(3)} OPS`;
+}
+
+function formatBullpenSignal(bullpens = {}, event) {
+  const away = readBullpenCardSignal(bullpens.away);
+  const home = readBullpenCardSignal(bullpens.home);
+  if (!away && !home) return "Bullpen pending";
+  return `${event.away.abbreviation} ${away || "—"} · ${event.home.abbreviation} ${home || "—"}`;
+}
+
+function readBullpenCardSignal(bullpen = {}) {
+  const all = bullpen?.stats?.last_30?.all || {};
+  const era = finiteNumber(firstDefined(bullpen.era, all.era));
+  const rank = finiteNumber(firstDefined(bullpen.era_rank, all?.ranks?.era));
+  if (era !== null && rank !== null) return `${era.toFixed(2)} · rank ${Math.round(rank)}`;
+  if (era !== null) return `${era.toFixed(2)} ERA`;
+  if (rank !== null) return `rank ${Math.round(rank)}`;
+  return "";
+}
+
+function lineupStatusLabel(lineup) {
+  if (!lineup || typeof lineup !== "object") return "";
+  const value = String(lineup.status_label || lineup.status || "").toLowerCase();
+  if (value.includes("confirm")) return "Confirmed";
+  if (value.includes("project")) return "Projected";
+  if (value.includes("official")) return "Official";
+  return value ? value.replace(/(^|\s)\S/g, character => character.toUpperCase()) : "";
+}
+
+function finiteNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function firstDefined(...values) {
+  for (const value of values) {
+    if (value !== null && value !== undefined && value !== "") return value;
+  }
+  return null;
+}
+
+function formatAmericanOdds(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return String(value || "—");
+  return number > 0 ? `+${Math.round(number)}` : `${Math.round(number)}`;
+}
+
+function formatLineNumber(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return String(value || "—");
+  return Number.isInteger(number) ? `${number}` : number.toFixed(1);
 }
 
 function renderParticipantLogo(participant, sportId) {
@@ -937,9 +1262,10 @@ function getRequestedFilter() {
 function navigateToCardDate(date) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date || ""))) return;
   cardState.date = date;
+  cardState.latestFeedUpdate = null;
   cardState.leagueCache.clear();
   history.pushState({}, "", buildCardUrl());
-  initialiseTodaysCard({ preserveCache: false });
+  initialiseTodaysCard({ preserveCache: false }).then(scheduleCardAutoRefresh);
 }
 
 function syncUrl() {
@@ -981,6 +1307,53 @@ function leagueCacheKey(sportId, leagueId, date) {
 
 function sortEvents(a, b) {
   return new Date(a.startTime || 0) - new Date(b.startTime || 0);
+}
+
+function recordFeedUpdate(value) {
+  if (!value) return;
+  cardState.latestFeedUpdate = newestFeedTimestamp(cardState.latestFeedUpdate, value);
+  renderFeedUpdateLabel();
+}
+
+function newestFeedTimestamp(...values) {
+  const valid = values
+    .filter(Boolean)
+    .map(value => ({ value, time: new Date(value).getTime() }))
+    .filter(item => Number.isFinite(item.time));
+  if (!valid.length) return values.find(Boolean) || null;
+  valid.sort((a, b) => b.time - a.time);
+  return valid[0].value;
+}
+
+function scheduleCardAutoRefresh() {
+  if (cardState.refreshTimer) window.clearTimeout(cardState.refreshTimer);
+  const today = getLocalDateString(new Date());
+  const delay = cardState.date === today ? 60_000 : 300_000;
+  cardState.refreshTimer = window.setTimeout(async () => {
+    await refreshOpenLeagueFeeds();
+    scheduleCardAutoRefresh();
+  }, delay);
+}
+
+async function refreshOpenLeagueFeeds() {
+  if (document.hidden || cardState.refreshInFlight) return;
+  cardState.refreshInFlight = true;
+  const generation = ++cardState.renderGeneration;
+  const activeDate = cardState.date;
+  try {
+    [...cardState.leagueCache.keys()]
+      .filter(key => key.endsWith(`|${activeDate}`))
+      .forEach(key => cardState.leagueCache.delete(key));
+    await loadAllOpenLeagues(generation);
+    if (generation === cardState.renderGeneration && activeDate === cardState.date) {
+      updateSummary();
+      renderFeedUpdateLabel();
+    }
+  } catch (error) {
+    console.warn("Today’s Card background refresh failed; keeping the last good board.", error);
+  } finally {
+    cardState.refreshInFlight = false;
+  }
 }
 
 async function fetchJson(path) {

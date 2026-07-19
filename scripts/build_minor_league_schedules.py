@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 import sys
 import time
-from typing import Any, Iterable
+from typing import Any, Iterable, Optional
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -50,6 +50,11 @@ def parse_args() -> argparse.Namespace:
         "--date",
         dest="focus_date",
         help="Refresh one YYYY-MM-DD date and merge it into the season archive.",
+    )
+    parser.add_argument(
+        "--daily-only",
+        action="store_true",
+        help="With --date, write only data/cards/YYYY-MM-DD league shards and leave season archives unchanged.",
     )
     parser.add_argument(
         "--root",
@@ -99,6 +104,33 @@ def main() -> int:
             )
             fetched_events = normalize_schedule(payload, league)
             season_path = output_dir / f"{league.slug}.json"
+
+            if args.daily_only:
+                daily_events = [
+                    event for event in fetched_events
+                    if event.get("date") == args.focus_date
+                ]
+                write_daily_file(
+                    root=args.root,
+                    league=league,
+                    date_string=args.focus_date,
+                    events=daily_events,
+                    source_url=payload.get("_source_url", ""),
+                )
+                print(f"Wrote {len(daily_events):,} daily games; season archive unchanged.")
+                manifest_leagues.append(
+                    {
+                        "id": league.slug,
+                        "label": league.label,
+                        "sport_id": league.sport_id,
+                        "event_count": len(daily_events),
+                        "date_count": 1 if daily_events else 0,
+                        "first_date": args.focus_date if daily_events else None,
+                        "last_date": args.focus_date if daily_events else None,
+                        "path": f"data/cards/{args.focus_date}/{league.slug}.json",
+                    }
+                )
+                continue
 
             if args.focus_date:
                 existing = read_existing_events(season_path)
@@ -153,7 +185,8 @@ def main() -> int:
         "refresh_date": args.focus_date,
         "leagues": manifest_leagues,
     }
-    write_json_atomic(output_dir / "manifest.json", manifest)
+    if not args.daily_only:
+        write_json_atomic(output_dir / "manifest.json", manifest)
 
     if failures:
         print("\nMinor League schedule build completed with failures:", file=sys.stderr)
@@ -168,6 +201,8 @@ def main() -> int:
 def validate_args(args: argparse.Namespace) -> None:
     if args.season < 1900 or args.season > 2200:
         raise SystemExit("--season must be a four-digit year.")
+    if args.daily_only and not args.focus_date:
+        raise SystemExit("--daily-only requires --date.")
     if args.focus_date:
         try:
             parsed = datetime.strptime(args.focus_date, "%Y-%m-%d").date()
@@ -183,7 +218,7 @@ def fetch_schedule(
     *,
     league: League,
     season: int,
-    focus_date: str | None,
+    focus_date: Optional[str],
     timeout: float,
     retries: int,
 ) -> dict[str, Any]:
@@ -205,7 +240,7 @@ def fetch_schedule(
         },
     )
 
-    last_error: Exception | None = None
+    last_error: Optional[Exception] = None
     for attempt in range(1, retries + 1):
         try:
             with urlopen(request, timeout=timeout) as response:  # noqa: S310 - fixed official API host
@@ -364,7 +399,7 @@ def build_document(
     season: int,
     events: list[dict[str, Any]],
     source_url: str,
-    focus_date: str | None,
+    focus_date: Optional[str],
 ) -> dict[str, Any]:
     dates = sorted({event["date"] for event in events if event.get("date")})
     return {
@@ -448,7 +483,7 @@ def sort_key(event: dict[str, Any]) -> tuple[str, str, str]:
     )
 
 
-def iso_date_from_timestamp(value: Any) -> str | None:
+def iso_date_from_timestamp(value: Any) -> Optional[str]:
     if not value:
         return None
     text = str(value)

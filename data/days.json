@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-19T05:29:42.426183+00:00",
+  "updated_at": "2026-07-19T13:21:34.067236+00:00",
   "days": [
     {
       "id": "2026-03-25-mlb",
@@ -4133,6 +4133,7 @@
       "next_day": "2026-07-20",
       "game_ids": [
         "2026-07-19-cws-tor",
+        "2026-07-19-lad-nyy-g1",
         "2026-07-19-nym-phi",
         "2026-07-19-tb-bos",
         "2026-07-19-tex-atl",
@@ -4146,7 +4147,7 @@
         "2026-07-19-det-laa",
         "2026-07-19-sfg-sea",
         "2026-07-19-stl-ari",
-        "2026-07-19-lad-nyy"
+        "2026-07-19-lad-nyy-g2"
       ],
       "official_play_ids": [],
       "workflow": {
@@ -4157,7 +4158,7 @@
         "archived": false
       },
       "summary": {
-        "games": 15,
+        "games": 16,
         "official_plays": 0,
         "research_ready": 0
       }

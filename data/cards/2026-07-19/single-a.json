@@ -3,10 +3,10 @@
   "sport": "baseball",
   "league": "single-a",
   "date": "2026-07-19",
-  "updated_at": "2026-07-19T11:46:59Z",
+  "updated_at": "2026-07-19T13:21:47Z",
   "source": {
     "provider": "MLB Stats API",
-    "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=14&season=2026&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore&startDate=2026-07-19&endDate=2026-07-19"
+    "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=14&season=2026&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore%2Cdecisions&startDate=2026-07-19&endDate=2026-07-19"
   },
   "events": [
     {
@@ -50,6 +50,25 @@
       },
       "away_detail": "Irwin Ramirez",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-820253&sport=baseball&league=single-a&gamePk=820253",
       "live_url": "live.html?id=single-a-820253&sport=baseball&league=single-a&gamePk=820253"
     },
@@ -94,6 +113,25 @@
       },
       "away_detail": "Cole Gilley",
       "home_detail": "Denis Samudio",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-820654&sport=baseball&league=single-a&gamePk=820654",
       "live_url": "live.html?id=single-a-820654&sport=baseball&league=single-a&gamePk=820654"
     },
@@ -138,6 +176,25 @@
       },
       "away_detail": "Caleb Leys",
       "home_detail": "Merit Jones",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-820584&sport=baseball&league=single-a&gamePk=820584",
       "live_url": "live.html?id=single-a-820584&sport=baseball&league=single-a&gamePk=820584"
     },
@@ -182,6 +239,25 @@
       },
       "away_detail": "Ethan Lanthier",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-820386&sport=baseball&league=single-a&gamePk=820386",
       "live_url": "live.html?id=single-a-820386&sport=baseball&league=single-a&gamePk=820386"
     },
@@ -226,6 +302,25 @@
       },
       "away_detail": "Jonas Uzcategui",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-820719&sport=baseball&league=single-a&gamePk=820719",
       "live_url": "live.html?id=single-a-820719&sport=baseball&league=single-a&gamePk=820719"
     },
@@ -270,6 +365,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-827045&sport=baseball&league=single-a&gamePk=827045",
       "live_url": "live.html?id=single-a-827045&sport=baseball&league=single-a&gamePk=827045"
     },
@@ -314,6 +428,25 @@
       },
       "away_detail": "Erigaldi Perez",
       "home_detail": "Marlon De La Cruz",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-827183&sport=baseball&league=single-a&gamePk=827183",
       "live_url": "live.html?id=single-a-827183&sport=baseball&league=single-a&gamePk=827183"
     },
@@ -358,6 +491,25 @@
       },
       "away_detail": "Diustin Mayorquin",
       "home_detail": "Daniel Keaney",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-827116&sport=baseball&league=single-a&gamePk=827116",
       "live_url": "live.html?id=single-a-827116&sport=baseball&league=single-a&gamePk=827116"
     },
@@ -402,6 +554,25 @@
       },
       "away_detail": "Dalton Neuschwander",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-826853&sport=baseball&league=single-a&gamePk=826853",
       "live_url": "live.html?id=single-a-826853&sport=baseball&league=single-a&gamePk=826853"
     },
@@ -446,6 +617,25 @@
       },
       "away_detail": "Carter Holton",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-827243&sport=baseball&league=single-a&gamePk=827243",
       "live_url": "live.html?id=single-a-827243&sport=baseball&league=single-a&gamePk=827243"
     },
@@ -490,6 +680,25 @@
       },
       "away_detail": "Michael Lombardi",
       "home_detail": "Aidan Haugh",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-827457&sport=baseball&league=single-a&gamePk=827457",
       "live_url": "live.html?id=single-a-827457&sport=baseball&league=single-a&gamePk=827457"
     },
@@ -534,6 +743,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Josiah Romeo",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-820980&sport=baseball&league=single-a&gamePk=820980",
       "live_url": "live.html?id=single-a-820980&sport=baseball&league=single-a&gamePk=820980"
     },
@@ -578,6 +806,25 @@
       },
       "away_detail": "Aiden Butler",
       "home_detail": "Alton Davis II",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-821112&sport=baseball&league=single-a&gamePk=821112",
       "live_url": "live.html?id=single-a-821112&sport=baseball&league=single-a&gamePk=821112"
     },
@@ -622,6 +869,25 @@
       },
       "away_detail": "Luis Maracara",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-821182&sport=baseball&league=single-a&gamePk=821182",
       "live_url": "live.html?id=single-a-821182&sport=baseball&league=single-a&gamePk=821182"
     },
@@ -666,6 +932,25 @@
       },
       "away_detail": "Riley Kelly",
       "home_detail": "Dean Livingston",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=single-a-820912&sport=baseball&league=single-a&gamePk=820912",
       "live_url": "live.html?id=single-a-820912&sport=baseball&league=single-a&gamePk=820912"
     }

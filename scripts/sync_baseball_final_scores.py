@@ -7,19 +7,21 @@ import json
 from pathlib import Path
 import sys
 import time
-from typing import Any
+from typing import Any, Optional
+from zoneinfo import ZoneInfo
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 API_BASE = "https://statsapi.mlb.com/api/v1"
+EASTERN = ZoneInfo("America/New_York")
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
             "Synchronize official MLB final statuses, scores, inning lines, and decisions "
-            "into data/live-games/YYYY-MM-DD.json without replacing enriched game data."
+            "into the enriched data/games date shards and a lightweight live-status mirror."
         )
     )
     parser.add_argument("--season", type=int, default=date.today().year)
@@ -62,7 +64,7 @@ def main() -> int:
         if args.through:
             end_date = args.through
         else:
-            local_today = date.today()
+            local_today = datetime.now(EASTERN).date()
             end_date = (local_today if args.include_today else local_today - timedelta(days=1)).isoformat()
 
     print(f"MLB final-score sync: {start_date} through {end_date}")
@@ -78,8 +80,10 @@ def main() -> int:
     if requested_dates:
         schedule_by_date = {day: schedule_by_date.get(day, []) for day in requested_dates}
 
-    output_dir = args.root / "data" / "live-games"
-    output_dir.mkdir(parents=True, exist_ok=True)
+    games_dir = args.root / "data" / "games"
+    live_dir = args.root / "data" / "live-games"
+    games_dir.mkdir(parents=True, exist_ok=True)
+    live_dir.mkdir(parents=True, exist_ok=True)
 
     files_written = 0
     games_updated = 0
@@ -89,8 +93,10 @@ def main() -> int:
     for schedule_date, official_games in sorted(schedule_by_date.items()):
         if schedule_date > end_date:
             continue
-        path = output_dir / f"{schedule_date}.json"
-        document = read_daily_document(path, schedule_date)
+        primary_path = games_dir / f"{schedule_date}.json"
+        legacy_path = live_dir / f"{schedule_date}.json"
+        source_path = primary_path if primary_path.exists() else legacy_path
+        document = read_daily_document(source_path, schedule_date)
         local_games = [game for game in document.get("games", []) if isinstance(game, dict)]
         by_pk = {
             int(game.get("mlb_game_pk") or game.get("game_pk")): game
@@ -129,10 +135,14 @@ def main() -> int:
         }
         document["games"] = sorted(local_games, key=game_sort_key)
 
-        if changed or not path.exists():
-            write_json_atomic(path, document)
+        if changed or not primary_path.exists():
+            write_json_atomic(primary_path, document)
+            write_json_atomic(legacy_path, build_live_status_document(document, schedule_date))
             files_written += 1
-            print(f"{schedule_date}: {len(official_games)} official games -> {path}")
+            print(
+                f"{schedule_date}: {len(official_games)} official games -> "
+                f"{primary_path} + lightweight live mirror"
+            )
 
     print("\nResult sync summary")
     print(f"Daily files written: {files_written}")
@@ -180,7 +190,7 @@ def fetch_schedule(
         },
     )
 
-    last_error: Exception | None = None
+    last_error: Optional[Exception] = None
     for attempt in range(1, retries + 1):
         try:
             with urlopen(request, timeout=timeout) as response:  # noqa: S310 - fixed official host
@@ -222,6 +232,10 @@ def normalize_official_game(game: dict[str, Any], schedule_date: str) -> dict[st
     away_abbr = team_abbreviation(away_team)
     home_abbr = team_abbreviation(home_team)
     game_pk = game.get("gamePk")
+    away_pitcher = away_info.get("probablePitcher") or {}
+    home_pitcher = home_info.get("probablePitcher") or {}
+    away_record = away_info.get("leagueRecord") or {}
+    home_record = home_info.get("leagueRecord") or {}
 
     return {
         "id": f"{schedule_date}-{away_abbr.lower()}-{home_abbr.lower()}",
@@ -235,11 +249,33 @@ def normalize_official_game(game: dict[str, Any], schedule_date: str) -> dict[st
             "team_id": away_team.get("id"),
             "abbr": away_abbr,
             "name": away_team.get("name") or away_abbr,
+            "record": {
+                "wins": away_record.get("wins"),
+                "losses": away_record.get("losses"),
+                "pct": away_record.get("pct"),
+            },
         },
         "home_team": {
             "team_id": home_team.get("id"),
             "abbr": home_abbr,
             "name": home_team.get("name") or home_abbr,
+            "record": {
+                "wins": home_record.get("wins"),
+                "losses": home_record.get("losses"),
+                "pct": home_record.get("pct"),
+            },
+        },
+        "pitchers": {
+            "away": {
+                "id": away_pitcher.get("id"),
+                "name": away_pitcher.get("fullName") or "Starter TBD",
+                "status": "probable" if away_pitcher else "unknown",
+            },
+            "home": {
+                "id": home_pitcher.get("id"),
+                "name": home_pitcher.get("fullName") or "Starter TBD",
+                "status": "probable" if home_pitcher else "unknown",
+            },
         },
         "score": {
             "away": away_info.get("score"),
@@ -315,7 +351,7 @@ def read_daily_document(path: Path, schedule_date: str) -> dict[str, Any]:
     return data
 
 
-def find_by_teams(local_games: list[dict[str, Any]], official: dict[str, Any]) -> dict[str, Any] | None:
+def find_by_teams(local_games: list[dict[str, Any]], official: dict[str, Any]) -> Optional[dict[str, Any]]:
     away_id = official.get("away_team", {}).get("team_id")
     home_id = official.get("home_team", {}).get("team_id")
     start = official.get("game_time")
@@ -387,6 +423,22 @@ def merge_official_result(local: dict[str, Any], official: dict[str, Any]) -> bo
                 existing_team[key] = value
                 changed = True
 
+    official_pitchers = official.get("pitchers") or {}
+    local_pitchers = local.get("pitchers") if isinstance(local.get("pitchers"), dict) else {}
+    for side in ("away", "home"):
+        incoming_pitcher = official_pitchers.get(side)
+        if not isinstance(incoming_pitcher, dict):
+            continue
+        current_pitcher = local_pitchers.get(side) if isinstance(local_pitchers.get(side), dict) else {}
+        for key in ("id", "name", "status"):
+            value = incoming_pitcher.get(key)
+            if value is not None and current_pitcher.get(key) != value:
+                current_pitcher[key] = value
+                changed = True
+        local_pitchers[side] = current_pitcher
+    if local_pitchers:
+        local["pitchers"] = local_pitchers
+
     venue = local.get("venue")
     if not isinstance(venue, dict):
         local["venue"] = dict(official.get("venue") or {})
@@ -398,6 +450,43 @@ def merge_official_result(local: dict[str, Any], official: dict[str, Any]) -> bo
                 changed = True
 
     return changed
+
+
+def build_live_status_document(document: dict[str, Any], schedule_date: str) -> dict[str, Any]:
+    games = []
+    for game in document.get("games") or []:
+        if not isinstance(game, dict):
+            continue
+        games.append(
+            {
+                key: game.get(key)
+                for key in (
+                    "id",
+                    "mlb_game_pk",
+                    "date",
+                    "game_time",
+                    "sport",
+                    "status",
+                    "abstract_status",
+                    "venue",
+                    "away_team",
+                    "home_team",
+                    "pitchers",
+                    "score",
+                    "linescore",
+                    "decisions",
+                )
+                if game.get(key) is not None
+            }
+        )
+
+    return {
+        "schema_version": "1.2",
+        "date": schedule_date,
+        "updated_at": document.get("updated_at") or utc_now(),
+        "result_sync": document.get("result_sync") or {},
+        "games": games,
+    }
 
 
 def has_score(game: dict[str, Any]) -> bool:

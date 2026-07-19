@@ -3,10 +3,10 @@
   "sport": "baseball",
   "league": "double-a",
   "date": "2026-07-19",
-  "updated_at": "2026-07-19T11:46:58Z",
+  "updated_at": "2026-07-19T13:21:46Z",
   "source": {
     "provider": "MLB Stats API",
-    "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=12&season=2026&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore&startDate=2026-07-19&endDate=2026-07-19"
+    "url": "https://statsapi.mlb.com/api/v1/schedule?sportId=12&season=2026&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore%2Cdecisions&startDate=2026-07-19&endDate=2026-07-19"
   },
   "events": [
     {
@@ -50,6 +50,25 @@
       },
       "away_detail": "Cedric De Grandpre",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-818046&sport=baseball&league=double-a&gamePk=818046",
       "live_url": "live.html?id=double-a-818046&sport=baseball&league=double-a&gamePk=818046"
     },
@@ -94,6 +113,25 @@
       },
       "away_detail": "Ben Hess",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-818450&sport=baseball&league=double-a&gamePk=818450",
       "live_url": "live.html?id=double-a-818450&sport=baseball&league=double-a&gamePk=818450"
     },
@@ -137,7 +175,26 @@
         }
       },
       "away_detail": "Nolan Perry",
-      "home_detail": "Starter TBD",
+      "home_detail": "Jake Irvin",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-818662&sport=baseball&league=double-a&gamePk=818662",
       "live_url": "live.html?id=double-a-818662&sport=baseball&league=double-a&gamePk=818662"
     },
@@ -182,6 +239,25 @@
       },
       "away_detail": "Braylon Doughty",
       "home_detail": "Jonathan Santucci",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-818863&sport=baseball&league=double-a&gamePk=818863",
       "live_url": "live.html?id=double-a-818863&sport=baseball&league=double-a&gamePk=818863"
     },
@@ -226,6 +302,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Luis De León",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-818796&sport=baseball&league=double-a&gamePk=818796",
       "live_url": "live.html?id=double-a-818796&sport=baseball&league=double-a&gamePk=818796"
     },
@@ -270,6 +365,25 @@
       },
       "away_detail": "Preston Johnson",
       "home_detail": "Adam Leverett",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-817554&sport=baseball&league=double-a&gamePk=817554",
       "live_url": "live.html?id=double-a-817554&sport=baseball&league=double-a&gamePk=817554"
     },
@@ -314,6 +428,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Steven Zobac",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-817275&sport=baseball&league=double-a&gamePk=817275",
       "live_url": "live.html?id=double-a-817275&sport=baseball&league=double-a&gamePk=817275"
     },
@@ -358,6 +491,25 @@
       },
       "away_detail": "Nate Snead",
       "home_detail": "Jake Palisch",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-818104&sport=baseball&league=double-a&gamePk=818104",
       "live_url": "live.html?id=double-a-818104&sport=baseball&league=double-a&gamePk=818104"
     },
@@ -402,6 +554,25 @@
       },
       "away_detail": "Starter TBD",
       "home_detail": "Gary Gill Hill",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-817830&sport=baseball&league=double-a&gamePk=817830",
       "live_url": "live.html?id=double-a-817830&sport=baseball&league=double-a&gamePk=817830"
     },
@@ -446,6 +617,25 @@
       },
       "away_detail": "Jackson Jobe",
       "home_detail": "Tyler Switalski",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-818317&sport=baseball&league=double-a&gamePk=818317",
       "live_url": "live.html?id=double-a-818317&sport=baseball&league=double-a&gamePk=818317"
     },
@@ -490,6 +680,25 @@
       },
       "away_detail": "Matt Ager",
       "home_detail": "Gage Wood",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-818385&sport=baseball&league=double-a&gamePk=818385",
       "live_url": "live.html?id=double-a-818385&sport=baseball&league=double-a&gamePk=818385"
     },
@@ -534,6 +743,25 @@
       },
       "away_detail": "Joey Volini",
       "home_detail": "Bishop Letson",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-818171&sport=baseball&league=double-a&gamePk=818171",
       "live_url": "live.html?id=double-a-818171&sport=baseball&league=double-a&gamePk=818171"
     },
@@ -578,6 +806,25 @@
       },
       "away_detail": "Daniel Eagen",
       "home_detail": "Liam Doyle",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-817141&sport=baseball&league=double-a&gamePk=817141",
       "live_url": "live.html?id=double-a-817141&sport=baseball&league=double-a&gamePk=817141"
     },
@@ -622,6 +869,25 @@
       },
       "away_detail": "James Hicks",
       "home_detail": "Starter TBD",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-817205&sport=baseball&league=double-a&gamePk=817205",
       "live_url": "live.html?id=double-a-817205&sport=baseball&league=double-a&gamePk=817205"
     },
@@ -666,6 +932,25 @@
       },
       "away_detail": "Myles Caba",
       "home_detail": "Blake Townsend",
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": null,
+        "current_inning_ordinal": null,
+        "innings": [],
+        "totals": {
+          "away": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          },
+          "home": {
+            "runs": null,
+            "hits": null,
+            "errors": null
+          }
+        }
+      },
+      "decisions": {},
       "game_url": "game.html?id=double-a-817415&sport=baseball&league=double-a&gamePk=817415",
       "live_url": "live.html?id=double-a-817415&sport=baseball&league=double-a&gamePk=817415"
     }
