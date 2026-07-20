@@ -280,16 +280,37 @@ export function buildMlbPitcherModule({
       ? `Last ${normalizedStartCount} Starts · ${formatLocationLabel(location)}`
       : seasonContext;
 
+  // A player's visible name must carry one stable identity
+  // everywhere on the site. Use Season / All for that
+  // canonical color. The active split can still drive the
+  // surrounding contextual atmosphere.
+  const canonicalPitcherBlock =
+    safePitcher.stats
+      ?.season
+      ?.all ||
+    season;
+
   const nameSignal =
+    buildPitcherNameSignal(
+      canonicalPitcherBlock
+    );
+
+  const atmosphereSignal =
     buildPitcherNameSignal(
       primaryBlock
     );
 
   return {
     side,
+    playerId:
+      safePitcher.id ?? null,
+    playerRole:
+      "pitching",
     name: safePitcher.name || "Starter TBD",
     nameSignalScore:
       nameSignal.score,
+    atmosphereSignalScore:
+      atmosphereSignal.score,
     nameSignalClass:
       nameSignal.className,
     nameSignalLabel:
@@ -298,7 +319,16 @@ export function buildMlbPitcherModule({
     age: safePitcher.age ?? "—",
     handLabel: safePitcher.throws ? `${safePitcher.throws}HP` : "Throws —",
     statusLabel: formatPitcherStatus(safePitcher.status),
-    detailsUrl: safePitcher.profile_url || "#",
+    detailsUrl:
+      safePitcher.id
+        ? (
+            `player.html?id=${
+              encodeURIComponent(
+                safePitcher.id
+              )
+            }&role=pitching`
+          )
+        : "#",
     contextLabel: primaryContext,
     activeLocation: location,
     startMode: Boolean(startMode),
@@ -850,7 +880,16 @@ export function buildMlbMatchupModule({
         id: player?.id ?? null,
         order: player?.order ?? "—",
         name: player?.name || "Unknown hitter",
-        detailsUrl: player?.id ? `player.html?id=${encodeURIComponent(player.id)}` : "#",
+        detailsUrl:
+          player?.id
+            ? (
+                `player.html?id=${
+                  encodeURIComponent(
+                    player.id
+                  )
+                }&role=hitting`
+              )
+            : "#",
         sideLabel: isSwitch ? `S* → ${expectedSide || "?"}` : (expectedSide || player?.bats || "?"),
         sideClass: expectedSide === "L" ? "bats-left" : expectedSide === "R" ? "bats-right" : "bats-unknown",
         tooltip: isSwitch

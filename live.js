@@ -1184,11 +1184,28 @@
   function closeChat() { $("chatDrawer").classList.remove("open"); $("chatDrawer").setAttribute("aria-hidden","true"); }
 
   function navigatePlayer(type, id, name) {
-    if (!id) return showToast(`${name || "Player"} profile will open when the live feed supplies an ID.`);
-    const params = new URLSearchParams({ id: state.game.id, player: id, mode: "live" });
-    if (type === "pitcher") params.set("pitcher", id);
-    else params.set("batter", id);
-    location.href = `lineup.html?${params.toString()}`;
+    if (!id) {
+      return showToast(
+        `${name || "Player"} profile will open when the live feed supplies an ID.`
+      );
+    }
+
+    const role =
+      type === "pitcher"
+        ? "pitching"
+        : "hitting";
+
+    const params =
+      new URLSearchParams({
+        id: String(id),
+        role,
+        game:
+          state.game?.id || "",
+        mode: "live"
+      });
+
+    location.href =
+      `player.html?${params.toString()}`;
   }
 
   function pulsePage(type) {

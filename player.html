@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <meta
+    name="description"
+    content="Boring Bets MLB player intelligence profile"
+  >
+  <title>Player Intelligence | Boring Bets</title>
+
+  <link
+    rel="stylesheet"
+    href="assets/css/variables.css"
+  >
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
+</head>
+
+<body class="player-page">
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      BORING BETS
+    </a>
+
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="todays-card.html">Today’s Card</a>
+      <a href="live.html">Live</a>
+      <a href="globe.html">Globe</a>
+    </nav>
+  </header>
+
+  <main class="player-main">
+    <a
+      id="playerBackLink"
+      class="back-link"
+      href="todays-card.html"
+    >
+      ← Back
+    </a>
+
+    <section
+      id="playerLoading"
+      class="player-loading-card"
+    >
+      Loading player intelligence…
+    </section>
+
+    <section
+      id="playerProfile"
+      class="player-profile"
+      hidden
+    >
+      <header class="player-profile-hero">
+        <div
+          id="playerPortrait"
+          class="player-portrait"
+          aria-hidden="true"
+        >
+          BB
+        </div>
+
+        <div class="player-identity">
+          <p class="data-label">
+            MLB PLAYER INTELLIGENCE
+          </p>
+
+          <h1>
+            <span
+              id="playerName"
+              class="player-profile-name player-signal-neutral"
+            >
+              Player
+            </span>
+          </h1>
+
+          <div
+            id="playerRoleTabs"
+            class="player-role-tabs"
+            role="tablist"
+            aria-label="Player role"
+          ></div>
+
+          <div
+            id="playerBio"
+            class="player-bio-grid"
+          ></div>
+        </div>
+
+        <aside class="player-signal-card">
+          <span>Canonical rating</span>
+          <strong id="playerSignalLabel">
+            Unavailable
+          </strong>
+          <small id="playerSignalDetail">
+            Season / All
+          </small>
+        </aside>
+      </header>
+
+      <section class="player-summary-section">
+        <div class="player-section-heading">
+          <div>
+            <p class="data-label">
+              SEASON SUMMARY
+            </p>
+            <h2 id="playerSummaryTitle">
+              2026 Pitching
+            </h2>
+          </div>
+
+          <p id="playerSummaryContext">
+            Canonical Season / All profile
+          </p>
+        </div>
+
+        <div
+          id="playerSummaryGrid"
+          class="player-summary-grid"
+        ></div>
+      </section>
+
+      <section class="player-metrics-section">
+        <div class="player-section-heading">
+          <div>
+            <p class="data-label">
+              BORING BETS METRICS
+            </p>
+            <h2>League-relative profile</h2>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table player-metric-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Value</th>
+                <th>Rank</th>
+                <th>Pool</th>
+              </tr>
+            </thead>
+
+            <tbody id="playerMetricRows">
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <strong>Boring Bets</strong>
+    <span>Data over hype.</span>
+  </footer>
+
+  <script
+    type="module"
+    src="player.js?v=player-intelligence1"
+  ></script>
+</body>
+</html>

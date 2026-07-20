@@ -3799,3 +3799,293 @@ button.selected
  * - unfavorable game data remains red
  * - authentic team-color bleed remains valid
  */
+
+
+/* ========================================================
+   PLAYER INTELLIGENCE PAGE
+   ======================================================== */
+
+.player-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 18% 8%,
+      rgba(45, 139, 230, 0.08),
+      transparent 30%
+    ),
+    var(--bg);
+}
+
+.player-main {
+  width: min(1180px, 92%);
+  margin: 0 auto;
+  padding: 52px 0 86px;
+}
+
+.player-loading-card {
+  padding: 30px;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.player-profile {
+  display: grid;
+  gap: 18px;
+}
+
+.player-profile-hero,
+.player-summary-section,
+.player-metrics-section {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15, 27, 21, 0.96),
+      rgba(6, 14, 10, 0.98)
+    );
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.player-profile-hero {
+  display: grid;
+  grid-template-columns:
+    148px
+    minmax(0, 1fr)
+    minmax(190px, 0.3fr);
+  align-items: start;
+  gap: 28px;
+  padding: 28px;
+}
+
+.player-portrait {
+  display: grid;
+  place-items: center;
+  width: 148px;
+  aspect-ratio: 3 / 4;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--font-data);
+  font-size: 2.2rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(74, 91, 82, 0.65),
+      rgba(18, 29, 23, 0.9)
+    );
+  border: 1px solid var(--border-teal);
+  border-radius: var(--radius-md);
+}
+
+.player-identity h1 {
+  margin: 2px 0 14px;
+  font-family: var(--font-heading);
+  font-size: clamp(2.8rem, 7vw, 5.8rem);
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+}
+
+.player-profile-name,
+.pitcher-name-link {
+  text-decoration: none;
+}
+
+.player-role-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.player-role-tabs button {
+  padding: 8px 13px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.player-role-tabs button.active {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(255, 255, 255, 0.27);
+}
+
+.player-bio-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.player-bio-grid > div,
+.player-summary-grid > div {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.player-bio-grid span,
+.player-summary-grid span,
+.player-signal-card span,
+.player-signal-card small {
+  display: block;
+  color: var(--muted);
+  font-family: var(--font-data);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.player-bio-grid strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 0.82rem;
+}
+
+.player-signal-card {
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.player-signal-card strong {
+  display: block;
+  margin: 9px 0;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.player-summary-section,
+.player-metrics-section {
+  padding: 25px;
+}
+
+.player-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.player-section-heading h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.player-section-heading > p {
+  max-width: 320px;
+  margin: 0;
+  color: var(--muted);
+  text-align: right;
+}
+
+.player-summary-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(8, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.player-summary-grid strong {
+  display: block;
+  margin-top: 7px;
+  color: var(--white);
+  font-family: var(--font-data);
+  font-size: 1.08rem;
+}
+
+.player-metric-table {
+  min-width: 650px;
+}
+
+.player-signal-strong-positive {
+  color: #79ffac;
+  text-shadow:
+    0 0 9px rgba(57, 255, 136, 0.66),
+    0 0 24px rgba(57, 255, 136, 0.28);
+}
+
+.player-signal-positive {
+  color: #b3f5c9;
+  text-shadow:
+    0 0 12px rgba(57, 255, 136, 0.25);
+}
+
+.player-signal-neutral {
+  color: rgba(235, 243, 239, 0.88);
+}
+
+.player-signal-negative {
+  color: #ffadb8;
+  text-shadow:
+    0 0 12px rgba(255, 71, 96, 0.25);
+}
+
+.player-signal-strong-negative {
+  color: #ff7185;
+  text-shadow:
+    0 0 9px rgba(255, 71, 96, 0.62),
+    0 0 24px rgba(255, 71, 96, 0.25);
+}
+
+.pitcher-name-link:hover {
+  filter: brightness(1.17);
+}
+
+@media (max-width: 900px) {
+  .player-profile-hero {
+    grid-template-columns:
+      112px
+      minmax(0, 1fr);
+  }
+
+  .player-portrait {
+    width: 112px;
+  }
+
+  .player-signal-card {
+    grid-column: 1 / -1;
+  }
+
+  .player-bio-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .player-summary-grid {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .player-profile-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .player-portrait {
+    width: 105px;
+  }
+
+  .player-bio-grid,
+  .player-summary-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .player-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .player-section-heading > p {
+    text-align: left;
+  }
+}

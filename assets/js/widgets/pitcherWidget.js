@@ -51,17 +51,22 @@ export function renderPitcherWidget({
           <span class="data-label">
             ${escapeHtml(module.statusLabel || "STARTER TBD")}
           </span>
-          <h2
-            class="pitcher-name-signal ${escapeHtml(
-              module.nameSignalClass ||
-              "pitcher-signal-neutral"
-            )}"
-            title="${escapeAttribute(
-              module.nameSignalLabel ||
-              "League-relative pitcher signal"
-            )}"
-          >
-            ${escapeHtml(module.name || "Starter TBD")}
+          <h2>
+            <a
+              class="pitcher-name-signal pitcher-name-link ${escapeHtml(
+                module.nameSignalClass ||
+                "pitcher-signal-neutral"
+              )}"
+              href="${escapeAttribute(
+                module.detailsUrl || "#"
+              )}"
+              title="${escapeAttribute(
+                module.nameSignalLabel ||
+                "League-relative pitcher signal"
+              )}"
+            >
+              ${escapeHtml(module.name || "Starter TBD")}
+            </a>
           </h2>
           <div class="pitcher-meta-line">
             <p>
@@ -232,6 +237,7 @@ function applyPitcherAtmosphere(
   if (!side) return;
 
   const rawScore = Number(
+    module.atmosphereSignalScore ??
     module.nameSignalScore
   );
 
