@@ -13,6 +13,11 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 import os
 
+try:
+    from .fangraphs import fetch_team_wrc_plus
+except ImportError:
+    from fangraphs import fetch_team_wrc_plus
+
 
 MLB_API_BASE = "https://statsapi.mlb.com/api/v1"
 
@@ -21,10 +26,195 @@ OFFENSE_METRICS = (
     "OBP",
     "SLG",
     "OPS",
+    "ISO",
     "wRC+",
     "BB%",
     "K%",
 )
+
+OFFENSE_CACHE_SCHEMA = 3
+
+
+# OFFENSE_ISO_WRC_V2
+def add_offense_derived_metrics(
+    stats: dict[str, Any],
+) -> dict[str, Any]:
+    if not isinstance(stats, dict):
+        return stats
+
+    avg = stats.get("AVG")
+    slg = stats.get("SLG")
+
+    if (
+        isinstance(avg, (int, float))
+        and isinstance(slg, (int, float))
+    ):
+        stats["ISO"] = (
+            float(slg) - float(avg)
+        )
+    elif stats:
+        stats["ISO"] = None
+
+    return stats
+
+
+def merge_team_wrc_plus(
+    rows: dict[int, dict[str, Any]],
+    values: dict[int, float],
+) -> None:
+    for team_id in MLB_TEAM_IDS:
+        row = rows.setdefault(
+            team_id,
+            {},
+        )
+
+        value = values.get(team_id)
+
+        if isinstance(value, (int, float)):
+            row["wRC+"] = float(value)
+        elif row:
+            row["wRC+"] = None
+
+
+def metric_coverage(
+    rows: dict[int, dict[str, Any]],
+) -> dict[str, int]:
+    return {
+        metric: sum(
+            1
+            for stats in rows.values()
+            if isinstance(
+                stats.get(metric),
+                (int, float),
+            )
+        )
+        for metric in OFFENSE_METRICS
+    }
+
+
+def fetch_wrc_plus_matrix(
+    windows: dict[
+        str,
+        tuple[date, date],
+    ],
+    locations: tuple[str, ...],
+) -> dict[
+    tuple[str, str, str],
+    dict[int, float],
+]:
+    tasks = []
+
+    for (
+        timeframe,
+        (
+            window_start,
+            window_end,
+        ),
+    ) in windows.items():
+        for location in locations:
+            for hand in (
+                "overall",
+                "vs_lhp",
+                "vs_rhp",
+            ):
+                tasks.append(
+                    (
+                        timeframe,
+                        location,
+                        hand,
+                        window_start,
+                        window_end,
+                    )
+                )
+
+    workers = max(
+        1,
+        min(
+            int(
+                os.getenv(
+                    "BORING_BETS_FANGRAPHS_WORKERS",
+                    "3",
+                )
+            ),
+            5,
+        ),
+    )
+
+    result: dict[
+        tuple[str, str, str],
+        dict[int, float],
+    ] = {}
+
+    failures = []
+
+    with ThreadPoolExecutor(
+        max_workers=workers
+    ) as executor:
+        futures = {
+            executor.submit(
+                fetch_team_wrc_plus,
+                window_start,
+                window_end,
+                location,
+                hand,
+            ): (
+                timeframe,
+                location,
+                hand,
+            )
+            for (
+                timeframe,
+                location,
+                hand,
+                window_start,
+                window_end,
+            ) in tasks
+        }
+
+        for future in as_completed(futures):
+            key = futures[future]
+
+            try:
+                values = future.result()
+
+                result[key] = (
+                    values
+                    if isinstance(values, dict)
+                    else {}
+                )
+            except Exception as error:
+                result[key] = {}
+
+                failures.append(
+                    f"{key[0]}/{key[1]}/{key[2]}: "
+                    f"{error}"
+                )
+
+    coverages = [
+        len(values)
+        for values in result.values()
+    ]
+
+    if coverages:
+        print(
+            "FanGraphs wRC+ pools: "
+            f"{len(coverages)} fetched; "
+            f"team coverage "
+            f"{min(coverages)}-"
+            f"{max(coverages)}."
+        )
+
+    if failures:
+        print(
+            "FanGraphs wRC+ warnings: "
+            f"{len(failures)} pool(s) unavailable."
+        )
+
+        for warning in failures[:3]:
+            print(" ", warning)
+
+    return result
+
 
 
 def get_json(
@@ -533,20 +723,97 @@ def fetch_league_hitting_stats(
     return teams
 
 
-def rank_league_rows(rows: dict[int, dict[str, Any]]) -> dict[int, dict[str, int | None]]:
-    directions = {"AVG": True, "OBP": True, "SLG": True, "OPS": True, "wRC+": True, "BB%": True, "K%": False}
-    result: dict[int, dict[str, int | None]] = {team_id: {} for team_id in rows}
-    for metric, higher_is_better in directions.items():
-        values = [(team_id, stats.get(metric)) for team_id, stats in rows.items()]
-        values = [(team_id, float(value)) for team_id, value in values if isinstance(value, (int, float))]
-        values.sort(key=lambda item: item[1], reverse=higher_is_better)
+def rank_league_rows(
+    rows: dict[int, dict[str, Any]],
+) -> dict[
+    int,
+    dict[str, int | None],
+]:
+    directions = {
+        "AVG": True,
+        "OBP": True,
+        "SLG": True,
+        "OPS": True,
+        "ISO": True,
+        "wRC+": True,
+        "BB%": True,
+        "K%": False,
+    }
+
+    result: dict[
+        int,
+        dict[str, int | None],
+    ] = {
+        team_id: {}
+        for team_id in rows
+    }
+
+    for stats in rows.values():
+        add_offense_derived_metrics(
+            stats
+        )
+
+    for (
+        metric,
+        higher_is_better,
+    ) in directions.items():
+        values = [
+            (
+                team_id,
+                stats.get(metric),
+            )
+            for (
+                team_id,
+                stats,
+            ) in rows.items()
+        ]
+
+        values = [
+            (
+                team_id,
+                float(value),
+            )
+            for team_id, value in values
+            if isinstance(
+                value,
+                (int, float),
+            )
+        ]
+
+        values.sort(
+            key=lambda item: item[1],
+            reverse=higher_is_better,
+        )
+
         previous_value = None
         previous_rank = 0
-        for index, (team_id, value) in enumerate(values, start=1):
-            rank = previous_rank if previous_value == value else index
-            result.setdefault(team_id, {})[metric] = rank
-            previous_value, previous_rank = value, rank
+
+        for (
+            index,
+            (
+                team_id,
+                value,
+            ),
+        ) in enumerate(
+            values,
+            start=1,
+        ):
+            rank = (
+                previous_rank
+                if previous_value == value
+                else index
+            )
+
+            result.setdefault(
+                team_id,
+                {},
+            )[metric] = rank
+
+            previous_value = value
+            previous_rank = rank
+
     return result
+
 
 
 def _cache_path(target_date: str) -> Path:
@@ -556,138 +823,594 @@ def _cache_path(target_date: str) -> Path:
     return cache_dir / f"mlb-offense-rank-matrix-{target_date}.json"
 
 
-def _matrix_is_complete(cache: dict[str, Any]) -> bool:
+def _matrix_is_complete(
+    cache: dict[str, Any],
+) -> bool:
     try:
-        for timeframe in ("last_7", "last_30", "season"):
-            for location in ("all", "home", "away"):
-                for hand in ("overall", "vs_lhp", "vs_rhp"):
-                    pool = cache[timeframe][location][hand]
-                    if int(pool.get("team_pool", 0)) != 30:
+        if (
+            int(
+                cache.get(
+                    "schema_version",
+                    0,
+                )
+            )
+            != OFFENSE_CACHE_SCHEMA
+        ):
+            return False
+
+        for timeframe in (
+            "last_7",
+            "last_30",
+            "season",
+        ):
+            for location in (
+                "all",
+                "home",
+                "away",
+            ):
+                for hand in (
+                    "overall",
+                    "vs_lhp",
+                    "vs_rhp",
+                ):
+                    pool = (
+                        cache[timeframe]
+                        [location]
+                        [hand]
+                    )
+
+                    if (
+                        int(
+                            pool.get(
+                                "team_pool",
+                                0,
+                            )
+                        )
+                        != 30
+                    ):
                         return False
+
+                    coverage = (
+                        pool.get(
+                            "metric_coverage"
+                        )
+                    )
+
+                    if not isinstance(
+                        coverage,
+                        dict,
+                    ):
+                        return False
+
+                    if (
+                        "ISO" not in coverage
+                        or "wRC+" not in coverage
+                    ):
+                        return False
+
         return True
-    except (KeyError, TypeError, ValueError):
+
+    except (
+        KeyError,
+        TypeError,
+        ValueError,
+    ):
         return False
 
 
-def build_league_offense_cache(target_date: str) -> dict[str, Any]:
-    """Build pregame, date-bounded 30-team offense comparison pools.
 
-    The selected game date is excluded. Overall location splits use MLB team
-    game logs; pitcher-handedness intersections use cached Baseball Savant
-    terminal plate appearances because MLB statSplits ignores date windows.
-    """
-    cache_path = _cache_path(target_date)
-    if cache_path.exists() and os.getenv("BORING_BETS_REBUILD_RANK_CACHE") != "1":
+def build_league_offense_cache(
+    target_date: str,
+) -> dict[str, Any]:
+    """Build exact pregame offense pools with ISO and wRC+."""
+
+    cache_path = _cache_path(
+        target_date
+    )
+
+    if (
+        cache_path.exists()
+        and os.getenv(
+            "BORING_BETS_REBUILD_RANK_CACHE"
+        )
+        != "1"
+    ):
         try:
-            cached = json.loads(cache_path.read_text(encoding="utf-8"))
-            if _matrix_is_complete(cached) and cached.get("pregame_cutoff") is True:
-                print(f"Using cached pregame offense matrix: {cache_path.name}")
+            cached = json.loads(
+                cache_path.read_text(
+                    encoding="utf-8"
+                )
+            )
+
+            if (
+                _matrix_is_complete(cached)
+                and cached.get(
+                    "pregame_cutoff"
+                )
+                is True
+            ):
+                print(
+                    "Using cached pregame offense matrix: "
+                    f"{cache_path.name}"
+                )
+
                 return cached
-        except (OSError, json.JSONDecodeError):
+
+        except (
+            OSError,
+            json.JSONDecodeError,
+        ):
             pass
 
-    target = datetime.strptime(target_date, "%Y-%m-%d").date()
-    cutoff = target - timedelta(days=1)
-    season_start = date(target.year, 3, 1)
+    target = datetime.strptime(
+        target_date,
+        "%Y-%m-%d",
+    ).date()
+
+    cutoff = (
+        target
+        - timedelta(days=1)
+    )
+
+    season_start = date(
+        target.year,
+        3,
+        1,
+    )
+
     windows = {
-        "last_7": (cutoff - timedelta(days=6), cutoff),
-        "last_30": (cutoff - timedelta(days=29), cutoff),
-        "season": (season_start, cutoff),
+        "last_7": (
+            cutoff - timedelta(days=6),
+            cutoff,
+        ),
+        "last_30": (
+            cutoff - timedelta(days=29),
+            cutoff,
+        ),
+        "season": (
+            season_start,
+            cutoff,
+        ),
     }
-    locations = ("all", "home", "away")
-    hands = {"vs_lhp": "L", "vs_rhp": "R"}
+
+    locations = (
+        "all",
+        "home",
+        "away",
+    )
+
+    hands = {
+        "vs_lhp": "L",
+        "vs_rhp": "R",
+    }
+
     cache: dict[str, Any] = {
+        "schema_version":
+            OFFENSE_CACHE_SCHEMA,
         "as_of": target_date,
-        "cutoff_date": cutoff.isoformat(),
+        "cutoff_date":
+            cutoff.isoformat(),
         "pregame_cutoff": True,
-        "window_definition": "calendar_days_before_selected_game",
+        "window_definition":
+            "calendar_days_before_selected_game",
+        "sources": {
+            "overall":
+                "MLB team game logs",
+            "handedness":
+                "Baseball Savant terminal plate appearances",
+            "wrc_plus":
+                "FanGraphs team split leaderboard",
+        },
     }
 
-    print("Fetching all 30 team game logs for pregame All/Home/Away offense...")
-    team_game_logs = fetch_all_team_game_logs(target.year)
-    print(f"Fetching cached Statcast plate appearances through {cutoff.isoformat()}...")
-    season_events = fetch_statcast_range(season_start, cutoff)
+    print(
+        "Fetching all 30 team game logs "
+        "for pregame All/Home/Away offense..."
+    )
 
-    total_pools = len(windows) * len(locations) * 3
+    team_game_logs = (
+        fetch_all_team_game_logs(
+            target.year
+        )
+    )
+
+    print(
+        "Fetching cached Statcast plate "
+        f"appearances through "
+        f"{cutoff.isoformat()}..."
+    )
+
+    season_events = (
+        fetch_statcast_range(
+            season_start,
+            cutoff,
+        )
+    )
+
+    print(
+        "Fetching FanGraphs wRC+ "
+        "for all exact offense filters..."
+    )
+
+    wrc_matrix = (
+        fetch_wrc_plus_matrix(
+            windows,
+            locations,
+        )
+    )
+
+    total_pools = (
+        len(windows)
+        * len(locations)
+        * 3
+    )
+
     completed = 0
-    for timeframe, (window_start, window_end) in windows.items():
+
+    for (
+        timeframe,
+        (
+            window_start,
+            window_end,
+        ),
+    ) in windows.items():
         cache[timeframe] = {}
-        window_events = season_events if timeframe == "season" else fetch_statcast_range(window_start, window_end)
+
+        window_events = (
+            season_events
+            if timeframe == "season"
+            else fetch_statcast_range(
+                window_start,
+                window_end,
+            )
+        )
+
         for location in locations:
-            cache[timeframe][location] = {}
+            cache[timeframe][
+                location
+            ] = {}
+
             completed += 1
-            print(f"  Rank pool {completed}/{total_pools}: {timeframe} / {location} / overall")
+
+            print(
+                f"  Rank pool "
+                f"{completed}/{total_pools}: "
+                f"{timeframe} / "
+                f"{location} / overall"
+            )
+
             overall_rows = {
-                team_id: aggregate_team_game_log(
-                    team_game_logs.get(team_id, []),
-                    window_start.isoformat(),
-                    window_end.isoformat(),
-                    location,
-                )
+                team_id:
+                    aggregate_team_game_log(
+                        team_game_logs.get(
+                            team_id,
+                            [],
+                        ),
+                        window_start.isoformat(),
+                        window_end.isoformat(),
+                        location,
+                    )
                 for team_id in MLB_TEAM_IDS
             }
-            cache[timeframe][location]["overall"] = {
+
+            for row in (
+                overall_rows.values()
+            ):
+                add_offense_derived_metrics(
+                    row
+                )
+
+            merge_team_wrc_plus(
+                overall_rows,
+                wrc_matrix.get(
+                    (
+                        timeframe,
+                        location,
+                        "overall",
+                    ),
+                    {},
+                ),
+            )
+
+            overall_ranks = (
+                rank_league_rows(
+                    overall_rows
+                )
+            )
+
+            cache[timeframe][
+                location
+            ]["overall"] = {
                 "stats": overall_rows,
-                "ranks": rank_league_rows(overall_rows),
+                "ranks": overall_ranks,
                 "team_pool": 30,
-                "coverage": sum(1 for row in overall_rows.values() if row),
-                "scope": "all_30_mlb_teams_exact_pregame_filters",
+                "coverage": sum(
+                    1
+                    for row
+                    in overall_rows.values()
+                    if row
+                ),
+                "metric_coverage":
+                    metric_coverage(
+                        overall_rows
+                    ),
+                "scope":
+                    "all_30_mlb_teams_exact_pregame_filters",
+                "source":
+                    "MLB game logs + FanGraphs wRC+",
             }
-            for hand_key, hand in hands.items():
+
+            for (
+                hand_key,
+                hand,
+            ) in hands.items():
                 completed += 1
-                print(f"  Rank pool {completed}/{total_pools}: {timeframe} / {location} / {hand_key}")
-                split_rows = aggregate_statcast_pas(window_events, location, hand)
-                cache[timeframe][location][hand_key] = {
+
+                print(
+                    f"  Rank pool "
+                    f"{completed}/{total_pools}: "
+                    f"{timeframe} / "
+                    f"{location} / "
+                    f"{hand_key}"
+                )
+
+                split_rows = (
+                    aggregate_statcast_pas(
+                        window_events,
+                        location,
+                        hand,
+                    )
+                )
+
+                for row in (
+                    split_rows.values()
+                ):
+                    add_offense_derived_metrics(
+                        row
+                    )
+
+                merge_team_wrc_plus(
+                    split_rows,
+                    wrc_matrix.get(
+                        (
+                            timeframe,
+                            location,
+                            hand_key,
+                        ),
+                        {},
+                    ),
+                )
+
+                split_ranks = (
+                    rank_league_rows(
+                        split_rows
+                    )
+                )
+
+                cache[timeframe][
+                    location
+                ][hand_key] = {
                     "stats": split_rows,
-                    "ranks": rank_league_rows(split_rows),
+                    "ranks": split_ranks,
                     "team_pool": 30,
-                    "coverage": sum(1 for row in split_rows.values() if row),
-                    "scope": "all_30_mlb_teams_exact_pregame_filters",
-                    "source": "Baseball Savant terminal plate appearances",
+                    "coverage": sum(
+                        1
+                        for row
+                        in split_rows.values()
+                        if row
+                    ),
+                    "metric_coverage":
+                        metric_coverage(
+                            split_rows
+                        ),
+                    "scope":
+                        "all_30_mlb_teams_exact_pregame_filters",
+                    "source":
+                        "Baseball Savant terminal plate appearances + FanGraphs wRC+",
                 }
 
-    cache_path.write_text(json.dumps(cache, indent=2), encoding="utf-8")
+    cache_path.write_text(
+        json.dumps(
+            cache,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
     return cache
+
 
 
 def apply_league_offense_cache(
     snapshot: dict[str, Any],
     league_cache: dict[str, Any],
 ) -> dict[str, Any]:
-    team_id = int(snapshot["team_id"])
-    opponent_hand = str(snapshot.get("opponent_throws") or "").upper()
-    hand_key = "vs_lhp" if opponent_hand == "L" else "vs_rhp" if opponent_hand == "R" else "overall"
-    stats_root: dict[str, Any] = {}
-    for timeframe in ("last_7", "last_30", "season"):
-        stats_root[timeframe] = {}
-        for location in ("all", "home", "away"):
-            overall_pool = league_cache.get(timeframe, {}).get(location, {}).get("overall", {})
-            split_pool = league_cache.get(timeframe, {}).get(location, {}).get(hand_key, {})
-            overall_stats = overall_pool.get("stats", {})
-            split_stats = split_pool.get("stats", {})
-            overall_rank_map = overall_pool.get("ranks", {})
-            split_rank_map = split_pool.get("ranks", {})
+    team_id = int(
+        snapshot["team_id"]
+    )
 
-            # Fresh Python dictionaries use integer team IDs, while cached
-            # JSON reloads them as strings. Support both representations.
-            overall = overall_stats.get(team_id, overall_stats.get(str(team_id), {}))
-            versus = split_stats.get(team_id, split_stats.get(str(team_id), {}))
-            overall_ranks = overall_rank_map.get(
-                team_id, overall_rank_map.get(str(team_id), {})
+    opponent_hand = str(
+        snapshot.get(
+            "opponent_throws"
+        )
+        or ""
+    ).upper()
+
+    hand_key = (
+        "vs_lhp"
+        if opponent_hand == "L"
+        else (
+            "vs_rhp"
+            if opponent_hand == "R"
+            else "overall"
+        )
+    )
+
+    stats_root: dict[str, Any] = {}
+
+    for timeframe in (
+        "last_7",
+        "last_30",
+        "season",
+    ):
+        stats_root[timeframe] = {}
+
+        for location in (
+            "all",
+            "home",
+            "away",
+        ):
+            overall_pool = (
+                league_cache
+                .get(timeframe, {})
+                .get(location, {})
+                .get("overall", {})
             )
-            split_ranks = split_rank_map.get(
-                team_id, split_rank_map.get(str(team_id), {})
+
+            split_pool = (
+                league_cache
+                .get(timeframe, {})
+                .get(location, {})
+                .get(hand_key, {})
             )
-            block = build_metric_block(overall, versus)
-            for metric, row in block.items():
-                row["overall_rank"] = overall_ranks.get(metric)
-                row["overall_rank_coverage"] = overall_pool.get("team_pool")
-                row["vs_hand_rank"] = split_ranks.get(metric)
-                row["vs_hand_rank_coverage"] = split_pool.get("team_pool")
-            stats_root[timeframe][location] = block
+
+            overall_stats = (
+                overall_pool.get(
+                    "stats",
+                    {},
+                )
+            )
+
+            split_stats = (
+                split_pool.get(
+                    "stats",
+                    {},
+                )
+            )
+
+            overall_rank_map = (
+                overall_pool.get(
+                    "ranks",
+                    {},
+                )
+            )
+
+            split_rank_map = (
+                split_pool.get(
+                    "ranks",
+                    {},
+                )
+            )
+
+            overall = (
+                overall_stats.get(
+                    team_id,
+                    overall_stats.get(
+                        str(team_id),
+                        {},
+                    ),
+                )
+            )
+
+            versus = (
+                split_stats.get(
+                    team_id,
+                    split_stats.get(
+                        str(team_id),
+                        {},
+                    ),
+                )
+            )
+
+            overall_ranks = (
+                overall_rank_map.get(
+                    team_id,
+                    overall_rank_map.get(
+                        str(team_id),
+                        {},
+                    ),
+                )
+            )
+
+            split_ranks = (
+                split_rank_map.get(
+                    team_id,
+                    split_rank_map.get(
+                        str(team_id),
+                        {},
+                    ),
+                )
+            )
+
+            block = build_metric_block(
+                overall,
+                versus,
+            )
+
+            overall_coverage = (
+                overall_pool.get(
+                    "metric_coverage",
+                    {},
+                )
+            )
+
+            split_coverage = (
+                split_pool.get(
+                    "metric_coverage",
+                    {},
+                )
+            )
+
+            for (
+                metric,
+                row,
+            ) in block.items():
+                row["overall_rank"] = (
+                    overall_ranks.get(
+                        metric
+                    )
+                )
+
+                row[
+                    "overall_rank_coverage"
+                ] = (
+                    overall_coverage.get(
+                        metric
+                    )
+                )
+
+                row["vs_hand_rank"] = (
+                    split_ranks.get(
+                        metric
+                    )
+                )
+
+                row[
+                    "vs_hand_rank_coverage"
+                ] = (
+                    split_coverage.get(
+                        metric
+                    )
+                )
+
+            stats_root[
+                timeframe
+            ][location] = block
+
     snapshot["stats"] = stats_root
-    snapshot["rank_scope"] = "all_30_mlb_teams_exact_active_filters"
+
+    snapshot["rank_scope"] = (
+        "all_available_mlb_teams_exact_active_filters"
+    )
+
+    snapshot["source"] = (
+        "MLB game logs + Baseball Savant "
+        "date-bounded plate appearances + "
+        "FanGraphs wRC+"
+    )
+
     return snapshot
+
 
 
 def build_metric_block(
@@ -721,7 +1444,7 @@ def build_team_offense_snapshot(
         "opponent_throws": str(opponent_throws or "").upper() or None,
         "stats": {},
         "raw_splits": {},
-        "source": "MLB team game logs + Baseball Savant date-bounded plate appearances",
+        "source": "MLB team game logs + Baseball Savant date-bounded plate appearances + FanGraphs wRC+",
         "as_of": target_date,
     }
 

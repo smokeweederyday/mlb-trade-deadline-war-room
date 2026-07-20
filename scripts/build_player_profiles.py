@@ -542,13 +542,14 @@ def enrich_people(
 
 def fetch_hitting_rows(
     season: int,
+    player_pool: str = "ALL",
 ) -> list[dict[str, Any]]:
     query = urllib.parse.urlencode({
         "stats": "season",
         "group": "hitting",
         "season": season,
-        "playerPool": "QUALIFIED",
-        "limit": 1000,
+        "playerPool": player_pool,
+        "limit": 5000,
     })
 
     payload = get_json(
@@ -566,6 +567,7 @@ def fetch_hitting_rows(
             return splits
 
     return []
+
 
 
 def normalize_hitting_stat(
@@ -637,8 +639,14 @@ def apply_hitting_stats(
     season: int,
 ) -> None:
     try:
-        splits = fetch_hitting_rows(
-            season
+        all_splits = fetch_hitting_rows(
+            season,
+            "ALL",
+        )
+
+        qualified_splits = fetch_hitting_rows(
+            season,
+            "QUALIFIED",
         )
     except Exception as error:
         print(
@@ -647,26 +655,38 @@ def apply_hitting_stats(
         )
         return
 
-    rows: dict[str, dict[str, Any]] = {}
+    all_rows: dict[str, dict[str, Any]] = {}
+    qualified_rows: dict[str, dict[str, Any]] = {}
 
-    for split in splits:
-        normalized = (
-            normalize_hitting_stat(
-                split
-            )
+    for split in all_splits:
+        normalized = normalize_hitting_stat(
+            split
         )
 
         if normalized is None:
             continue
 
         player_id, stats = normalized
-        rows[player_id] = stats
+        all_rows[player_id] = stats
+
+    for split in qualified_splits:
+        normalized = normalize_hitting_stat(
+            split
+        )
+
+        if normalized is None:
+            continue
+
+        player_id, stats = normalized
+        qualified_rows[player_id] = stats
 
     rankings = rank_hitting_rows(
-        rows
+        qualified_rows
     )
 
-    for player_id, stats in rows.items():
+    matched = 0
+
+    for player_id, stats in all_rows.items():
         record = players.get(
             player_id
         )
@@ -674,29 +694,44 @@ def apply_hitting_stats(
         if record is None:
             continue
 
+        matched += 1
+
         role = record["roles"][
             "hitting"
         ]
 
         role["available"] = True
         role["stats"] = stats
-        role["ranks"] = (
-            rankings.get(
-                player_id,
-                {},
-            ).get("ranks", {})
+
+        ranking = rankings.get(
+            player_id,
+            {},
         )
-        role[
-            "rank_pool_size"
-        ] = (
-            rankings.get(
-                player_id,
-                {},
-            ).get(
-                "rank_pool_size",
-                {},
-            )
+
+        role["ranks"] = dict(
+            ranking.get("ranks") or {}
         )
+
+        role["rank_pool_size"] = dict(
+            ranking.get(
+                "rank_pool_size"
+            ) or {}
+        )
+
+        role["ranking_eligible"] = (
+            player_id in qualified_rows
+        )
+
+    print(
+        f"Applied hitting stats to "
+        f"{matched} saved players."
+    )
+
+    print(
+        f"Qualified hitting rank pool: "
+        f"{len(qualified_rows)} players."
+    )
+
 
 
 def rank_hitting_rows(

@@ -25,6 +25,16 @@ TEAM_NAME_TO_MLB_ID = {
     "kc": 118, "min": 142, "bal": 110, "pit": 134,
     "stl": 138, "wsh": 120, "col": 115, "ari": 109,
     "ath": 133, "laa": 108,
+
+    # FanGraphs frequently uses these legacy or
+    # three-letter abbreviations in split rows.
+    "kcr": 118,
+    "wsn": 120,
+    "sdp": 135,
+    "sfg": 137,
+    "tbr": 139,
+    "chw": 145,
+
     "angels": 108, "los angeles angels": 108,
     "diamondbacks": 109, "arizona diamondbacks": 109, "d-backs": 109,
     "orioles": 110, "baltimore orioles": 110,
