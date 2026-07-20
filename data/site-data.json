@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026-07-20T01:10:49.616221+00:00",
+    "updated_at": "2026-07-20T05:21:14.630049+00:00",
     "deadline": "2026-08-03T18:00:00-04:00"
   },
   "teams": [
@@ -18,10 +18,10 @@
     {
       "team": "NYY",
       "division": "",
-      "w": 54,
+      "w": 55,
       "l": 44,
-      "wcgb": 4.0,
-      "run_diff": 84,
+      "wcgb": 4.5,
+      "run_diff": 85,
       "tier": "Bubble",
       "need": "Editorial review needed",
       "betting_note": "Review roster and market impact"
@@ -283,9 +283,9 @@
       "team": "LAD",
       "division": "",
       "w": 63,
-      "l": 36,
+      "l": 37,
       "wcgb": 0.0,
-      "run_diff": 156,
+      "run_diff": 155,
       "tier": "Aggressive Buyer",
       "need": "Rotation",
       "betting_note": "Watch F3/F5 after starter additions"
