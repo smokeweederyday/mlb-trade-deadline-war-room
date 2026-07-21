@@ -425,6 +425,63 @@ function bullpenWorkloadHeatClass(
   return "metric-average";
 }
 
+function renderBullpenArmName(arm) {
+  const name =
+    arm?.name || "Unknown reliever";
+
+  const signalClass =
+    arm?.nameSignalClass ||
+    "pitcher-signal-neutral";
+
+  const signalLabel =
+    arm?.nameSignalLabel ||
+    "Pitcher signal unavailable";
+
+  const commonClass = [
+    "bullpen-arm-player-name",
+    "pitcher-name-signal",
+    signalClass
+  ].join(" ");
+
+  if (
+    arm?.detailsUrl &&
+    arm.detailsUrl !== "#"
+  ) {
+    return `
+      <a
+        class="${escapeAttribute(
+          commonClass
+        )} bullpen-arm-player-link"
+        href="${escapeAttribute(
+          arm.detailsUrl
+        )}"
+        title="${escapeAttribute(
+          signalLabel
+        )}"
+        aria-label="${escapeAttribute(
+          `${name}. ${signalLabel}. Open pitcher page.`
+        )}"
+      >
+        ${escapeHtml(name)}
+      </a>
+    `;
+  }
+
+  return `
+    <span
+      class="${escapeAttribute(
+        commonClass
+      )}"
+      title="${escapeAttribute(
+        signalLabel
+      )}"
+    >
+      ${escapeHtml(name)}
+    </span>
+  `;
+}
+
+
 function renderBullpenArm(arm) {
   const statusText = [
     arm?.status,
@@ -448,11 +505,7 @@ function renderBullpenArm(arm) {
         title="${escapeAttribute(statusText)}"
       >
         <span class="bullpen-arm-name-inner">
-          <span class="bullpen-arm-player-name">
-            ${escapeHtml(
-              arm?.name || "Unknown reliever"
-            )}
-          </span>
+          ${renderBullpenArmName(arm)}
 
           <span class="bullpen-role bullpen-role-${
             escapeAttribute(
@@ -560,22 +613,47 @@ function bullpenInningsBelowTen(value) {
 }
 
 function renderPitchCount(value) {
-  const pitches = Number(value) || 0;
+  const pitches = Math.max(
+    0,
+    Number(value) || 0
+  );
 
-  let heatClass = "bullpen-zero";
-
-  if (pitches >= 35) {
-    heatClass = "metric-awful";
-  } else if (pitches >= 25) {
-    heatClass = "metric-poor";
-  } else if (pitches >= 15) {
-    heatClass = "metric-average";
-  } else if (pitches > 0) {
-    heatClass = "metric-good";
+  if (pitches === 0) {
+    return `
+      <td
+        class="bullpen-pitches bullpen-zero"
+        title="No pitches thrown"
+        aria-label="No pitches thrown"
+      >
+        —
+      </td>
+    `;
   }
 
+  const workloadRatio = (
+    Math.min(pitches, 40) - 1
+  ) / 39;
+
+  const hue = Math.round(
+    120 * (1 - workloadRatio)
+  );
+
+  const alpha = (
+    0.14 +
+    workloadRatio * 0.12
+  ).toFixed(3);
+
   return `
-    <td class="bullpen-pitches ${heatClass}">
+    <td
+      class="bullpen-pitches bullpen-pitch-gradient"
+      style="
+        --bullpen-pitch-hue: ${hue};
+        --bullpen-pitch-alpha: ${alpha};
+      "
+      title="${escapeAttribute(
+        `${pitches} pitches thrown`
+      )}"
+    >
       ${escapeHtml(pitches)}
     </td>
   `;

@@ -1361,6 +1361,134 @@ function baseballInningsToOuts(rawInnings) {
   return wholeInnings * 3 + partialOuts;
 }
 
+function buildBullpenArmNameSignal(row) {
+  const heatScores = {
+    "metric-elite": 1,
+    "metric-good": 0.5,
+    "metric-average": 0,
+    "metric-poor": -0.5,
+    "metric-awful": -1
+  };
+
+  const metrics = [
+    {
+      label: "ERA",
+      value: row?.era,
+      weight: 1.5
+    },
+    {
+      label: "FIP",
+      value: row?.fip,
+      weight: 1.35
+    },
+    {
+      label: "WHIP",
+      value: row?.whip,
+      weight: 1.1
+    },
+    {
+      label: "K/9",
+      value: row?.k_per_9,
+      weight: 0.9
+    },
+    {
+      label: "BB/9",
+      value: row?.bb_per_9,
+      weight: 0.8
+    }
+  ];
+
+  let weightedScore = 0;
+  let weightTotal = 0;
+  let metricsUsed = 0;
+
+  metrics.forEach(metric => {
+    const value = Number(metric.value);
+
+    if (!Number.isFinite(value)) {
+      return;
+    }
+
+    const heatClass =
+      getBullpenMetricHeatClass(
+        metric.label,
+        value
+      );
+
+    const metricScore =
+      heatScores[heatClass];
+
+    if (!Number.isFinite(metricScore)) {
+      return;
+    }
+
+    weightedScore +=
+      metricScore * metric.weight;
+
+    weightTotal += metric.weight;
+    metricsUsed += 1;
+  });
+
+  if (!weightTotal) {
+    return {
+      score: 0,
+      className:
+        "pitcher-signal-neutral",
+      label:
+        "Pitcher signal unavailable"
+    };
+  }
+
+  const score = Math.max(
+    -1,
+    Math.min(
+      1,
+      weightedScore / weightTotal
+    )
+  );
+
+  let className =
+    "pitcher-signal-neutral";
+
+  let description =
+    "League-average pitcher profile";
+
+  if (score >= 0.45) {
+    className =
+      "pitcher-signal-strong-positive";
+
+    description =
+      "Strong positive pitcher profile";
+  } else if (score >= 0.14) {
+    className =
+      "pitcher-signal-positive";
+
+    description =
+      "Positive pitcher profile";
+  } else if (score <= -0.45) {
+    className =
+      "pitcher-signal-strong-negative";
+
+    description =
+      "Strong negative pitcher profile";
+  } else if (score <= -0.14) {
+    className =
+      "pitcher-signal-negative";
+
+    description =
+      "Negative pitcher profile";
+  }
+
+  return {
+    score: Number(score.toFixed(3)),
+    className,
+    label:
+      `${description} · ` +
+      `${metricsUsed} bullpen metrics used`
+  };
+}
+
+
 function normalizeBullpenRoster(rows = []) {
   if (!Array.isArray(rows)) {
     return [];
@@ -1372,6 +1500,9 @@ function normalizeBullpenRoster(rows = []) {
       row?.innings_pitched !== undefined &&
       row?.innings_pitched !== "";
 
+    const nameSignal =
+      buildBullpenArmNameSignal(row);
+
     return {
       id: row?.id ?? null,
       name: row?.name || "Unknown reliever",
@@ -1379,6 +1510,24 @@ function normalizeBullpenRoster(rows = []) {
       isIl: Boolean(row?.is_il),
       status: row?.status || "",
       injuryNote: row?.injury_note || "",
+
+      detailsUrl:
+        row?.id
+          ? (
+              `player.html?id=${
+                encodeURIComponent(row.id)
+              }&role=pitching`
+            )
+          : "#",
+
+      nameSignalScore:
+        nameSignal.score,
+
+      nameSignalClass:
+        nameSignal.className,
+
+      nameSignalLabel:
+        nameSignal.label,
 
       inningsPitched:
         inningsAvailable
