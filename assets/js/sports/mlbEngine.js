@@ -236,7 +236,12 @@ export function buildMlbPitcherModule({
 
   const vsLeft =
     startMode
-      ? selectedStarts?.vs_lhh || {}
+      ? resolveRecentStartSplitBlock({
+          selectedStarts,
+          pitcher: safePitcher,
+          location,
+          splitKey: "vs_lhh"
+        })
       : resolvePitcherSplitBlock(
           safePitcher,
           timeframe,
@@ -246,7 +251,12 @@ export function buildMlbPitcherModule({
 
   const vsRight =
     startMode
-      ? selectedStarts?.vs_rhh || {}
+      ? resolveRecentStartSplitBlock({
+          selectedStarts,
+          pitcher: safePitcher,
+          location,
+          splitKey: "vs_rhh"
+        })
       : resolvePitcherSplitBlock(
           safePitcher,
           timeframe,
@@ -452,6 +462,61 @@ export function buildMlbPitcherModule({
   };
 }
 
+function resolveRecentStartSplitBlock({
+  selectedStarts,
+  pitcher,
+  location,
+  splitKey
+}) {
+  const recentSplit =
+    selectedStarts?.[splitKey];
+
+  if (
+    recentSplit &&
+    Object.keys(recentSplit).length
+  ) {
+    return recentSplit;
+  }
+
+  const seasonLocation =
+    pitcher?.stats?.season?.[location];
+
+  const seasonSplit =
+    seasonLocation?.[splitKey];
+
+  if (
+    seasonSplit &&
+    Object.keys(seasonSplit).length
+  ) {
+    return {
+      ...seasonSplit,
+      _contextFallback:
+        `Season · ${formatLocationLabel(location)}`
+    };
+  }
+
+  // Support older pitcher records that stored
+  // all-location handedness splits at stats root.
+  if (location === "all") {
+    const legacySeasonSplit =
+      pitcher?.stats?.[splitKey];
+
+    if (
+      legacySeasonSplit &&
+      Object.keys(legacySeasonSplit).length
+    ) {
+      return {
+        ...legacySeasonSplit,
+        _contextFallback:
+          "Season · All"
+      };
+    }
+  }
+
+  return {};
+}
+
+
 function resolvePitcherSplitBlock(pitcher, timeframe, location, splitKey) {
   const exact = pitcher?.stats?.[timeframe]?.[location]?.[splitKey];
   if (exact && Object.keys(exact).length) return exact;
@@ -592,6 +657,75 @@ function pitcherQualificationMinimum(contextLabel = "") {
   return "";
 }
 
+function getUnrankedPitcherHeatClass(
+  key,
+  rawValue
+) {
+  const value = Number(rawValue);
+
+  if (!Number.isFinite(value)) {
+    return "metric-missing";
+  }
+
+  const metric =
+    String(key || "").toLowerCase();
+
+  if (
+    metric === "era" ||
+    metric === "fip" ||
+    metric === "xfip"
+  ) {
+    if (value <= 3.20) return "metric-elite";
+    if (value <= 3.80) return "metric-good";
+    if (value <= 4.30) return "metric-average";
+    if (value <= 4.80) return "metric-poor";
+    return "metric-awful";
+  }
+
+  if (metric === "whip") {
+    if (value <= 1.15) return "metric-elite";
+    if (value <= 1.25) return "metric-good";
+    if (value <= 1.35) return "metric-average";
+    if (value <= 1.45) return "metric-poor";
+    return "metric-awful";
+  }
+
+  if (metric === "avg_against") {
+    if (value <= 0.220) return "metric-elite";
+    if (value <= 0.240) return "metric-good";
+    if (value <= 0.260) return "metric-average";
+    if (value <= 0.280) return "metric-poor";
+    return "metric-awful";
+  }
+
+  if (metric === "k_rate") {
+    if (value >= 28) return "metric-elite";
+    if (value >= 24) return "metric-good";
+    if (value >= 20) return "metric-average";
+    if (value >= 16) return "metric-poor";
+    return "metric-awful";
+  }
+
+  if (metric === "bb_rate") {
+    if (value <= 6) return "metric-elite";
+    if (value <= 8) return "metric-good";
+    if (value <= 10) return "metric-average";
+    if (value <= 12) return "metric-poor";
+    return "metric-awful";
+  }
+
+  if (metric === "go_ao") {
+    if (value >= 1.50) return "metric-elite";
+    if (value >= 1.20) return "metric-good";
+    if (value >= 0.90) return "metric-average";
+    if (value >= 0.70) return "metric-poor";
+    return "metric-awful";
+  }
+
+  return "metric-average";
+}
+
+
 function normalizeRankedPitcherValue(
   block,
   key,
@@ -637,7 +771,10 @@ function normalizeRankedPitcherValue(
       : `${contextLabel} · Informational only`,
     unrankedReason:
       ranked && hasValue && !hasRank
-        ? "Not ranked — insufficient sample"
+        ? (
+            "Not league-ranked — insufficient sample; " +
+            "color uses a fixed MLB benchmark"
+          )
         : "",
     sampleLabel:
       ranked && hasValue && !hasRank
@@ -649,9 +786,15 @@ function normalizeRankedPitcherValue(
         : "",
     heatClass: ranked
       ? hasRank
-        ? getRankHeatClass(numericRank, numericPoolSize || 30)
+        ? getRankHeatClass(
+            numericRank,
+            numericPoolSize || 30
+          )
         : hasValue
-          ? "metric-average"
+          ? getUnrankedPitcherHeatClass(
+              key,
+              value.value
+            )
           : "metric-missing"
       : hasValue
         ? "metric-average"

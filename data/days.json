@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-21T00:18:31.370765+00:00",
+  "updated_at": "2026-07-21T10:02:43.352271+00:00",
   "days": [
     {
       "id": "2026-03-25-mlb",
       "date": "2026-03-25",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-03-24",
       "next_day": "2026-03-26",
       "game_ids": [
@@ -16,7 +16,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -30,7 +30,7 @@
       "id": "2026-03-26-mlb",
       "date": "2026-03-26",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-03-25",
       "next_day": "2026-03-27",
       "game_ids": [
@@ -50,7 +50,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -64,7 +64,7 @@
       "id": "2026-03-27-mlb",
       "date": "2026-03-27",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-03-26",
       "next_day": "2026-03-28",
       "game_ids": [
@@ -81,7 +81,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -95,7 +95,7 @@
       "id": "2026-03-28-mlb",
       "date": "2026-03-28",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-03-27",
       "next_day": "2026-03-29",
       "game_ids": [
@@ -119,7 +119,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -133,7 +133,7 @@
       "id": "2026-03-29-mlb",
       "date": "2026-03-29",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-03-28",
       "next_day": "2026-03-30",
       "game_ids": [
@@ -154,7 +154,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -168,7 +168,7 @@
       "id": "2026-03-30-mlb",
       "date": "2026-03-30",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-03-29",
       "next_day": "2026-03-31",
       "game_ids": [
@@ -192,7 +192,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -206,7 +206,7 @@
       "id": "2026-03-31-mlb",
       "date": "2026-03-31",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-03-30",
       "next_day": "2026-04-01",
       "game_ids": [
@@ -229,7 +229,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -243,7 +243,7 @@
       "id": "2026-04-01-mlb",
       "date": "2026-04-01",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-03-31",
       "next_day": "2026-04-02",
       "game_ids": [
@@ -267,7 +267,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -281,7 +281,7 @@
       "id": "2026-04-02-mlb",
       "date": "2026-04-02",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-01",
       "next_day": "2026-04-03",
       "game_ids": [
@@ -294,7 +294,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -308,7 +308,7 @@
       "id": "2026-04-03-mlb",
       "date": "2026-04-03",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-02",
       "next_day": "2026-04-04",
       "game_ids": [
@@ -332,7 +332,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -346,7 +346,7 @@
       "id": "2026-04-04-mlb",
       "date": "2026-04-04",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-03",
       "next_day": "2026-04-05",
       "game_ids": [
@@ -371,7 +371,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -385,7 +385,7 @@
       "id": "2026-04-05-mlb",
       "date": "2026-04-05",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-04",
       "next_day": "2026-04-06",
       "game_ids": [
@@ -410,7 +410,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -424,7 +424,7 @@
       "id": "2026-04-06-mlb",
       "date": "2026-04-06",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-05",
       "next_day": "2026-04-07",
       "game_ids": [
@@ -446,7 +446,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -460,7 +460,7 @@
       "id": "2026-04-07-mlb",
       "date": "2026-04-07",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-06",
       "next_day": "2026-04-08",
       "game_ids": [
@@ -484,7 +484,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -498,7 +498,7 @@
       "id": "2026-04-08-mlb",
       "date": "2026-04-08",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-07",
       "next_day": "2026-04-09",
       "game_ids": [
@@ -522,7 +522,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -536,7 +536,7 @@
       "id": "2026-04-09-mlb",
       "date": "2026-04-09",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-08",
       "next_day": "2026-04-10",
       "game_ids": [
@@ -551,7 +551,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -565,7 +565,7 @@
       "id": "2026-04-10-mlb",
       "date": "2026-04-10",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-09",
       "next_day": "2026-04-11",
       "game_ids": [
@@ -589,7 +589,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -603,7 +603,7 @@
       "id": "2026-04-11-mlb",
       "date": "2026-04-11",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-10",
       "next_day": "2026-04-12",
       "game_ids": [
@@ -627,7 +627,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -641,7 +641,7 @@
       "id": "2026-04-12-mlb",
       "date": "2026-04-12",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-11",
       "next_day": "2026-04-13",
       "game_ids": [
@@ -665,7 +665,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -679,7 +679,7 @@
       "id": "2026-04-13-mlb",
       "date": "2026-04-13",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-12",
       "next_day": "2026-04-14",
       "game_ids": [
@@ -698,7 +698,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -712,7 +712,7 @@
       "id": "2026-04-14-mlb",
       "date": "2026-04-14",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-13",
       "next_day": "2026-04-15",
       "game_ids": [
@@ -736,7 +736,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -750,7 +750,7 @@
       "id": "2026-04-15-mlb",
       "date": "2026-04-15",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-14",
       "next_day": "2026-04-16",
       "game_ids": [
@@ -774,7 +774,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -788,7 +788,7 @@
       "id": "2026-04-16-mlb",
       "date": "2026-04-16",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-15",
       "next_day": "2026-04-17",
       "game_ids": [
@@ -807,7 +807,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -821,7 +821,7 @@
       "id": "2026-04-17-mlb",
       "date": "2026-04-17",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-16",
       "next_day": "2026-04-18",
       "game_ids": [
@@ -845,7 +845,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -859,7 +859,7 @@
       "id": "2026-04-18-mlb",
       "date": "2026-04-18",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-17",
       "next_day": "2026-04-19",
       "game_ids": [
@@ -883,7 +883,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -897,7 +897,7 @@
       "id": "2026-04-19-mlb",
       "date": "2026-04-19",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-18",
       "next_day": "2026-04-20",
       "game_ids": [
@@ -921,7 +921,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -935,7 +935,7 @@
       "id": "2026-04-20-mlb",
       "date": "2026-04-20",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-19",
       "next_day": "2026-04-21",
       "game_ids": [
@@ -954,7 +954,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -968,7 +968,7 @@
       "id": "2026-04-21-mlb",
       "date": "2026-04-21",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-20",
       "next_day": "2026-04-22",
       "game_ids": [
@@ -992,7 +992,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1006,7 +1006,7 @@
       "id": "2026-04-22-mlb",
       "date": "2026-04-22",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-21",
       "next_day": "2026-04-23",
       "game_ids": [
@@ -1030,7 +1030,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1044,7 +1044,7 @@
       "id": "2026-04-23-mlb",
       "date": "2026-04-23",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-22",
       "next_day": "2026-04-24",
       "game_ids": [
@@ -1062,7 +1062,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1076,7 +1076,7 @@
       "id": "2026-04-24-mlb",
       "date": "2026-04-24",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-23",
       "next_day": "2026-04-25",
       "game_ids": [
@@ -1099,7 +1099,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1113,7 +1113,7 @@
       "id": "2026-04-25-mlb",
       "date": "2026-04-25",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-24",
       "next_day": "2026-04-26",
       "game_ids": [
@@ -1137,7 +1137,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1151,7 +1151,7 @@
       "id": "2026-04-26-mlb",
       "date": "2026-04-26",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-25",
       "next_day": "2026-04-27",
       "game_ids": [
@@ -1176,7 +1176,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1190,7 +1190,7 @@
       "id": "2026-04-27-mlb",
       "date": "2026-04-27",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-26",
       "next_day": "2026-04-28",
       "game_ids": [
@@ -1207,7 +1207,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1221,7 +1221,7 @@
       "id": "2026-04-28-mlb",
       "date": "2026-04-28",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-27",
       "next_day": "2026-04-29",
       "game_ids": [
@@ -1245,7 +1245,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1259,7 +1259,7 @@
       "id": "2026-04-29-mlb",
       "date": "2026-04-29",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-28",
       "next_day": "2026-04-30",
       "game_ids": [
@@ -1283,7 +1283,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1297,7 +1297,7 @@
       "id": "2026-04-30-mlb",
       "date": "2026-04-30",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-29",
       "next_day": "2026-05-01",
       "game_ids": [
@@ -1317,7 +1317,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1331,7 +1331,7 @@
       "id": "2026-05-01-mlb",
       "date": "2026-05-01",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-04-30",
       "next_day": "2026-05-02",
       "game_ids": [
@@ -1355,7 +1355,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1369,7 +1369,7 @@
       "id": "2026-05-02-mlb",
       "date": "2026-05-02",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-01",
       "next_day": "2026-05-03",
       "game_ids": [
@@ -1393,7 +1393,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1407,7 +1407,7 @@
       "id": "2026-05-03-mlb",
       "date": "2026-05-03",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-02",
       "next_day": "2026-05-04",
       "game_ids": [
@@ -1431,7 +1431,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1445,7 +1445,7 @@
       "id": "2026-05-04-mlb",
       "date": "2026-05-04",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-03",
       "next_day": "2026-05-05",
       "game_ids": [
@@ -1466,7 +1466,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1480,7 +1480,7 @@
       "id": "2026-05-05-mlb",
       "date": "2026-05-05",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-04",
       "next_day": "2026-05-06",
       "game_ids": [
@@ -1504,7 +1504,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1518,7 +1518,7 @@
       "id": "2026-05-06-mlb",
       "date": "2026-05-06",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-05",
       "next_day": "2026-05-07",
       "game_ids": [
@@ -1542,7 +1542,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1556,7 +1556,7 @@
       "id": "2026-05-07-mlb",
       "date": "2026-05-07",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-06",
       "next_day": "2026-05-08",
       "game_ids": [
@@ -1575,7 +1575,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1589,7 +1589,7 @@
       "id": "2026-05-08-mlb",
       "date": "2026-05-08",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-07",
       "next_day": "2026-05-09",
       "game_ids": [
@@ -1613,7 +1613,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1627,7 +1627,7 @@
       "id": "2026-05-09-mlb",
       "date": "2026-05-09",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-08",
       "next_day": "2026-05-10",
       "game_ids": [
@@ -1651,7 +1651,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1665,7 +1665,7 @@
       "id": "2026-05-10-mlb",
       "date": "2026-05-10",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-09",
       "next_day": "2026-05-11",
       "game_ids": [
@@ -1689,7 +1689,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1703,7 +1703,7 @@
       "id": "2026-05-11-mlb",
       "date": "2026-05-11",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-10",
       "next_day": "2026-05-12",
       "game_ids": [
@@ -1718,7 +1718,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1732,7 +1732,7 @@
       "id": "2026-05-12-mlb",
       "date": "2026-05-12",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-11",
       "next_day": "2026-05-13",
       "game_ids": [
@@ -1756,7 +1756,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1770,7 +1770,7 @@
       "id": "2026-05-13-mlb",
       "date": "2026-05-13",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-12",
       "next_day": "2026-05-14",
       "game_ids": [
@@ -1794,7 +1794,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1808,7 +1808,7 @@
       "id": "2026-05-14-mlb",
       "date": "2026-05-14",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-13",
       "next_day": "2026-05-15",
       "game_ids": [
@@ -1828,7 +1828,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1842,7 +1842,7 @@
       "id": "2026-05-15-mlb",
       "date": "2026-05-15",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-14",
       "next_day": "2026-05-16",
       "game_ids": [
@@ -1866,7 +1866,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1880,7 +1880,7 @@
       "id": "2026-05-16-mlb",
       "date": "2026-05-16",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-15",
       "next_day": "2026-05-17",
       "game_ids": [
@@ -1904,7 +1904,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1918,7 +1918,7 @@
       "id": "2026-05-17-mlb",
       "date": "2026-05-17",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-16",
       "next_day": "2026-05-18",
       "game_ids": [
@@ -1942,7 +1942,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1956,7 +1956,7 @@
       "id": "2026-05-18-mlb",
       "date": "2026-05-18",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-17",
       "next_day": "2026-05-19",
       "game_ids": [
@@ -1979,7 +1979,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -1993,7 +1993,7 @@
       "id": "2026-05-19-mlb",
       "date": "2026-05-19",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-18",
       "next_day": "2026-05-20",
       "game_ids": [
@@ -2017,7 +2017,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2031,7 +2031,7 @@
       "id": "2026-05-20-mlb",
       "date": "2026-05-20",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-19",
       "next_day": "2026-05-21",
       "game_ids": [
@@ -2055,7 +2055,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2069,7 +2069,7 @@
       "id": "2026-05-21-mlb",
       "date": "2026-05-21",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-20",
       "next_day": "2026-05-22",
       "game_ids": [
@@ -2085,7 +2085,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2099,7 +2099,7 @@
       "id": "2026-05-22-mlb",
       "date": "2026-05-22",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-21",
       "next_day": "2026-05-23",
       "game_ids": [
@@ -2123,7 +2123,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2137,7 +2137,7 @@
       "id": "2026-05-23-mlb",
       "date": "2026-05-23",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-22",
       "next_day": "2026-05-24",
       "game_ids": [
@@ -2162,7 +2162,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2176,7 +2176,7 @@
       "id": "2026-05-24-mlb",
       "date": "2026-05-24",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-23",
       "next_day": "2026-05-25",
       "game_ids": [
@@ -2201,7 +2201,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2215,7 +2215,7 @@
       "id": "2026-05-25-mlb",
       "date": "2026-05-25",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-24",
       "next_day": "2026-05-26",
       "game_ids": [
@@ -2237,7 +2237,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2251,7 +2251,7 @@
       "id": "2026-05-26-mlb",
       "date": "2026-05-26",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-25",
       "next_day": "2026-05-27",
       "game_ids": [
@@ -2275,7 +2275,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2289,7 +2289,7 @@
       "id": "2026-05-27-mlb",
       "date": "2026-05-27",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-26",
       "next_day": "2026-05-28",
       "game_ids": [
@@ -2313,7 +2313,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2327,7 +2327,7 @@
       "id": "2026-05-28-mlb",
       "date": "2026-05-28",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-27",
       "next_day": "2026-05-29",
       "game_ids": [
@@ -2342,7 +2342,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2356,7 +2356,7 @@
       "id": "2026-05-29-mlb",
       "date": "2026-05-29",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-28",
       "next_day": "2026-05-30",
       "game_ids": [
@@ -2380,7 +2380,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2394,7 +2394,7 @@
       "id": "2026-05-30-mlb",
       "date": "2026-05-30",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-29",
       "next_day": "2026-05-31",
       "game_ids": [
@@ -2418,7 +2418,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2432,7 +2432,7 @@
       "id": "2026-05-31-mlb",
       "date": "2026-05-31",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-30",
       "next_day": "2026-06-01",
       "game_ids": [
@@ -2456,7 +2456,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2470,7 +2470,7 @@
       "id": "2026-06-01-mlb",
       "date": "2026-06-01",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-05-31",
       "next_day": "2026-06-02",
       "game_ids": [
@@ -2488,7 +2488,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2502,7 +2502,7 @@
       "id": "2026-06-02-mlb",
       "date": "2026-06-02",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-01",
       "next_day": "2026-06-03",
       "game_ids": [
@@ -2526,7 +2526,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2540,7 +2540,7 @@
       "id": "2026-06-03-mlb",
       "date": "2026-06-03",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-02",
       "next_day": "2026-06-04",
       "game_ids": [
@@ -2564,7 +2564,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2578,7 +2578,7 @@
       "id": "2026-06-04-mlb",
       "date": "2026-06-04",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-03",
       "next_day": "2026-06-05",
       "game_ids": [
@@ -2596,7 +2596,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2610,7 +2610,7 @@
       "id": "2026-06-05-mlb",
       "date": "2026-06-05",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-04",
       "next_day": "2026-06-06",
       "game_ids": [
@@ -2634,7 +2634,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2648,7 +2648,7 @@
       "id": "2026-06-06-mlb",
       "date": "2026-06-06",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-05",
       "next_day": "2026-06-07",
       "game_ids": [
@@ -2672,7 +2672,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2686,7 +2686,7 @@
       "id": "2026-06-07-mlb",
       "date": "2026-06-07",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-06",
       "next_day": "2026-06-08",
       "game_ids": [
@@ -2710,7 +2710,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2724,7 +2724,7 @@
       "id": "2026-06-08-mlb",
       "date": "2026-06-08",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-07",
       "next_day": "2026-06-09",
       "game_ids": [
@@ -2741,7 +2741,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2755,7 +2755,7 @@
       "id": "2026-06-09-mlb",
       "date": "2026-06-09",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-08",
       "next_day": "2026-06-10",
       "game_ids": [
@@ -2779,7 +2779,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2793,7 +2793,7 @@
       "id": "2026-06-10-mlb",
       "date": "2026-06-10",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-09",
       "next_day": "2026-06-11",
       "game_ids": [
@@ -2817,7 +2817,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2831,7 +2831,7 @@
       "id": "2026-06-11-mlb",
       "date": "2026-06-11",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-10",
       "next_day": "2026-06-12",
       "game_ids": [
@@ -2848,7 +2848,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2862,7 +2862,7 @@
       "id": "2026-06-12-mlb",
       "date": "2026-06-12",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-11",
       "next_day": "2026-06-13",
       "game_ids": [
@@ -2886,7 +2886,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2900,7 +2900,7 @@
       "id": "2026-06-13-mlb",
       "date": "2026-06-13",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-12",
       "next_day": "2026-06-14",
       "game_ids": [
@@ -2924,7 +2924,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2938,7 +2938,7 @@
       "id": "2026-06-14-mlb",
       "date": "2026-06-14",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-13",
       "next_day": "2026-06-15",
       "game_ids": [
@@ -2962,7 +2962,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -2976,7 +2976,7 @@
       "id": "2026-06-15-mlb",
       "date": "2026-06-15",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-14",
       "next_day": "2026-06-16",
       "game_ids": [
@@ -2995,7 +2995,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3009,7 +3009,7 @@
       "id": "2026-06-16-mlb",
       "date": "2026-06-16",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-15",
       "next_day": "2026-06-17",
       "game_ids": [
@@ -3033,7 +3033,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3047,7 +3047,7 @@
       "id": "2026-06-17-mlb",
       "date": "2026-06-17",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-16",
       "next_day": "2026-06-18",
       "game_ids": [
@@ -3071,7 +3071,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3085,7 +3085,7 @@
       "id": "2026-06-18-mlb",
       "date": "2026-06-18",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-17",
       "next_day": "2026-06-19",
       "game_ids": [
@@ -3103,7 +3103,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3117,7 +3117,7 @@
       "id": "2026-06-19-mlb",
       "date": "2026-06-19",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-18",
       "next_day": "2026-06-20",
       "game_ids": [
@@ -3140,7 +3140,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3154,7 +3154,7 @@
       "id": "2026-06-20-mlb",
       "date": "2026-06-20",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-19",
       "next_day": "2026-06-21",
       "game_ids": [
@@ -3177,7 +3177,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3191,7 +3191,7 @@
       "id": "2026-06-21-mlb",
       "date": "2026-06-21",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-20",
       "next_day": "2026-06-22",
       "game_ids": [
@@ -3215,7 +3215,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3229,7 +3229,7 @@
       "id": "2026-06-22-mlb",
       "date": "2026-06-22",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-21",
       "next_day": "2026-06-23",
       "game_ids": [
@@ -3251,7 +3251,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3265,7 +3265,7 @@
       "id": "2026-06-23-mlb",
       "date": "2026-06-23",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-22",
       "next_day": "2026-06-24",
       "game_ids": [
@@ -3289,7 +3289,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3303,7 +3303,7 @@
       "id": "2026-06-24-mlb",
       "date": "2026-06-24",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-23",
       "next_day": "2026-06-25",
       "game_ids": [
@@ -3328,7 +3328,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3342,7 +3342,7 @@
       "id": "2026-06-25-mlb",
       "date": "2026-06-25",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-24",
       "next_day": "2026-06-26",
       "game_ids": [
@@ -3360,7 +3360,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3374,7 +3374,7 @@
       "id": "2026-06-26-mlb",
       "date": "2026-06-26",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-25",
       "next_day": "2026-06-27",
       "game_ids": [
@@ -3398,7 +3398,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3412,7 +3412,7 @@
       "id": "2026-06-27-mlb",
       "date": "2026-06-27",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-26",
       "next_day": "2026-06-28",
       "game_ids": [
@@ -3436,7 +3436,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3450,7 +3450,7 @@
       "id": "2026-06-28-mlb",
       "date": "2026-06-28",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-27",
       "next_day": "2026-06-29",
       "game_ids": [
@@ -3474,7 +3474,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3488,7 +3488,7 @@
       "id": "2026-06-29-mlb",
       "date": "2026-06-29",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-28",
       "next_day": "2026-06-30",
       "game_ids": [
@@ -3510,7 +3510,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3524,7 +3524,7 @@
       "id": "2026-06-30-mlb",
       "date": "2026-06-30",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-29",
       "next_day": "2026-07-01",
       "game_ids": [
@@ -3548,7 +3548,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3562,7 +3562,7 @@
       "id": "2026-07-01-mlb",
       "date": "2026-07-01",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-06-30",
       "next_day": "2026-07-02",
       "game_ids": [
@@ -3585,7 +3585,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3599,7 +3599,7 @@
       "id": "2026-07-02-mlb",
       "date": "2026-07-02",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-01",
       "next_day": "2026-07-03",
       "game_ids": [
@@ -3617,7 +3617,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3631,7 +3631,7 @@
       "id": "2026-07-03-mlb",
       "date": "2026-07-03",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-02",
       "next_day": "2026-07-04",
       "game_ids": [
@@ -3653,7 +3653,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3667,7 +3667,7 @@
       "id": "2026-07-04-mlb",
       "date": "2026-07-04",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-03",
       "next_day": "2026-07-05",
       "game_ids": [
@@ -3691,7 +3691,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3705,7 +3705,7 @@
       "id": "2026-07-05-mlb",
       "date": "2026-07-05",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-04",
       "next_day": "2026-07-06",
       "game_ids": [
@@ -3729,7 +3729,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3743,7 +3743,7 @@
       "id": "2026-07-06-mlb",
       "date": "2026-07-06",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-05",
       "next_day": "2026-07-07",
       "game_ids": [
@@ -3760,7 +3760,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3774,7 +3774,7 @@
       "id": "2026-07-07-mlb",
       "date": "2026-07-07",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-06",
       "next_day": "2026-07-08",
       "game_ids": [
@@ -3799,7 +3799,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3813,7 +3813,7 @@
       "id": "2026-07-08-mlb",
       "date": "2026-07-08",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-07",
       "next_day": "2026-07-09",
       "game_ids": [
@@ -3844,7 +3844,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": true,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3858,7 +3858,7 @@
       "id": "2026-07-09-mlb",
       "date": "2026-07-09",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-08",
       "next_day": "2026-07-10",
       "game_ids": [
@@ -3880,7 +3880,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3894,7 +3894,7 @@
       "id": "2026-07-10-mlb",
       "date": "2026-07-10",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-09",
       "next_day": "2026-07-11",
       "game_ids": [
@@ -3918,7 +3918,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3932,7 +3932,7 @@
       "id": "2026-07-11-mlb",
       "date": "2026-07-11",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-10",
       "next_day": "2026-07-12",
       "game_ids": [
@@ -3957,7 +3957,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -3971,7 +3971,7 @@
       "id": "2026-07-12-mlb",
       "date": "2026-07-12",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-11",
       "next_day": "2026-07-13",
       "game_ids": [
@@ -3995,7 +3995,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -4009,7 +4009,7 @@
       "id": "2026-07-14-mlb",
       "date": "2026-07-14",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-13",
       "next_day": "2026-07-15",
       "game_ids": [
@@ -4019,7 +4019,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -4033,7 +4033,7 @@
       "id": "2026-07-16-mlb",
       "date": "2026-07-16",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-15",
       "next_day": "2026-07-17",
       "game_ids": [
@@ -4043,7 +4043,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -4057,7 +4057,7 @@
       "id": "2026-07-17-mlb",
       "date": "2026-07-17",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-16",
       "next_day": "2026-07-18",
       "game_ids": [
@@ -4081,7 +4081,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -4095,7 +4095,7 @@
       "id": "2026-07-18-mlb",
       "date": "2026-07-18",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-17",
       "next_day": "2026-07-19",
       "game_ids": [
@@ -4120,7 +4120,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -4134,7 +4134,7 @@
       "id": "2026-07-19-mlb",
       "date": "2026-07-19",
       "sport": "MLB",
-      "state": "completed",
+      "state": "past",
       "previous_day": "2026-07-18",
       "next_day": "2026-07-20",
       "game_ids": [
@@ -4159,7 +4159,7 @@
       "workflow": {
         "research_complete": false,
         "plays_published": false,
-        "results_complete": true,
+        "results_complete": false,
         "evaluations_complete": false,
         "archived": false
       },
@@ -4173,7 +4173,7 @@
       "id": "2026-07-20-mlb",
       "date": "2026-07-20",
       "sport": "MLB",
-      "state": "live",
+      "state": "past",
       "previous_day": "2026-07-19",
       "next_day": "2026-07-21",
       "game_ids": [
@@ -4211,7 +4211,7 @@
       "id": "2026-07-21-mlb",
       "date": "2026-07-21",
       "sport": "MLB",
-      "state": "future",
+      "state": "today",
       "previous_day": "2026-07-20",
       "next_day": "2026-07-22",
       "game_ids": [
