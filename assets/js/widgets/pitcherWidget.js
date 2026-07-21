@@ -39,6 +39,12 @@ export function renderPitcherWidget({
       ? requestedStartIndex
       : startOptions.indexOf(7);
 
+  const locationSignals =
+    module.locationSignals || {};
+
+  const startSignals =
+    module.startSignals || {};
+
   applyPitcherAtmosphere(
     container,
     module
@@ -94,15 +100,49 @@ export function renderPitcherWidget({
           role="group"
           aria-label="Pitcher location split"
         >
-          ${["all", "home", "away"].map(location => `
-            <button
-              type="button"
-              data-pitcher-location="${location}"
-              class="${module.activeLocation === location ? "active" : ""}"
-            >
-              ${location[0].toUpperCase() + location.slice(1)}
-            </button>
-          `).join("")}
+          ${["all", "home", "away"].map(
+            location => {
+              const signal =
+                locationSignals[location]
+                || {};
+
+              const signalClass =
+                signal.className
+                || "pitcher-signal-neutral";
+
+              const isActive =
+                module.activeLocation
+                === location;
+
+              return `
+                <button
+                  type="button"
+                  data-pitcher-location="${location}"
+                  class="pitcher-control-signal ${escapeHtml(
+                    signalClass
+                  )}${
+                    isActive
+                      ? " active"
+                      : ""
+                  }"
+                  aria-pressed="${
+                    isActive
+                      ? "true"
+                      : "false"
+                  }"
+                  title="${escapeAttribute(
+                    signal.label
+                    || "Pitcher signal unavailable"
+                  )}"
+                >
+                  ${
+                    location[0].toUpperCase()
+                    + location.slice(1)
+                  }
+                </button>
+              `;
+            }
+          ).join("")}
         </div>
 
         <div
@@ -124,35 +164,69 @@ export function renderPitcherWidget({
             aria-hidden="true"
           ></span>
 
-          ${startOptions.map(option => `
-            <button
-              type="button"
-              data-pitcher-start-count="${option}"
-              class="${
-                Number(module.activeStartCount) === option
-                  ? "selected"
-                  : ""
-              }"
-              aria-pressed="${
-                module.startMode &&
-                Number(module.activeStartCount) === option
-                  ? "true"
-                  : "false"
-              }"
-              title="${
-                module.startMode &&
-                Number(module.activeStartCount) === option
-                  ? `Last ${option} starts active. Click again for Season.`
-                  : `Use last ${option} starts`
-              }"
-            >
-              <span
-                class="pitcher-start-dot"
-                aria-hidden="true"
-              ></span>
-              <small>${option}</small>
-            </button>
-          `).join("")}
+          ${startOptions.map(option => {
+            const signal =
+              startSignals[String(option)]
+              || {};
+
+            const signalClass =
+              signal.className
+              || "pitcher-signal-neutral";
+
+            const isSelected =
+              Number(
+                module.activeStartCount
+              ) === option;
+
+            const isActive =
+              Boolean(module.startMode)
+              && isSelected;
+
+            const actionLabel =
+              isActive
+                ? (
+                    `Last ${option} starts active. ` +
+                    "Click again for Season."
+                  )
+                : `Use last ${option} starts`;
+
+            const title = [
+              signal.label
+                || "Pitcher signal unavailable",
+              actionLabel
+            ]
+              .filter(Boolean)
+              .join(" · ");
+
+            return `
+              <button
+                type="button"
+                data-pitcher-start-count="${option}"
+                class="pitcher-control-signal ${escapeHtml(
+                  signalClass
+                )}${
+                  isSelected
+                    ? " selected"
+                    : ""
+                }"
+                aria-pressed="${
+                  isActive
+                    ? "true"
+                    : "false"
+                }"
+                title="${escapeAttribute(
+                  title
+                )}"
+              >
+                <span
+                  class="pitcher-start-dot"
+                  aria-hidden="true"
+                ></span>
+
+                <small>${option}</small>
+              </button>
+            `;
+          }).join("")}
         </div>
       </div>
 

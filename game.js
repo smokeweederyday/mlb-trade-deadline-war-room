@@ -4,7 +4,7 @@ import {
 
 import {
   renderPitcherWidget
-} from "./assets/js/widgets/pitcherWidget.js?v=phase11d-large-pitcher-name1";
+} from "./assets/js/widgets/pitcherWidget.js?v=phase11l-pitcher-control-heat1";
 
 import {
   renderBullpenWidget
@@ -33,7 +33,7 @@ import {
   buildMlbMatchupModule,
   buildMlbWeatherModule,
   buildMlbMarketModule
-} from "./assets/js/sports/mlbEngine.js?v=phase11k-unranked-pitcher-heat1";
+} from "./assets/js/sports/mlbEngine.js?v=phase11l-pitcher-control-heat1";
 
 const GAME_LOGO_BASE =
   "https://www.mlbstatic.com/team-logos/team-cap-on-dark";

@@ -4328,3 +4328,213 @@ td.bullpen-pitches.bullpen-pitch-gradient {
     background 160ms ease,
     box-shadow 160ms ease;
 }
+
+/* PITCHER CONTROL QUALITY HEAT
+   Five-level scale:
+   strong red → light red → grey →
+   light green → strong green.
+   Bullpen workload gradients are unaffected.
+*/
+
+.pitcher-location-control
+button.pitcher-control-signal,
+.pitcher-start-compact
+button.pitcher-control-signal {
+  transition:
+    color 150ms ease,
+    background 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    filter 150ms ease,
+    transform 150ms ease;
+}
+
+.pitcher-location-control
+button.pitcher-control-signal {
+  border:
+    1px solid transparent;
+}
+
+/* Keep every start-count signal visible,
+   including while Season mode is active. */
+.pitcher-start-compact.inactive {
+  opacity: 1;
+  filter: none;
+}
+
+.pitcher-start-compact.active,
+.pitcher-start-compact.inactive {
+  border-color:
+    rgba(150, 162, 156, 0.32);
+  box-shadow: none;
+}
+
+.pitcher-start-compact
+.pitcher-start-track,
+.pitcher-start-compact.active
+.pitcher-start-track {
+  background:
+    rgba(160, 172, 166, 0.28);
+}
+
+
+/* Strong positive */
+
+.pitcher-location-control
+button.pitcher-signal-strong-positive,
+.pitcher-start-compact
+button.pitcher-signal-strong-positive {
+  color: #79ffac !important;
+  background:
+    rgba(57, 255, 136, 0.20) !important;
+  border-color:
+    rgba(57, 255, 136, 0.56) !important;
+}
+
+.pitcher-start-compact
+button.pitcher-signal-strong-positive
+.pitcher-start-dot {
+  background: #39ff88 !important;
+  box-shadow:
+    0 0 0 2px rgba(5, 18, 11, 0.94),
+    0 0 8px rgba(57, 255, 136, 0.58) !important;
+}
+
+
+/* Positive */
+
+.pitcher-location-control
+button.pitcher-signal-positive,
+.pitcher-start-compact
+button.pitcher-signal-positive {
+  color: #b3f5c9 !important;
+  background:
+    rgba(57, 255, 136, 0.09) !important;
+  border-color:
+    rgba(57, 255, 136, 0.30) !important;
+}
+
+.pitcher-start-compact
+button.pitcher-signal-positive
+.pitcher-start-dot {
+  background: #a2f5bf !important;
+  box-shadow:
+    0 0 0 2px rgba(5, 18, 11, 0.94),
+    0 0 6px rgba(57, 255, 136, 0.30) !important;
+}
+
+
+/* Neutral middle */
+
+.pitcher-location-control
+button.pitcher-signal-neutral,
+.pitcher-start-compact
+button.pitcher-signal-neutral {
+  color:
+    rgba(224, 231, 227, 0.82) !important;
+  background:
+    rgba(145, 157, 151, 0.10) !important;
+  border-color:
+    rgba(160, 172, 166, 0.28) !important;
+}
+
+.pitcher-start-compact
+button.pitcher-signal-neutral
+.pitcher-start-dot {
+  background:
+    rgba(188, 199, 193, 0.82) !important;
+  box-shadow:
+    0 0 0 2px rgba(7, 12, 10, 0.94) !important;
+}
+
+
+/* Negative */
+
+.pitcher-location-control
+button.pitcher-signal-negative,
+.pitcher-start-compact
+button.pitcher-signal-negative {
+  color: #ffadb8 !important;
+  background:
+    rgba(255, 97, 117, 0.09) !important;
+  border-color:
+    rgba(255, 97, 117, 0.30) !important;
+}
+
+.pitcher-start-compact
+button.pitcher-signal-negative
+.pitcher-start-dot {
+  background: #ffadb8 !important;
+  box-shadow:
+    0 0 0 2px rgba(20, 7, 10, 0.94),
+    0 0 6px rgba(255, 97, 117, 0.30) !important;
+}
+
+
+/* Strong negative */
+
+.pitcher-location-control
+button.pitcher-signal-strong-negative,
+.pitcher-start-compact
+button.pitcher-signal-strong-negative {
+  color: #ff7185 !important;
+  background:
+    rgba(255, 97, 117, 0.20) !important;
+  border-color:
+    rgba(255, 97, 117, 0.58) !important;
+}
+
+.pitcher-start-compact
+button.pitcher-signal-strong-negative
+.pitcher-start-dot {
+  background: #ff6175 !important;
+  box-shadow:
+    0 0 0 2px rgba(20, 7, 10, 0.94),
+    0 0 8px rgba(255, 97, 117, 0.58) !important;
+}
+
+
+/* Active selection keeps its grade and
+   gains emphasis rather than turning green. */
+
+.pitcher-location-control
+button.pitcher-control-signal.active,
+.pitcher-start-compact
+button.pitcher-control-signal.selected {
+  color: inherit;
+  font-weight: 900;
+  filter: brightness(1.20);
+  transform: translateY(-1px);
+  outline:
+    1px solid currentColor;
+  outline-offset: -1px;
+  box-shadow:
+    0 0 10px currentColor !important;
+}
+
+.pitcher-start-compact
+button.pitcher-control-signal.selected
+.pitcher-start-dot {
+  width: 10px;
+  height: 10px;
+  background:
+    currentColor !important;
+  box-shadow:
+    0 0 0 2px rgba(7, 12, 10, 0.96),
+    0 0 10px currentColor !important;
+}
+
+.pitcher-location-control
+button.pitcher-control-signal:hover,
+.pitcher-location-control
+button.pitcher-control-signal:focus-visible,
+.pitcher-start-compact
+button.pitcher-control-signal:hover,
+.pitcher-start-compact
+button.pitcher-control-signal:focus-visible {
+  filter: brightness(1.16);
+  outline:
+    1px solid currentColor;
+  outline-offset: -1px;
+}
+

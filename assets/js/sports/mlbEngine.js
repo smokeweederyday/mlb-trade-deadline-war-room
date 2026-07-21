@@ -310,6 +310,73 @@ export function buildMlbPitcherModule({
       primaryBlock
     );
 
+  const locationSignals =
+    Object.fromEntries(
+      ["all", "home", "away"].map(
+        locationOption => {
+          const locationBlock =
+            safePitcher.stats
+              ?.season
+              ?.[locationOption]
+            || {};
+
+          const signal =
+            buildPitcherNameSignal(
+              locationBlock
+            );
+
+          return [
+            locationOption,
+            {
+              score: signal.score,
+              className:
+                signal.className,
+              label:
+                `${
+                  formatLocationLabel(
+                    locationOption
+                  )
+                } · ${signal.label}`
+            }
+          ];
+        }
+      )
+    );
+
+  const startSignals =
+    Object.fromEntries(
+      allowedStartCounts.map(
+        countOption => {
+          const startBlock =
+            safePitcher.stats
+              ?.last_starts
+              ?.[String(countOption)]
+              ?.[location]
+            || {};
+
+          const signal =
+            buildPitcherNameSignal(
+              startBlock
+            );
+
+          return [
+            String(countOption),
+            {
+              score: signal.score,
+              className:
+                signal.className,
+              label:
+                `Last ${countOption} Starts · ${
+                  formatLocationLabel(
+                    location
+                  )
+                } · ${signal.label}`
+            }
+          ];
+        }
+      )
+    );
+
   return {
     side,
     playerId:
@@ -341,11 +408,13 @@ export function buildMlbPitcherModule({
         : "#",
     contextLabel: primaryContext,
     activeLocation: location,
+    locationSignals,
     startMode: Boolean(startMode),
     activeStartCount:
       normalizedStartCount,
     startOptions:
       allowedStartCounts,
+    startSignals,
     startSampleLabel,
     lineupStatusLabel: lineupMix.statusLabel,
     lineupStatusClass: lineupMix.statusClass,
