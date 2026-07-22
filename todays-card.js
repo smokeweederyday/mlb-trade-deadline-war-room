@@ -378,7 +378,9 @@ async function loadLeagueIntoPanel(
   const panel = document.querySelector(`[data-sport-id="${cssEscape(sportId)}"][data-league-panel="${cssEscape(leagueId)}"]`);
   if (!panel) return;
 
-  panel.innerHTML = `<div class="league-loading-state">Loading ${cardEscape(getLeague(sportId, leagueId)?.label || leagueId)}…</div>`;
+  if (!panel.querySelector(".compact-event-grid")) {
+    panel.innerHTML = `<div class="league-loading-state">Loading ${cardEscape(getLeague(sportId, leagueId)?.label || leagueId)}…</div>`;
+  }
 
   try {
     const result = await loadLeagueEvents(sportId, leagueId, requestedDate);
@@ -1765,7 +1767,7 @@ function newestFeedTimestamp(...values) {
 function scheduleCardAutoRefresh() {
   if (cardState.refreshTimer) window.clearTimeout(cardState.refreshTimer);
   const today = getLocalDateString(new Date());
-  const delay = cardState.date === today ? 30_000 : 300_000;
+  const delay = cardState.date === today ? 300_000 : 300_000;
   cardState.refreshTimer = window.setTimeout(async () => {
     await refreshOpenLeagueFeeds();
     scheduleCardAutoRefresh();
@@ -1851,44 +1853,38 @@ async function pollMlbLiveState() {
       .map(game => normalizeMlbEvent(game, activeDate))
       .sort(sortEvents);
 
-    let needsStructuralRender = false;
-
     normalizedEvents.forEach(event => {
       const article = document.querySelector(
         `[data-event-id="${cssEscape(event.id)}"]`
       );
 
-      if (!article) {
-        needsStructuralRender = true;
+      /*
+        A missing card may simply be excluded by the current filter.
+        Never rebuild the whole MLB panel from the rapid pitch poll.
+        The slower safety refresh handles newly added games.
+      */
+      if (!article) return;
+
+      const renderedState = mlbCardStatusFamily(
+        article.dataset.eventStatus
+      );
+
+      const nextState = mlbCardStatusFamily(
+        event.status
+      );
+
+      /*
+        Replace only this individual card when its broad state changes:
+        upcoming -> live, live -> final, postponed, etc.
+      */
+      if (renderedState !== nextState) {
+        replaceMlbCardInPlace(article, event);
         return;
       }
 
-      const renderedStatus = article.dataset.eventStatus || "";
-      if (renderedStatus !== String(event.status || "")) {
-        needsStructuralRender = true;
-      }
+      article.dataset.eventStatus = String(event.status || "");
+      applyMlbLiveEventToCard(event);
     });
-
-    rawGames.forEach(game => {
-      const id = mlbGameIdentity(game);
-      const nextSignature = mlbLiveStructuralSignature(game);
-      const previousSignature = cardState.mlbLiveRawById.get(id);
-
-      if (
-        previousSignature !== undefined &&
-        previousSignature !== nextSignature
-      ) {
-        needsStructuralRender = true;
-      }
-
-      cardState.mlbLiveRawById.set(id, nextSignature);
-    });
-
-    if (needsStructuralRender) {
-      await refreshMlbPanelSilently(activeDate);
-    } else {
-      normalizedEvents.forEach(applyMlbLiveEventToCard);
-    }
 
     cardState.mlbLiveUpdatedAt = updatedAt;
     recordFeedUpdate(updatedAt);
@@ -1901,6 +1897,49 @@ async function pollMlbLiveState() {
     cardState.mlbLiveInFlight = false;
     scheduleMlbLivePoll();
   }
+}
+
+function mlbCardStatusFamily(value) {
+  const status = String(value || "").toLowerCase();
+
+  if (
+    status.includes("postpon") ||
+    status.includes("cancel")
+  ) {
+    return "postponed";
+  }
+
+  if (
+    status.includes("final") ||
+    status.includes("completed") ||
+    status.includes("game over")
+  ) {
+    return "final";
+  }
+
+  if (
+    status.includes("live") ||
+    status.includes("in progress") ||
+    status.includes("warmup") ||
+    status.includes("challenge") ||
+    status.includes("review")
+  ) {
+    return "live";
+  }
+
+  return "upcoming";
+}
+
+function replaceMlbCardInPlace(article, event) {
+  const league = getLeague("baseball", "mlb");
+  const template = document.createElement("template");
+
+  template.innerHTML = renderCompactEventCard(event, league).trim();
+
+  const replacement = template.content.firstElementChild;
+  if (!replacement) return;
+
+  article.replaceWith(replacement);
 }
 
 function mlbLiveStructuralSignature(game) {
@@ -1986,6 +2025,32 @@ function applyMlbLiveEventToCard(event) {
   });
 
   patchLiveSituation(article, event.liveState || {});
+  patchMlbLiveDetails(article, event);
+}
+
+function patchMlbLiveDetails(article, event) {
+  const detailNodes = article.querySelectorAll(
+    ".compact-event-details span"
+  );
+
+  const details = [
+    event.awayDetail || "",
+    event.homeDetail || ""
+  ];
+
+  detailNodes.forEach((node, index) => {
+    const value = details[index] || "—";
+
+    if (node.textContent !== value) {
+      node.textContent = value;
+      node.title = value;
+    }
+  });
+
+  const venueNode = article.querySelector(".compact-event-venue");
+  if (venueNode && event.venue && venueNode.textContent !== event.venue) {
+    venueNode.textContent = event.venue;
+  }
 }
 
 function liveInteger(value) {
