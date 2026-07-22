@@ -17,7 +17,13 @@ const cardState = {
   renderGeneration: 0,
   latestFeedUpdate: null,
   refreshTimer: null,
-  refreshInFlight: false
+  refreshInFlight: false,
+  mlbLiveTimer: null,
+  mlbLiveInFlight: false,
+  mlbLiveUpdatedAt: null,
+  mlbLiveRawById: new Map(),
+  mlbLiveScores: new Map(),
+  mlbRunBadgeTimers: new Map()
 };
 
 const cardEscape = (value = "") =>
@@ -32,15 +38,20 @@ const cardEscape = (value = "") =>
 window.addEventListener("DOMContentLoaded", async () => {
   await initialiseTodaysCard({ preserveCache: false });
   scheduleCardAutoRefresh();
+  scheduleMlbLivePoll(250);
 });
 
 window.addEventListener("popstate", async () => {
   await initialiseTodaysCard({ preserveCache: false });
   scheduleCardAutoRefresh();
+  scheduleMlbLivePoll(250);
 });
 
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden) refreshOpenLeagueFeeds();
+  if (!document.hidden) {
+    refreshOpenLeagueFeeds();
+    scheduleMlbLivePoll(100);
+  }
 });
 
 // Capture image failures so every baseball card either advances to the next
@@ -922,7 +933,7 @@ function renderCompactEventCard(event, league) {
     : "";
 
   return `
-    <article class="compact-event-card${live ? " is-live" : ""}${completed ? " is-final" : ""}${plays.length ? " has-play" : ""}" data-event-id="${cardEscape(event.id)}" data-event-date="${cardEscape(event.eventDate || cardState.date)}"${liveVibeStyle ? ` style="${cardEscape(liveVibeStyle)}"` : ""}>
+    <article class="compact-event-card${live ? " is-live" : ""}${completed ? " is-final" : ""}${plays.length ? " has-play" : ""}" data-event-id="${cardEscape(event.id)}" data-event-status="${cardEscape(event.status)}" data-event-date="${cardEscape(event.eventDate || cardState.date)}"${liveVibeStyle ? ` style="${cardEscape(liveVibeStyle)}"` : ""}>
       <div class="compact-event-topline"><span>${cardEscape(league?.label || event.leagueId.toUpperCase())}</span><b class="compact-event-status">${cardEscape(statusLabel)}</b></div>
       ${live
         ? renderCompactLiveScoreboard(event, primaryUrl, primaryAction)
@@ -1754,7 +1765,7 @@ function newestFeedTimestamp(...values) {
 function scheduleCardAutoRefresh() {
   if (cardState.refreshTimer) window.clearTimeout(cardState.refreshTimer);
   const today = getLocalDateString(new Date());
-  const delay = cardState.date === today ? 60_000 : 300_000;
+  const delay = cardState.date === today ? 30_000 : 300_000;
   cardState.refreshTimer = window.setTimeout(async () => {
     await refreshOpenLeagueFeeds();
     scheduleCardAutoRefresh();
@@ -1780,6 +1791,314 @@ async function refreshOpenLeagueFeeds() {
   } finally {
     cardState.refreshInFlight = false;
   }
+}
+
+
+/* BORING BETS: MLB LIVE POLLING ENGINE V1 */
+
+function scheduleMlbLivePoll(delay = null) {
+  if (cardState.mlbLiveTimer) {
+    window.clearTimeout(cardState.mlbLiveTimer);
+  }
+
+  const today = getLocalDateString(new Date());
+  const defaultDelay = cardState.date === today ? 2_500 : 300_000;
+
+  cardState.mlbLiveTimer = window.setTimeout(
+    pollMlbLiveState,
+    delay === null ? defaultDelay : Math.max(100, delay)
+  );
+}
+
+async function pollMlbLiveState() {
+  if (document.hidden || cardState.mlbLiveInFlight) {
+    scheduleMlbLivePoll();
+    return;
+  }
+
+  const activeDate = cardState.date;
+  const today = getLocalDateString(new Date());
+
+  if (activeDate !== today) {
+    scheduleMlbLivePoll(300_000);
+    return;
+  }
+
+  cardState.mlbLiveInFlight = true;
+
+  try {
+    const path = `data/live-games/${encodeURIComponent(activeDate)}.json`;
+    const documentValue = await fetchOptionalDocument(path);
+
+    if (
+      !documentValue ||
+      activeDate !== cardState.date ||
+      !documentMatchesCardDate(documentValue, activeDate)
+    ) {
+      return;
+    }
+
+    const updatedAt = documentValue.updated_at || null;
+    if (updatedAt && updatedAt === cardState.mlbLiveUpdatedAt) {
+      return;
+    }
+
+    const rawGames = (documentValue.games || []).filter(
+      game => game && typeof game === "object"
+    );
+
+    const normalizedEvents = rawGames
+      .map(game => normalizeMlbEvent(game, activeDate))
+      .sort(sortEvents);
+
+    let needsStructuralRender = false;
+
+    normalizedEvents.forEach(event => {
+      const article = document.querySelector(
+        `[data-event-id="${cssEscape(event.id)}"]`
+      );
+
+      if (!article) {
+        needsStructuralRender = true;
+        return;
+      }
+
+      const renderedStatus = article.dataset.eventStatus || "";
+      if (renderedStatus !== String(event.status || "")) {
+        needsStructuralRender = true;
+      }
+    });
+
+    rawGames.forEach(game => {
+      const id = mlbGameIdentity(game);
+      const nextSignature = mlbLiveStructuralSignature(game);
+      const previousSignature = cardState.mlbLiveRawById.get(id);
+
+      if (
+        previousSignature !== undefined &&
+        previousSignature !== nextSignature
+      ) {
+        needsStructuralRender = true;
+      }
+
+      cardState.mlbLiveRawById.set(id, nextSignature);
+    });
+
+    if (needsStructuralRender) {
+      await refreshMlbPanelSilently(activeDate);
+    } else {
+      normalizedEvents.forEach(applyMlbLiveEventToCard);
+    }
+
+    cardState.mlbLiveUpdatedAt = updatedAt;
+    recordFeedUpdate(updatedAt);
+  } catch (error) {
+    console.warn(
+      "MLB rapid live-state poll failed; keeping the last good state.",
+      error
+    );
+  } finally {
+    cardState.mlbLiveInFlight = false;
+    scheduleMlbLivePoll();
+  }
+}
+
+function mlbLiveStructuralSignature(game) {
+  const pitchers = game?.pitchers || {};
+
+  const compactPitcher = value => ({
+    id: value?.id ?? null,
+    name: value?.name || value?.fullName || "",
+    status: value?.status || ""
+  });
+
+  return JSON.stringify({
+    status: game?.status || "",
+    abstractStatus: game?.abstract_status || "",
+    gameTime: game?.game_time || "",
+    awayPitcher: compactPitcher(pitchers.away),
+    homePitcher: compactPitcher(pitchers.home)
+  });
+}
+
+async function refreshMlbPanelSilently(activeDate) {
+  const panel = document.querySelector(
+    '[data-sport-id="baseball"][data-league-panel="mlb"]'
+  );
+
+  if (!panel) return;
+
+  const result = await loadMlbEvents(activeDate);
+
+  if (activeDate !== cardState.date) return;
+
+  cardState.leagueCache.set(
+    leagueCacheKey("baseball", "mlb", activeDate),
+    result
+  );
+
+  recordFeedUpdate(result.updatedAt);
+  renderLeagueResult(panel, "baseball", "mlb", result);
+  updateLeagueCount("baseball", "mlb", result.events.length, result.available);
+  updateSportCounts();
+  updateSummary();
+}
+
+function applyMlbLiveEventToCard(event) {
+  const article = document.querySelector(
+    `[data-event-id="${cssEscape(event.id)}"]`
+  );
+
+  if (!article || event.status !== "live") return;
+
+  const scoreNodes = article.querySelectorAll(
+    ".approved-live-team-score"
+  );
+
+  const nextAway = liveInteger(event.away?.score);
+  const nextHome = liveInteger(event.home?.score);
+  const previous = cardState.mlbLiveScores.get(event.id);
+
+  if (scoreNodes.length >= 2) {
+    patchLiveScoreNode(scoreNodes[0], nextAway, previous?.away);
+    patchLiveScoreNode(scoreNodes[1], nextHome, previous?.home);
+  }
+
+  if (
+    previous &&
+    nextAway !== null &&
+    nextHome !== null &&
+    previous.away !== null &&
+    previous.home !== null
+  ) {
+    const runDelta =
+      Math.max(0, nextAway - previous.away) +
+      Math.max(0, nextHome - previous.home);
+
+    if (runDelta > 0) {
+      showLiveRunBadge(article, event.id, runDelta);
+    }
+  }
+
+  cardState.mlbLiveScores.set(event.id, {
+    away: nextAway,
+    home: nextHome
+  });
+
+  patchLiveSituation(article, event.liveState || {});
+}
+
+function liveInteger(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? Math.round(number) : null;
+}
+
+function patchLiveScoreNode(node, nextValue, previousValue) {
+  if (!node || nextValue === null) return;
+
+  const text = String(nextValue);
+  const changed =
+    previousValue !== undefined &&
+    previousValue !== null &&
+    previousValue !== nextValue;
+
+  node.textContent = text;
+  node.dataset.score = text;
+
+  if (!changed) return;
+
+  node.classList.remove("is-score-changing");
+  void node.offsetWidth;
+  node.classList.add("is-score-changing");
+
+  window.setTimeout(() => {
+    node.classList.remove("is-score-changing");
+  }, 1_500);
+}
+
+function showLiveRunBadge(article, eventId, runDelta) {
+  const home = article.querySelector(".compact-base-home");
+  if (!home) return;
+
+  home.classList.remove("is-home-hidden");
+  home.classList.add("is-run-badge");
+  home.innerHTML = `<em>${cardEscape(String(runDelta))}</em>`;
+
+  const priorTimer = cardState.mlbRunBadgeTimers.get(eventId);
+  if (priorTimer) window.clearTimeout(priorTimer);
+
+  const timer = window.setTimeout(() => {
+    home.classList.remove("is-run-badge");
+    home.classList.add("is-home-hidden");
+    home.innerHTML = "";
+    cardState.mlbRunBadgeTimers.delete(eventId);
+  }, 2_000);
+
+  cardState.mlbRunBadgeTimers.set(eventId, timer);
+}
+
+function patchLiveSituation(article, state) {
+  const inning = Number(state.currentInning);
+  const inningText = Number.isFinite(inning)
+    ? String(Math.max(1, Math.round(inning)))
+    : String(state.currentInningOrdinal || "").replace(/\D/g, "") || "–";
+
+  const half = String(state.inningHalf || "").toLowerCase();
+  const inningState = String(state.inningState || "").toLowerCase();
+
+  let marker = "◆";
+  if (half === "top" || inningState.includes("top")) marker = "▲";
+  else if (half === "bottom" || inningState.includes("bottom")) marker = "▼";
+  else if (half === "middle" || inningState.includes("middle")) marker = "MID";
+  else if (half === "end" || inningState.includes("end")) marker = "END";
+
+  const markerNode = article.querySelector(
+    ".approved-live-inning-marker"
+  );
+  const inningNode = article.querySelector(
+    ".compact-live-inning strong"
+  );
+
+  if (markerNode) markerNode.textContent = marker;
+  if (inningNode) inningNode.textContent = inningText;
+
+  const bases = state.bases || {};
+  patchBase(
+    article.querySelector(".compact-base-first"),
+    Boolean(bases.first)
+  );
+  patchBase(
+    article.querySelector(".compact-base-second"),
+    Boolean(bases.second)
+  );
+  patchBase(
+    article.querySelector(".compact-base-third"),
+    Boolean(bases.third)
+  );
+
+  const balls = liveInteger(state.balls) ?? 0;
+  const strikes = liveInteger(state.strikes) ?? 0;
+  const outs = Math.max(0, Math.min(2, liveInteger(state.outs) ?? 0));
+
+  const countNode = article.querySelector(
+    ".compact-live-count-number"
+  );
+  if (countNode) countNode.textContent = `${balls}-${strikes}`;
+
+  const outsNode = article.querySelector(".compact-live-outs");
+  if (outsNode) {
+    outsNode.innerHTML = renderLiveIndicatorPips(
+      outs,
+      2,
+      "circle",
+      "is-out-active"
+    );
+  }
+}
+
+function patchBase(node, occupied) {
+  if (!node) return;
+  node.classList.toggle("is-occupied", occupied);
 }
 
 async function fetchJson(path) {
