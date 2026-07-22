@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026-07-22T04:29:39.442517+00:00",
+    "updated_at": "2026-07-22T07:17:24.161779+00:00",
     "deadline": "2026-08-03T18:00:00-04:00"
   },
   "teams": [
@@ -151,9 +151,9 @@
       "team": "ATH",
       "division": "",
       "w": 43,
-      "l": 57,
-      "wcgb": 8.5,
-      "run_diff": -111,
+      "l": 58,
+      "wcgb": 9.0,
+      "run_diff": -112,
       "tier": "Bubble",
       "need": "Editorial review needed",
       "betting_note": "Review roster and market impact"
@@ -293,10 +293,10 @@
     {
       "team": "ARI",
       "division": "",
-      "w": 51,
+      "w": 52,
       "l": 49,
-      "wcgb": 0.5,
-      "run_diff": -14,
+      "wcgb": 0.0,
+      "run_diff": -13,
       "tier": "Buyer",
       "need": "Editorial review needed",
       "betting_note": "Review roster and market impact"
