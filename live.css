@@ -136,3 +136,209 @@ body.plate-hud-open{overflow:hidden}
 @media(max-width:860px){.plate-module{width:205px;padding:9px 10px}.plate-module>strong{font-size:.76rem}.plate-module>small,.plate-module-line b{font-size:.47rem}.batter-game-module{top:165px}.pitcher-module{top:12px;right:12px}.pitch-trails-module{right:12px;top:165px;min-height:218px}.batter-module{left:12px;top:12px}.plate-scorebug{top:auto;bottom:62px;grid-template-columns:80px 170px 80px}.plate-score-team,.plate-score-state{min-height:65px;padding:7px}.plate-score-team span{font-size:.72rem}.plate-score-team strong{font-size:1.1rem}.plate-score-state b{font-size:.5rem}.plate-score-state>span{font-size:.7rem}.plate-score-bases{top:27px;transform:translateX(-50%) rotate(45deg) scale(.75)}.plate-live-feed{bottom:10px;width:70vw}.plate-return-hint{display:none}.full-plate-hud-close{right:10px;bottom:10px}.plate-theater-world{width:150vw}.plate-theater-zone{top:56%}}
 @media(max-width:620px){.batter-game-module,.pitch-trails-module{display:none}.plate-module{width:170px}.pitcher-module{right:7px}.batter-module{left:7px}.plate-scorebug{left:50%;width:96vw;grid-template-columns:1fr 1.5fr 1fr}.plate-live-feed{display:none}.full-plate-hud-close{bottom:7px}.plate-look-hint{display:none}.plate-theater-zone{width:98px;height:124px}.plate-theater-world{width:190vw}}
 @media(prefers-reduced-motion:reduce){.theater-batter-ghost,.theater-catcher-ghost,.theater-pitcher-ghost{animation:none!important}.plate-theater-world{transition:none}}
+
+
+/* BORING BETS LIVE RAIL V2 */
+
+.live-workstation {
+  --rail-width: 226px;
+}
+
+.game-list {
+  padding: 8px 7px;
+}
+
+.game-tile {
+  display: block;
+  width: 100%;
+  min-height: 82px;
+  margin-bottom: 7px;
+  padding: 9px 10px 8px;
+  border-radius: 9px;
+  text-align: left;
+}
+
+.game-tile.active {
+  border-color: rgba(121, 167, 255, .58);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(121, 167, 255, .13),
+      rgba(44, 247, 232, .035)
+    );
+  box-shadow:
+    inset 3px 0 var(--live-blue),
+    0 0 18px rgba(121, 167, 255, .08);
+}
+
+.game-tile-main {
+  display: grid;
+  gap: 5px;
+}
+
+.game-team-row {
+  display: grid;
+  grid-template-columns:
+    27px minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.game-team-row img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+
+.game-team-row strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #edf7f1;
+  font-size: .72rem;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-team-row b {
+  color: #f7fffa;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  font-size: .78rem;
+  line-height: 1;
+  text-align: right;
+}
+
+.game-tile-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
+  margin-top: 7px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255,255,255,.045);
+}
+
+.game-tile-status {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--live-muted);
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  font-size: .55rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-tile[data-phase="live"] .game-tile-status {
+  color: var(--live-teal);
+}
+
+.game-tile[data-phase="final"] .game-tile-status {
+  color: #899d91;
+}
+
+.game-number-badge {
+  flex: 0 0 auto;
+  padding: 2px 5px;
+  border: 1px solid rgba(255,214,107,.28);
+  border-radius: 999px;
+  color: var(--live-gold);
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  font-size: .47rem;
+  font-weight: 900;
+}
+
+.game-list-empty {
+  padding: 12px 8px;
+  color: #789083;
+  font-size: .65rem;
+}
+
+.game-collapsed .game-tile {
+  min-height: 55px;
+  padding: 5px;
+}
+
+.game-collapsed .game-tile-main {
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+}
+
+.game-collapsed .game-team-row {
+  display: block;
+}
+
+.game-collapsed .game-team-row img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: auto;
+}
+
+.game-collapsed .game-team-row strong,
+.game-collapsed .game-team-row b,
+.game-collapsed .game-tile-meta {
+  display: none;
+}
+
+@media (max-width: 1180px) and (min-width: 901px) {
+  .game-rail .game-tile {
+    min-height: 55px;
+    padding: 5px;
+  }
+
+  .game-rail .game-tile-main {
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+  }
+
+  .game-rail .game-team-row {
+    display: block;
+  }
+
+  .game-rail .game-team-row img {
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin: auto;
+  }
+
+  .game-rail .game-team-row strong,
+  .game-rail .game-team-row b,
+  .game-rail .game-tile-meta {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .game-tile {
+    min-width: 190px;
+  }
+}
+
+
+/* BORING BETS HIDDEN RAIL SCROLLBAR */
+
+.game-list {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.game-list::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}

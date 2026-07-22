@@ -25,6 +25,29 @@
   };
   const html = (value) => String(value ?? "").replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
 
+  function gameKey(game) {
+    return String(
+      game?.mlb_game_pk ??
+      game?.id ??
+      ""
+    );
+  }
+
+  function liveGameUrl(game) {
+    const params = new URLSearchParams({
+      id: String(game?.id || "")
+    });
+
+    if (game?.mlb_game_pk != null) {
+      params.set(
+        "gamePk",
+        String(game.mlb_game_pk)
+      );
+    }
+
+    return `live.html?${params.toString()}`;
+  }
+
   async function boot() {
     bindStaticControls();
     try {
@@ -42,7 +65,14 @@
       state.days = Array.isArray(daysPayload.days) ? daysPayload.days : [];
       state.parks = Array.isArray(parksPayload.parks) ? parksPayload.parks : [];
       state.lineupArchive = lineupsPayload.lineups || {};
-      const requested = new URLSearchParams(location.search).get("id");
+      const urlParams =
+        new URLSearchParams(location.search);
+
+      const requested =
+        urlParams.get("id");
+
+      const requestedGamePk =
+        urlParams.get("gamePk");
 
       const todayParts = new Intl.DateTimeFormat("en-US", {
         timeZone: "America/New_York",
@@ -67,7 +97,7 @@
             ? today
             : state.index.recommended_demo_date;
 
-      await loadDay(requestedDate, requested || null, false);
+      await loadDay(requestedDate, requested || null, false, requestedGamePk);
       startLiveFeed();
     } catch (error) {
       console.error(error);
@@ -77,7 +107,7 @@
     }
   }
 
-  async function loadDay(date, requestedGameId = null, pushHistory = true) {
+  async function loadDay(date, requestedGameId = null, pushHistory = true, requestedGamePk = null) {
     const entry = (state.index?.dates || []).find(item => item.date === date);
     if (!entry) throw new Error(`No live slate file exists for ${date}.`);
     const response = await fetch(`${entry.file}?v=${Date.now()}`);
@@ -85,12 +115,25 @@
     const payload = await response.json();
     state.games = Array.isArray(payload.games) ? payload.games : [];
     state.dayGames = state.games;
-    const game = state.games.find(item => item.id === requestedGameId) || state.games[0];
+    const game =
+      (
+        requestedGamePk
+          ? state.games.find(
+              item =>
+                String(item.mlb_game_pk) ===
+                String(requestedGamePk)
+            )
+          : null
+      ) ||
+      state.games.find(
+        item => item.id === requestedGameId
+      ) ||
+      state.games[0];
     if (!game) throw new Error(`No games are available for ${date}.`);
     state.game = game;
     $("selectedDate").textContent = formatDate(date);
     $("railDateLabel").textContent = `${state.dayGames.length} Games`;
-    startGame(game.id, pushHistory);
+    startGame(gameKey(game), pushHistory);
   }
 
   function bindStaticControls() {
@@ -151,8 +194,12 @@
     catch (error) { showToast(error.message); }
   }
 
-  function startGame(gameId, pushHistory = true) {
-    const game = state.games.find(item => item.id === gameId);
+  function startGame(selectedGameKey, pushHistory = true) {
+    const game = state.games.find(
+      item =>
+        gameKey(item) ===
+        String(selectedGameKey)
+    );
     if (!game) return;
     state.game = game;
     state.lineupSide = "away";
@@ -161,7 +208,13 @@
     state.currentBatterIndex = 2;
     state.simulated = deriveLiveState(game, null);
     state.pitchHistory = buildInitialPitchHistory(game);
-    if (pushHistory) history.pushState({}, "", `live.html?id=${encodeURIComponent(game.id)}`);
+    if (pushHistory) {
+      history.pushState(
+        {},
+        "",
+        liveGameUrl(game)
+      );
+    }
     renderEverything();
   }
 
@@ -252,17 +305,116 @@
   }
 
   function renderGameRail() {
-    $("gameList").innerHTML = state.dayGames.map(game => {
-      const active = game.id === state.game?.id;
-      const away = game.away_team || {};
-      const home = game.home_team || {};
-      return `<button class="game-tile${active ? " active" : ""}" data-game-id="${html(game.id)}" type="button">
-        <span class="game-tile-logos"><img src="${logo(away.team_id)}" alt="${html(away.abbr || "Away")}"><img src="${logo(home.team_id)}" alt="${html(home.abbr || "Home")}"></span>
-        <span class="game-tile-copy"><strong>${html(away.abbr || "AWY")} @ ${html(home.abbr || "HME")}</strong><span>${html(statusLabel(game))}</span></span>
-        <span class="game-tile-score">${safe(game.score?.away)}-${safe(game.score?.home)}</span>
-      </button>`;
-    }).join("") || `<p style="color:#789083;font-size:.65rem;padding:8px">No games on this date.</p>`;
-    document.querySelectorAll("[data-game-id]").forEach(button => button.addEventListener("click", () => startGame(button.dataset.gameId)));
+    const railGames =
+      [...state.dayGames].sort((left, right) =>
+        String(left.game_time || "").localeCompare(
+          String(right.game_time || "")
+        )
+      );
+
+    $("gameList").innerHTML =
+      railGames.map(game => {
+        const key = gameKey(game);
+        const active =
+          key === gameKey(state.game);
+
+        const away = game.away_team || {};
+        const home = game.home_team || {};
+
+        const sameMatchups =
+          railGames.filter(
+            item => item.id === game.id
+          );
+
+        const doubleheaderNumber =
+          sameMatchups.length > 1
+            ? sameMatchups.findIndex(
+                item =>
+                  gameKey(item) === key
+              ) + 1
+            : null;
+
+        const awayScore =
+          game.score?.away ?? "—";
+
+        const homeScore =
+          game.score?.home ?? "—";
+
+        const rawStatus = String(
+          game.status ||
+          game.abstract_status ||
+          ""
+        );
+
+        const phase =
+          /final/i.test(rawStatus)
+            ? "final"
+            : /scheduled|preview/i.test(rawStatus)
+              ? "scheduled"
+              : "live";
+
+        const label =
+          `${away.abbr || "Away"} ` +
+          `${awayScore}, ` +
+          `${home.abbr || "Home"} ` +
+          `${homeScore}, ` +
+          `${statusLabel(game)}`;
+
+        return `
+          <button
+            class="game-tile${active ? " active" : ""}"
+            data-game-key="${html(key)}"
+            data-phase="${phase}"
+            type="button"
+            aria-label="${html(label)}"
+          >
+            <span class="game-tile-main">
+              <span class="game-team-row">
+                <img
+                  src="${logo(away.team_id)}"
+                  alt="${html(away.abbr || "Away")}"
+                >
+                <strong>${html(away.abbr || "AWY")}</strong>
+                <b>${html(awayScore)}</b>
+              </span>
+
+              <span class="game-team-row">
+                <img
+                  src="${logo(home.team_id)}"
+                  alt="${html(home.abbr || "Home")}"
+                >
+                <strong>${html(home.abbr || "HME")}</strong>
+                <b>${html(homeScore)}</b>
+              </span>
+            </span>
+
+            <span class="game-tile-meta">
+              <span class="game-tile-status">
+                ${html(statusLabel(game))}
+              </span>
+
+              ${
+                doubleheaderNumber
+                  ? `<span class="game-number-badge">G${doubleheaderNumber}</span>`
+                  : ""
+              }
+            </span>
+          </button>
+        `;
+      }).join("") ||
+      `<p class="game-list-empty">No games on this date.</p>`;
+
+    document
+      .querySelectorAll("[data-game-key]")
+      .forEach(button =>
+        button.addEventListener(
+          "click",
+          () =>
+            startGame(
+              button.dataset.gameKey
+            )
+        )
+      );
   }
 
   function statusLabel(game) {
@@ -974,7 +1126,9 @@
         : [];
 
       const currentGame = games.find(
-        game => game.id === state.game.id
+        game =>
+          gameKey(game) ===
+          gameKey(state.game)
       );
 
       if (!currentGame) {
@@ -1334,7 +1488,7 @@
 
   function closeDetailDrawer() {
     $("detailDrawer").classList.remove("open"); $("detailDrawer").setAttribute("aria-hidden","true");
-    if (state.game) history.replaceState({}, "", `live.html?id=${encodeURIComponent(state.game.id)}`);
+    if (state.game) history.replaceState({}, "", liveGameUrl(state.game));
   }
   function openChat() { $("chatDrawer").classList.add("open"); $("chatDrawer").setAttribute("aria-hidden","false"); }
   function closeChat() { $("chatDrawer").classList.remove("open"); $("chatDrawer").setAttribute("aria-hidden","true"); }
@@ -1378,9 +1532,32 @@
   }
 
   window.addEventListener("popstate", async () => {
-    const requested = new URLSearchParams(location.search).get("id");
-    if (requested && requested !== state.game?.id) {
-      try { await loadDay(requested.slice(0, 10), requested, false); } catch (error) { showToast(error.message); }
+    const params =
+      new URLSearchParams(location.search);
+
+    const requested =
+      params.get("id");
+
+    const requestedGamePk =
+      params.get("gamePk");
+
+    const requestedKey =
+      requestedGamePk || requested;
+
+    if (
+      requested &&
+      requestedKey !== gameKey(state.game)
+    ) {
+      try {
+        await loadDay(
+          requested.slice(0, 10),
+          requested,
+          false,
+          requestedGamePk
+        );
+      } catch (error) {
+        showToast(error.message);
+      }
     }
   });
 
