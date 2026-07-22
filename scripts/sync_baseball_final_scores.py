@@ -305,10 +305,43 @@ def normalize_linescore(
     teams = linescore.get("teams") or {}
     away_total = teams.get("away") or {}
     home_total = teams.get("home") or {}
+
+    offense = linescore.get("offense") or {}
+    bases = {
+        "first": bool(offense.get("first")),
+        "second": bool(offense.get("second")),
+        "third": bool(offense.get("third")),
+    }
+
+    inning_state = str(linescore.get("inningState") or "").strip()
+    is_top_inning = linescore.get("isTopInning")
+
+    if is_top_inning is True:
+        inning_half = "top"
+    elif is_top_inning is False and linescore.get("currentInning") is not None:
+        inning_half = "bottom"
+    elif "top" in inning_state.lower():
+        inning_half = "top"
+    elif "bottom" in inning_state.lower():
+        inning_half = "bottom"
+    elif "middle" in inning_state.lower():
+        inning_half = "middle"
+    elif "end" in inning_state.lower():
+        inning_half = "end"
+    else:
+        inning_half = ""
+
     return {
         "scheduled_innings": linescore.get("scheduledInnings"),
         "current_inning": linescore.get("currentInning"),
         "current_inning_ordinal": linescore.get("currentInningOrdinal"),
+        "inning_state": inning_state,
+        "inning_half": inning_half,
+        "balls": linescore.get("balls"),
+        "strikes": linescore.get("strikes"),
+        "outs": linescore.get("outs"),
+        "bases": bases,
+        "runners_on": sum(1 for occupied in bases.values() if occupied),
         "innings": innings,
         "totals": {
             "away": {

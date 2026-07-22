@@ -518,12 +518,29 @@ async function loadMlbEvents(date) {
     if (!documentMatchesCardDate(cardDocument, date)) {
       return { available: true, events: [], source: cardPath, dateMismatch: true };
     }
-    const selected = selectEventsForCardDate(cardDocument.games || cardDocument.events || [], date, { assumeDailyShard: true });
+
+    const liveDocument = await fetchOptionalDocument(livePath);
+    const mergedGames = mergeMlbGameCollections(
+      cardDocument.games || cardDocument.events || [],
+      liveDocument?.games || []
+    );
+
+    const selected = selectEventsForCardDate(
+      mergedGames,
+      date,
+      { assumeDailyShard: true }
+    );
+
     return {
       available: true,
-      events: selected.map(game => normalizeMlbEvent(game, date)).sort(sortEvents),
+      events: selected
+        .map(game => normalizeMlbEvent(game, date))
+        .sort(sortEvents),
       source: cardPath,
-      updatedAt: cardDocument.updated_at || cardDocument.source_updated_at || null
+      updatedAt: newestFeedTimestamp(
+        cardDocument.updated_at || cardDocument.source_updated_at,
+        liveDocument?.updated_at
+      )
     };
   }
 
@@ -619,6 +636,101 @@ function mergeNestedObjects(base, overlay) {
   return result;
 }
 
+function normalizeMlbLiveState(linescore = {}) {
+  const readNumber = value => {
+    if (value === null || value === undefined || value === "") return null;
+    const number = Number(value);
+    return Number.isFinite(number) ? number : null;
+  };
+
+  const isOccupied = value => {
+    if (value === true || value === 1 || value === "1") return true;
+    if (!value) return false;
+    if (typeof value === "object") return true;
+    return ["occupied", "on", "true"].includes(String(value).toLowerCase());
+  };
+
+  const bases = linescore.bases || {};
+  const offense = linescore.offense || {};
+
+  const occupiedBases = {
+    first: isOccupied(
+      bases.first !== undefined ? bases.first : offense.first
+    ),
+    second: isOccupied(
+      bases.second !== undefined ? bases.second : offense.second
+    ),
+    third: isOccupied(
+      bases.third !== undefined ? bases.third : offense.third
+    )
+  };
+
+  const inningState = String(
+    linescore.inning_state ||
+    linescore.inningState ||
+    ""
+  ).trim();
+
+  const topFlag =
+    linescore.is_top_inning !== undefined
+      ? linescore.is_top_inning
+      : linescore.isTopInning;
+
+  let inningHalf = String(
+    linescore.inning_half ||
+    linescore.inningHalf ||
+    ""
+  ).toLowerCase();
+
+  if (!inningHalf) {
+    if (topFlag === true) {
+      inningHalf = "top";
+    } else if (topFlag === false) {
+      inningHalf = "bottom";
+    } else if (inningState.toLowerCase().includes("top")) {
+      inningHalf = "top";
+    } else if (inningState.toLowerCase().includes("bottom")) {
+      inningHalf = "bottom";
+    } else if (inningState.toLowerCase().includes("middle")) {
+      inningHalf = "middle";
+    } else if (inningState.toLowerCase().includes("end")) {
+      inningHalf = "end";
+    }
+  }
+
+  const calculatedRunners = Object.values(occupiedBases)
+    .filter(Boolean)
+    .length;
+
+  const explicitRunners = readNumber(
+    linescore.runners_on !== undefined
+      ? linescore.runners_on
+      : linescore.runnersOn
+  );
+
+  return {
+    currentInning: readNumber(
+      linescore.current_inning !== undefined
+        ? linescore.current_inning
+        : linescore.currentInning
+    ),
+    currentInningOrdinal:
+      linescore.current_inning_ordinal ||
+      linescore.currentInningOrdinal ||
+      "",
+    inningState,
+    inningHalf,
+    balls: readNumber(linescore.balls),
+    strikes: readNumber(linescore.strikes),
+    outs: readNumber(linescore.outs),
+    bases: occupiedBases,
+    runnersOn:
+      explicitRunners !== null
+        ? explicitRunners
+        : calculatedRunners
+  };
+}
+
 function normalizeMlbEvent(game, cardDate = cardState.date) {
   const startTime = game.game_time || game.start_time || game.gameDate;
   const eventDate = eventDateKey(game) || cardDate;
@@ -631,6 +743,7 @@ function normalizeMlbEvent(game, cardDate = cardState.date) {
   const liveUrl = game.live_url || `live.html?id=${encodeURIComponent(game.id)}`;
   const awayPitcher = game.pitchers?.away || {};
   const homePitcher = game.pitchers?.home || {};
+  const liveState = normalizeMlbLiveState(game.linescore || {});
 
   return {
     id: game.id,
@@ -639,6 +752,7 @@ function normalizeMlbEvent(game, cardDate = cardState.date) {
     eventDate,
     status,
     rawStatus,
+    liveState,
     startTime,
     venue: game.venue?.name || "",
     away: normalizeParticipant({
@@ -786,20 +900,38 @@ function renderCompactEventCard(event, league) {
   const final = event.status === "final";
   const pastCard = isPastCardDate(event.eventDate || cardState.date);
   const completed = final || (pastCard && event.status !== "postponed");
-  const primaryUrl = completed ? event.breakdownUrl : event.gameUrl;
+  const primaryUrl = completed
+    ? event.breakdownUrl
+    : live
+      ? event.liveUrl
+      : event.gameUrl;
+
+  const primaryAction = completed
+    ? "Open finished-game breakdown for"
+    : live
+      ? "Open live center for"
+      : "Open research for";
+
   const plays = event.plays || [];
   const scoreSyncWarning = pastCard && !event.finalScoreAvailable && event.status !== "postponed"
     ? `<p class="compact-event-venue">Final score sync required</p>`
     : "";
 
+  const liveVibeStyle = live
+    ? compactLiveVibeStyle(event)
+    : "";
+
   return `
-    <article class="compact-event-card${live ? " is-live" : ""}${completed ? " is-final" : ""}${plays.length ? " has-play" : ""}" data-event-id="${cardEscape(event.id)}" data-event-date="${cardEscape(event.eventDate || cardState.date)}">
+    <article class="compact-event-card${live ? " is-live" : ""}${completed ? " is-final" : ""}${plays.length ? " has-play" : ""}" data-event-id="${cardEscape(event.id)}" data-event-date="${cardEscape(event.eventDate || cardState.date)}"${liveVibeStyle ? ` style="${cardEscape(liveVibeStyle)}"` : ""}>
       <div class="compact-event-topline"><span>${cardEscape(league?.label || event.leagueId.toUpperCase())}</span><b class="compact-event-status">${cardEscape(statusLabel)}</b></div>
-      <a class="compact-event-matchup" href="${cardEscape(primaryUrl)}" aria-label="${completed ? "Open finished-game breakdown for" : "Open research for"} ${cardEscape(event.away.name)} at ${cardEscape(event.home.name)}">
-        ${renderCompactParticipant(event.away, event.sportId, completed || live)}
-        <div class="compact-event-divider"><span>@</span><small>${cardEscape(completed ? "Final" : formatEventTime(event.startTime))}</small></div>
-        ${renderCompactParticipant(event.home, event.sportId, completed || live)}
-      </a>
+      ${live
+        ? renderCompactLiveScoreboard(event, primaryUrl, primaryAction)
+        : `
+          <a class="compact-event-matchup" href="${cardEscape(primaryUrl)}" aria-label="${cardEscape(primaryAction)} ${cardEscape(event.away.name)} at ${cardEscape(event.home.name)}">
+            ${renderCompactParticipant(event.away, event.sportId, completed)}
+            <div class="compact-event-divider"><span>@</span><small>${cardEscape(completed ? "Final" : formatEventTime(event.startTime))}</small></div>
+            ${renderCompactParticipant(event.home, event.sportId, completed)}
+          </a>`}
       ${(event.awayDetail || event.homeDetail) ? `<div class="compact-event-details"><span title="${cardEscape(event.awayDetail)}">${cardEscape(event.awayDetail || "—")}</span><i>vs</i><span title="${cardEscape(event.homeDetail)}">${cardEscape(event.homeDetail || "—")}</span></div>` : ""}
       ${event.venue ? `<p class="compact-event-venue">${cardEscape(event.venue)}</p>` : ""}
       ${renderCompactGameSignals(event)}
@@ -812,10 +944,303 @@ function renderCompactEventCard(event, league) {
     </article>`;
 }
 
+function compactLiveScoreText(value) {
+  return value === null || value === undefined || value === ""
+    ? "0"
+    : String(value);
+}
+
+function renderCompactLiveTeamRow(
+  participant,
+  sportId,
+  scoreChanged
+) {
+  const record = formatTeamRecord(participant.record);
+  const secondary = [
+    participant.name,
+    record
+  ].filter(Boolean).join(" · ");
+
+  const score = compactLiveScoreText(participant.score);
+
+  return `
+    <div class="compact-participant approved-live-team-row">
+      ${renderParticipantLogo(participant, sportId)}
+
+      <span class="approved-live-team-identity">
+        <strong>${cardEscape(participant.abbreviation)}</strong>
+        <small>${cardEscape(secondary)}</small>
+      </span>
+
+      <b
+        class="compact-participant-score approved-live-team-score${scoreChanged ? " is-score-changing" : ""}"
+        data-score="${cardEscape(score)}"
+      >${cardEscape(score)}</b>
+    </div>`;
+}
+
+function renderCompactLiveScoreboard(event, primaryUrl, primaryAction) {
+  const scoreChange = updateCompactLiveScoreMemory(event);
+
+  return `
+    <a class="approved-live-scoreboard" href="${cardEscape(primaryUrl)}" aria-label="${cardEscape(primaryAction)} ${cardEscape(event.away.name)} at ${cardEscape(event.home.name)}">
+      <div class="approved-live-team-panel">
+        ${renderCompactLiveTeamRow(event.away, event.sportId, scoreChange.awayChanged)}
+        ${renderCompactLiveTeamRow(event.home, event.sportId, scoreChange.homeChanged)}
+      </div>
+
+      ${renderCompactLiveState(event, scoreChange)}
+    </a>`;
+}
+
 function renderCompactParticipant(participant, sportId, showScore) {
   const record = formatTeamRecord(participant.record);
   const secondary = [participant.name, record].filter(Boolean).join(" · ");
   return `<div class="compact-participant">${renderParticipantLogo(participant, sportId)}<span><strong>${cardEscape(participant.abbreviation)}</strong><small>${cardEscape(secondary)}</small></span>${showScore && participant.score !== null ? `<b class="compact-participant-score">${cardEscape(participant.score)}</b>` : ""}</div>`;
+}
+
+function normalizeCompactVibeColor(value) {
+  const text = String(value || "").trim();
+
+  if (/^#[0-9a-f]{3,8}$/i.test(text)) {
+    return text;
+  }
+
+  if (/^[0-9a-f]{6}$/i.test(text)) {
+    return `#${text}`;
+  }
+
+  return "";
+}
+
+function readCompactTeamColor(team = {}) {
+  return normalizeCompactVibeColor(firstDefined(
+    team.primary_color,
+    team.primaryColor,
+    team.team_color,
+    team.teamColor,
+    team.color,
+    team.colors?.primary,
+    team.brand?.primary
+  ));
+}
+
+function compactLiveVibeStyle(event) {
+  const context = event.cardData?.context || {};
+  const original = event.original || {};
+
+  const explicitVibe = normalizeCompactVibeColor(firstDefined(
+    context.vibe_color,
+    context.vibeColor,
+    context.atmosphere_color,
+    context.atmosphereColor,
+    original.vibe_color,
+    original.vibeColor,
+    original.atmosphere_color,
+    original.atmosphereColor,
+    original.atmosphere?.color,
+    original.card?.vibe_color
+  ));
+
+  const awayColor = readCompactTeamColor(
+    original.away_team || event.away || {}
+  );
+
+  const homeColor = readCompactTeamColor(
+    original.home_team || event.home || {}
+  );
+
+  const firstColor =
+    explicitVibe ||
+    awayColor ||
+    homeColor ||
+    "#5aa7ff";
+
+  const secondColor =
+    explicitVibe ||
+    homeColor ||
+    awayColor ||
+    "#9674ff";
+
+  return [
+    `--compact-live-vibe-a:${firstColor}`,
+    `--compact-live-vibe-b:${secondColor}`
+  ].join(";");
+}
+
+function readCompactScoreNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function getCompactLiveScoreMemory() {
+  if (!cardState.compactLiveScoreMemory) {
+    cardState.compactLiveScoreMemory = new Map();
+  }
+
+  return cardState.compactLiveScoreMemory;
+}
+
+function updateCompactLiveScoreMemory(event) {
+  const memory = getCompactLiveScoreMemory();
+  const key = String(event.id || "");
+
+  const away = readCompactScoreNumber(event.away?.score);
+  const home = readCompactScoreNumber(event.home?.score);
+  const previous = memory.get(key) || null;
+  const now = Date.now();
+
+  let changedSide = "";
+  let runDelta = 0;
+  let changedAt = previous?.changedAt || 0;
+
+  if (previous) {
+    if (
+      away !== null &&
+      previous.away !== null &&
+      away > previous.away
+    ) {
+      changedSide = "away";
+      runDelta = away - previous.away;
+      changedAt = now;
+    } else if (
+      home !== null &&
+      previous.home !== null &&
+      home > previous.home
+    ) {
+      changedSide = "home";
+      runDelta = home - previous.home;
+      changedAt = now;
+    }
+  }
+
+  const next = {
+    away,
+    home,
+    changedSide: changedSide || previous?.changedSide || "",
+    runDelta: changedSide ? runDelta : previous?.runDelta || 0,
+    changedAt
+  };
+
+  memory.set(key, next);
+
+  const recentlyChanged =
+    Boolean(next.changedAt) &&
+    Boolean(next.changedSide) &&
+    now - next.changedAt < 2400;
+
+  return {
+    awayChanged: recentlyChanged && next.changedSide === "away",
+    homeChanged: recentlyChanged && next.changedSide === "home",
+    showRunBadge: recentlyChanged && next.runDelta > 0,
+    runDelta: recentlyChanged ? next.runDelta : 0
+  };
+}
+
+function compactOrdinalInning(value) {
+  const inning = Number(value);
+  if (!Number.isFinite(inning)) return "";
+
+  const rounded = Math.max(1, Math.round(inning));
+  const remainder100 = rounded % 100;
+
+  if (remainder100 >= 11 && remainder100 <= 13) {
+    return `${rounded}th`;
+  }
+
+  switch (rounded % 10) {
+    case 1:
+      return `${rounded}st`;
+    case 2:
+      return `${rounded}nd`;
+    case 3:
+      return `${rounded}rd`;
+    default:
+      return `${rounded}th`;
+  }
+}
+
+function renderLiveIndicatorPips(value, total, shape, activeClass) {
+  const numeric = Number(value);
+  const count = Number.isFinite(numeric) ? Math.max(0, Math.min(total, Math.floor(numeric))) : 0;
+
+  return Array.from({ length: total }, (_, index) => {
+    const active = index < count ? ` ${activeClass}` : "";
+    return `<span class="compact-live-pip compact-live-pip-${shape}${active}"></span>`;
+  }).join("");
+}
+
+function renderCompactLiveState(event, suppliedScoreChange = null) {
+  if (
+    event.status !== "live" ||
+    event.sportId !== "baseball" ||
+    event.leagueId !== "mlb"
+  ) {
+    return "";
+  }
+
+  const state = event.liveState || {};
+  const bases = state.bases || {};
+  const scoreChange =
+    suppliedScoreChange ||
+    updateCompactLiveScoreMemory(event);
+
+  const inning = Number(state.currentInning);
+  const inningText = Number.isFinite(inning)
+    ? String(Math.max(1, Math.round(inning)))
+    : String(state.currentInningOrdinal || "").replace(/\D/g, "") || "–";
+
+  const half = String(state.inningHalf || "").toLowerCase();
+  const inningState = String(state.inningState || "").toLowerCase();
+
+  let inningMarker = "◆";
+
+  if (half === "top" || inningState.includes("top")) {
+    inningMarker = "▲";
+  } else if (half === "bottom" || inningState.includes("bottom")) {
+    inningMarker = "▼";
+  } else if (half === "middle" || inningState.includes("middle")) {
+    inningMarker = "MID";
+  } else if (half === "end" || inningState.includes("end")) {
+    inningMarker = "END";
+  }
+
+  const occupied = value => value ? " is-occupied" : "";
+  const balls = Number.isFinite(Number(state.balls)) ? Number(state.balls) : 0;
+  const strikes = Number.isFinite(Number(state.strikes)) ? Number(state.strikes) : 0;
+  const outs = Number.isFinite(Number(state.outs)) ? Number(state.outs) : 0;
+  const countLabel = `${balls}-${strikes}`;
+
+  const runBase = scoreChange.showRunBadge
+    ? `<span class="compact-base compact-base-home is-run-badge"><em>${cardEscape(String(scoreChange.runDelta))}</em></span>`
+    : `<span class="compact-base compact-base-home is-home-hidden"></span>`;
+
+  return `
+    <section class="compact-live-state approved-live-state" aria-label="${cardEscape(`${inningMarker} ${inningText}, ${balls} balls, ${strikes} strikes, ${outs} outs`)}">
+      <div class="compact-live-situation">
+        <div class="compact-live-inning">
+          <span class="approved-live-inning-marker">${cardEscape(inningMarker)}</span>
+          <strong>${cardEscape(inningText)}</strong>
+        </div>
+
+        <div class="compact-live-bases">
+          <div class="compact-base-diamond is-standard" aria-hidden="true">
+            <span class="compact-base compact-base-second${occupied(bases.second)}"></span>
+            <span class="compact-base compact-base-third${occupied(bases.third)}"></span>
+            <span class="compact-base compact-base-first${occupied(bases.first)}"></span>
+            ${runBase}
+          </div>
+        </div>
+
+        <div class="compact-live-count-stack" aria-label="${cardEscape(`${countLabel}, ${outs} outs`)}">
+          <strong class="compact-live-count-number">${cardEscape(countLabel)}</strong>
+
+          <div class="compact-live-outs" aria-hidden="true">
+            ${renderLiveIndicatorPips(outs, 2, "circle", "is-out-active")}
+          </div>
+        </div>
+      </div>
+    </section>`;
 }
 
 function renderCompactGameSignals(event) {
@@ -1167,6 +1592,7 @@ function normalizeStatus(status) {
     "in progress",
     "in_progress",
     "game started",
+    "warmup",
     "manager challenge",
     "review"
   ].some(token => value === token || value.includes(token))) return "live";

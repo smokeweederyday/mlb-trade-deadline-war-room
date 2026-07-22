@@ -5159,3 +5159,1131 @@ button.global-tier-highlight.offense-signal-strong-negative {
     font-size: 0.49rem;
   }
 }
+
+
+/* BORING BETS: TODAY'S CARD LIVE MLB STATE */
+
+.compact-event-card.is-live {
+  border-color: rgba(90, 167, 255, 0.54);
+  border-color: color-mix(
+    in srgb,
+    var(--compact-live-vibe-a, #5aa7ff) 56%,
+    var(--compact-live-vibe-b, #9674ff) 44%
+  );
+  box-shadow:
+    0 0 0 1px color-mix(
+      in srgb,
+      var(--compact-live-vibe-a, #5aa7ff) 18%,
+      transparent
+    ),
+    0 0 28px color-mix(
+      in srgb,
+      var(--compact-live-vibe-b, #9674ff) 18%,
+      transparent
+    );
+}
+
+.compact-event-card.is-live .compact-event-status {
+  display: none;
+}
+
+.compact-live-state {
+  margin: 0.72rem 0 0.64rem;
+  overflow: hidden;
+  border: 1px solid rgba(90, 167, 255, 0.38);
+  border-color: color-mix(
+    in srgb,
+    var(--compact-live-vibe-a, #5aa7ff) 58%,
+    var(--compact-live-vibe-b, #9674ff) 42%
+  );
+  border-radius: 10px;
+  background:
+    radial-gradient(
+      circle at 26% 0%,
+      color-mix(
+        in srgb,
+        var(--compact-live-vibe-a, #5aa7ff) 17%,
+        transparent
+      ),
+      transparent 48%
+    ),
+    radial-gradient(
+      circle at 78% 100%,
+      color-mix(
+        in srgb,
+        var(--compact-live-vibe-b, #9674ff) 15%,
+        transparent
+      ),
+      transparent 50%
+    ),
+    rgba(7, 14, 24, 0.9);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045),
+    0 9px 22px rgba(0, 0, 0, 0.24),
+    0 0 18px color-mix(
+      in srgb,
+      var(--compact-live-vibe-a, #5aa7ff) 12%,
+      transparent
+    );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.compact-live-situation {
+  display: grid;
+  grid-template-columns: minmax(62px, 0.8fr) 64px minmax(42px, auto);
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.72rem 0.72rem 0.76rem;
+}
+
+.compact-live-inning {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+}
+
+.compact-live-inning small {
+  color: rgba(207, 224, 242, 0.58);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.compact-live-inning strong {
+  color: #dceeff;
+  font-size: 0.92rem;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+.compact-live-bases {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+}
+
+.compact-base-diamond {
+  position: relative;
+  width: 52px;
+  height: 39px;
+}
+
+.compact-base {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 1px solid rgba(216, 231, 246, 0.5);
+  background: rgba(190, 211, 230, 0.09);
+  transform: rotate(45deg);
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.035);
+}
+
+.compact-base.is-occupied {
+  border-color: rgba(208, 153, 255, 0.98);
+  background: #c784ff;
+  box-shadow:
+    0 0 9px rgba(190, 105, 255, 0.72),
+    inset 0 0 3px rgba(255, 255, 255, 0.52);
+}
+
+.compact-base-second {
+  top: 1px;
+  left: 20px;
+}
+
+.compact-base-third {
+  top: 18px;
+  left: 4px;
+}
+
+.compact-base-first {
+  top: 18px;
+  right: 4px;
+}
+
+.compact-live-count-groups {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  justify-self: end;
+  gap: 0.28rem;
+  min-width: 34px;
+}
+
+.compact-live-count-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 10px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.compact-live-pips {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.28rem;
+  min-height: 12px;
+}
+
+.compact-live-pip {
+  display: inline-block;
+  border: 1px solid rgba(190, 209, 228, 0.42);
+  background: rgba(190, 209, 228, 0.1);
+  box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.03);
+}
+
+.compact-live-pip-circle {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+}
+
+.compact-live-pip-square {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.compact-live-pip.is-ball-active {
+  border-color: rgba(138, 197, 255, 0.98);
+  background: #8ac5ff;
+  box-shadow:
+    0 0 7px rgba(138, 197, 255, 0.7),
+    inset 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.compact-live-pip.is-strike-active {
+  border-color: rgba(255, 230, 102, 0.98);
+  background: #ffe666;
+  box-shadow:
+    0 0 7px rgba(255, 230, 102, 0.62),
+    inset 0 0 2px rgba(255, 255, 255, 0.46);
+}
+
+.compact-live-pip.is-out-active {
+  border-color: rgba(255, 171, 82, 0.98);
+  background: #ffab52;
+  box-shadow:
+    0 0 7px rgba(255, 171, 82, 0.62),
+    inset 0 0 2px rgba(255, 255, 255, 0.42);
+}
+
+@media (max-width: 720px) {
+  .compact-live-situation {
+    grid-template-columns: minmax(56px, 0.8fr) 58px minmax(34px, auto);
+    gap: 0.36rem;
+    padding-inline: 0.5rem;
+  }
+
+.compact-live-score strong {
+    font-size: 1.35rem;
+  }
+
+  .compact-live-count-groups {
+    gap: 0.22rem;
+  }
+
+  .compact-live-pips {
+    gap: 0.22rem;
+  }
+}
+
+
+/* BORING BETS: COMPACT LIVE COUNT AND BASE BUG V2 */
+
+.compact-live-situation {
+  display: grid;
+  grid-template-columns:
+    minmax(42px, 1fr)
+    74px
+    minmax(44px, 1fr);
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.68rem 0.72rem;
+}
+
+.compact-live-inning {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  justify-self: start;
+  min-width: 0;
+}
+
+.compact-live-inning small {
+  display: none;
+}
+
+.compact-live-inning strong {
+  color: #dceeff;
+  font-size: 0.98rem;
+  font-weight: 900;
+  letter-spacing: 0.025em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.compact-live-bases {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  width: 74px;
+  min-width: 74px;
+}
+
+.compact-base-diamond.is-standard {
+  position: relative;
+  width: 62px;
+  height: 57px;
+  margin: 0 auto;
+}
+
+.compact-base-diamond.is-standard .compact-base {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(216, 231, 246, 0.5);
+  background: rgba(190, 211, 230, 0.09);
+  transform: rotate(45deg);
+  box-shadow:
+    inset 0 0 5px rgba(255, 255, 255, 0.035);
+}
+
+.compact-base-diamond.is-standard .compact-base.is-occupied {
+  border-color: rgba(208, 153, 255, 0.98);
+  background: #c784ff;
+  box-shadow:
+    0 0 9px rgba(190, 105, 255, 0.72),
+    inset 0 0 3px rgba(255, 255, 255, 0.52);
+}
+
+.compact-base-diamond.is-standard .compact-base-second {
+  top: 0;
+  left: 24px;
+}
+
+.compact-base-diamond.is-standard .compact-base-third {
+  top: 20px;
+  left: 7px;
+}
+
+.compact-base-diamond.is-standard .compact-base-first {
+  top: 20px;
+  right: 7px;
+}
+
+.compact-base-diamond.is-standard .compact-base-home {
+  top: 40px;
+  left: 24px;
+}
+
+.compact-base-home.is-home-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.compact-base-home.is-run-badge {
+  border-color: rgba(208, 153, 255, 0.98);
+  background: rgba(133, 74, 255, 0.31);
+  box-shadow:
+    0 0 12px rgba(190, 105, 255, 0.78),
+    inset 0 0 4px rgba(255, 255, 255, 0.46);
+  animation: compact-run-base-pop 2.4s ease both;
+}
+
+.compact-base-home em {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-45deg);
+  color: #ffffff;
+  font-size: 0.6rem;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.compact-live-count-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  justify-self: end;
+  gap: 0.36rem;
+  min-width: 44px;
+}
+
+.compact-live-count-number {
+  color: #eef6ff;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.045em;
+  font-variant-numeric: tabular-nums;
+  text-shadow:
+    0 0 8px rgba(90, 167, 255, 0.24);
+}
+
+.compact-live-outs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  min-height: 12px;
+}
+
+.compact-live-outs .compact-live-pip-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.compact-live-outs .compact-live-pip.is-out-active {
+  border-color: rgba(255, 171, 82, 0.98);
+  background: #ffab52;
+  box-shadow:
+    0 0 7px rgba(255, 171, 82, 0.65),
+    inset 0 0 2px rgba(255, 255, 255, 0.42);
+}
+
+@keyframes compact-run-base-pop {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) scale(0.45);
+  }
+
+  18% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1.22);
+  }
+
+  34% {
+    transform: rotate(45deg) scale(1);
+  }
+
+  82% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) scale(0.88);
+  }
+}
+
+@media (max-width: 720px) {
+  .compact-live-situation {
+    grid-template-columns:
+      minmax(38px, 1fr)
+      66px
+      minmax(40px, 1fr);
+    gap: 0.3rem;
+    padding-inline: 0.48rem;
+  }
+
+  .compact-live-inning strong {
+    font-size: 0.9rem;
+  }
+
+  .compact-live-bases {
+    width: 66px;
+    min-width: 66px;
+  }
+
+  .compact-base-diamond.is-standard {
+    width: 56px;
+    height: 53px;
+  }
+
+  .compact-base-diamond.is-standard .compact-base {
+    width: 13px;
+    height: 13px;
+  }
+
+  .compact-base-diamond.is-standard .compact-base-second {
+    left: 21.5px;
+  }
+
+  .compact-base-diamond.is-standard .compact-base-third {
+    top: 19px;
+    left: 6px;
+  }
+
+  .compact-base-diamond.is-standard .compact-base-first {
+    top: 19px;
+    right: 6px;
+  }
+
+  .compact-base-diamond.is-standard .compact-base-home {
+    top: 38px;
+    left: 21.5px;
+  }
+
+  .compact-live-count-number {
+    font-size: 0.9rem;
+  }
+
+  .compact-live-outs {
+    gap: 0.22rem;
+  }
+}
+
+
+/* BORING BETS: LIVE STATE ALONGSIDE SCORE V1 */
+
+.compact-event-mainline {
+  display: block;
+  min-width: 0;
+}
+
+.compact-event-mainline.has-live-state {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    clamp(158px, 36%, 190px);
+  align-items: stretch;
+  gap: 0.65rem;
+}
+
+.compact-event-mainline > .compact-event-matchup {
+  min-width: 0;
+  height: 100%;
+}
+
+.compact-event-mainline > .compact-live-state {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  align-self: stretch;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-live-situation {
+  grid-template-columns:
+    minmax(34px, 1fr)
+    64px
+    minmax(38px, 1fr);
+  min-height: 100%;
+  gap: 0.24rem;
+  padding: 0.5rem 0.46rem;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-live-inning strong {
+  font-size: 0.86rem;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-live-bases {
+  width: 64px;
+  min-width: 64px;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-base-diamond.is-standard {
+  width: 54px;
+  height: 51px;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-base-diamond.is-standard
+  .compact-base {
+  width: 12px;
+  height: 12px;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-base-diamond.is-standard
+  .compact-base-second {
+  left: 21px;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-base-diamond.is-standard
+  .compact-base-third {
+  top: 18px;
+  left: 6px;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-base-diamond.is-standard
+  .compact-base-first {
+  top: 18px;
+  right: 6px;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-base-diamond.is-standard
+  .compact-base-home {
+  top: 36px;
+  left: 21px;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-live-count-number {
+  font-size: 0.88rem;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-live-count-stack {
+  min-width: 36px;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-live-outs {
+  gap: 0.22rem;
+}
+
+.compact-event-mainline > .compact-live-state
+  .compact-live-outs
+  .compact-live-pip-circle {
+  width: 9px;
+  height: 9px;
+}
+
+/*
+  Stack only when the card genuinely becomes too narrow.
+  Normal desktop cards retain the side-by-side score-bug layout.
+*/
+@media (max-width: 560px) {
+  .compact-event-mainline.has-live-state {
+    grid-template-columns: 1fr;
+  }
+
+  .compact-event-mainline > .compact-live-state {
+    margin-top: 0.55rem;
+  }
+}
+
+/* BORING BETS: CLEAN COMPACT LIVE SCOREBOARD V10 */
+
+/*
+  Live cards remain in the same grid footprint as postponed cards.
+*/
+.compact-event-card.is-live {
+  grid-column: auto;
+}
+
+.compact-event-card.is-live .compact-event-topline {
+  display: none;
+}
+
+/*
+  One integrated live scoreboard:
+  two normal compact participant rows,
+  then one compact game-state strip.
+*/
+.approved-live-scoreboard {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--compact-live-vibe-a, #5aa7ff) 66%,
+      rgba(255, 255, 255, 0.28)
+    );
+  border-radius: 10px;
+  color: inherit;
+  text-decoration: none;
+  background:
+    radial-gradient(
+      circle at 78% 84%,
+      color-mix(
+        in srgb,
+        var(--compact-live-vibe-b, #9b63ff) 23%,
+        transparent
+      ),
+      transparent 54%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(8, 22, 43, 0.98),
+      rgba(20, 18, 57, 0.97)
+    );
+}
+
+/*
+  These rows now use the same compact-participant structure as
+  postponed cards, so logo, abbreviation, detail text and score
+  inherit the established sizes.
+*/
+.approved-live-team-panel {
+  display: grid;
+  grid-template-rows: auto auto;
+  min-width: 0;
+}
+
+.approved-live-team-row.compact-participant {
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.approved-live-team-row + .approved-live-team-row {
+  border-top: 1px solid rgba(194, 220, 246, 0.16);
+}
+
+.approved-live-team-identity {
+  min-width: 0;
+}
+
+.approved-live-team-score {
+  position: relative;
+}
+
+/*
+  Bottom live-state strip.
+*/
+.approved-live-scoreboard > .approved-live-state {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  border-top: 1px solid rgba(214, 231, 248, 0.2);
+  border-radius: 0;
+  background: rgba(5, 10, 30, 0.66);
+}
+
+.approved-live-scoreboard .compact-live-situation {
+  display: grid;
+  grid-template-columns:
+    48px
+    minmax(64px, 1fr)
+    64px;
+  align-items: center;
+  width: 100%;
+  min-height: 38px;
+  gap: 0.35rem;
+  padding: 0.22rem 0.52rem;
+}
+
+/*
+  Inning: bright neutral white instead of blue on blue.
+*/
+.approved-live-scoreboard .compact-live-inning {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.22rem;
+  min-height: 28px;
+  border-right: 1px solid rgba(230, 242, 255, 0.24);
+}
+
+.approved-live-inning-marker {
+  color: #ffffff;
+  font-size: 0.64rem;
+  font-weight: 950;
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 0.52),
+    0 0 13px rgba(115, 221, 255, 0.4);
+}
+
+.approved-live-scoreboard .compact-live-inning strong {
+  color: #ffffff;
+  font-size: 0.94rem;
+  font-weight: 950;
+  text-shadow: 0 0 9px rgba(115, 221, 255, 0.55);
+}
+
+/*
+  Bases: bright white empty bases and electric cyan occupied bases.
+*/
+.approved-live-scoreboard .compact-live-bases {
+  width: 62px;
+  min-width: 62px;
+  justify-self: center;
+}
+
+.approved-live-scoreboard .compact-base-diamond.is-standard {
+  position: relative;
+  width: 52px;
+  height: 34px;
+  margin: 0 auto;
+}
+
+.approved-live-scoreboard
+  .compact-base-diamond.is-standard::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 16px;
+  width: 19px;
+  height: 19px;
+  border: 1px solid rgba(242, 249, 255, 0.72);
+  transform: rotate(45deg);
+}
+
+.approved-live-scoreboard
+  .compact-base-diamond.is-standard
+  .compact-base {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1px solid #f4fbff;
+  border-radius: 2px;
+  background: rgba(245, 251, 255, 0.14);
+  box-shadow: 0 0 5px rgba(240, 250, 255, 0.28);
+  transform: rotate(45deg);
+}
+
+.approved-live-scoreboard
+  .compact-base-diamond.is-standard
+  .compact-base.is-occupied {
+  border-color: #ffffff;
+  background: #69e9ff;
+  box-shadow:
+    0 0 5px rgba(255, 255, 255, 0.84),
+    0 0 11px rgba(74, 224, 255, 0.92);
+}
+
+.approved-live-scoreboard .compact-base-second {
+  top: 0;
+  left: 22px;
+}
+
+.approved-live-scoreboard .compact-base-third {
+  top: 12px;
+  left: 9px;
+}
+
+.approved-live-scoreboard .compact-base-first {
+  top: 12px;
+  right: 9px;
+}
+
+.approved-live-scoreboard .compact-base-home {
+  top: 24px;
+  left: 22px;
+}
+
+.approved-live-scoreboard
+  .compact-base-home.is-home-hidden {
+  visibility: hidden;
+}
+
+.approved-live-scoreboard
+  .compact-base-home.is-run-badge {
+  display: grid;
+  place-items: center;
+  border-color: #ffffff;
+  background: #ff5fa2;
+  box-shadow:
+    0 0 6px rgba(255, 255, 255, 0.72),
+    0 0 12px rgba(255, 72, 153, 0.94);
+}
+
+.approved-live-scoreboard
+  .compact-base-home.is-run-badge em {
+  color: #ffffff;
+  font-size: 0.43rem;
+  font-style: normal;
+  font-weight: 950;
+  transform: rotate(-45deg);
+}
+
+/*
+  Count and outs: white count, high-contrast orange outs.
+*/
+.approved-live-scoreboard .compact-live-count-stack {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.34rem;
+  min-height: 28px;
+  border-left: 1px solid rgba(230, 242, 255, 0.24);
+}
+
+.approved-live-scoreboard .compact-live-count-number {
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-shadow: 0 0 7px rgba(255, 255, 255, 0.38);
+}
+
+.approved-live-scoreboard .compact-live-outs {
+  display: flex;
+  gap: 0.18rem;
+}
+
+.approved-live-scoreboard
+  .compact-live-outs
+  .compact-live-pip-circle {
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(255, 222, 176, 0.9);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.approved-live-scoreboard
+  .compact-live-outs
+  .compact-live-pip-circle.is-out-active {
+  border-color: #fff0d0;
+  background: #ff9e2f;
+  box-shadow:
+    0 0 5px rgba(255, 238, 199, 0.78),
+    0 0 10px rgba(255, 143, 35, 0.92);
+}
+
+/*
+  Preserve the brief red/green score-change glitch.
+*/
+.approved-live-team-score::before,
+.approved-live-team-score::after {
+  content: attr(data-score);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.approved-live-team-score.is-score-changing {
+  animation: approved-score-flash 1.35s steps(1, end) both;
+}
+
+.approved-live-team-score.is-score-changing::before {
+  color: #ff394f;
+  animation: approved-score-red-ghost 1.35s steps(2, end) both;
+}
+
+.approved-live-team-score.is-score-changing::after {
+  color: #4cff78;
+  animation: approved-score-green-ghost 1.35s steps(2, end) both;
+}
+
+@keyframes approved-score-flash {
+  0%, 100% {
+    color: inherit;
+    transform: translateX(0);
+  }
+
+  14%, 40% {
+    color: #ff394f;
+    transform: translateX(-1px);
+  }
+
+  24%, 50% {
+    color: #4cff78;
+    transform: translateX(1px);
+  }
+}
+
+@keyframes approved-score-red-ghost {
+  0%, 100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  14%, 40% {
+    opacity: 0.85;
+    transform: translateX(-3px);
+  }
+}
+
+@keyframes approved-score-green-ghost {
+  0%, 100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  24%, 50% {
+    opacity: 0.8;
+    transform: translateX(3px);
+  }
+}
+
+
+/* BORING BETS: MLB STYLE SEPARATE BASES V11 */
+
+/*
+  MLB score-bug style:
+  three independent bases with no permanent connecting lines.
+*/
+.approved-live-scoreboard
+  .compact-base-diamond.is-standard::before {
+  display: none !important;
+  content: none !important;
+}
+
+/*
+  Tight triangular base arrangement.
+*/
+.approved-live-scoreboard
+  .compact-base-diamond.is-standard {
+  position: relative;
+  width: 48px !important;
+  height: 30px !important;
+  margin: 0 auto;
+}
+
+/*
+  Individual bases.
+  Empty bases remain dark and outlined.
+  Occupied bases retain the electric-cyan treatment.
+*/
+.approved-live-scoreboard
+  .compact-base-diamond.is-standard
+  .compact-base {
+  width: 10px !important;
+  height: 10px !important;
+  border: 1px solid rgba(240, 249, 255, 0.9) !important;
+  border-radius: 1px !important;
+  background: rgba(3, 12, 29, 0.84) !important;
+  box-shadow:
+    inset 0 0 3px rgba(255, 255, 255, 0.12),
+    0 0 4px rgba(220, 243, 255, 0.22) !important;
+  transform: rotate(45deg) !important;
+}
+
+.approved-live-scoreboard
+  .compact-base-diamond.is-standard
+  .compact-base.is-occupied {
+  border-color: #ffffff !important;
+  background: #69e9ff !important;
+  box-shadow:
+    0 0 4px rgba(255, 255, 255, 0.92),
+    0 0 10px rgba(74, 224, 255, 0.96) !important;
+}
+
+/* Second base. */
+.approved-live-scoreboard
+  .compact-base-second {
+  top: 1px !important;
+  left: 19px !important;
+  right: auto !important;
+}
+
+/* Third base. */
+.approved-live-scoreboard
+  .compact-base-third {
+  top: 16px !important;
+  left: 5px !important;
+  right: auto !important;
+}
+
+/* First base. */
+.approved-live-scoreboard
+  .compact-base-first {
+  top: 16px !important;
+  right: 5px !important;
+  left: auto !important;
+}
+
+/*
+  Home is normally invisible. It appears only for the temporary
+  run-scored indicator.
+*/
+.approved-live-scoreboard
+  .compact-base-home.is-home-hidden {
+  display: none !important;
+}
+
+.approved-live-scoreboard
+  .compact-base-home.is-run-badge {
+  top: 29px !important;
+  left: 19px !important;
+  right: auto !important;
+}
+
+/* BORING BETS: SIMPLE FOUR-BASE DIAMOND V12 */
+
+.approved-live-scoreboard
+  .compact-base-diamond.is-standard::before {
+  display: none !important;
+}
+
+.approved-live-scoreboard
+  .compact-base-diamond.is-standard {
+  position: relative;
+  width: 46px !important;
+  height: 42px !important;
+  margin: 0 auto;
+}
+
+.approved-live-scoreboard
+  .compact-base-diamond.is-standard
+  .compact-base {
+  position: absolute;
+  width: 10px !important;
+  height: 10px !important;
+  border: 1px solid #ffffff !important;
+  border-radius: 1px !important;
+  background: rgba(3, 12, 29, 0.84) !important;
+  transform: rotate(45deg) !important;
+}
+
+.approved-live-scoreboard
+  .compact-base-diamond.is-standard
+  .compact-base.is-occupied {
+  background: #69e9ff !important;
+  box-shadow: 0 0 9px rgba(74, 224, 255, 0.95) !important;
+}
+
+/* Second */
+.approved-live-scoreboard .compact-base-second {
+  top: 1px !important;
+  left: 18px !important;
+}
+
+/* Third */
+.approved-live-scoreboard .compact-base-third {
+  top: 16px !important;
+  left: 3px !important;
+}
+
+/* First */
+.approved-live-scoreboard .compact-base-first {
+  top: 16px !important;
+  right: 3px !important;
+  left: auto !important;
+}
+
+/* Home: hidden until runs score */
+.approved-live-scoreboard .compact-base-home {
+  top: 31px !important;
+  left: 18px !important;
+}
+
+.approved-live-scoreboard
+  .compact-base-home.is-home-hidden {
+  display: none !important;
+}
+
+.approved-live-scoreboard
+  .compact-base-home.is-run-badge {
+  display: grid !important;
+  place-items: center;
+  background: #69e9ff !important;
+}
+
