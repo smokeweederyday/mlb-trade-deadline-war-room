@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026-07-23T21:17:55.474360+00:00",
+    "updated_at": "2026-07-23T22:34:07.917233+00:00",
     "deadline": "2026-08-03T18:00:00-04:00"
   },
   "teams": [
@@ -8,9 +8,9 @@
       "team": "TB",
       "division": "",
       "w": 59,
-      "l": 42,
+      "l": 43,
       "wcgb": 0.0,
-      "run_diff": 32,
+      "run_diff": 30,
       "tier": "Aggressive Buyer",
       "need": "Another bat",
       "betting_note": "Lineup slot matters before repricing team totals"
@@ -51,10 +51,10 @@
     {
       "team": "TOR",
       "division": "",
-      "w": 46,
+      "w": 47,
       "l": 56,
-      "wcgb": 6.5,
-      "run_diff": -63,
+      "wcgb": 6.0,
+      "run_diff": -61,
       "tier": "Buyer",
       "need": "Editorial review needed",
       "betting_note": "Review roster and market impact"
