@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026-07-23T18:20:57.794322+00:00",
+    "updated_at": "2026-07-23T19:57:51.217467+00:00",
     "deadline": "2026-08-03T18:00:00-04:00"
   },
   "teams": [
@@ -172,10 +172,10 @@
     {
       "team": "ATL",
       "division": "",
-      "w": 59,
+      "w": 60,
       "l": 42,
       "wcgb": 0.0,
-      "run_diff": 105,
+      "run_diff": 106,
       "tier": "Aggressive Buyer",
       "need": "Editorial review needed",
       "betting_note": "Review roster and market impact"
@@ -305,9 +305,9 @@
       "team": "SD",
       "division": "",
       "w": 50,
-      "l": 52,
-      "wcgb": 3.0,
-      "run_diff": -29,
+      "l": 53,
+      "wcgb": 3.5,
+      "run_diff": -30,
       "tier": "Buyer",
       "need": "Editorial review needed",
       "betting_note": "Review roster and market impact"
