@@ -6,5 +6,12 @@
   "recommended_size": {
     "width": 1916,
     "height": 821
-  }
+  },
+  "sport": "baseball",
+  "numbered_primary_variants": [
+    "fair-day-01.webp",
+    "fair-dusk-01.webp",
+    "fair-night-01.webp"
+  ],
+  "weather_specific_status": "No approved rain or rain-delay photo yet; use numbered fair-weather fallback."
 }

@@ -2,75 +2,79 @@
 
 This folder is safe to give to a nontechnical photo researcher.
 
-## Naming rule
+## Priority
 
-Use a category name, a two-digit priority number, and an image extension:
+Inside any category folder:
 
-    fair-day-01.webp
-    fair-day-02.webp
-    fair-night-01.webp
-    interior-night-01.jpg
-    default-01.webp
+    day-01.webp
+    day-02.webp
+    dusk-01.webp
+    night-01.webp
 
-Priority is deterministic:
-
-- `01` is the primary image.
+- `01` is primary.
 - `02` is the first fallback.
 - `03` is the next fallback.
-
-The website never relies on Finder sorting.
-
-## Safe behavior
-
-- Correctly named images are indexed automatically.
-- Incorrectly named images are ignored.
+- Incorrect filenames are ignored.
 - Missing categories fall back safely.
-- Existing unnumbered files remain legacy fallbacks.
-- Adding a photo cannot break the page.
+- Legacy flat files remain supported.
 
-## Common categories
+## Weather folders
 
-Universal:
+    weather/fair/
+    weather/partly-cloudy/
+    weather/cloudy/
+    weather/overcast/
+    weather/haze/
+    weather/smoke/
+    weather/fog/
+    weather/windy/
+    weather/drizzle/
+    weather/rain/
+    weather/heavy-rain/
+    weather/thunderstorm/
+    weather/lightning/
+    weather/hail/
+    weather/freezing-rain/
+    weather/sleet/
+    weather/snow/
+    weather/heavy-snow/
+    weather/dust/
+    weather/extreme-heat/
+    weather/extreme-cold/
 
+Each weather folder may contain:
+
+    day-01.webp
+    dusk-01.webp
+    night-01.webp
     default-01.webp
-    exterior-day-01.webp
-    exterior-night-01.webp
-    interior-day-01.webp
-    interior-night-01.webp
 
-Outdoor venues:
+## Event-state folders
 
-    fair-day-01.webp
-    fair-dusk-01.webp
-    fair-night-01.webp
-    rain-day-01.webp
-    rain-night-01.webp
-    storm-night-01.webp
-    snow-day-01.webp
-    fog-day-01.webp
+Tarp and delay photographs are not ordinary rain:
 
-Baseball rain delays:
+    event-state/rain-delay/
+    event-state/weather-delay/
+    event-state/suspended-weather/
+    event-state/postponed-weather/
 
-    rain-delay-day-01.webp
-    rain-delay-dusk-01.webp
-    rain-delay-night-01.webp
+## Venue-state folders
 
-Retractable roofs:
+    roof/open/
+    roof/closed/
+    roof/fixed-dome/
+    roof/unknown/
+    interior/
+    exterior/
 
-    open-fair-day-01.webp
-    open-fair-night-01.webp
-    closed-fair-day-01.webp
-    closed-fair-night-01.webp
+Examples:
 
-Tennis examples:
+    roof/closed/night-01.webp
+    interior/night-01.webp
+    exterior/day-01.webp
 
-    grass-day-01.webp
-    clay-day-01.webp
-    hardcourt-night-01.webp
-    closed-night-01.webp
-
-Other sports may use additional lowercase hyphenated categories. The page
-chooses the category order; this folder only provides ranked photographs.
+Closed indoor venues ignore outside weather. T-Mobile Park remains the explicit
+weather-exposed exception.
 
 ## Image recommendations
 
@@ -78,7 +82,7 @@ chooses the category order; this folder only provides ranked photographs.
 - Recommended export: 1916 x 821.
 - Real venue photography.
 - Avoid watermarks and promotional text.
-- Record the source and license in `ATTRIBUTION.md` when known.
+- Record source and license in `ATTRIBUTION.md` when known.
 
 After adding photos, run:
 

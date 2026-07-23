@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the universal, Mike-safe Boring Bets venue image index."""
+"""Build the recursive, Mike-safe Boring Bets venue image index."""
 
 from __future__ import annotations
 
@@ -28,6 +28,44 @@ FORMAT_PRIORITY = {
     "png": 4,
 }
 
+WEATHER_CONDITIONS = (
+    "fair",
+    "partly-cloudy",
+    "cloudy",
+    "overcast",
+    "haze",
+    "smoke",
+    "fog",
+    "windy",
+    "drizzle",
+    "rain",
+    "heavy-rain",
+    "thunderstorm",
+    "lightning",
+    "hail",
+    "freezing-rain",
+    "sleet",
+    "snow",
+    "heavy-snow",
+    "dust",
+    "extreme-heat",
+    "extreme-cold",
+)
+
+EVENT_STATES = (
+    "rain-delay",
+    "weather-delay",
+    "suspended-weather",
+    "postponed-weather",
+)
+
+ROOF_STATES = (
+    "open",
+    "closed",
+    "fixed-dome",
+    "unknown",
+)
+
 NUMBERED_PATTERN = re.compile(
     r"^(?P<variant>[a-z0-9]+(?:-[a-z0-9]+)*)"
     r"-(?P<priority>\d{2,3})"
@@ -43,75 +81,79 @@ PHOTO_GUIDE = """# Venue photo folder guide
 
 This folder is safe to give to a nontechnical photo researcher.
 
-## Naming rule
+## Priority
 
-Use a category name, a two-digit priority number, and an image extension:
+Inside any category folder:
 
-    fair-day-01.webp
-    fair-day-02.webp
-    fair-night-01.webp
-    interior-night-01.jpg
-    default-01.webp
+    day-01.webp
+    day-02.webp
+    dusk-01.webp
+    night-01.webp
 
-Priority is deterministic:
-
-- `01` is the primary image.
+- `01` is primary.
 - `02` is the first fallback.
 - `03` is the next fallback.
-
-The website never relies on Finder sorting.
-
-## Safe behavior
-
-- Correctly named images are indexed automatically.
-- Incorrectly named images are ignored.
+- Incorrect filenames are ignored.
 - Missing categories fall back safely.
-- Existing unnumbered files remain legacy fallbacks.
-- Adding a photo cannot break the page.
+- Legacy flat files remain supported.
 
-## Common categories
+## Weather folders
 
-Universal:
+    weather/fair/
+    weather/partly-cloudy/
+    weather/cloudy/
+    weather/overcast/
+    weather/haze/
+    weather/smoke/
+    weather/fog/
+    weather/windy/
+    weather/drizzle/
+    weather/rain/
+    weather/heavy-rain/
+    weather/thunderstorm/
+    weather/lightning/
+    weather/hail/
+    weather/freezing-rain/
+    weather/sleet/
+    weather/snow/
+    weather/heavy-snow/
+    weather/dust/
+    weather/extreme-heat/
+    weather/extreme-cold/
 
+Each weather folder may contain:
+
+    day-01.webp
+    dusk-01.webp
+    night-01.webp
     default-01.webp
-    exterior-day-01.webp
-    exterior-night-01.webp
-    interior-day-01.webp
-    interior-night-01.webp
 
-Outdoor venues:
+## Event-state folders
 
-    fair-day-01.webp
-    fair-dusk-01.webp
-    fair-night-01.webp
-    rain-day-01.webp
-    rain-night-01.webp
-    storm-night-01.webp
-    snow-day-01.webp
-    fog-day-01.webp
+Tarp and delay photographs are not ordinary rain:
 
-Baseball rain delays:
+    event-state/rain-delay/
+    event-state/weather-delay/
+    event-state/suspended-weather/
+    event-state/postponed-weather/
 
-    rain-delay-day-01.webp
-    rain-delay-dusk-01.webp
-    rain-delay-night-01.webp
+## Venue-state folders
 
-Retractable roofs:
+    roof/open/
+    roof/closed/
+    roof/fixed-dome/
+    roof/unknown/
+    interior/
+    exterior/
 
-    open-fair-day-01.webp
-    open-fair-night-01.webp
-    closed-fair-day-01.webp
-    closed-fair-night-01.webp
+Examples:
 
-Tennis examples:
+    roof/closed/night-01.webp
+    interior/night-01.webp
+    exterior/day-01.webp
 
-    grass-day-01.webp
-    clay-day-01.webp
-    hardcourt-night-01.webp
-    closed-night-01.webp
-
-Other sports may use additional lowercase hyphenated categories. The page
-chooses the category order; this folder only provides ranked photographs.
+Closed indoor venues ignore outside weather. T-Mobile Park remains the explicit
+weather-exposed exception.
 
 ## Image recommendations
 
@@ -119,11 +161,42 @@ chooses the category order; this folder only provides ranked photographs.
 - Recommended export: 1916 x 821.
 - Real venue photography.
 - Avoid watermarks and promotional text.
-- Record the source and license in `ATTRIBUTION.md` when known.
+- Record source and license in `ATTRIBUTION.md` when known.
 
 After adding photos, run:
 
     python3 scripts/build_venue_image_index.py
+"""
+
+WEATHER_REFERENCE = """# Weather category reference
+
+The resolver starts with the exact condition and moves only toward visually
+safer, broader fallbacks.
+
+Examples:
+
+- Lightning: lightning -> thunderstorm -> heavy-rain -> rain -> overcast
+  -> cloudy -> partly-cloudy -> fair -> default
+- Rain: rain -> drizzle -> overcast -> cloudy -> partly-cloudy -> fair
+  -> default
+- Fog: fog -> haze -> overcast -> cloudy -> fair -> default
+- Snow: snow -> overcast -> cloudy -> partly-cloudy -> fair -> default
+- Fair: fair -> partly-cloudy -> cloudy -> default
+
+A missing rain image never escalates into lightning.
+
+Times:
+
+    day-01.webp
+    dusk-01.webp
+    night-01.webp
+    default-01.webp
+
+Priority:
+
+    01 primary
+    02 first fallback
+    03 next fallback
 """
 
 
@@ -136,6 +209,14 @@ def slugify(value):
     text = text.lower().replace("&", " and ")
     text = re.sub(r"[^a-z0-9]+", "-", text)
     return text.strip("-")
+
+
+def normalize_variant_parts(parts):
+    return "/".join(
+        slugify(part)
+        for part in parts
+        if slugify(part)
+    )
 
 
 def write_if_changed(path, content):
@@ -159,31 +240,75 @@ def read_manifest(folder):
         return {}
 
 
-def parse_image_file(path):
+def ensure_folder_skeleton(folder):
+    for condition in WEATHER_CONDITIONS:
+        (folder / "weather" / condition).mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+    for state in EVENT_STATES:
+        (folder / "event-state" / state).mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+    for state in ROOF_STATES:
+        (folder / "roof" / state).mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+    (folder / "interior").mkdir(parents=True, exist_ok=True)
+    (folder / "exterior").mkdir(parents=True, exist_ok=True)
+
+    write_if_changed(
+        folder / "PHOTO-GUIDE.md",
+        PHOTO_GUIDE,
+    )
+    write_if_changed(
+        folder / "WEATHER-CATEGORIES.md",
+        WEATHER_REFERENCE,
+    )
+
+
+def parse_image_file(path, folder):
     lower_name = path.name.lower()
 
     match = NUMBERED_PATTERN.fullmatch(lower_name)
     if match:
-        return {
-            "variant": match.group("variant"),
+        parsed = {
+            "leaf": match.group("variant"),
             "priority": int(match.group("priority")),
             "legacy": False,
             "extension": match.group("extension"),
         }
+    else:
+        match = LEGACY_PATTERN.fullmatch(lower_name)
+        if match:
+            parsed = {
+                "leaf": match.group("variant"),
+                "priority": 9999,
+                "legacy": True,
+                "extension": match.group("extension"),
+            }
+        elif path.suffix.lower().lstrip(".") in IMAGE_EXTENSIONS:
+            return {"invalid": True}
+        else:
+            return None
 
-    match = LEGACY_PATTERN.fullmatch(lower_name)
-    if match:
-        return {
-            "variant": match.group("variant"),
-            "priority": 9999,
-            "legacy": True,
-            "extension": match.group("extension"),
-        }
+    relative_parent = path.relative_to(folder).parent
+    parent_parts = (
+        []
+        if str(relative_parent) == "."
+        else list(relative_parent.parts)
+    )
 
-    if path.suffix.lower().lstrip(".") in IMAGE_EXTENSIONS:
-        return {"invalid": True}
+    parsed["variant"] = normalize_variant_parts(
+        [*parent_parts, parsed["leaf"]]
+    )
 
-    return None
+    return parsed
 
 
 def discover_folders():
@@ -199,14 +324,20 @@ def discover_folders():
             sport = slugify(sport_folder.name) or "unknown"
 
             for venue_folder in sorted(sport_folder.iterdir()):
-                if venue_folder.is_dir() and not venue_folder.name.startswith("_"):
+                if (
+                    venue_folder.is_dir()
+                    and not venue_folder.name.startswith("_")
+                ):
                     found.append(
                         (sport, venue_folder, "canonical")
                     )
 
     if LEGACY_BASEBALL_ROOT.exists():
         for venue_folder in sorted(LEGACY_BASEBALL_ROOT.iterdir()):
-            if venue_folder.is_dir() and not venue_folder.name.startswith("_"):
+            if (
+                venue_folder.is_dir()
+                and not venue_folder.name.startswith("_")
+            ):
                 found.append(
                     ("baseball", venue_folder, "legacy-stadium")
                 )
@@ -215,6 +346,8 @@ def discover_folders():
 
 
 def build_entry(sport, folder, source_type):
+    ensure_folder_skeleton(folder)
+
     manifest = read_manifest(folder)
     slug = slugify(
         manifest.get("folder") or folder.name
@@ -244,17 +377,20 @@ def build_entry(sport, folder, source_type):
     files = defaultdict(list)
     warnings = []
 
-    for path in sorted(folder.iterdir()):
+    for path in sorted(folder.rglob("*")):
         if not path.is_file():
             continue
+        if any(part.startswith(".") for part in path.relative_to(folder).parts):
+            continue
 
-        parsed = parse_image_file(path)
+        parsed = parse_image_file(path, folder)
         if parsed is None:
             continue
 
         if parsed.get("invalid"):
             warnings.append(
-                f"Ignored invalid image filename: {path.name}"
+                f"Ignored invalid image filename: "
+                f"{path.relative_to(folder).as_posix()}"
             )
             continue
 
@@ -286,15 +422,12 @@ def build_entry(sport, folder, source_type):
             key = (item["priority"], item["legacy"])
             if key in seen_priority and not item["legacy"]:
                 warnings.append(
-                    f"Duplicate numbered priority for {variant}: "
-                    f"{item['priority']:02d}"
+                    f"Duplicate numbered priority for "
+                    f"{variant}: {item['priority']:02d}"
                 )
             seen_priority.add(key)
 
         normalized_files[variant] = items
-
-    guide_path = folder / "PHOTO-GUIDE.md"
-    write_if_changed(guide_path, PHOTO_GUIDE)
 
     return {
         "sport": slugify(
@@ -323,7 +456,6 @@ def merge_entries(entries):
 
         current = merged[key]
 
-        # Canonical universal folders outrank legacy stadium folders.
         if (
             current["source_type"] != "canonical"
             and entry["source_type"] == "canonical"
@@ -386,15 +518,20 @@ def main():
     )
 
     payload = {
-        "version": 1,
+        "version": 2,
         "generated_at": datetime.now(
             timezone.utc
         ).isoformat(),
         "naming": {
-            "primary": "<variant>-01.<extension>",
-            "fallback": "<variant>-02.<extension>",
+            "recursive": (
+                "<category>/<condition>/<time>-01.<extension>"
+            ),
+            "primary": "<time>-01.<extension>",
+            "fallback": "<time>-02.<extension>",
             "legacy": "<variant>.<extension>",
         },
+        "weather_conditions": list(WEATHER_CONDITIONS),
+        "event_states": list(EVENT_STATES),
         "venue_count": len(venues),
         "venues": venues,
     }
@@ -418,7 +555,6 @@ def main():
     write_if_changed(JSON_OUTPUT, json_text)
     write_if_changed(JS_OUTPUT, js_text)
 
-    # Keep the historical location useful for existing tooling.
     if LEGACY_BASEBALL_ROOT.exists():
         write_if_changed(LEGACY_JSON_OUTPUT, json_text)
 
@@ -427,15 +563,16 @@ def main():
         for entry in venues
     )
     image_count = sum(
-        len(files)
+        len(items)
         for entry in venues
-        for files in entry["files"].values()
+        for items in entry["files"].values()
     )
 
     print(
         f"PASS: indexed {image_count} venue images "
         f"across {len(venues)} venues."
     )
+    print("PASS: recursive weather folders are active.")
     print(
         "PASS: numbered images sort before legacy "
         "unnumbered fallbacks."
@@ -445,7 +582,7 @@ def main():
         "instead of breaking the site."
     )
     print(
-        f"PASS: wrote Mike photo guides into "
+        f"PASS: prepared weather folder skeletons for "
         f"{len(discovered)} venue folders."
     )
     print(f"WARNINGS: {warning_count}")

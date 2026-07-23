@@ -6,5 +6,11 @@
   "recommended_size": {
     "width": 1916,
     "height": 821
-  }
+  },
+  "recursive_weather_variants": [
+    "weather/cloudy/day-01.webp",
+    "weather/fair/dusk-01.webp",
+    "weather/fair/night-01.webp"
+  ],
+  "weather_specific_status": "Day primary is cloudy; dusk and night are fair."
 }

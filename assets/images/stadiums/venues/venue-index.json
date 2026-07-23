@@ -1,11 +1,41 @@
 {
-  "version": 1,
-  "generated_at": "2026-07-23T06:27:13.207288+00:00",
+  "version": 2,
+  "generated_at": "2026-07-23T07:34:22.323107+00:00",
   "naming": {
-    "primary": "<variant>-01.<extension>",
-    "fallback": "<variant>-02.<extension>",
+    "recursive": "<category>/<condition>/<time>-01.<extension>",
+    "primary": "<time>-01.<extension>",
+    "fallback": "<time>-02.<extension>",
     "legacy": "<variant>.<extension>"
   },
+  "weather_conditions": [
+    "fair",
+    "partly-cloudy",
+    "cloudy",
+    "overcast",
+    "haze",
+    "smoke",
+    "fog",
+    "windy",
+    "drizzle",
+    "rain",
+    "heavy-rain",
+    "thunderstorm",
+    "lightning",
+    "hail",
+    "freezing-rain",
+    "sleet",
+    "snow",
+    "heavy-snow",
+    "dust",
+    "extreme-heat",
+    "extreme-cold"
+  ],
+  "event_states": [
+    "rain-delay",
+    "weather-delay",
+    "suspended-weather",
+    "postponed-weather"
+  ],
   "venue_count": 34,
   "venues": [
     {
@@ -385,7 +415,35 @@
       ],
       "source_type": "legacy-stadium",
       "folder": "assets/images/stadiums/venues/oracle-park",
-      "files": {},
+      "files": {
+        "weather/fair/day": [
+          {
+            "path": "assets/images/stadiums/venues/oracle-park/weather/fair/day-01.webp",
+            "priority": 1,
+            "legacy": false,
+            "format": "webp",
+            "filename": "day-01.webp"
+          }
+        ],
+        "weather/fair/dusk": [
+          {
+            "path": "assets/images/stadiums/venues/oracle-park/weather/fair/dusk-01.webp",
+            "priority": 1,
+            "legacy": false,
+            "format": "webp",
+            "filename": "dusk-01.webp"
+          }
+        ],
+        "weather/fair/night": [
+          {
+            "path": "assets/images/stadiums/venues/oracle-park/weather/fair/night-01.webp",
+            "priority": 1,
+            "legacy": false,
+            "format": "webp",
+            "filename": "night-01.webp"
+          }
+        ]
+      },
       "warnings": []
     },
     {
@@ -605,7 +663,44 @@
       ],
       "source_type": "legacy-stadium",
       "folder": "assets/images/stadiums/venues/target-field",
-      "files": {},
+      "files": {
+        "default": [
+          {
+            "path": "assets/images/stadiums/venues/target-field/default-99.jpg",
+            "priority": 99,
+            "legacy": false,
+            "format": "jpg",
+            "filename": "default-99.jpg"
+          }
+        ],
+        "fair-day": [
+          {
+            "path": "assets/images/stadiums/venues/target-field/fair-day-01.webp",
+            "priority": 1,
+            "legacy": false,
+            "format": "webp",
+            "filename": "fair-day-01.webp"
+          }
+        ],
+        "fair-dusk": [
+          {
+            "path": "assets/images/stadiums/venues/target-field/fair-dusk-01.webp",
+            "priority": 1,
+            "legacy": false,
+            "format": "webp",
+            "filename": "fair-dusk-01.webp"
+          }
+        ],
+        "fair-night": [
+          {
+            "path": "assets/images/stadiums/venues/target-field/fair-night-01.webp",
+            "priority": 1,
+            "legacy": false,
+            "format": "webp",
+            "filename": "fair-night-01.webp"
+          }
+        ]
+      },
       "warnings": []
     },
     {

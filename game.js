@@ -1572,39 +1572,127 @@ function gameHeaderStadiumPhotoCandidates(game, venue = {}) {
         adminExplicitRainDelayPhoto ||
         adminNearCertainMostGame;
 
-      let adminWeather = "fair";
+      /*
+        BORING BETS: DETAILED VENUE WEATHER CATEGORIES V2
+
+        Event state and atmospheric condition are intentionally separate.
+        A tarp photograph is an event-state/rain-delay image, while ordinary
+        rain remains weather/rain.
+      */
+      let adminEventState = "";
 
       if (adminUseRainDelayPhoto) {
-        adminWeather = "rain-delay";
+        adminEventState = "rain-delay";
       } else if (
-        /\blightning\b/.test(adminWeatherText) ||
+        /\bpostponed\b/.test(adminStatusText) &&
+        /\b(?:rain|weather|storm|snow|ice)\b/.test(adminStatusText)
+      ) {
+        adminEventState = "postponed-weather";
+      } else if (
+        /\bsuspended\b/.test(adminStatusText) &&
+        /\b(?:rain|weather|storm|snow|ice)\b/.test(adminStatusText)
+      ) {
+        adminEventState = "suspended-weather";
+      } else if (
+        /\bdelay(?:ed)?\b/.test(adminStatusText) &&
+        /\b(?:rain|weather|storm|snow|ice)\b/.test(adminStatusText)
+      ) {
+        adminEventState = "weather-delay";
+      }
+
+      const adminTemperatureValue = Number.parseFloat(
+        String(
+          game?.weather?.temperature ??
+          game?.weather?.temp ??
+          game?.weather?.temperature_f ??
+          game?.temperature ??
+          ""
+        ).replace("°", "").trim()
+      );
+
+      let adminWeather = "fair";
+
+      if (/\blightning\b/.test(adminWeatherText)) {
+        adminWeather = "lightning";
+      } else if (
+        /\bthunderstorm\b/.test(adminWeatherText) ||
         /\bthunder\b/.test(adminWeatherText) ||
-        /\bstorm\b/.test(adminWeatherText)
+        /\belectrical storm\b/.test(adminWeatherText)
       ) {
-        adminWeather = "storm";
+        adminWeather = "thunderstorm";
+      } else if (/\bhail\b/.test(adminWeatherText)) {
+        adminWeather = "hail";
       } else if (
-        /\brain\b/.test(adminWeatherText) ||
-        /\bdrizzle\b/.test(adminWeatherText) ||
-        /\bshowers?\b/.test(adminWeatherText)
+        /\bfreezing rain\b/.test(adminWeatherText) ||
+        /\bice storm\b/.test(adminWeatherText)
       ) {
-        adminWeather = "rain";
+        adminWeather = "freezing-rain";
+      } else if (/\bsleet\b/.test(adminWeatherText)) {
+        adminWeather = "sleet";
+      } else if (
+        /\bheavy snow\b/.test(adminWeatherText) ||
+        /\bblizzard\b/.test(adminWeatherText) ||
+        /\bsnow squall\b/.test(adminWeatherText)
+      ) {
+        adminWeather = "heavy-snow";
       } else if (
         /\bsnow\b/.test(adminWeatherText) ||
-        /\bsleet\b/.test(adminWeatherText) ||
         /\bflurr/.test(adminWeatherText)
       ) {
         adminWeather = "snow";
       } else if (
-        /\bfog\b/.test(adminWeatherText) ||
-        /\bmist\b/.test(adminWeatherText) ||
-        /\bhaze\b/.test(adminWeatherText)
+        /\bheavy rain\b/.test(adminWeatherText) ||
+        /\bdownpour\b/.test(adminWeatherText) ||
+        /\btorrential\b/.test(adminWeatherText)
       ) {
+        adminWeather = "heavy-rain";
+      } else if (
+        /\brain\b/.test(adminWeatherText) ||
+        /\bshowers?\b/.test(adminWeatherText)
+      ) {
+        adminWeather = "rain";
+      } else if (/\bdrizzle\b/.test(adminWeatherText)) {
+        adminWeather = "drizzle";
+      } else if (/\bfog\b|\bmist\b/.test(adminWeatherText)) {
         adminWeather = "fog";
+      } else if (/\bsmoke\b/.test(adminWeatherText)) {
+        adminWeather = "smoke";
+      } else if (/\bhaze\b/.test(adminWeatherText)) {
+        adminWeather = "haze";
+      } else if (
+        /\bdust\b/.test(adminWeatherText) ||
+        /\bsandstorm\b/.test(adminWeatherText)
+      ) {
+        adminWeather = "dust";
+      } else if (
+        /\bovercast\b/.test(adminWeatherText) ||
+        /\bmostly cloudy\b/.test(adminWeatherText)
+      ) {
+        adminWeather = "overcast";
+      } else if (
+        /\bpartly cloudy\b/.test(adminWeatherText) ||
+        /\bpartly sunny\b/.test(adminWeatherText) ||
+        /\bscattered clouds?\b/.test(adminWeatherText)
+      ) {
+        adminWeather = "partly-cloudy";
+      } else if (/\bcloud/.test(adminWeatherText)) {
+        adminWeather = "cloudy";
       } else if (
         /\bwind\b/.test(adminWeatherText) ||
-        /\bwindy\b/.test(adminWeatherText)
+        /\bwindy\b/.test(adminWeatherText) ||
+        /\bgust/.test(adminWeatherText)
       ) {
-        adminWeather = "wind";
+        adminWeather = "windy";
+      } else if (
+        Number.isFinite(adminTemperatureValue) &&
+        adminTemperatureValue >= 95
+      ) {
+        adminWeather = "extreme-heat";
+      } else if (
+        Number.isFinite(adminTemperatureValue) &&
+        adminTemperatureValue <= 35
+      ) {
+        adminWeather = "extreme-cold";
       }
 
       const adminRoofText = [
@@ -1748,6 +1836,19 @@ function gameHeaderStadiumPhotoCandidates(game, venue = {}) {
       const adminFolder =
         `assets/images/stadiums/venues/${adminVenueFolder}`;
 
+      /*
+        BORING BETS: RECURSIVE WEATHER FOLDER FALLBACKS V2
+
+        Nested folder examples:
+          weather/cloudy/day-01.webp
+          event-state/rain-delay/night-01.webp
+          roof/closed/night-01.webp
+          interior/night-01.webp
+          exterior/day-01.webp
+
+        Exact and severe conditions fall safely toward broader and calmer
+        visual states. A missing rain image never escalates into lightning.
+      */
       const adminBases = [];
 
       const addAdminBase = (value) => {
@@ -1756,26 +1857,264 @@ function gameHeaderStadiumPhotoCandidates(game, venue = {}) {
         }
       };
 
-      if (adminRoof) {
-        addAdminBase(
-          `${adminRoof}-${adminWeather}-${adminTime}`
-        );
-        addAdminBase(`${adminRoof}-${adminWeather}`);
+      const adminTimeFallbacks = {
+        day: ["day", "dusk"],
+        dusk: ["dusk", "night", "day"],
+        night: ["night", "dusk"]
+      }[adminTime] || [adminTime, "day"];
+
+      const adminWeatherFallbackMap = {
+        lightning: [
+          "lightning",
+          "thunderstorm",
+          "heavy-rain",
+          "rain",
+          "overcast",
+          "cloudy",
+          "partly-cloudy",
+          "fair"
+        ],
+        thunderstorm: [
+          "thunderstorm",
+          "heavy-rain",
+          "rain",
+          "overcast",
+          "cloudy",
+          "partly-cloudy",
+          "fair"
+        ],
+        hail: [
+          "hail",
+          "thunderstorm",
+          "heavy-rain",
+          "rain",
+          "overcast",
+          "cloudy",
+          "fair"
+        ],
+        "freezing-rain": [
+          "freezing-rain",
+          "sleet",
+          "rain",
+          "overcast",
+          "cloudy",
+          "fair"
+        ],
+        sleet: [
+          "sleet",
+          "snow",
+          "rain",
+          "overcast",
+          "cloudy",
+          "fair"
+        ],
+        "heavy-snow": [
+          "heavy-snow",
+          "snow",
+          "overcast",
+          "cloudy",
+          "fair"
+        ],
+        snow: [
+          "snow",
+          "overcast",
+          "cloudy",
+          "partly-cloudy",
+          "fair"
+        ],
+        "heavy-rain": [
+          "heavy-rain",
+          "rain",
+          "overcast",
+          "cloudy",
+          "partly-cloudy",
+          "fair"
+        ],
+        rain: [
+          "rain",
+          "drizzle",
+          "overcast",
+          "cloudy",
+          "partly-cloudy",
+          "fair"
+        ],
+        drizzle: [
+          "drizzle",
+          "overcast",
+          "cloudy",
+          "partly-cloudy",
+          "fair"
+        ],
+        fog: [
+          "fog",
+          "haze",
+          "overcast",
+          "cloudy",
+          "fair"
+        ],
+        smoke: [
+          "smoke",
+          "haze",
+          "overcast",
+          "cloudy",
+          "fair"
+        ],
+        haze: [
+          "haze",
+          "overcast",
+          "cloudy",
+          "partly-cloudy",
+          "fair"
+        ],
+        dust: [
+          "dust",
+          "haze",
+          "overcast",
+          "cloudy",
+          "fair"
+        ],
+        overcast: [
+          "overcast",
+          "cloudy",
+          "partly-cloudy",
+          "fair"
+        ],
+        cloudy: [
+          "cloudy",
+          "partly-cloudy",
+          "fair"
+        ],
+        "partly-cloudy": [
+          "partly-cloudy",
+          "fair",
+          "cloudy"
+        ],
+        windy: [
+          "windy",
+          "partly-cloudy",
+          "fair",
+          "cloudy"
+        ],
+        "extreme-heat": [
+          "extreme-heat",
+          "fair",
+          "partly-cloudy",
+          "cloudy"
+        ],
+        "extreme-cold": [
+          "extreme-cold",
+          "fair",
+          "partly-cloudy",
+          "cloudy"
+        ],
+        fair: [
+          "fair",
+          "partly-cloudy",
+          "cloudy"
+        ]
+      };
+
+      const adminWeatherFallbacks =
+        adminWeatherFallbackMap[adminWeather] ||
+        [adminWeather, "fair"];
+
+      const adminWeatherExposed =
+        adminVenueId === "680" ||
+        adminVenueFolder === "t-mobile-park";
+
+      const adminIndoorClosed =
+        adminRoof === "closed" &&
+        !adminWeatherExposed;
+
+      if (adminIndoorClosed) {
+        for (const timeValue of adminTimeFallbacks) {
+          addAdminBase(`roof/closed/${timeValue}`);
+        }
+        addAdminBase("roof/closed/default");
+
+        for (const timeValue of adminTimeFallbacks) {
+          addAdminBase(`interior/${timeValue}`);
+        }
+        addAdminBase("interior/default");
+      } else {
+        if (adminEventState) {
+          for (const timeValue of adminTimeFallbacks) {
+            addAdminBase(
+              `event-state/${adminEventState}/${timeValue}`
+            );
+          }
+          addAdminBase(
+            `event-state/${adminEventState}/default`
+          );
+        }
+
+        if (adminRoof) {
+          for (const weatherValue of adminWeatherFallbacks) {
+            for (const timeValue of adminTimeFallbacks) {
+              addAdminBase(
+                `roof/${adminRoof}/${weatherValue}/${timeValue}`
+              );
+            }
+          }
+        }
+
+        for (const weatherValue of adminWeatherFallbacks) {
+          for (const timeValue of adminTimeFallbacks) {
+            addAdminBase(
+              `weather/${weatherValue}/${timeValue}`
+            );
+          }
+          addAdminBase(
+            `weather/${weatherValue}/default`
+          );
+        }
+
+        if (adminRoof) {
+          for (const timeValue of adminTimeFallbacks) {
+            addAdminBase(`roof/${adminRoof}/${timeValue}`);
+          }
+          addAdminBase(`roof/${adminRoof}/default`);
+        }
+
+        for (const timeValue of adminTimeFallbacks) {
+          addAdminBase(`exterior/${timeValue}`);
+        }
+        addAdminBase("exterior/default");
       }
 
-      addAdminBase(`${adminWeather}-${adminTime}`);
-      addAdminBase(adminWeather);
+      /*
+        Legacy flat filenames remain valid until each venue is migrated.
+      */
+      if (adminEventState) {
+        for (const timeValue of adminTimeFallbacks) {
+          addAdminBase(
+            `${adminEventState}-${timeValue}`
+          );
+        }
+        addAdminBase(adminEventState);
+      }
+
+      if (!adminIndoorClosed) {
+        for (const weatherValue of adminWeatherFallbacks) {
+          for (const timeValue of adminTimeFallbacks) {
+            addAdminBase(
+              `${weatherValue}-${timeValue}`
+            );
+          }
+          addAdminBase(weatherValue);
+        }
+      }
 
       if (adminRoof) {
-        addAdminBase(`${adminRoof}-fair-${adminTime}`);
+        for (const timeValue of adminTimeFallbacks) {
+          addAdminBase(`${adminRoof}-fair-${timeValue}`);
+        }
         addAdminBase(`${adminRoof}-fair`);
         addAdminBase(adminRoof);
       }
 
-      addAdminBase(`fair-${adminTime}`);
-
-      if (adminTime === "dusk") {
-        addAdminBase("fair-night");
+      for (const timeValue of adminTimeFallbacks) {
+        addAdminBase(`fair-${timeValue}`);
       }
 
       addAdminBase(adminTime);
