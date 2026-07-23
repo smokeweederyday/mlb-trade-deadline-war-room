@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "sport_id": "tennis",
+  "sport_label": "Tennis",
+  "league_id": "itf-men",
+  "league_label": "ITF Men’s World Tennis Tour",
+  "region": "International",
+  "level": "developmental",
+  "gender": "men",
+  "profile": "mixed_tournament",
+  "entity_root": "entities",
+  "category_template": "_CATEGORY-TEMPLATE-mixed_tournament",
+  "image_contract": {
+    "purpose": "game-card-header",
+    "recommended_width": 1900,
+    "recommended_aspect_ratio": "1916:821",
+    "allowed_extensions": [
+      ".avif",
+      ".jpeg",
+      ".jpg",
+      ".png",
+      ".webp"
+    ],
+    "numbered_names_required": true
+  }
+}

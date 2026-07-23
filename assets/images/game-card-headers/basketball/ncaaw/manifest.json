@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "sport_id": "basketball",
+  "sport_label": "Basketball",
+  "league_id": "ncaaw",
+  "league_label": "NCAA Women",
+  "region": "United States",
+  "level": "college",
+  "gender": "women",
+  "profile": "indoor_team_venue",
+  "entity_root": "entities",
+  "category_template": "_CATEGORY-TEMPLATE-indoor_team_venue",
+  "image_contract": {
+    "purpose": "game-card-header",
+    "recommended_width": 1900,
+    "recommended_aspect_ratio": "1916:821",
+    "allowed_extensions": [
+      ".avif",
+      ".jpeg",
+      ".jpg",
+      ".png",
+      ".webp"
+    ],
+    "numbered_names_required": true
+  }
+}

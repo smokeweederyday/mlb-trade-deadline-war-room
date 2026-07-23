@@ -1,0 +1,2173 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Comprehensive game-card header coverage for Today’s Card / future Slate.",
+  "notes": [
+    "This registry may be broader than the leagues currently visible on Today’s Card.",
+    "Every sport and league in data/sports-card-config.json must also exist here.",
+    "Adding a new Slate sport or league without header coverage is a validation error.",
+    "MMA and boxing share the top-level Combat Sports folder."
+  ],
+  "sports": [
+    {
+      "id": "baseball",
+      "folder": "baseball",
+      "label": "Baseball",
+      "profile": "outdoor_team_venue",
+      "leagues": [
+        {
+          "id": "mlb",
+          "label": "MLB",
+          "region": "United States / Canada",
+          "level": "major"
+        },
+        {
+          "id": "triple-a",
+          "label": "Triple-A",
+          "region": "United States / Canada",
+          "level": "minor"
+        },
+        {
+          "id": "double-a",
+          "label": "Double-A",
+          "region": "United States",
+          "level": "minor"
+        },
+        {
+          "id": "high-a",
+          "label": "High-A",
+          "region": "United States",
+          "level": "minor"
+        },
+        {
+          "id": "single-a",
+          "label": "Single-A",
+          "region": "United States",
+          "level": "minor"
+        },
+        {
+          "id": "rookie",
+          "label": "Rookie / Complex Leagues",
+          "region": "United States",
+          "level": "developmental"
+        },
+        {
+          "id": "independent-baseball",
+          "label": "Independent Baseball",
+          "region": "North America",
+          "level": "independent"
+        },
+        {
+          "id": "atlantic-league",
+          "label": "Atlantic League",
+          "region": "United States",
+          "level": "independent"
+        },
+        {
+          "id": "frontier-league",
+          "label": "Frontier League",
+          "region": "United States / Canada",
+          "level": "independent"
+        },
+        {
+          "id": "american-association",
+          "label": "American Association",
+          "region": "United States / Canada",
+          "level": "independent"
+        },
+        {
+          "id": "mexican-league",
+          "label": "Mexican League",
+          "region": "Mexico",
+          "level": "major"
+        },
+        {
+          "id": "kbo",
+          "label": "KBO League",
+          "region": "South Korea",
+          "level": "major"
+        },
+        {
+          "id": "kbo-futures",
+          "label": "KBO Futures League",
+          "region": "South Korea",
+          "level": "developmental"
+        },
+        {
+          "id": "npb",
+          "label": "NPB",
+          "region": "Japan",
+          "level": "major"
+        },
+        {
+          "id": "npb-farm",
+          "label": "NPB Farm Leagues",
+          "region": "Japan",
+          "level": "developmental"
+        },
+        {
+          "id": "cpbl",
+          "label": "Chinese Professional Baseball League",
+          "region": "Taiwan",
+          "level": "major"
+        },
+        {
+          "id": "australian-baseball-league",
+          "label": "Australian Baseball League",
+          "region": "Australia",
+          "level": "major"
+        },
+        {
+          "id": "ncaa-baseball",
+          "label": "NCAA Baseball",
+          "region": "United States",
+          "level": "college"
+        },
+        {
+          "id": "naia-baseball",
+          "label": "NAIA Baseball",
+          "region": "United States",
+          "level": "college"
+        },
+        {
+          "id": "summer-collegiate-baseball",
+          "label": "Summer Collegiate Baseball",
+          "region": "North America",
+          "level": "developmental"
+        },
+        {
+          "id": "caribbean-winter-leagues",
+          "label": "Caribbean Winter Leagues",
+          "region": "Caribbean",
+          "level": "winter"
+        },
+        {
+          "id": "dominican-winter-league",
+          "label": "LIDOM",
+          "region": "Dominican Republic",
+          "level": "winter"
+        },
+        {
+          "id": "puerto-rico-winter-league",
+          "label": "LBPRC",
+          "region": "Puerto Rico",
+          "level": "winter"
+        },
+        {
+          "id": "venezuelan-winter-league",
+          "label": "LVBP",
+          "region": "Venezuela",
+          "level": "winter"
+        },
+        {
+          "id": "mexican-pacific-league",
+          "label": "Mexican Pacific League",
+          "region": "Mexico",
+          "level": "winter"
+        },
+        {
+          "id": "world-baseball-classic",
+          "label": "World Baseball Classic",
+          "region": "International",
+          "level": "international"
+        },
+        {
+          "id": "international-baseball",
+          "label": "International Baseball",
+          "region": "International",
+          "level": "international"
+        }
+      ]
+    },
+    {
+      "id": "basketball",
+      "folder": "basketball",
+      "label": "Basketball",
+      "profile": "indoor_team_venue",
+      "leagues": [
+        {
+          "id": "nba",
+          "label": "NBA",
+          "region": "United States / Canada",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "wnba",
+          "label": "WNBA",
+          "region": "United States",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "nba-g-league",
+          "label": "NBA G League",
+          "region": "United States / Canada",
+          "level": "developmental",
+          "gender": "men"
+        },
+        {
+          "id": "ncaam",
+          "label": "NCAA Men",
+          "region": "United States",
+          "level": "college",
+          "gender": "men"
+        },
+        {
+          "id": "ncaaw",
+          "label": "NCAA Women",
+          "region": "United States",
+          "level": "college",
+          "gender": "women"
+        },
+        {
+          "id": "euroleague",
+          "label": "EuroLeague",
+          "region": "Europe",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "eurocup",
+          "label": "EuroCup",
+          "region": "Europe",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "basketball-champions-league",
+          "label": "Basketball Champions League",
+          "region": "Europe",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "fiba",
+          "label": "FIBA / International",
+          "region": "International",
+          "level": "international"
+        },
+        {
+          "id": "liga-acb",
+          "label": "Liga ACB",
+          "region": "Spain",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "lega-basket-serie-a",
+          "label": "Lega Basket Serie A",
+          "region": "Italy",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "basketball-bundesliga",
+          "label": "Basketball Bundesliga",
+          "region": "Germany",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "lnb-pro-a",
+          "label": "LNB Élite",
+          "region": "France",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "basketball-super-league-turkey",
+          "label": "Basketball Super League",
+          "region": "Turkey",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "greek-basket-league",
+          "label": "Greek Basket League",
+          "region": "Greece",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "vtb-united-league",
+          "label": "VTB United League",
+          "region": "Eastern Europe",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "aba-league",
+          "label": "ABA League",
+          "region": "Adriatic",
+          "level": "regional",
+          "gender": "men"
+        },
+        {
+          "id": "israeli-basketball-premier-league",
+          "label": "Israeli Basketball Premier League",
+          "region": "Israel",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "british-basketball-league",
+          "label": "British Basketball League",
+          "region": "United Kingdom",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "nbl-australia",
+          "label": "NBL",
+          "region": "Australia / New Zealand",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "cba-china",
+          "label": "Chinese Basketball Association",
+          "region": "China",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "b-league-japan",
+          "label": "B.League",
+          "region": "Japan",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "kbl",
+          "label": "Korean Basketball League",
+          "region": "South Korea",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "pba-philippines",
+          "label": "Philippine Basketball Association",
+          "region": "Philippines",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "liga-nacional-basquet-argentina",
+          "label": "Liga Nacional de Básquet",
+          "region": "Argentina",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "nbb-brazil",
+          "label": "Novo Basquete Brasil",
+          "region": "Brazil",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "bal",
+          "label": "Basketball Africa League",
+          "region": "Africa",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "womens-euroleague",
+          "label": "EuroLeague Women",
+          "region": "Europe",
+          "level": "continental",
+          "gender": "women"
+        },
+        {
+          "id": "womens-eurocup",
+          "label": "EuroCup Women",
+          "region": "Europe",
+          "level": "continental",
+          "gender": "women"
+        }
+      ]
+    },
+    {
+      "id": "football",
+      "folder": "football",
+      "label": "Football",
+      "profile": "outdoor_team_venue",
+      "leagues": [
+        {
+          "id": "nfl",
+          "label": "NFL",
+          "region": "United States",
+          "level": "major"
+        },
+        {
+          "id": "ncaaf",
+          "label": "NCAA Football",
+          "region": "United States",
+          "level": "college"
+        },
+        {
+          "id": "cfl",
+          "label": "CFL",
+          "region": "Canada",
+          "level": "major"
+        },
+        {
+          "id": "ufl",
+          "label": "UFL",
+          "region": "United States",
+          "level": "spring"
+        },
+        {
+          "id": "elf",
+          "label": "European League of Football",
+          "region": "Europe",
+          "level": "major"
+        },
+        {
+          "id": "lfa-mexico",
+          "label": "Liga de Fútbol Americano Profesional",
+          "region": "Mexico",
+          "level": "major"
+        },
+        {
+          "id": "indoor-football",
+          "label": "Indoor Football",
+          "region": "United States",
+          "level": "indoor"
+        },
+        {
+          "id": "international-football",
+          "label": "International American Football",
+          "region": "International",
+          "level": "international"
+        }
+      ]
+    },
+    {
+      "id": "hockey",
+      "folder": "hockey",
+      "label": "Hockey",
+      "profile": "indoor_team_venue",
+      "leagues": [
+        {
+          "id": "nhl",
+          "label": "NHL",
+          "region": "United States / Canada",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "ahl",
+          "label": "AHL",
+          "region": "United States / Canada",
+          "level": "minor",
+          "gender": "men"
+        },
+        {
+          "id": "echl",
+          "label": "ECHL",
+          "region": "United States / Canada",
+          "level": "minor",
+          "gender": "men"
+        },
+        {
+          "id": "ohl",
+          "label": "OHL",
+          "region": "Canada / United States",
+          "level": "junior",
+          "gender": "men"
+        },
+        {
+          "id": "whl",
+          "label": "WHL",
+          "region": "Canada / United States",
+          "level": "junior",
+          "gender": "men"
+        },
+        {
+          "id": "qmjhl",
+          "label": "QMJHL",
+          "region": "Canada",
+          "level": "junior",
+          "gender": "men"
+        },
+        {
+          "id": "ncaa-hockey",
+          "label": "NCAA Hockey",
+          "region": "United States",
+          "level": "college"
+        },
+        {
+          "id": "ushl",
+          "label": "USHL",
+          "region": "United States",
+          "level": "junior",
+          "gender": "men"
+        },
+        {
+          "id": "pwhl",
+          "label": "PWHL",
+          "region": "United States / Canada",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "shl",
+          "label": "SHL",
+          "region": "Sweden",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "hockeyallsvenskan",
+          "label": "HockeyAllsvenskan",
+          "region": "Sweden",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "liiga",
+          "label": "Liiga",
+          "region": "Finland",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "mestis",
+          "label": "Mestis",
+          "region": "Finland",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "del",
+          "label": "DEL",
+          "region": "Germany",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "del2",
+          "label": "DEL2",
+          "region": "Germany",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "national-league",
+          "label": "Swiss National League",
+          "region": "Switzerland",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "swiss-league",
+          "label": "Swiss League",
+          "region": "Switzerland",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "khl",
+          "label": "KHL",
+          "region": "Eurasia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "vhl",
+          "label": "VHL",
+          "region": "Eurasia",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "czech-extraliga",
+          "label": "Czech Extraliga",
+          "region": "Czech Republic",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "slovak-extraliga",
+          "label": "Slovak Extraliga",
+          "region": "Slovakia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "ice-hockey-league",
+          "label": "ICE Hockey League",
+          "region": "Central Europe",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "eihl",
+          "label": "Elite Ice Hockey League",
+          "region": "United Kingdom",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "metal-ligaen",
+          "label": "Metal Ligaen",
+          "region": "Denmark",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "fjordkraft-ligaen",
+          "label": "Norwegian Elite Hockey",
+          "region": "Norway",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "ligue-magnus",
+          "label": "Ligue Magnus",
+          "region": "France",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "polska-hokej-liga",
+          "label": "Polska Hokej Liga",
+          "region": "Poland",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "asia-league-ice-hockey",
+          "label": "Asia League Ice Hockey",
+          "region": "Asia",
+          "level": "regional",
+          "gender": "men"
+        },
+        {
+          "id": "champions-hockey-league",
+          "label": "Champions Hockey League",
+          "region": "Europe",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "international-hockey",
+          "label": "International Hockey",
+          "region": "International",
+          "level": "international"
+        }
+      ]
+    },
+    {
+      "id": "soccer",
+      "folder": "soccer",
+      "label": "Soccer",
+      "profile": "outdoor_team_venue",
+      "leagues": [
+        {
+          "id": "fifa-world-cup",
+          "label": "FIFA World Cup",
+          "region": "International",
+          "level": "international",
+          "gender": "men"
+        },
+        {
+          "id": "fifa-womens-world-cup",
+          "label": "FIFA Women’s World Cup",
+          "region": "International",
+          "level": "international",
+          "gender": "women"
+        },
+        {
+          "id": "club-world-cup",
+          "label": "FIFA Club World Cup",
+          "region": "International",
+          "level": "continental"
+        },
+        {
+          "id": "international-soccer",
+          "label": "International Soccer",
+          "region": "International",
+          "level": "international"
+        },
+        {
+          "id": "world-cup-qualifying",
+          "label": "World Cup Qualifying",
+          "region": "International",
+          "level": "international"
+        },
+        {
+          "id": "uefa-euros",
+          "label": "UEFA European Championship",
+          "region": "Europe",
+          "level": "international",
+          "gender": "men"
+        },
+        {
+          "id": "uefa-womens-euros",
+          "label": "UEFA Women’s European Championship",
+          "region": "Europe",
+          "level": "international",
+          "gender": "women"
+        },
+        {
+          "id": "uefa-nations-league",
+          "label": "UEFA Nations League",
+          "region": "Europe",
+          "level": "international",
+          "gender": "men"
+        },
+        {
+          "id": "copa-america",
+          "label": "Copa América",
+          "region": "South America",
+          "level": "international",
+          "gender": "men"
+        },
+        {
+          "id": "concacaf-gold-cup",
+          "label": "CONCACAF Gold Cup",
+          "region": "North America",
+          "level": "international",
+          "gender": "men"
+        },
+        {
+          "id": "africa-cup-of-nations",
+          "label": "Africa Cup of Nations",
+          "region": "Africa",
+          "level": "international",
+          "gender": "men"
+        },
+        {
+          "id": "afc-asian-cup",
+          "label": "AFC Asian Cup",
+          "region": "Asia",
+          "level": "international",
+          "gender": "men"
+        },
+        {
+          "id": "ofc-nations-cup",
+          "label": "OFC Nations Cup",
+          "region": "Oceania",
+          "level": "international",
+          "gender": "men"
+        },
+        {
+          "id": "champions-league",
+          "label": "UEFA Champions League",
+          "region": "Europe",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "europa-league",
+          "label": "UEFA Europa League",
+          "region": "Europe",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "conference-league",
+          "label": "UEFA Conference League",
+          "region": "Europe",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "uwcl",
+          "label": "UEFA Women’s Champions League",
+          "region": "Europe",
+          "level": "continental",
+          "gender": "women"
+        },
+        {
+          "id": "copa-libertadores",
+          "label": "Copa Libertadores",
+          "region": "South America",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "copa-sudamericana",
+          "label": "Copa Sudamericana",
+          "region": "South America",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "copa-libertadores-femenina",
+          "label": "Copa Libertadores Femenina",
+          "region": "South America",
+          "level": "continental",
+          "gender": "women"
+        },
+        {
+          "id": "concacaf-champions-cup",
+          "label": "CONCACAF Champions Cup",
+          "region": "North America",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "leagues-cup",
+          "label": "Leagues Cup",
+          "region": "North America",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "afc-champions-league-elite",
+          "label": "AFC Champions League Elite",
+          "region": "Asia",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "afc-champions-league-two",
+          "label": "AFC Champions League Two",
+          "region": "Asia",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "caf-champions-league",
+          "label": "CAF Champions League",
+          "region": "Africa",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "caf-confederation-cup",
+          "label": "CAF Confederation Cup",
+          "region": "Africa",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "ofc-champions-league",
+          "label": "OFC Champions League",
+          "region": "Oceania",
+          "level": "continental",
+          "gender": "men"
+        },
+        {
+          "id": "epl",
+          "label": "Premier League",
+          "region": "England",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "efl-championship",
+          "label": "EFL Championship",
+          "region": "England",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "efl-league-one",
+          "label": "EFL League One",
+          "region": "England",
+          "level": "third",
+          "gender": "men"
+        },
+        {
+          "id": "efl-league-two",
+          "label": "EFL League Two",
+          "region": "England",
+          "level": "fourth",
+          "gender": "men"
+        },
+        {
+          "id": "national-league-england",
+          "label": "National League",
+          "region": "England",
+          "level": "fifth",
+          "gender": "men"
+        },
+        {
+          "id": "wsl",
+          "label": "Women’s Super League",
+          "region": "England",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "womens-championship-england",
+          "label": "Women’s Championship",
+          "region": "England",
+          "level": "second",
+          "gender": "women"
+        },
+        {
+          "id": "la-liga",
+          "label": "La Liga",
+          "region": "Spain",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "segunda-division",
+          "label": "Segunda División",
+          "region": "Spain",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "liga-f",
+          "label": "Liga F",
+          "region": "Spain",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "serie-a",
+          "label": "Serie A",
+          "region": "Italy",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "serie-b",
+          "label": "Serie B",
+          "region": "Italy",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "serie-a-femminile",
+          "label": "Serie A Femminile",
+          "region": "Italy",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "bundesliga",
+          "label": "Bundesliga",
+          "region": "Germany",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "2-bundesliga",
+          "label": "2. Bundesliga",
+          "region": "Germany",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "3-liga",
+          "label": "3. Liga",
+          "region": "Germany",
+          "level": "third",
+          "gender": "men"
+        },
+        {
+          "id": "frauen-bundesliga",
+          "label": "Frauen-Bundesliga",
+          "region": "Germany",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "ligue-1",
+          "label": "Ligue 1",
+          "region": "France",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "ligue-2",
+          "label": "Ligue 2",
+          "region": "France",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "premiere-ligue-women",
+          "label": "Première Ligue",
+          "region": "France",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "primeira-liga",
+          "label": "Primeira Liga",
+          "region": "Portugal",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "liga-portugal-2",
+          "label": "Liga Portugal 2",
+          "region": "Portugal",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "liga-bpi",
+          "label": "Liga BPI",
+          "region": "Portugal",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "eredivisie",
+          "label": "Eredivisie",
+          "region": "Netherlands",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "eerste-divisie",
+          "label": "Eerste Divisie",
+          "region": "Netherlands",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "eredivisie-women",
+          "label": "Eredivisie Women",
+          "region": "Netherlands",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "belgian-pro-league",
+          "label": "Belgian Pro League",
+          "region": "Belgium",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "challenger-pro-league",
+          "label": "Challenger Pro League",
+          "region": "Belgium",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "scottish-premiership",
+          "label": "Scottish Premiership",
+          "region": "Scotland",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "scottish-championship",
+          "label": "Scottish Championship",
+          "region": "Scotland",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "turkish-super-lig",
+          "label": "Süper Lig",
+          "region": "Turkey",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "turkish-1-lig",
+          "label": "TFF 1. Lig",
+          "region": "Turkey",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "greek-super-league",
+          "label": "Super League Greece",
+          "region": "Greece",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "austrian-bundesliga",
+          "label": "Austrian Bundesliga",
+          "region": "Austria",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "austrian-2-liga",
+          "label": "Austrian 2. Liga",
+          "region": "Austria",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "swiss-super-league",
+          "label": "Swiss Super League",
+          "region": "Switzerland",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "swiss-challenge-league",
+          "label": "Swiss Challenge League",
+          "region": "Switzerland",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "danish-superliga",
+          "label": "Danish Superliga",
+          "region": "Denmark",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "danish-1st-division",
+          "label": "Danish 1st Division",
+          "region": "Denmark",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "eliteserien",
+          "label": "Eliteserien",
+          "region": "Norway",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "obos-ligaen",
+          "label": "OBOS-ligaen",
+          "region": "Norway",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "toppserien",
+          "label": "Toppserien",
+          "region": "Norway",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "allsvenskan",
+          "label": "Allsvenskan",
+          "region": "Sweden",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "superettan",
+          "label": "Superettan",
+          "region": "Sweden",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "damallsvenskan",
+          "label": "Damallsvenskan",
+          "region": "Sweden",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "veikkausliiga",
+          "label": "Veikkausliiga",
+          "region": "Finland",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "besta-deild",
+          "label": "Besta deild karla",
+          "region": "Iceland",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "league-of-ireland-premier",
+          "label": "League of Ireland Premier Division",
+          "region": "Ireland",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "league-of-ireland-first",
+          "label": "League of Ireland First Division",
+          "region": "Ireland",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "northern-ireland-premiership",
+          "label": "NIFL Premiership",
+          "region": "Northern Ireland",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "cymru-premier",
+          "label": "Cymru Premier",
+          "region": "Wales",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "ekstraklasa",
+          "label": "Ekstraklasa",
+          "region": "Poland",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "polish-i-liga",
+          "label": "I Liga",
+          "region": "Poland",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "czech-first-league",
+          "label": "Czech First League",
+          "region": "Czech Republic",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "slovak-super-liga",
+          "label": "Slovak Super Liga",
+          "region": "Slovakia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "hungarian-nb-i",
+          "label": "Nemzeti Bajnokság I",
+          "region": "Hungary",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "romanian-liga-i",
+          "label": "Liga I",
+          "region": "Romania",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "croatian-hnl",
+          "label": "Croatian HNL",
+          "region": "Croatia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "serbian-superliga",
+          "label": "Serbian SuperLiga",
+          "region": "Serbia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "slovenian-prvaliga",
+          "label": "Slovenian PrvaLiga",
+          "region": "Slovenia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "bosnian-premier-league",
+          "label": "Premier League of Bosnia and Herzegovina",
+          "region": "Bosnia and Herzegovina",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "bulgarian-first-league",
+          "label": "Bulgarian First League",
+          "region": "Bulgaria",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "ukrainian-premier-league",
+          "label": "Ukrainian Premier League",
+          "region": "Ukraine",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "israeli-premier-league",
+          "label": "Israeli Premier League",
+          "region": "Israel",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "cypriot-first-division",
+          "label": "Cypriot First Division",
+          "region": "Cyprus",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "mls",
+          "label": "MLS",
+          "region": "United States / Canada",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "usl-championship",
+          "label": "USL Championship",
+          "region": "United States",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "usl-league-one",
+          "label": "USL League One",
+          "region": "United States",
+          "level": "third",
+          "gender": "men"
+        },
+        {
+          "id": "nisa",
+          "label": "NISA",
+          "region": "United States",
+          "level": "third",
+          "gender": "men"
+        },
+        {
+          "id": "nwsl",
+          "label": "NWSL",
+          "region": "United States",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "usl-super-league",
+          "label": "USL Super League",
+          "region": "United States",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "canadian-premier-league",
+          "label": "Canadian Premier League",
+          "region": "Canada",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "liga-mx",
+          "label": "Liga MX",
+          "region": "Mexico",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "liga-de-expansion-mx",
+          "label": "Liga de Expansión MX",
+          "region": "Mexico",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "liga-mx-femenil",
+          "label": "Liga MX Femenil",
+          "region": "Mexico",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "costa-rica-primera",
+          "label": "Liga FPD",
+          "region": "Costa Rica",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "honduras-liga-nacional",
+          "label": "Liga Nacional",
+          "region": "Honduras",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "guatemala-liga-nacional",
+          "label": "Liga Nacional",
+          "region": "Guatemala",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "el-salvador-primera",
+          "label": "Primera División",
+          "region": "El Salvador",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "panama-lpf",
+          "label": "Liga Panameña de Fútbol",
+          "region": "Panama",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "jamaica-premier-league",
+          "label": "Jamaica Premier League",
+          "region": "Jamaica",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "brazil-serie-a",
+          "label": "Campeonato Brasileiro Série A",
+          "region": "Brazil",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "brazil-serie-b",
+          "label": "Campeonato Brasileiro Série B",
+          "region": "Brazil",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "brazil-serie-c",
+          "label": "Campeonato Brasileiro Série C",
+          "region": "Brazil",
+          "level": "third",
+          "gender": "men"
+        },
+        {
+          "id": "argentina-primera",
+          "label": "Argentine Primera División",
+          "region": "Argentina",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "argentina-primera-nacional",
+          "label": "Primera Nacional",
+          "region": "Argentina",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "colombia-primera-a",
+          "label": "Categoría Primera A",
+          "region": "Colombia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "colombia-primera-b",
+          "label": "Categoría Primera B",
+          "region": "Colombia",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "chile-primera",
+          "label": "Chilean Primera División",
+          "region": "Chile",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "chile-primera-b",
+          "label": "Primera B",
+          "region": "Chile",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "peru-liga-1",
+          "label": "Liga 1",
+          "region": "Peru",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "ecuador-ligapro",
+          "label": "LigaPro Serie A",
+          "region": "Ecuador",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "uruguay-primera",
+          "label": "Uruguayan Primera División",
+          "region": "Uruguay",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "paraguay-primera",
+          "label": "Paraguayan Primera División",
+          "region": "Paraguay",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "bolivia-primera",
+          "label": "Bolivian Primera División",
+          "region": "Bolivia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "venezuela-primera",
+          "label": "Venezuelan Primera División",
+          "region": "Venezuela",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "j1-league",
+          "label": "J1 League",
+          "region": "Japan",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "j2-league",
+          "label": "J2 League",
+          "region": "Japan",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "j3-league",
+          "label": "J3 League",
+          "region": "Japan",
+          "level": "third",
+          "gender": "men"
+        },
+        {
+          "id": "we-league",
+          "label": "WE League",
+          "region": "Japan",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "k-league-1",
+          "label": "K League 1",
+          "region": "South Korea",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "k-league-2",
+          "label": "K League 2",
+          "region": "South Korea",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "chinese-super-league",
+          "label": "Chinese Super League",
+          "region": "China",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "china-league-one",
+          "label": "China League One",
+          "region": "China",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "a-league-men",
+          "label": "A-League Men",
+          "region": "Australia / New Zealand",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "a-league-women",
+          "label": "A-League Women",
+          "region": "Australia / New Zealand",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "saudi-pro-league",
+          "label": "Saudi Pro League",
+          "region": "Saudi Arabia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "saudi-first-division",
+          "label": "Saudi First Division",
+          "region": "Saudi Arabia",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "uae-pro-league",
+          "label": "UAE Pro League",
+          "region": "United Arab Emirates",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "qatar-stars-league",
+          "label": "Qatar Stars League",
+          "region": "Qatar",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "persian-gulf-pro-league",
+          "label": "Persian Gulf Pro League",
+          "region": "Iran",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "indian-super-league",
+          "label": "Indian Super League",
+          "region": "India",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "i-league",
+          "label": "I-League",
+          "region": "India",
+          "level": "second",
+          "gender": "men"
+        },
+        {
+          "id": "indonesia-liga-1",
+          "label": "Liga 1",
+          "region": "Indonesia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "thai-league-1",
+          "label": "Thai League 1",
+          "region": "Thailand",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "v-league-1",
+          "label": "V.League 1",
+          "region": "Vietnam",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "malaysia-super-league",
+          "label": "Malaysia Super League",
+          "region": "Malaysia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "singapore-premier-league",
+          "label": "Singapore Premier League",
+          "region": "Singapore",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "south-africa-premiership",
+          "label": "South African Premiership",
+          "region": "South Africa",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "egyptian-premier-league",
+          "label": "Egyptian Premier League",
+          "region": "Egypt",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "morocco-botola",
+          "label": "Botola Pro",
+          "region": "Morocco",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "algeria-ligue-1",
+          "label": "Algerian Ligue 1",
+          "region": "Algeria",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "tunisia-ligue-1",
+          "label": "Tunisian Ligue Professionnelle 1",
+          "region": "Tunisia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "nigeria-npfl",
+          "label": "Nigeria Premier Football League",
+          "region": "Nigeria",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "ghana-premier-league",
+          "label": "Ghana Premier League",
+          "region": "Ghana",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "tanzania-premier-league",
+          "label": "Tanzanian Premier League",
+          "region": "Tanzania",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "kenya-premier-league",
+          "label": "Kenyan Premier League",
+          "region": "Kenya",
+          "level": "major",
+          "gender": "men"
+        }
+      ]
+    },
+    {
+      "id": "tennis",
+      "folder": "tennis",
+      "label": "Tennis",
+      "profile": "mixed_tournament",
+      "leagues": [
+        {
+          "id": "atp",
+          "label": "ATP Tour",
+          "region": "International",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "wta",
+          "label": "WTA Tour",
+          "region": "International",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "atp-challenger",
+          "label": "ATP Challenger Tour",
+          "region": "International",
+          "level": "developmental",
+          "gender": "men"
+        },
+        {
+          "id": "wta-125",
+          "label": "WTA 125",
+          "region": "International",
+          "level": "developmental",
+          "gender": "women"
+        },
+        {
+          "id": "itf-men",
+          "label": "ITF Men’s World Tennis Tour",
+          "region": "International",
+          "level": "developmental",
+          "gender": "men"
+        },
+        {
+          "id": "itf-women",
+          "label": "ITF Women’s World Tennis Tour",
+          "region": "International",
+          "level": "developmental",
+          "gender": "women"
+        },
+        {
+          "id": "tennis-doubles",
+          "label": "Doubles",
+          "region": "International",
+          "level": "major"
+        },
+        {
+          "id": "team-tennis",
+          "label": "Team / International Tennis",
+          "region": "International",
+          "level": "international"
+        },
+        {
+          "id": "davis-cup",
+          "label": "Davis Cup",
+          "region": "International",
+          "level": "international",
+          "gender": "men"
+        },
+        {
+          "id": "billie-jean-king-cup",
+          "label": "Billie Jean King Cup",
+          "region": "International",
+          "level": "international",
+          "gender": "women"
+        },
+        {
+          "id": "united-cup",
+          "label": "United Cup",
+          "region": "International",
+          "level": "international"
+        },
+        {
+          "id": "laver-cup",
+          "label": "Laver Cup",
+          "region": "International",
+          "level": "event"
+        }
+      ]
+    },
+    {
+      "id": "combat",
+      "folder": "combat-sports",
+      "label": "Combat Sports",
+      "profile": "indoor_event",
+      "leagues": [
+        {
+          "id": "ufc",
+          "label": "UFC",
+          "region": "International",
+          "level": "major",
+          "gender": "mma"
+        },
+        {
+          "id": "pfl",
+          "label": "PFL",
+          "region": "International",
+          "level": "major",
+          "gender": "mma"
+        },
+        {
+          "id": "one",
+          "label": "ONE Championship",
+          "region": "International",
+          "level": "major",
+          "gender": "mma"
+        },
+        {
+          "id": "rizin",
+          "label": "RIZIN",
+          "region": "Japan",
+          "level": "major",
+          "gender": "mma"
+        },
+        {
+          "id": "cage-warriors",
+          "label": "Cage Warriors",
+          "region": "Europe",
+          "level": "developmental",
+          "gender": "mma"
+        },
+        {
+          "id": "ksw",
+          "label": "KSW",
+          "region": "Europe",
+          "level": "major",
+          "gender": "mma"
+        },
+        {
+          "id": "lfa",
+          "label": "LFA",
+          "region": "United States",
+          "level": "developmental",
+          "gender": "mma"
+        },
+        {
+          "id": "regional-mma",
+          "label": "Regional MMA",
+          "region": "International",
+          "level": "regional",
+          "gender": "mma"
+        },
+        {
+          "id": "boxing",
+          "label": "Boxing",
+          "region": "International",
+          "level": "major",
+          "gender": "boxing"
+        },
+        {
+          "id": "bare-knuckle",
+          "label": "Bare Knuckle Fighting",
+          "region": "International",
+          "level": "major",
+          "gender": "boxing"
+        }
+      ]
+    },
+    {
+      "id": "golf",
+      "folder": "golf",
+      "label": "Golf",
+      "profile": "outdoor_tournament",
+      "leagues": [
+        {
+          "id": "pga-tour",
+          "label": "PGA Tour",
+          "region": "International",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "lpga",
+          "label": "LPGA Tour",
+          "region": "International",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "dp-world-tour",
+          "label": "DP World Tour",
+          "region": "International",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "liv-golf",
+          "label": "LIV Golf",
+          "region": "International",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "korn-ferry",
+          "label": "Korn Ferry Tour",
+          "region": "United States",
+          "level": "developmental",
+          "gender": "men"
+        },
+        {
+          "id": "pga-tour-champions",
+          "label": "PGA Tour Champions",
+          "region": "United States",
+          "level": "senior",
+          "gender": "men"
+        },
+        {
+          "id": "ladies-european-tour",
+          "label": "Ladies European Tour",
+          "region": "International",
+          "level": "major",
+          "gender": "women"
+        },
+        {
+          "id": "asian-tour",
+          "label": "Asian Tour",
+          "region": "Asia",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "japan-golf-tour",
+          "label": "Japan Golf Tour",
+          "region": "Japan",
+          "level": "major",
+          "gender": "men"
+        },
+        {
+          "id": "pga-tour-americas",
+          "label": "PGA Tour Americas",
+          "region": "Americas",
+          "level": "developmental",
+          "gender": "men"
+        },
+        {
+          "id": "ncaa-golf",
+          "label": "NCAA Golf",
+          "region": "United States",
+          "level": "college"
+        },
+        {
+          "id": "golf-majors",
+          "label": "Golf Majors",
+          "region": "International",
+          "level": "major"
+        }
+      ]
+    },
+    {
+      "id": "auto-racing",
+      "folder": "auto-racing",
+      "label": "Auto Racing",
+      "profile": "outdoor_track",
+      "leagues": [
+        {
+          "id": "formula-1",
+          "label": "Formula 1",
+          "region": "International",
+          "level": "major"
+        },
+        {
+          "id": "formula-2",
+          "label": "Formula 2",
+          "region": "International",
+          "level": "developmental"
+        },
+        {
+          "id": "formula-3",
+          "label": "Formula 3",
+          "region": "International",
+          "level": "developmental"
+        },
+        {
+          "id": "formula-e",
+          "label": "Formula E",
+          "region": "International",
+          "level": "major"
+        },
+        {
+          "id": "indycar",
+          "label": "IndyCar",
+          "region": "United States",
+          "level": "major"
+        },
+        {
+          "id": "indy-nxt",
+          "label": "INDY NXT",
+          "region": "United States",
+          "level": "developmental"
+        },
+        {
+          "id": "nascar-cup",
+          "label": "NASCAR Cup Series",
+          "region": "United States",
+          "level": "major"
+        },
+        {
+          "id": "nascar-xfinity",
+          "label": "NASCAR Xfinity Series",
+          "region": "United States",
+          "level": "developmental"
+        },
+        {
+          "id": "nascar-truck",
+          "label": "NASCAR Craftsman Truck Series",
+          "region": "United States",
+          "level": "developmental"
+        },
+        {
+          "id": "arca",
+          "label": "ARCA Menards Series",
+          "region": "United States",
+          "level": "developmental"
+        },
+        {
+          "id": "imsa",
+          "label": "IMSA SportsCar Championship",
+          "region": "North America",
+          "level": "major"
+        },
+        {
+          "id": "wec",
+          "label": "FIA World Endurance Championship",
+          "region": "International",
+          "level": "major"
+        },
+        {
+          "id": "wrc",
+          "label": "FIA World Rally Championship",
+          "region": "International",
+          "level": "major"
+        },
+        {
+          "id": "world-rallycross",
+          "label": "FIA World Rallycross Championship",
+          "region": "International",
+          "level": "major"
+        },
+        {
+          "id": "dtm",
+          "label": "DTM",
+          "region": "Europe",
+          "level": "major"
+        },
+        {
+          "id": "supercars",
+          "label": "Supercars Championship",
+          "region": "Australia",
+          "level": "major"
+        },
+        {
+          "id": "super-formula",
+          "label": "Super Formula",
+          "region": "Japan",
+          "level": "major"
+        },
+        {
+          "id": "super-gt",
+          "label": "Super GT",
+          "region": "Japan",
+          "level": "major"
+        },
+        {
+          "id": "moto-gp",
+          "label": "MotoGP",
+          "region": "International",
+          "level": "major"
+        },
+        {
+          "id": "moto-2",
+          "label": "Moto2",
+          "region": "International",
+          "level": "developmental"
+        },
+        {
+          "id": "moto-3",
+          "label": "Moto3",
+          "region": "International",
+          "level": "developmental"
+        },
+        {
+          "id": "world-superbike",
+          "label": "World Superbike",
+          "region": "International",
+          "level": "major"
+        },
+        {
+          "id": "motoamerica",
+          "label": "MotoAmerica",
+          "region": "United States",
+          "level": "major"
+        },
+        {
+          "id": "nhra",
+          "label": "NHRA",
+          "region": "United States",
+          "level": "major"
+        },
+        {
+          "id": "touring-cars",
+          "label": "Touring Car Racing",
+          "region": "International",
+          "level": "major"
+        },
+        {
+          "id": "short-track-racing",
+          "label": "Short-Track Racing",
+          "region": "North America",
+          "level": "regional"
+        },
+        {
+          "id": "dirt-racing",
+          "label": "Dirt Racing",
+          "region": "North America",
+          "level": "regional"
+        }
+      ]
+    }
+  ]
+}

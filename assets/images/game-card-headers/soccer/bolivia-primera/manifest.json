@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "sport_id": "soccer",
+  "sport_label": "Soccer",
+  "league_id": "bolivia-primera",
+  "league_label": "Bolivian Primera División",
+  "region": "Bolivia",
+  "level": "major",
+  "gender": "men",
+  "profile": "outdoor_team_venue",
+  "entity_root": "entities",
+  "category_template": "_CATEGORY-TEMPLATE-outdoor_team_venue",
+  "image_contract": {
+    "purpose": "game-card-header",
+    "recommended_width": 1900,
+    "recommended_aspect_ratio": "1916:821",
+    "allowed_extensions": [
+      ".avif",
+      ".jpeg",
+      ".jpg",
+      ".png",
+      ".webp"
+    ],
+    "numbered_names_required": true
+  }
+}
