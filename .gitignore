@@ -17,3 +17,7 @@ archive/backups/
 
 # Keep downloaded deployment/back-up archives outside the repository
 *.zip
+
+# Generated live runtime files
+logs/live-mlb-refresh-*.log
+data/live-games/*.json
