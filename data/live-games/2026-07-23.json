@@ -1,1 +1,646 @@
-{"schema_version":"1.0","date":"2026-07-23","games":[{"id":"2026-07-23-sd-atl","mlb_game_pk":824893,"date":"2026-07-23","game_time":"2026-07-23T16:15:00Z","sport":"MLB","status":"scheduled","venue":{"id":4705,"name":"Truist Park"},"away_team":{"abbr":"SD","name":"San Diego Padres","team_id":135},"home_team":{"abbr":"ATL","name":"Atlanta Braves","team_id":144},"pitchers":{"away":{"id":null,"name":"Starter TBD","status":"unknown","age":null,"throws":null,"profile_url":"#","stats":{"last_30":{},"season":{}}},"home":{"id":null,"name":"Starter TBD","status":"unknown","age":null,"throws":null,"profile_url":"#","stats":{"last_30":{},"season":{}}}},"lineups":{},"pitcher_vs_lineup":{},"bullpens":{},"weather":{},"market":{},"controls":{"default_timeframe":"last_30","default_location":"all"}},{"id":"2026-07-23-min-cle","mlb_game_pk":824406,"date":"2026-07-23","game_time":"2026-07-23T17:10:00Z","sport":"MLB","status":"scheduled","venue":{"id":5,"name":"Progressive Field"},"away_team":{"abbr":"MIN","name":"Minnesota Twins","team_id":142},"home_team":{"abbr":"CLE","name":"Cleveland Guardians","team_id":114},"pitchers":{"away":{"id":null,"name":"Starter TBD","status":"unknown","age":null,"throws":null,"profile_url":"#","stats":{"last_30":{},"season":{}}},"home":{"id":null,"name":"Starter TBD","status":"unknown","age":null,"throws":null,"profile_url":"#","stats":{"last_30":{},"season":{}}}},"lineups":{},"pitcher_vs_lineup":{},"bullpens":{},"weather":{},"market":{},"controls":{"default_timeframe":"last_30","default_location":"all"}},{"id":"2026-07-23-tb-tor","mlb_game_pk":822785,"date":"2026-07-23","game_time":"2026-07-23T19:07:00Z","sport":"MLB","status":"scheduled","venue":{"id":14,"name":"Rogers Centre"},"away_team":{"abbr":"TB","name":"Tampa Bay Rays","team_id":139},"home_team":{"abbr":"TOR","name":"Toronto Blue Jays","team_id":141},"pitchers":{"away":{"id":null,"name":"Starter TBD","status":"unknown","age":null,"throws":null,"profile_url":"#","stats":{"last_30":{},"season":{}}},"home":{"id":null,"name":"Starter TBD","status":"unknown","age":null,"throws":null,"profile_url":"#","stats":{"last_30":{},"season":{}}}},"lineups":{},"pitcher_vs_lineup":{},"bullpens":{},"weather":{},"market":{},"controls":{"default_timeframe":"last_30","default_location":"all"}},{"id":"2026-07-23-ari-stl","mlb_game_pk":823042,"date":"2026-07-23","game_time":"2026-07-23T21:15:00Z","sport":"MLB","status":"scheduled","venue":{"id":2889,"name":"Busch Stadium"},"away_team":{"abbr":"ARI","name":"Arizona Diamondbacks","team_id":109},"home_team":{"abbr":"STL","name":"St. Louis Cardinals","team_id":138},"pitchers":{"away":{"id":null,"name":"Starter TBD","status":"unknown","age":null,"throws":null,"profile_url":"#","stats":{"last_30":{},"season":{}}},"home":{"id":null,"name":"Starter TBD","status":"unknown","age":null,"throws":null,"profile_url":"#","stats":{"last_30":{},"season":{}}}},"lineups":{},"pitcher_vs_lineup":{},"bullpens":{},"weather":{},"market":{},"controls":{"default_timeframe":"last_30","default_location":"all"}},{"id":"2026-07-23-kc-det","mlb_game_pk":824247,"date":"2026-07-23","game_time":"2026-07-23T22:40:00Z","sport":"MLB","status":"scheduled","venue":{"id":2394,"name":"Comerica Park"},"away_team":{"abbr":"KC","name":"Kansas City Royals","team_id":118},"home_team":{"abbr":"DET","name":"Detroit Tigers","team_id":116},"pitchers":{"away":{"id":null,"name":"Starter TBD","status":"unknown","age":null,"throws":null,"profile_url":"#","stats":{"last_30":{},"season":{}}},"home":{"id":null,"name":"Starter TBD","status":"unknown","age":null,"throws":null,"profile_url":"#","stats":{"last_30":{},"season":{}}}},"lineups":{},"pitcher_vs_lineup":{},"bullpens":{},"weather":{},"market":{},"controls":{"default_timeframe":"last_30","default_location":"all"}}]}
+{
+  "schema_version": "2.0-live",
+  "date": "2026-07-23",
+  "updated_at": "2026-07-23T21:42:28.145140Z",
+  "source": "MLB Stats API schedule + game feed/live",
+  "refresh_interval_seconds": 2.0,
+  "games": [
+    {
+      "id": "2026-07-23-sd-atl",
+      "mlb_game_pk": 824893,
+      "date": "2026-07-23",
+      "game_time": "2026-07-23T16:15:00Z",
+      "status": "Final",
+      "abstract_status": "Final",
+      "score": {
+        "away": 5,
+        "home": 6
+      },
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": 9,
+        "current_inning_ordinal": "9th",
+        "inning_state": "Top",
+        "inning_half": "top",
+        "balls": 0,
+        "strikes": 3,
+        "outs": 3,
+        "bases": {
+          "first": false,
+          "second": false,
+          "third": false
+        },
+        "runners_on": 0,
+        "innings": [
+          {
+            "num": 1,
+            "ordinal": "1st",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 2,
+            "ordinal": "2nd",
+            "away": 3,
+            "home": 1
+          },
+          {
+            "num": 3,
+            "ordinal": "3rd",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 4,
+            "ordinal": "4th",
+            "away": 0,
+            "home": 4
+          },
+          {
+            "num": 5,
+            "ordinal": "5th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 6,
+            "ordinal": "6th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 7,
+            "ordinal": "7th",
+            "away": 0,
+            "home": 1
+          },
+          {
+            "num": 8,
+            "ordinal": "8th",
+            "away": 2,
+            "home": 0
+          },
+          {
+            "num": 9,
+            "ordinal": "9th",
+            "away": 0,
+            "home": null
+          }
+        ],
+        "totals": {
+          "away": {
+            "runs": 5,
+            "hits": 9,
+            "errors": 1
+          },
+          "home": {
+            "runs": 6,
+            "hits": 9,
+            "errors": 0
+          }
+        }
+      },
+      "decisions": {
+        "winner": {
+          "id": 519242,
+          "name": "Chris Sale"
+        },
+        "loser": {
+          "id": 656288,
+          "name": "Griffin Canning"
+        },
+        "save": {
+          "id": 628452,
+          "name": "Raisel Iglesias"
+        }
+      },
+      "venue": {
+        "id": 4705,
+        "name": "Truist Park"
+      },
+      "away_team": {
+        "team_id": 135,
+        "abbr": "SD",
+        "name": "San Diego Padres",
+        "record": {
+          "wins": 50,
+          "losses": 53,
+          "pct": ".485"
+        }
+      },
+      "home_team": {
+        "team_id": 144,
+        "abbr": "ATL",
+        "name": "Atlanta Braves",
+        "record": {
+          "wins": 60,
+          "losses": 42,
+          "pct": ".588"
+        }
+      },
+      "pitchers": {
+        "away": {
+          "id": 606996,
+          "name": "Kyle Hart",
+          "status": "probable"
+        },
+        "home": {
+          "id": 519242,
+          "name": "Chris Sale",
+          "status": "probable"
+        }
+      }
+    },
+    {
+      "id": "2026-07-23-min-cle",
+      "mlb_game_pk": 824406,
+      "date": "2026-07-23",
+      "game_time": "2026-07-23T17:10:00Z",
+      "status": "Final",
+      "abstract_status": "Final",
+      "score": {
+        "away": 3,
+        "home": 1
+      },
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": 12,
+        "current_inning_ordinal": "12th",
+        "inning_state": "Bottom",
+        "inning_half": "bottom",
+        "balls": 2,
+        "strikes": 2,
+        "outs": 3,
+        "bases": {
+          "first": false,
+          "second": false,
+          "third": false
+        },
+        "runners_on": 0,
+        "innings": [
+          {
+            "num": 1,
+            "ordinal": "1st",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 2,
+            "ordinal": "2nd",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 3,
+            "ordinal": "3rd",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 4,
+            "ordinal": "4th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 5,
+            "ordinal": "5th",
+            "away": 0,
+            "home": 1
+          },
+          {
+            "num": 6,
+            "ordinal": "6th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 7,
+            "ordinal": "7th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 8,
+            "ordinal": "8th",
+            "away": 1,
+            "home": 0
+          },
+          {
+            "num": 9,
+            "ordinal": "9th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 10,
+            "ordinal": "10th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 11,
+            "ordinal": "11th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 12,
+            "ordinal": "12th",
+            "away": 2,
+            "home": 0
+          }
+        ],
+        "totals": {
+          "away": {
+            "runs": 3,
+            "hits": 6,
+            "errors": 0
+          },
+          "home": {
+            "runs": 1,
+            "hits": 3,
+            "errors": 1
+          }
+        }
+      },
+      "decisions": {
+        "winner": {
+          "id": 573124,
+          "name": "Taylor Rogers"
+        },
+        "loser": {
+          "id": 681870,
+          "name": "Erik Sabrowski"
+        },
+        "save": {
+          "id": 681252,
+          "name": "Jack Anderson"
+        }
+      },
+      "venue": {
+        "id": 5,
+        "name": "Progressive Field"
+      },
+      "away_team": {
+        "team_id": 142,
+        "abbr": "MIN",
+        "name": "Minnesota Twins",
+        "record": {
+          "wins": 51,
+          "losses": 53,
+          "pct": ".490"
+        }
+      },
+      "home_team": {
+        "team_id": 114,
+        "abbr": "CLE",
+        "name": "Cleveland Guardians",
+        "record": {
+          "wins": 54,
+          "losses": 50,
+          "pct": ".519"
+        }
+      },
+      "pitchers": {
+        "away": {
+          "id": 671737,
+          "name": "Taj Bradley",
+          "status": "probable"
+        },
+        "home": {
+          "id": 668909,
+          "name": "Gavin Williams",
+          "status": "probable"
+        }
+      }
+    },
+    {
+      "id": "2026-07-23-tb-tor",
+      "mlb_game_pk": 822785,
+      "date": "2026-07-23",
+      "game_time": "2026-07-23T19:07:00Z",
+      "status": "Final",
+      "abstract_status": "Final",
+      "score": {
+        "away": 1,
+        "home": 3
+      },
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": 9,
+        "current_inning_ordinal": "9th",
+        "inning_state": "Top",
+        "inning_half": "top",
+        "balls": 1,
+        "strikes": 3,
+        "outs": 3,
+        "bases": {
+          "first": false,
+          "second": false,
+          "third": false
+        },
+        "runners_on": 0,
+        "innings": [
+          {
+            "num": 1,
+            "ordinal": "1st",
+            "away": 0,
+            "home": 1
+          },
+          {
+            "num": 2,
+            "ordinal": "2nd",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 3,
+            "ordinal": "3rd",
+            "away": 1,
+            "home": 1
+          },
+          {
+            "num": 4,
+            "ordinal": "4th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 5,
+            "ordinal": "5th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 6,
+            "ordinal": "6th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 7,
+            "ordinal": "7th",
+            "away": 0,
+            "home": 1
+          },
+          {
+            "num": 8,
+            "ordinal": "8th",
+            "away": 0,
+            "home": 0
+          },
+          {
+            "num": 9,
+            "ordinal": "9th",
+            "away": 0,
+            "home": null
+          }
+        ],
+        "totals": {
+          "away": {
+            "runs": 1,
+            "hits": 3,
+            "errors": 0
+          },
+          "home": {
+            "runs": 3,
+            "hits": 7,
+            "errors": 0
+          }
+        }
+      },
+      "decisions": {
+        "winner": {
+          "id": 669456,
+          "name": "Shane Bieber"
+        },
+        "loser": {
+          "id": 693855,
+          "name": "Ian Seymour"
+        },
+        "save": {
+          "id": 686973,
+          "name": "Louis Varland"
+        }
+      },
+      "venue": {
+        "id": 14,
+        "name": "Rogers Centre"
+      },
+      "away_team": {
+        "team_id": 139,
+        "abbr": "TB",
+        "name": "Tampa Bay Rays",
+        "record": {
+          "wins": 59,
+          "losses": 43,
+          "pct": ".578"
+        }
+      },
+      "home_team": {
+        "team_id": 141,
+        "abbr": "TOR",
+        "name": "Toronto Blue Jays",
+        "record": {
+          "wins": 47,
+          "losses": 56,
+          "pct": ".456"
+        }
+      },
+      "pitchers": {
+        "away": {
+          "id": 668984,
+          "name": "Casey Legumina",
+          "status": "probable"
+        },
+        "home": {
+          "id": 669456,
+          "name": "Shane Bieber",
+          "status": "probable"
+        }
+      }
+    },
+    {
+      "id": "2026-07-23-az-stl",
+      "mlb_game_pk": 823042,
+      "date": "2026-07-23",
+      "game_time": "2026-07-23T21:15:00Z",
+      "status": "In Progress",
+      "abstract_status": "Live",
+      "score": {
+        "away": 0,
+        "home": 2
+      },
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": 2,
+        "current_inning_ordinal": "2nd",
+        "inning_state": "Top",
+        "inning_half": "Top",
+        "balls": 1,
+        "strikes": 1,
+        "outs": 2,
+        "bases": {
+          "first": false,
+          "second": false,
+          "third": false
+        },
+        "runners_on": 0,
+        "innings": [
+          {
+            "num": 1,
+            "ordinal": "1st",
+            "away": 0,
+            "home": 2
+          },
+          {
+            "num": 2,
+            "ordinal": "2nd",
+            "away": null,
+            "home": null
+          }
+        ],
+        "totals": {
+          "away": {
+            "runs": 0,
+            "hits": 1,
+            "errors": 0
+          },
+          "home": {
+            "runs": 2,
+            "hits": 4,
+            "errors": 0
+          }
+        }
+      },
+      "decisions": {},
+      "live_feed_updated_at": "20260723_214224",
+      "venue": {
+        "id": 2889,
+        "name": "Busch Stadium"
+      },
+      "away_team": {
+        "team_id": 109,
+        "abbr": "AZ",
+        "name": "Arizona Diamondbacks",
+        "record": {
+          "wins": 53,
+          "losses": 49,
+          "pct": ".520"
+        }
+      },
+      "home_team": {
+        "team_id": 138,
+        "abbr": "STL",
+        "name": "St. Louis Cardinals",
+        "record": {
+          "wins": 52,
+          "losses": 49,
+          "pct": ".515"
+        }
+      },
+      "pitchers": {
+        "away": {
+          "id": 694297,
+          "name": "Brandon Pfaadt",
+          "status": "probable"
+        },
+        "home": {
+          "id": 700241,
+          "name": "Michael McGreevy",
+          "throws": "R",
+          "status": "current"
+        }
+      }
+    },
+    {
+      "id": "2026-07-23-kc-det",
+      "mlb_game_pk": 824247,
+      "date": "2026-07-23",
+      "game_time": "2026-07-23T22:40:00Z",
+      "status": "Pre-Game",
+      "abstract_status": "Preview",
+      "score": {
+        "away": 0,
+        "home": 0
+      },
+      "linescore": {
+        "scheduled_innings": 9,
+        "current_inning": 1,
+        "current_inning_ordinal": "1st",
+        "inning_state": "Top",
+        "inning_half": "Top",
+        "balls": 0,
+        "strikes": 0,
+        "outs": 0,
+        "bases": {
+          "first": false,
+          "second": false,
+          "third": false
+        },
+        "runners_on": 0,
+        "innings": [
+          {
+            "num": 1,
+            "ordinal": "1st",
+            "away": null,
+            "home": null
+          }
+        ],
+        "totals": {
+          "away": {
+            "runs": 0,
+            "hits": 0,
+            "errors": 0
+          },
+          "home": {
+            "runs": 0,
+            "hits": 0,
+            "errors": 0
+          }
+        }
+      },
+      "decisions": {},
+      "live_feed_updated_at": "20260723_192113",
+      "venue": {
+        "id": 2394,
+        "name": "Comerica Park"
+      },
+      "away_team": {
+        "team_id": 118,
+        "abbr": "KC",
+        "name": "Kansas City Royals",
+        "record": {
+          "wins": 43,
+          "losses": 60,
+          "pct": ".417"
+        }
+      },
+      "home_team": {
+        "team_id": 116,
+        "abbr": "DET",
+        "name": "Detroit Tigers",
+        "record": {
+          "wins": 48,
+          "losses": 54,
+          "pct": ".471"
+        }
+      },
+      "pitchers": {
+        "away": {
+          "id": 677976,
+          "name": "Randy Dobnak",
+          "status": "probable"
+        },
+        "home": {
+          "id": 675512,
+          "name": "Troy Melton",
+          "throws": "R",
+          "status": "current"
+        }
+      }
+    }
+  ],
+  "fetch_duration_ms": 4688
+}
