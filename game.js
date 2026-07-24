@@ -44,6 +44,53 @@ import {
 const GAME_LOGO_BASE =
   "https://www.mlbstatic.com/team-logos/team-cap-on-dark";
 
+const GAME_TIMEFRAME_STORAGE_PREFIX =
+  "boring-bets:game-timeframe:";
+
+const VALID_GAME_TIMEFRAMES =
+  new Set([
+    "last_7",
+    "last_30",
+    "season"
+  ]);
+
+function readGameTimeframePreference(
+  key,
+  fallback = "last_30"
+) {
+  try {
+    const value =
+      window.sessionStorage.getItem(
+        `${GAME_TIMEFRAME_STORAGE_PREFIX}${key}`
+      );
+
+    return VALID_GAME_TIMEFRAMES.has(value)
+      ? value
+      : fallback;
+  } catch (_error) {
+    return fallback;
+  }
+}
+
+function saveGameTimeframePreference(
+  key,
+  value
+) {
+  if (!VALID_GAME_TIMEFRAMES.has(value)) {
+    return;
+  }
+
+  try {
+    window.sessionStorage.setItem(
+      `${GAME_TIMEFRAME_STORAGE_PREFIX}${key}`,
+      value
+    );
+  } catch (_error) {
+    // The page still works when browser storage
+    // is unavailable.
+  }
+}
+
 const state = {
   game: null,
   games: [],
@@ -52,15 +99,18 @@ const state = {
   results: [],
   evaluations: [],
   articles: [],
-  timeframe: "last_30",
+  timeframe:
+    readGameTimeframePreference("global"),
   awayPitcherLocation: "all",
   homePitcherLocation: "all",
   awayPitcherStartMode: true,
   homePitcherStartMode: true,
   awayPitcherStartCount: 7,
   homePitcherStartCount: 7,
-  awayOffenseTimeframe: "last_30",
-  homeOffenseTimeframe: "last_30"
+  awayOffenseTimeframe:
+    readGameTimeframePreference("away-offense"),
+  homeOffenseTimeframe:
+    readGameTimeframePreference("home-offense")
 };
 
 async function loadGame() {
@@ -284,8 +334,6 @@ async function loadGame() {
 
     state.awayPitcherLocation = "all";
     state.homePitcherLocation = "all";
-    state.awayOffenseTimeframe = "last_30";
-    state.homeOffenseTimeframe = "last_30";
 
     renderAll();
 
@@ -2836,6 +2884,11 @@ function renderControls() {
         state.timeframe =
           value;
 
+        saveGameTimeframePreference(
+          "global",
+          value
+        );
+
         renderAll();
       };
     });
@@ -2962,6 +3015,13 @@ function renderOffense(side) {
 
     onTimeframeChange: timeframe => {
       state[timeframeKey] = timeframe;
+
+      saveGameTimeframePreference(
+        isAway
+          ? "away-offense"
+          : "home-offense",
+        timeframe
+      );
 
       /*
         Only rebuild the offense whose
@@ -3647,13 +3707,8 @@ function navigateToGame(game) {
     captureGameNavigationScrollState();
 
   state.game = game;
-  state.timeframe =
-    game.controls?.default_timeframe ||
-    "last_30";
   state.awayPitcherLocation = "all";
   state.homePitcherLocation = "all";
-  state.awayOffenseTimeframe = "last_30";
-  state.homeOffenseTimeframe = "last_30";
 
   history.pushState(
     {
@@ -3685,8 +3740,7 @@ window.addEventListener("popstate", () => {
     state.game = game;
     state.awayPitcherLocation = "all";
     state.homePitcherLocation = "all";
-    state.awayOffenseTimeframe = "last_30";
-    state.homeOffenseTimeframe = "last_30";
+
     renderAll();
   }
 });
