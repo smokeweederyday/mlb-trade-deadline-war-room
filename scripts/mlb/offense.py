@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import date, datetime, timedelta
+from zoneinfo import ZoneInfo
 from typing import Any
 import json
 import sys
@@ -32,7 +33,7 @@ OFFENSE_METRICS = (
     "K%",
 )
 
-OFFENSE_CACHE_SCHEMA = 4
+OFFENSE_CACHE_SCHEMA = 5
 
 # Recent Statcast day files are refreshed because
 # Baseball Savant can return empty or partial data
@@ -1056,9 +1057,15 @@ def build_league_offense_cache(
         "%Y-%m-%d",
     ).date()
 
-    cutoff = (
-        target
-        - timedelta(days=1)
+    # Future games must use the latest completed offensive data.
+    # Never ask providers for statistics through a date that has not happened.
+    eastern_today = datetime.now(
+        ZoneInfo("America/New_York")
+    ).date()
+
+    cutoff = min(
+        target - timedelta(days=1),
+        eastern_today - timedelta(days=1),
     )
 
     season_start = date(

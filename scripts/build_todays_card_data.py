@@ -478,12 +478,15 @@ def offense_summary(value: Any) -> Dict[str, Any]:
     block = stats.get("last_30") if isinstance(stats.get("last_30"), dict) else {}
     all_stats = block.get("all") if isinstance(block.get("all"), dict) else {}
     ops = metric_summary(all_stats.get("OPS"))
+    iso = metric_summary(all_stats.get("ISO"))
     wrc = metric_summary(all_stats.get("wRC+"))
     return compact_dict(
         {
             "opponent_throws": offense.get("opponent_throws"),
             "ops": ops.get("value"),
             "ops_rank": ops.get("rank"),
+            "iso": iso.get("value"),
+            "iso_rank": iso.get("rank"),
             "wrc_plus": wrc.get("value"),
             "wrc_plus_rank": wrc.get("rank"),
         }

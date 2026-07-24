@@ -15,7 +15,7 @@ import subprocess
 import sys
 import threading
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -175,6 +175,81 @@ class LiveRefreshSupervisor(threading.Thread):
         self.stop_refresh_process()
 
 
+class NightlyOffenseSupervisor(threading.Thread):
+    """Refresh MLB offense at startup and every day at 2:00 a.m. Eastern."""
+
+    def __init__(self) -> None:
+        super().__init__(daemon=True)
+        self.stop_event = threading.Event()
+
+    def run_refresh(self) -> None:
+        command = [
+            sys.executable,
+            "-u",
+            str(ROOT / "scripts" / "refresh_future_mlb_offense.py"),
+        ]
+
+        environment = os.environ.copy()
+        environment["PYTHONUNBUFFERED"] = "1"
+
+        print(
+            "Starting current/future MLB offense refresh.",
+            flush=True,
+        )
+
+        completed = subprocess.run(
+            command,
+            cwd=ROOT,
+            env=environment,
+            check=False,
+        )
+
+        print(
+            "MLB offense refresh exited with code "
+            f"{completed.returncode}.",
+            flush=True,
+        )
+
+    def seconds_until_next_run(self) -> float:
+        now = datetime.now(EASTERN)
+        next_run = now.replace(
+            hour=2,
+            minute=0,
+            second=0,
+            microsecond=0,
+        )
+
+        if next_run <= now:
+            next_run += timedelta(days=1)
+
+        return max(
+            1.0,
+            (next_run - now).total_seconds(),
+        )
+
+    def run(self) -> None:
+        # Every deploy starts from committed static JSON, so refresh once on
+        # startup as well as on the nightly schedule.
+        self.run_refresh()
+
+        while not self.stop_event.is_set():
+            delay = self.seconds_until_next_run()
+
+            print(
+                "Next MLB offense refresh in "
+                f"{round(delay / 3600, 2)} hours.",
+                flush=True,
+            )
+
+            if self.stop_event.wait(delay):
+                break
+
+            self.run_refresh()
+
+    def stop(self) -> None:
+        self.stop_event.set()
+
+
 class StagingRequestHandler(SimpleHTTPRequestHandler):
     """Serve repository files behind browser Basic Authentication."""
 
@@ -285,6 +360,9 @@ def main() -> int:
     supervisor = LiveRefreshSupervisor()
     supervisor.start()
 
+    offense_supervisor = NightlyOffenseSupervisor()
+    offense_supervisor.start()
+
     port = int(os.environ.get("PORT", "10000"))
 
     handler = partial(
@@ -309,6 +387,10 @@ def main() -> int:
     finally:
         supervisor.stop()
         supervisor.join(timeout=15)
+
+        offense_supervisor.stop()
+        offense_supervisor.join(timeout=15)
+
         server.server_close()
 
     return 0
