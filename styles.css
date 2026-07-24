@@ -7818,3 +7818,29 @@ canvas[data-weather="rain"] {
   opacity: 0 !important;
   animation: none !important;
 }
+
+/* PITCHER_START_UNSELECTED_NO_BOX
+   Unselected 1/3/7/10/20 start-count controls stay visually unboxed.
+*/
+button[data-pitcher-start-count]:not(.selected),
+button[data-pitcher-start-count][aria-pressed="false"] {
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button[data-pitcher-start-count]:not(.selected):hover,
+button[data-pitcher-start-count][aria-pressed="false"]:hover {
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Preserve a non-white accessibility indicator for keyboard navigation. */
+button[data-pitcher-start-count]:not(.selected):focus-visible,
+button[data-pitcher-start-count][aria-pressed="false"]:focus-visible {
+  outline: 2px solid currentColor !important;
+  outline-offset: 2px;
+  box-shadow: none !important;
+}
+
